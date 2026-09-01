@@ -1,0 +1,37 @@
+# An "arm" is one configuration under test. Two arms = an A/B.
+# Change exactly ONE thing between arms, or the result tells you nothing.
+#
+# allowed_tools is deliberately narrow: it is both a security boundary (M13)
+# and part of what you are measuring — a wider grant is a different arm.
+
+arms:
+  - id: baseline
+    model: sonnet
+    permission_mode: acceptEdits
+    allowed_tools:
+      - Read
+      - Grep
+      - Glob
+      - Edit
+      - Write
+      - "Bash(bun test:*)"
+      - "Bash(bun run:*)"
+      - "Bash(git diff:*)"
+      - "Bash(git status:*)"
+
+  # Example second arm. Uncomment to run a paired A/B against baseline.
+  # Only the model differs — that is the point.
+  #
+  # - id: opus
+  #   model: opus
+  #   permission_mode: acceptEdits
+  #   allowed_tools:
+  #     - Read
+  #     - Grep
+  #     - Glob
+  #     - Edit
+  #     - Write
+  #     - "Bash(bun test:*)"
+  #     - "Bash(bun run:*)"
+  #     - "Bash(git diff:*)"
+  #     - "Bash(git status:*)"

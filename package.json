@@ -1,0 +1,10 @@
+{
+  "name": "ai-sdlc-evals",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "eval": "bun evals/runner.ts",
+    "eval:check": "bun evals/runner.ts --dry-run",
+    "report": "bun evals/report.ts"
+  }
+}

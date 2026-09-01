@@ -1,0 +1,26 @@
+# A self-contained smoke task that proves the harness works end to end.
+# It points at THIS repo, so it runs with no setup. Delete it once you have
+# five real tasks — a task that always passes carries no information.
+
+id: example-selfcheck
+repo: .
+sha: HEAD
+prompt: |
+  สร้างไฟล์ใหม่ชื่อ scratch/hello.txt ที่มีข้อความบรรทัดเดียวว่า hello
+  ห้ามแก้ไฟล์อื่น
+tags: [smoke]
+
+criteria:
+  - type: cmd
+    cmd: test -f scratch/hello.txt && grep -q hello scratch/hello.txt
+    label: file created with expected content
+
+  - type: diff
+    allow:
+      - "scratch/**"
+    max_lines: 5
+    label: touched only scratch/
+
+  - type: budget
+    max_usd: 0.30
+    max_wall_sec: 180

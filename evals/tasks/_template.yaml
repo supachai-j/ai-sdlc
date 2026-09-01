@@ -1,0 +1,44 @@
+# Copy this file to <task-id>.yaml and fill it in.
+# Files starting with "_" are ignored by the runner.
+
+id: my-task-id
+repo: ~/workspace/your-repo      # must be a git repo
+sha: abc1234                     # pin it. an unpinned task is not reproducible
+prompt: |
+  เขียนคำสั่งแบบที่คุณจะพิมพ์จริง ๆ ไม่ใช่แบบที่ขัดเกลาแล้ว
+  เพราะเป้าหมายคือวัดของจริง ไม่ใช่วัดในห้องแล็บ
+tags: [bugfix]
+
+# Optional. Runs once in the fresh worktree before the agent starts.
+setup: bun install --frozen-lockfile
+setup_timeout_sec: 600
+
+criteria:
+  # 1. cheapest possible check — does it still build?
+  - type: cmd
+    cmd: bun run typecheck
+    label: typecheck
+
+  # 2. nothing that used to work may break
+  - type: cmd
+    cmd: bun test
+    label: existing tests stay green
+
+  # 3. the strongest cheap signal: red before, green after
+  - type: before_after
+    cmd: bun test -t "the specific failing case"
+    label: target test red→green
+
+  # 4. closes the "just edit the test" loophole. never omit this one.
+  - type: diff
+    allow:
+      - "src/**"
+    deny:
+      - "**/*.test.ts"
+    max_lines: 80
+
+  # 5. a correct answer that costs $8 is not a pass
+  - type: budget
+    max_usd: 0.50
+    max_wall_sec: 420
+    max_turns: 40
