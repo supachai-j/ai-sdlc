@@ -17,11 +17,27 @@ export async function removeWorktree(repo: string, dir: string): Promise<void> {
 }
 
 /**
+ * Ignored paths present before the agent ran. Anything that appears later is a
+ * change the plain diff cannot see — an agent writing into a gitignored path
+ * would otherwise slip past the `diff` criterion entirely.
+ */
+export async function listIgnored(dir: string): Promise<Set<string>> {
+  const r = await exec("git status --porcelain --ignored", { cwd: dir, timeoutSec: 120 });
+  const out = new Set<string>();
+  for (const line of r.stdout.split("\n")) {
+    if (line.startsWith("!! ")) out.add(line.slice(3).trim());
+  }
+  return out;
+}
+
+/**
  * What the agent actually changed, including files it created.
- * `add -A -N` registers new files as intent-to-add so they show up in the diff.
+ * `add -A -N` registers new files as intent-to-add so they show up in the diff;
+ * newly-ignored paths are appended separately because git will not diff them.
  */
 export async function collectDiff(
   dir: string,
+  ignoredBefore: Set<string> = new Set(),
 ): Promise<{ files: string[]; added: number; removed: number }> {
   await exec("git add -A -N", { cwd: dir, timeoutSec: 60 });
   const r = await exec("git diff --numstat HEAD", { cwd: dir, timeoutSec: 60 });
@@ -33,7 +49,10 @@ export async function collectDiff(
     if (!m) continue;
     if (m[1] !== "-") added += Number(m[1]);
     if (m[2] !== "-") removed += Number(m[2]);
-    files.push(m[3]);
+    files.push(m[3]!);
+  }
+  for (const p of await listIgnored(dir)) {
+    if (!ignoredBefore.has(p)) files.push(p);
   }
   return { files, added, removed };
 }

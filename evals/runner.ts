@@ -12,7 +12,7 @@ import { homedir, hostname, tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import type { Arm, RunMeta, RunRecord, Task } from "./types";
 import { exec } from "./lib/exec";
-import { addWorktree, removeWorktree, collectDiff, resolveSha } from "./lib/git";
+import { addWorktree, removeWorktree, collectDiff, listIgnored, resolveSha } from "./lib/git";
 import { runAgent } from "./lib/agent";
 import { beforeCommands, evaluate } from "./criteria";
 
@@ -128,6 +128,7 @@ async function main() {
           }
 
           // Capture the "before" state so red→green criteria are decidable.
+          const ignoredBefore = await listIgnored(wt);
           const before: Record<string, number> = {};
           for (const b of beforeCommands(task.criteria)) {
             before[b.cmd] = (await exec(b.cmd, { cwd: wt, timeoutSec: b.timeoutSec })).code;
@@ -138,7 +139,7 @@ async function main() {
           if (parseError) rec.error = parseError;
           writeFileSync(join(outDir, `${task.id}__${armCfg.id}__${repeat}.raw.json`), JSON.stringify(raw, null, 2));
 
-          rec.diff = await collectDiff(wt);
+          rec.diff = await collectDiff(wt, ignoredBefore);
           rec.criteria = await evaluate(task.criteria, { dir: wt, diff: rec.diff, agent: stats, before });
           rec.ok = rec.criteria.length > 0 && rec.criteria.every((c) => c.pass);
           // Automatic proxy only — see README on what this can and cannot see.
