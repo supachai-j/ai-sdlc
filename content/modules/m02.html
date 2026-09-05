@@ -14,258 +14,686 @@
 <section class="lesson">
   <div class="lhead"><span class="lnum">02.01</span><h2>Context window คืองบ ไม่ใช่พื้นที่เก็บของ</h2></div>
 
+  <div class="chat">
+    <p>
+      ตอน context window ยังเล็ก ทุกคนบริหาร context กันอัตโนมัติเพราะไม่มีทางเลือก
+      พอมันขยายเป็นหลักล้าน คนก็สรุปว่า "จบแล้ว ยัดเข้าไปเลย"
+    </p>
+    <p>
+      ผมเข้าใจนะว่าทำไมคิดแบบนั้น แต่มัน<b>ไม่จบ</b> และเหตุผลทั้ง 3 ข้อ<b>ไม่มีข้อไหนเกี่ยวกับขนาด window เลย</b>
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 240" role="img" aria-label="Comparison of total tokens billed when attaching only needed files versus attaching a whole folder">
+      <text class="d-label-mono" x="8" y="16">SAME TASK · 15 ROUNDS</text>
+
+      <rect class="d-box" x="8" y="28" width="304" height="120"/>
+      <text class="d-label" x="22" y="50">attach only what you need</text>
+      <text class="d-label-mono" x="22" y="72">context: 20K</text>
+      <rect class="d-bar" x="22" y="84" width="60" height="14"/>
+      <text class="d-label-mono" x="22" y="120">15 × 20K =</text>
+      <text class="d-label" x="22" y="140">300K tokens billed</text>
+
+      <rect class="d-box-accent" x="328" y="28" width="304" height="120"/>
+      <text class="d-label" x="342" y="50">attach the whole folder "just in case"</text>
+      <text class="d-label-mono" x="342" y="72">context: 120K</text>
+      <rect class="d-bar-new" x="342" y="84" width="276" height="14"/>
+      <text class="d-label-mono" x="342" y="120">15 × 120K =</text>
+      <text class="d-label" x="342" y="140">1.8M tokens billed</text>
+
+      <line class="d-line" x1="8" y1="164" x2="632" y2="164" stroke-dasharray="3 3"/>
+      <text class="d-label" x="320" y="192" text-anchor="middle">ต่างกัน 6 เท่า จาก decision เดียวตอนเริ่ม</text>
+      <text class="d-label-sm" x="320" y="216" text-anchor="middle">และไม่มีใครรู้สึกอะไรระหว่างทาง เพราะไม่มีตัวเลขวิ่งให้เห็น</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 1</b> · เหตุผลข้อแรก — context ถูกส่งซ้ำทุก round ตามที่เห็นใน M01 Figure 2</p>
+  </div>
+
+  <h3><span class="k">เหตุผลข้อ 2</span>คุณภาพตกก่อน window เต็ม</h3>
   <p>
-    ตอน context window ยังเล็ก ทุกคนบริหารบริบทโดยอัตโนมัติเพราะไม่มีทางเลือก
-    พอมันขยายเป็นหลักล้าน คนจำนวนมากสรุปว่าปัญหาจบแล้ว — ยัดทุกอย่างเข้าไปได้เลย
-    ข้อสรุปนี้ผิด และเหตุผลไม่มีข้อไหนเกี่ยวกับขนาด window เลย
+    อันนี้ขัดสัญชาตญาณสุด ถ้ามอง context เป็นถัง การใส่ของเพิ่มไม่ควรทำให้ของเดิมแย่ลง
+    แต่มันไม่ใช่ถัง — บทถัดไปเจาะเรื่องนี้โดยเฉพาะ พร้อมงานวิจัยที่วัดผลไว้แล้ว
   </p>
 
-  <h3><span class="k">เหตุผลที่หนึ่ง</span>คุณจ่ายทุกรอบ ไม่ใช่ครั้งเดียว</h3>
+  <h3><span class="k">เหตุผลข้อ 3</span>ช้าลง แล้วคูณด้วยจำนวน round</h3>
   <p>
-    ย้อนกลับไปที่ <a href="m01.html">M01.01</a> — บริบททั้งกองถูกส่งใหม่ทุกครั้งที่วนลูป
-    ไฟล์ที่คุณแนบไปตอนต้นไม่ได้ถูกจ่ายครั้งเดียว มันถูกจ่ายซ้ำทุกรอบจนจบงาน
-  </p>
-  <div class="tw"><table>
-    <thead><tr><th>สถานการณ์</th><th>บริบท</th><th>จำนวนรอบ</th><th>token ที่ส่งจริงรวม</th></tr></thead>
-    <tbody>
-      <tr><td>แนบไฟล์ที่ต้องใช้จริง</td><td>20K</td><td>15</td><td class="mono">300K</td></tr>
-      <tr><td>แนบทั้งโฟลเดอร์เผื่อไว้</td><td>120K</td><td>15</td><td class="mono">1.8M</td></tr>
-    </tbody>
-  </table></div>
-  <p>
-    ต่างกันหกเท่าจากการตัดสินใจเดียวตอนเริ่ม และผู้ใช้จะไม่รู้สึกอะไรเลยระหว่างทาง
-    เพราะไม่มีตัวเลขวิ่งให้เห็น
-  </p>
-
-  <h3><span class="k">เหตุผลที่สอง</span>คุณภาพตกก่อนที่ window จะเต็ม</h3>
-  <p>
-    นี่เป็นข้อที่ขัดสัญชาตญาณที่สุด ถ้าเรามองบริบทเป็นถัง การใส่ของเพิ่มไม่ควรทำให้ของที่มีอยู่แย่ลง
-    แต่บริบทไม่ใช่ถัง มันคือสิ่งที่โมเดลต้องกระจายความสนใจไปทั่ว
-    ยิ่งมีของไม่เกี่ยวเยอะ กฎสำคัญของคุณยิ่งต้องแข่งกับเสียงรบกวน บทถัดไปเจาะเรื่องนี้โดยเฉพาะ
-  </p>
-
-  <h3><span class="k">เหตุผลที่สาม</span>เวลาตอบช้าลงตามขนาด แล้วคูณด้วยจำนวนรอบ</h3>
-  <p>
-    บริบทใหญ่ทำให้แต่ละรอบใช้เวลานานขึ้น และ agent วนหลายรอบ ผลคือความช้าถูกคูณ
-    ซึ่งสำคัญมากกับงานที่คนนั่งรออยู่ เพราะคนจะเลิกใช้เครื่องมือที่ต้องรอสามนาทีต่อคำสั่ง
-    ต่อให้ผลลัพธ์ดีก็ตาม
+    context ใหญ่ทำให้แต่ละ round นานขึ้น และ agent วนหลาย round ความช้าเลยถูกคูณ
+    สำคัญมากกับงานที่คนนั่งรออยู่ เพราะ<strong>คนจะเลิกใช้เครื่องมือที่ต้องรอ 3 นาทีต่อคำสั่ง
+    ต่อให้ผลลัพธ์ดีก็ตาม</strong> — นี่เป็นเหตุผลที่ workflow ตายบ่อยกว่าเรื่องคุณภาพเสียอีก
   </p>
 
   <div class="box rule">
     <span class="k">คำถามที่เปลี่ยนวิธีคิดทั้งโมดูล</span>
     <p>
-      เวลาจะใส่อะไรเข้าบริบท คนส่วนใหญ่ถามว่า <em>“สิ่งนี้อาจมีประโยชน์ไหม”</em>
-      ซึ่งคำตอบเกือบทุกครั้งคือ “อาจจะ” และนั่นทำให้บริบทบวมขึ้นเรื่อย ๆ
+      เวลาจะใส่อะไรเข้า context คนมักถามว่า <em>"อันนี้อาจมีประโยชน์ไหม"</em>
+      ซึ่งคำตอบเกือบทุกครั้งคือ "อาจจะ" แล้ว context ก็บวมขึ้นเรื่อย ๆ
     </p>
     <p>
-      คำถามที่ถูกคือ <strong>“ถ้าตัดสิ่งนี้ออก งานจะพังไหม”</strong>
-      คำถามนี้ตอบยากกว่า แต่บังคับให้คุณคิดถึงสิ่งที่จำเป็นจริง ไม่ใช่สิ่งที่สบายใจกว่าถ้ามี
+      คำถามที่ถูกคือ <strong>"ถ้าตัดอันนี้ออก งานจะพังไหม"</strong>
+      ตอบยากกว่า แต่บังคับให้คิดถึงสิ่งที่จำเป็นจริง ไม่ใช่สิ่งที่ใส่ไว้แล้วสบายใจ
     </p>
   </div>
 
   <div class="box good">
-    <span class="k">ข้อดีที่ window ใหญ่ให้จริง</span>
+    <span class="k">แล้ว window ใหญ่ดียังไง</span>
     <p>
-      ไม่ได้แปลว่า window ใหญ่ไม่มีประโยชน์ ประโยชน์จริงของมันคือ<strong>คุณไม่พังกลางทาง</strong> —
-      งานที่แต่ก่อนต้องตัดบทสนทนาทิ้งกลางคัน ตอนนี้ทำจนจบได้
-      แต่นั่นคือ “ไม่พัง” ไม่ใช่ “ไม่ต้องบริหาร” มันเปลี่ยนเพดานจากที่เคยชนบ่อย เป็นชนไม่บ่อย
-      ส่วนต้นทุนกับคุณภาพยังขึ้นกับวินัยของคุณเหมือนเดิม
+      ไม่ได้บอกว่าไม่มีประโยชน์นะครับ ประโยชน์จริงคือ <strong>"ไม่พังกลางทาง"</strong> —
+      งานที่แต่ก่อนต้องตัด session ทิ้งกลางคัน ตอนนี้ทำจนจบได้
     </p>
+    <p>
+      แต่นั่นคือ "ไม่พัง" ไม่ใช่ "ไม่ต้องบริหาร" มันย้ายเพดานจากที่เคยชนบ่อย เป็นชนไม่บ่อย
+      ส่วนต้นทุนกับคุณภาพยังขึ้นกับวินัยเราเหมือนเดิม
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://docs.claude.com/en/docs/build-with-claude/context-windows" target="_blank" rel="noopener noreferrer">Context windows</a>
+        — window ทำงานยังไง และ token ถูกนับยังไงในแต่ละ request
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" target="_blank" rel="noopener noreferrer">Effective context engineering for AI agents</a>
+        — ทำไม context ถึงเป็น resource ที่ต้องบริหาร ไม่ใช่ที่เก็บของ
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+    </ol>
   </div>
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">02.02</span><h2>กฎสี่ข้อของสิ่งที่ควรอยู่ในบริบท</h2></div>
+  <div class="lhead"><span class="lnum">02.02</span><h2>กฎ 4 ข้อของสิ่งที่ควรอยู่ใน context</h2></div>
+
+  <p>
+    เวลาจะตัดสินว่าอะไรควรอยู่ ผมใช้ 4 ข้อนี้เป็น filter ถ้าตกข้อไหนข้อหนึ่ง ให้คิดใหม่
+  </p>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 250" role="img" aria-label="Four filters deciding whether something belongs in context: relevant, fresh, small, re-findable">
+      <rect class="d-box" x="8" y="20" width="130" height="46"/>
+      <text class="d-label" x="20" y="42">candidate</text>
+      <text class="d-label-sm" x="20" y="58">ไฟล์ / ผล tool / กฎ</text>
+
+      <path class="d-line d-flow" d="M 138 43 H 176"/>
+      <path class="d-arrow" d="M 176 38 l 8 5 l -8 5 z"/>
+
+      <g>
+        <rect class="d-box-accent" x="186" y="20" width="200" height="46"/>
+        <text class="d-label-mono" x="198" y="40">1 · RELEVANT</text>
+        <text class="d-label-sm" x="198" y="58">ตัดออกแล้วคำตอบเปลี่ยนไหม</text>
+        <rect class="d-box-accent" x="186" y="76" width="200" height="46"/>
+        <text class="d-label-mono" x="198" y="96">2 · FRESH</text>
+        <text class="d-label-sm" x="198" y="114">ยังสะท้อนสถานะปัจจุบันไหม</text>
+        <rect class="d-box-accent" x="186" y="132" width="200" height="46"/>
+        <text class="d-label-mono" x="198" y="152">3 · SMALL</text>
+        <text class="d-label-sm" x="198" y="170">สื่อเท่าเดิมด้วย token น้อยกว่าได้ไหม</text>
+        <rect class="d-box-accent" x="186" y="188" width="200" height="46"/>
+        <text class="d-label-mono" x="198" y="208">4 · RE-FINDABLE</text>
+        <text class="d-label-sm" x="198" y="226">มันหาเจอเองตอนต้องใช้ไหม</text>
+      </g>
+
+      <path class="d-line d-flow" d="M 386 43 H 438"/>
+      <path class="d-arrow" d="M 438 38 l 8 5 l -8 5 z"/>
+      <rect class="d-box-ink" x="448" y="20" width="184" height="46"/>
+      <text class="d-label-inv" x="462" y="48">ผ่านครบ 4 → ใส่ได้</text>
+
+      <path class="d-line" d="M 386 211 H 438" stroke-dasharray="4 4"/>
+      <path class="d-arrow" d="M 438 206 l 8 5 l -8 5 z"/>
+      <rect class="d-box" x="448" y="188" width="184" height="46"/>
+      <text class="d-label" x="462" y="210">ตกข้อ 4 → ให้ grep เอา</text>
+      <text class="d-label-sm" x="462" y="226">ประหยัดที่สุดในสี่ข้อ</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 2</b> · ข้อ 4 คือข้อที่คนมองข้ามมากสุด และประหยัดได้มากสุด</p>
+  </div>
+
   <div class="tw"><table>
     <thead><tr><th>กฎ</th><th>หมายความว่า</th><th>ตัวอย่างที่ละเมิด</th></tr></thead>
     <tbody>
-      <tr><td><strong>เกี่ยวข้อง</strong></td><td>ถ้าตัดออกแล้วคำตอบเปลี่ยน จึงควรอยู่</td><td>แนบทั้งโฟลเดอร์เพราะไม่แน่ใจว่าไฟล์ไหนเกี่ยว</td></tr>
-      <tr><td><strong>สด</strong></td><td>สะท้อนสถานะปัจจุบัน ไม่ใช่ของเมื่อ 20 รอบก่อน</td><td>ผลของไฟล์ที่ถูกแก้ไปแล้วยังค้างอยู่</td></tr>
-      <tr><td><strong>เรนเดอร์เล็ก</strong></td><td>สื่อความหมายเท่าเดิมด้วย token น้อยลง</td><td>แปะ JSON เต็มทั้งที่ต้องการแค่สามฟิลด์</td></tr>
-      <tr><td><strong>หากลับมาได้</strong></td><td>ไม่ต้องอยู่ในบริบทถ้า agent หามันเจอเมื่อต้องใช้</td><td>แนบเอกสาร API ทั้งเล่มแทนที่จะให้ grep เอา</td></tr>
+      <tr><td><strong>Relevant</strong></td><td>ตัดออกแล้วคำตอบเปลี่ยน จึงควรอยู่</td><td>แนบทั้ง <code>src/</code> เพราะไม่แน่ใจว่าไฟล์ไหนเกี่ยว</td></tr>
+      <tr><td><strong>Fresh</strong></td><td>สะท้อนสถานะปัจจุบัน</td><td>ผล <code>cat</code> ของไฟล์ที่แก้ไปแล้ว 3 รอบยังค้างอยู่</td></tr>
+      <tr><td><strong>Small</strong></td><td>สื่อเท่าเดิมด้วย token น้อยลง</td><td>แปะ JSON response เต็ม ทั้งที่ใช้แค่ 3 field</td></tr>
+      <tr><td><strong>Re-findable</strong></td><td>ไม่ต้องอยู่ ถ้ามันหาเจอเอง</td><td>แนบ API doc ทั้งเล่มแทนที่จะให้ grep</td></tr>
     </tbody>
   </table></div>
-  <p>กฎข้อสี่คือข้อที่คนมองข้ามมากที่สุด และเป็นข้อที่ประหยัดได้มากที่สุด — ถ้า agent หาข้อมูลเจอได้ในสองวินาที การแนบมันไปล่วงหน้าคือการจ่ายเงินซื้อสิ่งที่ได้ฟรี</p>
+
+  <div class="chat">
+    <p>
+      ข้อ 4 นี่แหละที่คนพลาดกันเยอะสุด — <b>ถ้า agent หาข้อมูลเจอได้ใน 2 วินาที
+      การแนบไปล่วงหน้าคือการจ่ายเงินซื้อของที่ได้ฟรี</b>
+    </p>
+    <p>
+      แล้วที่น่าสนใจคือ ข้อ 4 <b>อยู่ในมือเราเต็ม ๆ</b> — ทำ repo ให้ค้นง่ายขึ้น = เปลี่ยนสมการนี้ถาวร
+      ซึ่งเป็นเหตุผลที่ <a href="m05.html">M05</a> ให้ผลตอบแทนสูง
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" target="_blank" rel="noopener noreferrer">Effective context engineering for AI agents</a>
+        — หลักการเลือกว่าอะไรควรอยู่ใน context และอะไรควรดึงเมื่อต้องใช้
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+      <li>
+        <a href="https://www.anthropic.com/engineering/claude-code-best-practices" target="_blank" rel="noopener noreferrer">Claude Code best practices</a>
+        — แนวทางใช้งานจริงเรื่องการให้ agent ค้นเองแทนการแนบไปหมด
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">02.03</span><h2>Attention dilution</h2></div>
 
-  <p>
-    ปรากฏการณ์ที่คุณภาพตกเมื่อบริบทยาวขึ้นทั้งที่ยังไม่เต็ม window เป็นเรื่องที่คนสังเกตเห็นกันเยอะ
-    แต่ตีความผิดกันเกือบทั้งหมด คำอธิบายที่ได้ยินบ่อยคือ “โมเดลเหนื่อย” หรือ “มันเบลอ”
-    ซึ่งเป็นการอธิบายเชิงอุปมาที่พาไปสู่ทางแก้ที่ผิด
-  </p>
-  <p>
-    สิ่งที่เกิดขึ้นจริงตรงไปตรงมากว่านั้น — โมเดลต้องหาว่าอะไรในกองข้อความเกี่ยวข้องกับงานตรงหน้า
-    เมื่อกองใหญ่ขึ้นและมีของไม่เกี่ยวมากขึ้น งานนั้นยากขึ้น กฎที่คุณเขียนไว้ตอนต้นบทสนทนา
-    ตอนนี้ต้องแข่งความสนใจกับผลลัพธ์เครื่องมือหกหมื่น token ที่ใช้ไปแล้วและไม่เกี่ยวอะไรอีกเลย
-  </p>
+  <div class="chat">
+    <p>
+      อาการ "คุยไปนาน ๆ แล้วมันเริ่มโง่ลง" คนเจอกันทุกคน แต่<b>ตีความผิดกันเกือบหมด</b>
+      คำอธิบายที่ได้ยินบ่อยคือ "โมเดลมันเหนื่อย" หรือ "มันเบลอ" ซึ่งเป็นการอธิบายเชิงอุปมา
+      ที่พาไปสู่ทางแก้ที่ผิด
+    </p>
+    <p>
+      ของจริงตรงกว่านั้นเยอะ — โมเดลต้องหาว่าอะไรในกอง message เกี่ยวกับงานตรงหน้า
+      พอกองใหญ่ขึ้นและมีของไม่เกี่ยวเยอะขึ้น งานนั้นก็ยากขึ้น
+      <b>กฎที่เราเขียนไว้ตอนต้น ตอนนี้ต้องแข่งความสนใจกับ tool output 60K token ที่ใช้ไปแล้วและไม่เกี่ยวอะไรอีกเลย</b>
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 240" role="img" aria-label="Signal to noise ratio degrading as context accumulates over a session">
+      <text class="d-label-mono" x="8" y="16">SIGNAL vs NOISE ในบริบท</text>
+
+      <text class="d-label-mono" x="8" y="46">turn 1</text>
+      <rect class="d-bar-new" x="80" y="34" width="70" height="16"/>
+      <rect class="d-bar" x="152" y="34" width="30" height="16"/>
+      <text class="d-label-sm" x="196" y="47">กฎเด่นชัด · ทำตามครบ</text>
+
+      <text class="d-label-mono" x="8" y="86">turn 8</text>
+      <rect class="d-bar-new" x="80" y="74" width="70" height="16"/>
+      <rect class="d-bar" x="152" y="74" width="230" height="16"/>
+      <text class="d-label-sm" x="396" y="87">เริ่มข้ามบางข้อ</text>
+
+      <text class="d-label-mono" x="8" y="126">turn 20</text>
+      <rect class="d-bar-new" x="80" y="114" width="70" height="16"/>
+      <rect class="d-bar" x="152" y="114" width="470" height="16"/>
+      <text class="d-label-sm" x="80" y="150">กฎยังอยู่ครบเท่าเดิม แต่จมอยู่ในกองที่ใหญ่ขึ้น 15 เท่า</text>
+
+      <rect class="d-bar-new" x="80" y="172" width="14" height="12"/>
+      <text class="d-label-sm" x="102" y="182">กฎ / คำสั่งของเรา (ไม่โต)</text>
+      <rect class="d-bar" x="300" y="172" width="14" height="12"/>
+      <text class="d-label-sm" x="322" y="182">tool output ที่ใช้เสร็จแล้ว (โตเรื่อย ๆ)</text>
+
+      <rect class="d-box-accent" x="8" y="196" width="624" height="36"/>
+      <text class="d-label-sm" x="22" y="219">ทางแก้ที่คนเลือก = ย้ำกฎอีกที → แต่ "ย้ำ" คือ "เพิ่ม" → สัดส่วนยิ่งแย่ลง</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 3</b> · กฎของเราไม่ได้หายไปไหน มันแค่กลายเป็นสัดส่วนที่เล็กลงเรื่อย ๆ ของทั้งกอง</p>
+  </div>
 
   <div class="box trap">
     <span class="k">ทางแก้ที่คนเลือก และทำไมมันทำให้แย่ลง</span>
     <p>
-      เมื่อ agent เริ่มไม่ทำตามกฎ ปฏิกิริยาแรกของเกือบทุกคนคือ<strong>ย้ำกฎอีกครั้ง</strong> —
-      พิมพ์ซ้ำ เขียนตัวใหญ่ ใส่คำว่า “สำคัญมาก” เพิ่มเข้าไปในไฟล์บริบท
+      พอ agent เริ่มไม่ทำตามกฎ ปฏิกิริยาแรกของเกือบทุกคนคือ<strong>ย้ำกฎอีกที</strong> —
+      พิมพ์ซ้ำ ใส่ตัวใหญ่ เติม "สำคัญมาก!!" เข้าไปใน <code>CLAUDE.md</code>
     </p>
     <p>
-      แต่การย้ำคือการ<em>เพิ่ม</em>บริบท ซึ่งทำให้อัตราส่วนของสัญญาณต่อเสียงรบกวนแย่ลงไปอีก
-      คุณกำลังเติมน้ำเพื่อแก้ปัญหาน้ำจืดเกินไป ทางแก้ที่ถูกคือตรงกันข้าม —
-      <strong>ตัดของที่ไม่ใช้แล้วออก</strong> เพื่อให้กฎที่มีอยู่กลับมาเด่นขึ้นเอง
+      แต่การย้ำคือการ <em>เพิ่ม</em> context ซึ่งทำให้ signal-to-noise แย่ลงไปอีก
+      เหมือนเติมน้ำเพื่อแก้ปัญหาน้ำจืดเกินไป <strong>ทางแก้ที่ถูกคือตรงข้าม — ตัดของที่ไม่ใช้ออก</strong>
+      เพื่อให้กฎที่มีอยู่กลับมาเด่นเอง
     </p>
   </div>
 
-  <h3><span class="k">อาการที่บอกว่าเป็นเรื่องนี้</span></h3>
-  <ul>
-    <li>ทำถูกช่วงแรกของบทสนทนา แล้วค่อย ๆ เพี้ยน — <strong>อาการแย่ลงตามความยาว</strong></li>
-    <li>เริ่มบทสนทนาใหม่ด้วยคำสั่งเดิมแล้วทำถูกทันที นี่คือหลักฐานที่ชัดที่สุด</li>
-    <li>ลืมข้อจำกัดที่ตกลงกันไว้ตอนต้น ทั้งที่มันยังอยู่ในบริบท</li>
-    <li>วนกลับไปทำสิ่งที่ทำไปแล้ว หรือถามสิ่งที่ตอบไปแล้ว</li>
-  </ul>
+  <h3><span class="k">มีงานวิจัยรองรับ</span></h3>
   <p>
-    ข้อที่สองคือการทดสอบที่แม่นที่สุดและใช้เวลาสิบวินาที ถ้าเริ่มใหม่แล้วหาย
-    ปัญหาไม่ได้อยู่ที่ prompt ไม่ได้อยู่ที่โมเดล แต่อยู่ที่กองบริบทที่สะสมมา
+    เรื่องนี้ไม่ใช่แค่ความรู้สึกจากสนาม มีงานวิจัยที่วัดไว้ชัด —
+    <em>Lost in the Middle</em> ของ Liu และคณะ พบว่าโมเดลใช้ข้อมูลที่อยู่<strong>ต้นและท้าย</strong>ของ context
+    ได้ดีกว่าข้อมูลที่อยู่<strong>ตรงกลาง</strong> อย่างมีนัยสำคัญ
+  </p>
+  <p>
+    ผลเชิงปฏิบัติที่เอาไปใช้ได้ทันที — <strong>อะไรที่สำคัญ อย่าปล่อยให้ไปอยู่กลางกอง</strong>
+    กฎสำคัญควรอยู่ใน system prompt (ต้น) หรือย้ำใกล้ ๆ คำถามล่าสุด (ท้าย)
+    ไม่ใช่ฝังอยู่ใน message ที่ 12 จาก 30
   </p>
 
   <div class="box good">
-    <span class="k">ทดสอบได้ในสิบนาที</span>
+    <span class="k">Test ที่ใช้เวลา 10 วินาที และแม่นที่สุด</span>
     <p>
-      เอางานจริงที่คุณทำซ้ำได้ รันสองแบบ — แบบที่หนึ่งปล่อยบริบทสะสมตามปกติ
-      แบบที่สองตัดผลเครื่องมือเก่าที่ใช้เสร็จแล้วออกก่อนแต่ละรอบ แล้ววัดด้วยเกณฑ์เดียวกัน
+      เจออาการแปลก ให้<strong>เปิด session ใหม่แล้วสั่งคำสั่งเดิม</strong>
     </p>
     <p>
-      คนส่วนใหญ่คาดว่าแบบที่สองจะแย่กว่าเพราะข้อมูลน้อยกว่า ผลที่ได้จริงมักเท่ากันหรือดีกว่า
-      พร้อมกับต้นทุนที่ลดลงชัดเจน นี่คือแล็บของโมดูลนี้ และเป็นแล็บที่เปลี่ยนวิธีทำงานของคนได้มากที่สุด
+      ถ้าทำถูกทันที = ปัญหาไม่ได้อยู่ที่ prompt ไม่ได้อยู่ที่ model แต่อยู่ที่กอง context ที่สะสมมา
+      ถ้ายังผิดเหมือนเดิม = ไปดู Layer 1 หรือ Layer 2 ตาม <a href="m01.html">M01.07</a>
     </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://arxiv.org/abs/2307.03172" target="_blank" rel="noopener noreferrer">Lost in the Middle: How Language Models Use Long Contexts</a>
+        — Liu, Lin, Hewitt, Paranjape, Bevilacqua et al. · วัดว่าตำแหน่งของข้อมูลใน context มีผลต่อการเรียกใช้แค่ไหน
+        <span class="src">arxiv.org/abs/2307.03172</span>
+      </li>
+      <li>
+        <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" target="_blank" rel="noopener noreferrer">Effective context engineering for AI agents</a>
+        — แนวทางจัดการเมื่อ context ยาวขึ้น
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+    </ol>
   </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">02.04</span><h2>ลำดับชั้นหน่วยความจำ</h2></div>
-  <p>ข้อมูลแต่ละประเภทควรอยู่คนละชั้น การวางผิดชั้นคือสาเหตุของทั้งความสิ้นเปลืองและการลืม</p>
-  <div class="tw"><table>
-    <thead><tr><th>ชั้น</th><th>อายุ</th><th>ควรใส่อะไร</th><th>ต้นทุน</th></tr></thead>
-    <tbody>
-      <tr><td><strong>System prompt</strong></td><td>ถาวร</td><td>บทบาท กฎที่ห้ามข้าม</td><td>จ่ายทุกรอบ แต่ cache ได้</td></tr>
-      <tr><td><strong>Project memory</strong></td><td>ข้ามเซสชัน</td><td>convention ของ repo คำสั่ง build</td><td>จ่ายทุกรอบ cache ได้</td></tr>
-      <tr><td><strong>Session</strong></td><td>ในบทสนทนา</td><td>สิ่งที่เพิ่งตัดสินใจ ผลที่เพิ่งได้</td><td>โตเรื่อย ๆ ต้องบริหาร</td></tr>
-      <tr><td><strong>Retrieval</strong></td><td>ตามคำขอ</td><td>โค้ดและเอกสารที่ค้นเมื่อต้องใช้</td><td>จ่ายเฉพาะตอนใช้</td></tr>
-      <tr><td><strong>External KB</strong></td><td>ข้ามโปรเจกต์</td><td>ความรู้ที่ยืนยันแล้ว ใช้ซ้ำได้</td><td>จ่ายเฉพาะตอนดึง</td></tr>
-    </tbody>
-  </table></div>
+
+  <p>
+    ข้อมูลแต่ละประเภทควรอยู่คนละชั้น การวางผิดชั้นคือสาเหตุของทั้งความสิ้นเปลืองและการลืม
+  </p>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 270" role="img" aria-label="Memory hierarchy from always-loaded system prompt down to on-demand external knowledge base">
+      <text class="d-label-mono" x="8" y="16">ALWAYS SENT · จ่ายทุก round</text>
+
+      <rect class="d-box-accent" x="8" y="26" width="624" height="42"/>
+      <text class="d-label" x="22" y="46">System prompt</text>
+      <text class="d-label-sm" x="22" y="62">บทบาท · กฎที่ห้ามข้าม</text>
+      <text class="d-label-mono" x="470" y="52">cacheable</text>
+
+      <rect class="d-box-accent" x="8" y="72" width="624" height="42"/>
+      <text class="d-label" x="22" y="92">Project memory · CLAUDE.md</text>
+      <text class="d-label-sm" x="22" y="108">convention ของ repo · คำสั่ง build/test</text>
+      <text class="d-label-mono" x="470" y="98">cacheable</text>
+
+      <rect class="d-box" x="8" y="118" width="624" height="42"/>
+      <text class="d-label" x="22" y="138">Session</text>
+      <text class="d-label-sm" x="22" y="154">สิ่งที่เพิ่งตัดสินใจ · ผลที่เพิ่งได้</text>
+      <text class="d-label-mono" x="440" y="144">โตเรื่อย ๆ ต้องบริหาร</text>
+
+      <line class="d-line" x1="8" y1="172" x2="632" y2="172" stroke-dasharray="3 3"/>
+      <text class="d-label-mono" x="8" y="190">ON DEMAND · จ่ายเฉพาะตอนใช้</text>
+
+      <rect class="d-box" x="8" y="198" width="308" height="60"/>
+      <text class="d-label" x="22" y="218">Retrieval</text>
+      <text class="d-label-sm" x="22" y="236">grep / read เมื่อต้องใช้</text>
+      <text class="d-label-sm" x="22" y="252">ราคาถูกที่สุดต่อความรู้ 1 หน่วย</text>
+
+      <rect class="d-box" x="324" y="198" width="308" height="60"/>
+      <text class="d-label" x="338" y="218">External KB</text>
+      <text class="d-label-sm" x="338" y="236">ความรู้ที่ verify แล้ว ใช้ข้ามโปรเจกต์</text>
+      <text class="d-label-sm" x="338" y="252">ดึงมาเมื่อเกี่ยวข้อง</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 4</b> · เส้นประคือเส้นแบ่งที่สำคัญที่สุด — เหนือเส้นจ่ายทุก round ใต้เส้นจ่ายเฉพาะตอนใช้</p>
+  </div>
+
   <div class="box rule">
     <span class="k">กฎการวางชั้น</span>
-    <p>ยิ่งข้อมูลใช้บ่อยและเปลี่ยนน้อย ยิ่งควรอยู่ชั้นบน ยิ่งใช้นาน ๆ ครั้งและใหญ่ ยิ่งควรอยู่ชั้นล่างและดึงเมื่อต้องใช้ ที่ผิดบ่อยคือเอาสิ่งที่ใช้นาน ๆ ครั้งไปแปะไว้ชั้นบนเพราะกลัวลืม</p>
+    <p>
+      ยิ่งใช้บ่อยและเปลี่ยนน้อย → ยิ่งควรอยู่ชั้นบน · ยิ่งใช้นาน ๆ ครั้งและใหญ่ → ยิ่งควรอยู่ชั้นล่าง
+    </p>
+    <p>
+      ที่ผิดบ่อยคือ<strong>เอาของที่ใช้นาน ๆ ครั้งไปแปะไว้ชั้นบนเพราะกลัวลืม</strong>
+      เช่นเอา API doc ทั้งเล่มใส่ <code>CLAUDE.md</code> ผลคือจ่ายค่ามันทุก round ของทุกงาน
+      ทั้งที่ใช้จริงเดือนละครั้ง
+    </p>
+  </div>
+
+  <h3><span class="k">Engineering note</span>วิธีเช็คว่าวางชั้นถูกไหม</h3>
+  <p>
+    เอา <code>CLAUDE.md</code> ของคุณมาไล่ทีละบรรทัด แล้วถามว่า
+    <strong>"บรรทัดนี้ถูกใช้ในกี่เปอร์เซ็นต์ของงานที่ทำ"</strong>
+  </p>
+  <ul>
+    <li>เกิน 80% → อยู่ถูกที่แล้ว</li>
+    <li>20–80% → พิจารณาย้ายไป directory-scoped file ที่โหลดเฉพาะโซนนั้น</li>
+    <li>ต่ำกว่า 20% → ย้ายออกไปเป็นไฟล์ที่ agent อ่านเมื่อต้องใช้ แล้วเขียนใน <code>CLAUDE.md</code> แค่บรรทัดเดียวว่าไฟล์นั้นอยู่ไหน</li>
+  </ul>
+  <p>
+    บรรทัดเดียวที่ชี้ทางไปหาของ ถูกกว่าการแปะของทั้งก้อนไว้ตลอดเวลาเสมอ
+  </p>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/memory" target="_blank" rel="noopener noreferrer">Memory</a>
+        — ลำดับชั้นของไฟล์ memory และตัวไหนถูกโหลดเมื่อไหร่
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://docs.claude.com/en/docs/agents-and-tools/tool-use/memory-tool" target="_blank" rel="noopener noreferrer">Memory tool</a>
+        — การเขียนความรู้ออกไปเก็บนอก context แล้วดึงกลับเมื่อต้องใช้
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://docs.claude.com/en/docs/build-with-claude/prompt-caching" target="_blank" rel="noopener noreferrer">Prompt caching</a>
+        — ทำไมชั้นบนถึง cache ได้ และเรียงลำดับยังไงให้ติด
+        <span class="src">docs.claude.com</span>
+      </li>
+    </ol>
   </div>
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">02.05</span><h2>เขียนไฟล์บริบทโปรเจกต์ให้ทำงานจริง</h2></div>
+  <div class="lhead"><span class="lnum">02.05</span><h2>เขียน CLAUDE.md ให้ทำงานจริง</h2></div>
 
+  <div class="chat">
+    <p>
+      ไฟล์นี้ถูกส่งเข้าโมเดล<b>ทุก round ของทุกงาน</b> ซึ่งแปลว่ามันเป็น
+      <b>ของที่แพงที่สุดต่อบรรทัดในทั้งระบบ</b>
+    </p>
+    <p>
+      บรรทัดนึงในนี้แพงกว่าบรรทัดเดียวกันใน README เป็นพัน ๆ เท่า
+      เพราะ README ถูกอ่านเมื่อจำเป็น ส่วนไฟล์นี้ถูกอ่านเสมอ — พอคิดแบบนี้ เกณฑ์ว่าอะไรควรอยู่จะเปลี่ยนทันที
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 240" role="img" aria-label="Cost per line of a project memory file compared with a README, and what belongs in each">
+      <text class="d-label-mono" x="8" y="16">COST PER LINE</text>
+
+      <rect class="d-box" x="8" y="26" width="304" height="88"/>
+      <text class="d-label" x="22" y="48">README.md</text>
+      <rect class="d-bar" x="22" y="60" width="18" height="12"/>
+      <text class="d-label-sm" x="22" y="92">อ่านเมื่อจำเป็น · จ่ายเฉพาะตอนใช้</text>
+
+      <rect class="d-box-accent" x="328" y="26" width="304" height="88"/>
+      <text class="d-label" x="342" y="48">CLAUDE.md</text>
+      <rect class="d-bar-new" x="342" y="60" width="276" height="12"/>
+      <text class="d-label-sm" x="342" y="92">ส่งทุก round ของทุกงาน · จ่ายตลอด</text>
+
+      <line class="d-line" x1="8" y1="128" x2="632" y2="128" stroke-dasharray="3 3"/>
+
+      <text class="d-label-mono" x="8" y="150">KEEP</text>
+      <text class="d-label-sm" x="8" y="170">· คำสั่ง run test เฉพาะจุด</text>
+      <text class="d-label-sm" x="8" y="188">· convention ที่ฝืนความเคยชิน</text>
+      <text class="d-label-sm" x="8" y="206">· อะไรห้ามแตะ + เพราะอะไร</text>
+      <text class="d-label-sm" x="8" y="224">· ที่อยู่ของของที่หายาก</text>
+
+      <text class="d-label-mono" x="328" y="150">DROP</text>
+      <text class="d-label-sm" x="328" y="170">· โปรเจกต์นี้ทำอะไร (อ่านจาก code ได้)</text>
+      <text class="d-label-sm" x="328" y="188">· convention มาตรฐานที่โมเดลรู้อยู่แล้ว</text>
+      <text class="d-label-sm" x="328" y="206">· ประวัติการตัดสินใจแบบเล่าเรื่อง</text>
+      <text class="d-label-sm" x="328" y="224">· อะไรที่ grep เจอใน 2 วินาที</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 5</b> · แถบคือต้นทุนสะสมต่อบรรทัด · ของที่ควรอยู่คือของที่ "จริงเสมอและหาไม่เจอจาก code"</p>
+  </div>
+
+  <h3><span class="k">Test ต่อบรรทัด</span></h3>
   <p>
-    ไฟล์บริบทประจำโปรเจกต์ถูกส่งเข้าโมเดลทุกรอบของทุกงาน ทำให้มันเป็น<strong>ของที่แพงที่สุดต่อบรรทัด
-    ในทั้งระบบ</strong> บรรทัดหนึ่งในไฟล์นี้มีต้นทุนสูงกว่าบรรทัดเดียวกันที่เขียนไว้ใน README หลายพันเท่า
-    เพราะ README ถูกอ่านเมื่อจำเป็น ส่วนไฟล์นี้ถูกอ่านเสมอ
+    วิธีตัดสินที่ตรงสุดคือถามว่า <strong>"ถ้าลบบรรทัดนี้ จะมีงานไหนที่ทำผิดไป"</strong>
   </p>
   <p>
-    เมื่อคิดแบบนี้ เกณฑ์ว่าอะไรควรอยู่ในไฟล์จะเปลี่ยนไปทันที
-  </p>
-
-  <div class="tw"><table>
-    <thead><tr><th>ควรมี</th><th>ไม่ควรมี และเพราะอะไร</th></tr></thead>
-    <tbody>
-      <tr><td>คำสั่งรันเทสต์เฉพาะจุด</td><td>คำอธิบายว่าโปรเจกต์นี้ทำอะไร — อ่านจากโค้ดได้</td></tr>
-      <tr><td>convention ที่ฝืนความเคยชินทั่วไป</td><td>convention มาตรฐานที่โมเดลรู้อยู่แล้ว</td></tr>
-      <tr><td>สิ่งที่ห้ามแตะ และเพราะอะไร</td><td>ประวัติการตัดสินใจแบบเล่าเรื่อง — ควรอยู่ใน ADR</td></tr>
-      <tr><td>ที่อยู่ของสิ่งที่หายาก</td><td>สิ่งที่ <code>grep</code> หาเจอในสองวินาที</td></tr>
-      <tr><td>ข้อจำกัดที่มองไม่เห็นจากโค้ด</td><td>คำอธิบายเครื่องมือมาตรฐาน</td></tr>
-    </tbody>
-  </table></div>
-
-  <h3><span class="k">การทดสอบต่อบรรทัด</span></h3>
-  <p>
-    วิธีที่ตรงที่สุดในการตัดสินว่าบรรทัดหนึ่งควรอยู่ไหม คือถามว่า
-    <strong>“ถ้าลบบรรทัดนี้ จะมีงานไหนที่ทำผิดไป”</strong>
-  </p>
-  <p>
-    ถ้านึกงานนั้นออกได้ชัด ๆ ให้เก็บไว้ ถ้านึกไม่ออก แสดงว่าคุณไม่รู้ว่ามันทำอะไร
-    และในเมื่อคุณกำลังจ่ายค่ามันทุกรอบ การไม่รู้ว่ามันทำอะไรคือเหตุผลที่ดีพอจะลบ
+    นึกงานนั้นออกชัด ๆ → เก็บ · นึกไม่ออก → แปลว่าเราไม่รู้ว่ามันทำอะไร
+    และในเมื่อเราจ่ายค่ามันทุก round อยู่ การไม่รู้ว่ามันทำอะไรก็เป็นเหตุผลที่ดีพอจะลบ
   </p>
 
   <div class="box trap">
-    <span class="k">สุสานของกฎ — ปรากฏการณ์ที่เกิดกับทุกทีม</span>
+    <span class="k">สุสานของกฎ — เกิดกับทุกทีม</span>
     <p>
-      กลไกมันเรียบง่ายและหลีกเลี่ยงยาก ทุกครั้งที่ agent ทำผิดหนึ่งครั้ง มีคนเพิ่มกฎหนึ่งข้อ
-      เพราะการเพิ่มใช้เวลาสิบวินาทีและรู้สึกว่าได้แก้ปัญหาแล้ว
+      กลไกง่ายมากและเลี่ยงยาก — agent ทำผิด 1 ครั้ง คนเพิ่มกฎ 1 ข้อ เพราะใช้เวลา 10 วินาทีและรู้สึกว่าแก้แล้ว
+      แต่<strong>ไม่มีใครลบ</strong> เพราะการลบต้องพิสูจน์ว่าไม่จำเป็น ซึ่งพิสูจน์ไม่ได้ถ้าไม่มีชุดวัด
     </p>
     <p>
-      แต่ไม่มีใครลบ เพราะการลบต้องพิสูจน์ว่าไม่จำเป็น ซึ่งพิสูจน์ไม่ได้ถ้าไม่มีชุดวัด
-      ผ่านไปหกเดือนได้ไฟล์สี่ร้อยบรรทัดที่ทุกคนกลัวจะแตะ ทั้งที่ครึ่งหนึ่งอาจไม่มีผลอะไรเลย
-      และอีกส่วนหนึ่งอาจกำลังทำให้แย่ลงด้วยซ้ำ
+      ผ่านไป 6 เดือนได้ไฟล์ 400 บรรทัดที่ทุกคนกลัวจะแตะ ทั้งที่ครึ่งนึงอาจไม่มีผลอะไรเลย
+      และบางส่วนอาจกำลังทำให้แย่ลงด้วยซ้ำ ตาม Figure 3 ในบทที่แล้ว
     </p>
     <p>
-      ทางออกทางเดียวคือ<strong>ชุดวัดที่พิสูจน์ได้ว่ากฎไหนมีผล</strong> ซึ่งเป็นเนื้อหาของ
-      <a href="m12-evals.html">M12.05</a> โดยตรง จนกว่าจะมีสิ่งนั้น ไฟล์นี้จะโตทางเดียว
+      ทางออกเดียวคือ<strong>ชุดวัดที่พิสูจน์ได้ว่ากฎไหนมีผล</strong> — <a href="m12-evals.html">M12.05</a> ตรง ๆ
+      จนกว่าจะมีสิ่งนั้น ไฟล์นี้จะโตทางเดียว
     </p>
   </div>
 
   <h3><span class="k">เขียนกฎยังไงให้ทำตามได้จริง</span></h3>
-  <p>
-    กฎที่กำกวมไม่ได้ถูกละเลยเพราะ agent ดื้อ แต่เพราะมันตีความได้หลายแบบ เทียบสองแบบนี้
-  </p>
   <pre><code><span class="c">// ตีความได้หลายแบบ ทำตามบ้างไม่ทำบ้าง</span>
 - เขียนเทสต์ให้ครอบคลุม
 - อย่าทำให้โค้ดซับซ้อนเกินจำเป็น
 - ระวังเรื่อง performance
 
 <span class="c">// ตรวจได้ ไม่ต้องตีความ</span>
-- ทุก export ใหม่ต้องมีเทสต์ที่ครอบทั้งเคสปกติและเคสว่าง
+- ทุก export ใหม่ต้องมีเทสต์ที่ครอบทั้ง happy path และ empty case
 - ห้ามเพิ่ม dependency ใหม่โดยไม่ถามก่อน
 - query ที่วนใน loop ต้องเปลี่ยนเป็น batch — ห้าม N+1</code></pre>
   <p>
-    ข้อสังเกตสำคัญ — กฎในกลุ่มหลังหลายข้อ<strong>ควรกลายเป็น lint rule หรือ hook แทนที่จะเป็นข้อความ</strong>
-    เพราะกฎที่บังคับด้วยเครื่องมือไม่กินงบบริบทเลยและไม่มีวันถูกลืม <a href="m09.html">M09.07</a> ว่าด้วยเรื่องนี้
+    ข้อสังเกตสำคัญ — <strong>กฎกลุ่มหลังหลายข้อควรกลายเป็น lint rule หรือ hook แทนที่จะเป็นข้อความ</strong>
+    เพราะกฎที่บังคับด้วยเครื่องมือไม่กิน context เลย และไม่มีวันถูกลืม
+    <a href="m09.html">M09.07</a> ว่าด้วยเรื่องนี้เต็ม ๆ
   </p>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/memory" target="_blank" rel="noopener noreferrer">Memory</a>
+        — โครงสร้างไฟล์ memory ระดับ user / project / directory และลำดับการทับกัน
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://www.anthropic.com/engineering/claude-code-best-practices" target="_blank" rel="noopener noreferrer">Claude Code best practices</a>
+        — แนวทางเขียนไฟล์ context ประจำโปรเจกต์ให้กระชับและใช้ได้จริง
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">02.06</span><h2>สามกลไกที่คนสับสน</h2></div>
-  <p>เมื่อบริบทเริ่มยาว มีสามทางเลือกที่ทำงานคนละแบบ และคนมักใช้ผิดตัว</p>
+
+  <p>
+    พอ context เริ่มยาว มี 3 ทางเลือกที่ทำงานคนละแบบ และคนใช้ผิดตัวกันบ่อยมาก
+  </p>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 250" role="img" aria-label="Compaction summarises, context editing deletes, memory tool writes out of context">
+      <text class="d-label-mono" x="8" y="16">BEFORE</text>
+      <rect class="d-bar" x="70" y="26" width="120" height="16"/>
+      <rect class="d-bar" x="192" y="26" width="180" height="16"/>
+      <rect class="d-bar-new" x="374" y="26" width="90" height="16"/>
+      <text class="d-label-sm" x="474" y="39">เก่า · เก่า · ใหม่</text>
+
+      <line class="d-line" x1="8" y1="56" x2="632" y2="56" stroke-dasharray="3 3"/>
+
+      <text class="d-label-mono" x="8" y="82">COMPACTION</text>
+      <rect class="d-box" x="140" y="70" width="70" height="16"/>
+      <rect class="d-bar-new" x="374" y="70" width="90" height="16"/>
+      <text class="d-label-sm" x="474" y="83">สรุปย่อ · ยังรู้ว่าเคยเกิด</text>
+
+      <text class="d-label-mono" x="8" y="122">CONTEXT EDIT</text>
+      <rect class="d-bar-new" x="374" y="110" width="90" height="16"/>
+      <text class="d-label-sm" x="474" y="123">ลบทิ้ง · หายไปเลย</text>
+
+      <text class="d-label-mono" x="8" y="162">MEMORY TOOL</text>
+      <rect class="d-bar-new" x="374" y="150" width="90" height="16"/>
+      <rect class="d-box-accent" x="140" y="150" width="90" height="16"/>
+      <text class="d-label-sm" x="240" y="163">→ เขียนออกไปนอก context</text>
+      <text class="d-label-sm" x="474" y="163">ดึงกลับเองเมื่อใช้</text>
+
+      <rect class="d-box-accent" x="8" y="192" width="624" height="50"/>
+      <text class="d-label" x="22" y="214">เลือกยังไง — ถามว่า "ของชิ้นนี้จะต้องใช้อีกไหม"</text>
+      <text class="d-label-sm" x="22" y="234">ไม่ใช้แล้ว → ลบ · ต้องรู้ว่าเคยเกิดแต่ไม่ต้องรู้รายละเอียด → สรุป · ต้องใช้อีกแน่ แต่ไม่ใช่ตอนนี้ → เขียนออกไป</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 6</b> · สามกลไกทำคนละอย่าง — สรุป / ลบ / ย้ายออก · เลือกจากว่าจะได้ใช้อีกไหม</p>
+  </div>
+
   <div class="tw"><table>
     <thead><tr><th>กลไก</th><th>ทำอะไร</th><th>เหมาะเมื่อ</th><th>เสียอะไร</th></tr></thead>
     <tbody>
-      <tr><td><strong>Compaction</strong></td><td>สรุปย่อประวัติเก่าให้สั้นลง</td><td>บทสนทนายาวที่ยังต้องรู้ว่าเคยทำอะไร</td><td>รายละเอียดที่ถูกสรุปทิ้ง</td></tr>
-      <tr><td><strong>Context editing</strong></td><td>ลบผลเครื่องมือเก่าออกทั้งก้อน</td><td>ผลที่ใช้แล้วและไม่ต้องใช้อีก</td><td>ของนั้นหายไปเลย</td></tr>
-      <tr><td><strong>Memory tool</strong></td><td>เขียนออกไปเก็บนอกบริบท</td><td>ข้อสรุปที่ต้องใช้ข้ามเซสชัน</td><td>ต้องดึงกลับเองเมื่อจะใช้</td></tr>
+      <tr><td><strong>Compaction</strong></td><td>สรุปย่อประวัติเก่า</td><td>session ยาวที่ยังต้องรู้ว่าเคยทำอะไร</td><td>รายละเอียดที่ถูกสรุปทิ้ง</td></tr>
+      <tr><td><strong>Context editing</strong></td><td>ลบ tool result เก่าทั้งก้อน</td><td>ผลที่ใช้แล้วและไม่ต้องใช้อีก</td><td>ของนั้นหายไปเลย</td></tr>
+      <tr><td><strong>Memory tool</strong></td><td>เขียนออกไปเก็บนอก context</td><td>ข้อสรุปที่ต้องใช้ข้าม session</td><td>ต้องดึงกลับเองเมื่อจะใช้</td></tr>
     </tbody>
   </table></div>
-  <div class="box good">
-    <span class="k">วิธีเลือกให้ถูก</span>
-    <p>ถามว่า “ของชิ้นนี้จะต้องใช้อีกไหม” — ไม่ต้องใช้แล้วก็ <strong>ลบ</strong> · ต้องรู้ว่าเคยเกิดแต่ไม่ต้องรู้รายละเอียดก็ <strong>สรุป</strong> · ต้องใช้อีกแน่ ๆ แต่ไม่ใช่ตอนนี้ก็ <strong>เขียนออกไป</strong></p>
+
+  <div class="box trap">
+    <span class="k">ที่ผิดบ่อย</span>
+    <p>
+      ใช้ compaction กับของที่ควรลบทิ้ง — เช่นสรุป <code>npm install</code> output 2,000 บรรทัด
+      ให้เหลือ 3 บรรทัด ทั้งที่ควรลบทิ้งไปเลยเพราะไม่มีอะไรในนั้นที่ต้องรู้อีก
+    </p>
+    <p>
+      ผลคือยังเปลือง token กับการสรุป และยังเหลือของที่ไม่ต้องใช้อยู่ในกอง
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://docs.claude.com/en/docs/build-with-claude/context-editing" target="_blank" rel="noopener noreferrer">Context editing</a>
+        — การล้าง tool result เก่าออกจาก context และ strategy ที่มีให้เลือก
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://docs.claude.com/en/docs/agents-and-tools/tool-use/memory-tool" target="_blank" rel="noopener noreferrer">Memory tool</a>
+        — เขียนความรู้ออกไปเก็บนอก context แล้วดึงกลับเมื่อต้องใช้
+        <span class="src">docs.claude.com</span>
+      </li>
+    </ol>
   </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">02.07</span><h2>Sub-agent ในฐานะเครื่องมือกันบริบท</h2></div>
-  <p>คนส่วนใหญ่มอง sub-agent เป็นเรื่องความเร็ว แต่ประโยชน์ที่แน่นอนกว่าคือมันมีบริบทของตัวเอง งานที่ต้องอ่านเยอะแต่สรุปสั้น เหมาะกับ sub-agent มากที่สุด เพราะบริบทหลักได้รับแค่ข้อสรุป ไม่ใช่กองข้อมูลดิบ</p>
+
+  <div class="chat">
+    <p>
+      คนส่วนใหญ่มอง sub-agent เป็นเรื่อง "ทำงานขนาน = เร็วขึ้น"
+      แต่ประโยชน์ที่<b>แน่นอนกว่า</b>คือมันมี context ของตัวเอง
+    </p>
+    <p>
+      งานที่ต้อง<b>อ่านเยอะแต่สรุปสั้น</b> เหมาะกับ sub-agent มากที่สุด
+      เพราะ context หลักได้รับแค่ข้อสรุป ไม่ใช่กองข้อมูลดิบ
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 250" role="img" aria-label="Without a sub-agent the raw output pollutes the main context; with one only the summary returns">
+      <text class="d-label-mono" x="8" y="16">WITHOUT SUB-AGENT</text>
+      <rect class="d-box" x="8" y="26" width="624" height="76"/>
+      <text class="d-label-sm" x="22" y="46">main context</text>
+      <rect class="d-bar" x="22" y="56" width="60" height="16"/>
+      <rect class="d-bar-new" x="86" y="56" width="420" height="16"/>
+      <text class="d-label-sm" x="22" y="90">อ่าน 40 ไฟล์ → raw output ทั้งหมดค้างอยู่ใน context หลักตลอดงาน</text>
+
+      <text class="d-label-mono" x="8" y="130">WITH SUB-AGENT</text>
+      <rect class="d-box" x="8" y="140" width="380" height="76"/>
+      <text class="d-label-sm" x="22" y="160">main context</text>
+      <rect class="d-bar" x="22" y="170" width="60" height="16"/>
+      <rect class="d-box-accent" x="86" y="170" width="70" height="16"/>
+      <text class="d-label-sm" x="22" y="204">ได้กลับมาแค่ข้อสรุป</text>
+
+      <path class="d-line-accent d-flow" d="M 388 178 H 428"/>
+      <path class="d-arrow-accent" d="M 424 173 l 8 5 l -8 5 z"/>
+
+      <rect class="d-box" x="436" y="140" width="196" height="76"/>
+      <text class="d-label-sm" x="450" y="160">sub-agent context</text>
+      <rect class="d-bar-new" x="450" y="170" width="168" height="16"/>
+      <text class="d-label-sm" x="450" y="204">raw 40 ไฟล์อยู่ตรงนี้ แล้วทิ้ง</text>
+
+      <text class="d-label-sm" x="320" y="240" text-anchor="middle">เกณฑ์: อ่าน : สรุป มากกว่า ~10 ต่อ 1 → แยกคุ้ม · ใกล้ 1 ต่อ 1 → อย่าแยก</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 7</b> · ประโยชน์หลักไม่ใช่ความเร็ว แต่คือ raw data ไม่เข้ามาปน context หลัก</p>
+  </div>
+
   <div class="box rule">
     <span class="k">เกณฑ์ตัดสิน</span>
-    <p>ถ้าอัตราส่วน “ข้อมูลที่ต้องอ่าน : ข้อสรุปที่ต้องใช้” สูงกว่าราว 10 ต่อ 1 ให้แยกเป็น sub-agent เกือบทุกครั้ง ถ้าใกล้ 1 ต่อ 1 การแยกมีแต่เพิ่มต้นทุนกับความไม่แน่นอน — ขยายเต็มใน <a href="m10.html">M10</a></p>
+    <p>
+      ดูอัตราส่วน <strong>"ข้อมูลที่ต้องอ่าน : ข้อสรุปที่ต้องใช้"</strong>
+    </p>
+    <ul>
+      <li>สูงกว่า ~10 ต่อ 1 → แยกเป็น sub-agent เกือบทุกครั้ง</li>
+      <li>ใกล้ 1 ต่อ 1 → การแยกมีแต่เพิ่มต้นทุนกับความไม่แน่นอน</li>
+    </ul>
+    <p>
+      ขยายเต็มรูปแบบใน <a href="m10.html">M10</a> รวมถึงกรณีที่ multi-agent แพ้ single agent
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/sub-agents" target="_blank" rel="noopener noreferrer">Subagents</a>
+        — การตั้ง sub-agent ที่มี context และ tool ของตัวเอง
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://www.anthropic.com/engineering/multi-agent-research-system" target="_blank" rel="noopener noreferrer">Building a multi-agent research system</a>
+        — เคสจริงที่ใช้การแยก context เป็นเหตุผลหลักในการแตกงาน
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+    </ol>
   </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">02.08</span><h2>Retrieval หรือ stuffing</h2></div>
-  <p>ทางเลือกระหว่าง “แนบไปเลย” กับ “ให้มันหาเอง” ตัดสินด้วยสามตัวแปร ไม่ใช่ความรู้สึก</p>
-  <div class="tw"><table>
-    <thead><tr><th>ตัวแปร</th><th>เอียงไปทาง stuffing</th><th>เอียงไปทาง retrieval</th></tr></thead>
-    <tbody>
-      <tr><td>ความแน่ใจว่าต้องใช้</td><td>แน่ใจว่าใช้ทุกครั้ง</td><td>ใช้บ้างไม่ใช้บ้าง</td></tr>
-      <tr><td>ขนาด</td><td>เล็ก (ไม่กี่พัน token)</td><td>ใหญ่</td></tr>
-      <tr><td>ความง่ายในการหา</td><td>หายาก ชื่อไม่สื่อ</td><td>หาง่ายด้วย grep</td></tr>
-    </tbody>
-  </table></div>
-  <p>ข้อสังเกตสำคัญ — ตัวแปรที่สามอยู่ในมือคุณ การทำให้ codebase ค้นง่ายขึ้นคือการเปลี่ยนสมการนี้อย่างถาวร ซึ่งเป็นเหตุผลว่าทำไม <a href="m05.html">M05</a> ถึงให้ผลตอบแทนสูง</p>
+
+  <p>
+    ทางเลือกระหว่าง "แนบไปเลย" กับ "ให้มันหาเอง" ตัดสินด้วย 3 ตัวแปร ไม่ใช่ความรู้สึก
+  </p>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 220" role="img" aria-label="Three variables deciding between stuffing context and letting the agent retrieve">
+      <text class="d-label-mono" x="176" y="20">STUFF IT IN</text>
+      <text class="d-label-mono" x="446" y="20">LET IT SEARCH</text>
+      <line class="d-line" x1="320" y1="30" x2="320" y2="176" stroke-dasharray="4 4"/>
+
+      <text class="d-label" x="8" y="56">ความแน่ใจว่าต้องใช้</text>
+      <rect class="d-box-accent" x="176" y="40" width="120" height="24"/>
+      <text class="d-label-sm" x="188" y="57">ใช้ทุกครั้งแน่</text>
+      <rect class="d-box" x="352" y="40" width="140" height="24"/>
+      <text class="d-label-sm" x="364" y="57">ใช้บ้างไม่ใช้บ้าง</text>
+
+      <text class="d-label" x="8" y="102">ขนาด</text>
+      <rect class="d-box-accent" x="176" y="86" width="120" height="24"/>
+      <text class="d-label-sm" x="188" y="103">เล็ก (ไม่กี่พัน)</text>
+      <rect class="d-box" x="352" y="86" width="140" height="24"/>
+      <text class="d-label-sm" x="364" y="103">ใหญ่</text>
+
+      <text class="d-label" x="8" y="148">หาง่ายแค่ไหน</text>
+      <rect class="d-box-accent" x="176" y="132" width="120" height="24"/>
+      <text class="d-label-sm" x="188" y="149">หายาก ชื่อไม่สื่อ</text>
+      <rect class="d-box" x="352" y="132" width="140" height="24"/>
+      <text class="d-label-sm" x="364" y="149">grep เจอง่าย</text>
+
+      <rect class="d-box-accent" x="8" y="180" width="624" height="34"/>
+      <text class="d-label-sm" x="22" y="202">ตัวแปรที่ 3 อยู่ในมือเรา — ทำ repo ให้ค้นง่าย = เปลี่ยนสมการนี้ถาวร (M05)</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 8</b> · สองตัวแปรแรกเป็นคุณสมบัติของข้อมูล ตัวที่สามเป็นคุณสมบัติของ repo ที่เราแก้ได้</p>
+  </div>
+
+  <div class="chat">
+    <p>
+      ประเด็นที่ผมชอบที่สุดในบทนี้คือ<b>ตัวแปรที่ 3 อยู่ในมือเราเต็ม ๆ</b>
+    </p>
+    <p>
+      ตัวแปร 1 กับ 2 เป็นคุณสมบัติของข้อมูล เราเปลี่ยนไม่ได้
+      แต่ "หาง่ายแค่ไหน" เป็นคุณสมบัติของ <b>repo</b> — ตั้งชื่อไฟล์ให้สื่อ จัดโฟลเดอร์ตาม domain
+      แล้วของที่เมื่อวานต้องแนบไป วันนี้ให้ grep เอาได้
+    </p>
+    <p>
+      เพราะงั้นเวลาที่ลงไปกับ <a href="m05.html">M05</a> มันไม่ได้จบแค่ M05 — มันย้อนมาลด context ของทุกงานที่ทำหลังจากนั้น
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" target="_blank" rel="noopener noreferrer">Effective context engineering for AI agents</a>
+        — เมื่อไหร่ควรดึงข้อมูลตอน runtime แทนการใส่ไว้ล่วงหน้า
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+      <li>
+        <a href="https://arxiv.org/abs/2307.03172" target="_blank" rel="noopener noreferrer">Lost in the Middle</a>
+        — เหตุผลเชิงประจักษ์ว่าทำไมการยัดทุกอย่างเข้าไปถึงไม่ได้ผลอย่างที่คิด
+        <span class="src">arxiv.org/abs/2307.03172</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <div class="lab">
