@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>M12 · Evals — วัดผลระบบ agent ของคุณเอง</title>
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<style>/* masthead */
+.masthead{border-bottom:2px solid var(--ink); padding:60px 0 24px}
+.crumb{font-family:var(--mono); font-size:11px; letter-spacing:.14em;
+       text-transform:uppercase; color:var(--signal); display:block; margin-bottom:18px}
+h1{font-size:clamp(30px,4.6vw,46px); line-height:1.16; font-weight:700;
+   letter-spacing:-.02em; margin:0 0 16px; text-wrap:balance; max-width:20ch}
+.deck{font-size:17px; color:var(--ink-2); max-width:62ch; margin:0 0 28px; line-height:1.72}
+.deck strong{color:var(--ink); font-weight:600}
+.meta{display:flex; flex-wrap:wrap; gap:26px; font-family:var(--mono);
+      font-size:11.5px; color:var(--ink-3); letter-spacing:.05em}
+.meta b{color:var(--ink-2); font-weight:600}
+
+/* thesis */
+.thesis{background:var(--ink); color:var(--paper); padding:26px 30px; margin:36px 0 0}
+.thesis .k{font-family:var(--mono); font-size:10px; letter-spacing:.16em;
+           text-transform:uppercase; opacity:.6; display:block; margin-bottom:10px}
+.thesis p{margin:0; font-size:18px; line-height:1.65; font-weight:500; max-width:52ch}
+
+/* lesson */
+.lesson{padding-top:60px}
+.lhead{display:flex; align-items:baseline; gap:14px; border-bottom:1px solid var(--ink);
+       padding-bottom:9px; margin-bottom:22px}
+.lnum{font-family:var(--mono); font-size:12px; font-weight:600; color:var(--signal); letter-spacing:.06em}
+.lhead h2{font-size:22px; font-weight:600; letter-spacing:-.014em; margin:0; flex:1; text-wrap:balance}
+.lesson p{margin:0 0 16px; max-width:66ch}
+.lesson>ul,.lesson>ol{max-width:66ch; padding-left:22px; margin:0 0 18px}
+.lesson li{margin:6px 0}
+.lesson h3{font-size:15px; font-weight:600; margin:26px 0 10px; letter-spacing:-.005em}
+.lesson h3 .k{font-family:var(--mono); font-size:10px; letter-spacing:.13em;
+              text-transform:uppercase; color:var(--ink-3); display:block;
+              margin-bottom:4px; font-weight:500}
+
+/* boxes */
+.box{border:1px solid var(--rule); background:var(--surface);
+     padding:18px 22px; margin:22px 0; max-width:70ch}
+.box .k{font-family:var(--mono); font-size:10px; letter-spacing:.13em;
+        text-transform:uppercase; display:block; margin-bottom:9px; font-weight:600}
+.box p:last-child,.box ul:last-child{margin-bottom:0}
+.box ul{margin:0; padding-left:20px}
+.box li{margin:5px 0; font-size:14.5px}
+.box.rule{background:var(--steel-soft); border-color:var(--steel)}
+.box.rule .k{color:var(--steel)}
+.box.trap{background:var(--signal-soft); border-color:var(--signal-rule)}
+.box.trap .k{color:var(--signal)}
+.box.good{background:var(--good-soft); border-color:var(--good)}
+.box.good .k{color:var(--good)}
+
+/* table */
+.tw{overflow-x:auto; margin:22px 0; border:1px solid var(--rule)}
+table{border-collapse:collapse; width:100%; font-size:14px; background:var(--surface)}
+th{font-family:var(--mono); font-size:10px; letter-spacing:.11em; text-transform:uppercase;
+   color:var(--ink-3); text-align:left; padding:11px 14px; border-bottom:1px solid var(--rule);
+   font-weight:600; white-space:nowrap; background:var(--surface-2)}
+td{padding:11px 14px; border-bottom:1px solid var(--rule); vertical-align:top; line-height:1.6}
+tr:last-child td{border-bottom:none}
+td.mono{white-space:nowrap; font-size:13px}
+.tick{color:var(--good); font-weight:600}
+.cross{color:var(--signal); font-weight:600}
+
+/* code block */
+pre{background:var(--surface-2); border:1px solid var(--rule); padding:16px 18px;
+    overflow-x:auto; font-family:var(--mono); font-size:12.5px; line-height:1.7;
+    margin:20px 0; color:var(--ink)}
+pre .c{color:var(--ink-3)}
+pre code{background:none; border:none; padding:0; font-size:inherit}
+
+/* lab */
+.lab{border:2px solid var(--signal); background:var(--surface); margin-top:60px}
+.lab-head{background:var(--signal); color:#fff; padding:11px 24px;
+          font-family:var(--mono); font-size:11px; letter-spacing:.16em;
+          text-transform:uppercase; font-weight:600}
+:root[data-theme="dark"] .lab-head{color:#1B1108}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .lab-head{color:#1B1108}}
+.lab-body{padding:24px 28px 26px}
+.lab-body h2{font-size:21px; font-weight:600; margin:0 0 14px; letter-spacing:-.012em}
+.lab-body ol{padding-left:22px; margin:0 0 18px; max-width:66ch}
+.lab-body li{margin:7px 0}
+.lab-body p{max-width:66ch}
+
+.note{border-top:2px solid var(--ink); margin-top:76px; padding-top:20px;
+      font-size:13.5px; color:var(--ink-3); max-width:68ch; line-height:1.75}
+.note b{color:var(--ink-2); font-weight:600}
+
+@media (max-width:640px){
+  .wrap{padding:0 18px 76px}
+  .meta{gap:14px}
+  .lhead{flex-direction:column; gap:4px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar">
+  <a class="brand" href="index.html">Agent SDLC</a>
+  <nav>
+    <a href="index.html">ภาพรวม</a>
+    <a href="course-th.html">หลักสูตร</a>
+    <a href="m12-evals.html" aria-current="page">M12 Evals</a>
+    <button id="theme" type="button" aria-label="สลับธีมสว่าง/มืด">THEME</button>
+  </nav>
+</header>
+
+<header class="masthead">
+  <span class="crumb">AI Coding Agent SDLC · Phase 04 · Module 12</span>
+  <h1>Evals — วัดผลระบบ agent ของคุณเอง</h1>
+  <p class="deck">
+    โมดูลที่คอร์สทั่วไปไม่มี และเป็นเหตุผลว่าทำไมคนส่วนใหญ่ถึง<strong>ปรับ prompt ไปเรื่อย ๆ
+    โดยไม่รู้ว่าดีขึ้นจริงหรือเปล่า</strong> เนื้อหานี้ว่าด้วยการสร้างเครื่องมือวัดที่ทำให้ทุกการอ้างว่า
+    “แบบนี้ดีกว่า” มีตัวเลขรองรับ
+  </p>
+  <div class="meta">
+    <span><b>9</b> บทเรียน</span>
+    <span><b>3</b> ชั่วโมง</span>
+    <span><b>1</b> แล็บ</span>
+    <span>ต้องผ่าน <b>M01</b> · <b>M03</b> · <b>M11</b> ก่อน</span>
+  </div>
+</header>
+
+<div class="thesis">
+  <span class="k">ใจความของทั้งโมดูล</span>
+  <p>ความแปรปรวนระหว่างการรันสองครั้งของงานเดียวกัน มักใหญ่กว่าผลของการแก้ prompt ที่คุณเพิ่งทำ
+     ถ้าไม่มีเครื่องวัด คุณกำลังอ่านสัญญาณรบกวนแล้วเรียกมันว่าการปรับปรุง</p>
+</div>
+
+<!-- ─── L01 ─── -->
+<section class="lesson">
+  <div class="lhead"><span class="lnum">12.01</span><h2>ทำไม “รู้สึกว่าดีขึ้น” ถึงเชื่อไม่ได้</h2></div>
+
+  <p>
+    งาน agent หนึ่งงานไม่ได้เดินเส้นทางเดียวทุกครั้ง ลูปแตกต่างกันได้จากลำดับการเรียก tool
+    ผลลัพธ์ที่ tool คืนกลับมาไม่เหมือนเดิม ไฟล์ที่มันเลือกอ่านก่อน–หลัง และการที่บริบทสะสมต่างกัน
+    ผลคือรันงานเดิมสองครั้งอาจได้ diff คนละแบบ แม้จะไม่แตะ prompt เลย
+  </p>
+  <p>
+    ปัญหาคือขนาดของความแปรปรวนนี้ มัก<em>ใหญ่กว่า</em>ผลของการแก้ prompt ทั่วไป
+    เมื่อคุณแก้ prompt แล้วรันหนึ่งครั้งแล้วรู้สึกว่าดีขึ้น สิ่งที่คุณสังเกตเห็นอาจเป็นความแปรปรวนล้วน ๆ
+  </p>
+
+  <h3><span class="k">ตัวแปรกวน</span>สามอย่างที่ปนกันเสมอเวลาเปรียบเทียบด้วยความรู้สึก</h3>
+  <ul>
+    <li><strong>คุณเปลี่ยนมากกว่าหนึ่งอย่าง</strong> — แก้ prompt พร้อมกับเพิ่มไฟล์เข้า context พร้อมกับเปลี่ยนวิธีตั้งคำถาม</li>
+    <li><strong>งานไม่เหมือนเดิม</strong> — รอบสองคุณลองกับงานที่ง่ายกว่า หรือกับ repo ที่สะอาดกว่า</li>
+    <li><strong>คุณเองเปลี่ยน</strong> — รอบสองคุณตั้งใจกว่า ตอบคำถามของ agent ดีกว่า และเข้าไปช่วยแก้ระหว่างทางโดยไม่นับ</li>
+  </ul>
+
+  <div class="box rule">
+    <span class="k">กฎข้อที่ 1</span>
+    <p><code>n = 1</code> คือเกร็ดเล่าสู่กันฟัง ไม่ใช่ผลการวัด ก่อนจะเชื่ออะไรเกี่ยวกับการเปลี่ยนแปลง
+    ให้รันงานเดิมซ้ำอย่างน้อย 5 ครั้งทั้งก่อนและหลัง แล้วดูว่าช่วงของผลสองชุดทับกันหรือไม่ ถ้าทับ แปลว่าคุณยังไม่รู้อะไรเลย</p>
+  </div>
+
+  <div class="box trap">
+    <span class="k">กับดักที่พบบ่อยที่สุด</span>
+    <p>“ผมเพิ่มบรรทัดนี้ใน <code>CLAUDE.md</code> แล้วมันฉลาดขึ้นเยอะ” — เกือบทุกครั้งที่ตรวจสอบด้วยชุดวัดจริง
+    บรรทัดพวกนี้ให้ผลใกล้ศูนย์ และบางบรรทัดให้ผล<em>ติดลบ</em> เพราะไปกิน attention จากสิ่งที่สำคัญกว่า</p>
+  </div>
+</section>
+
+<!-- ─── L02 ─── -->
+<section class="lesson">
+  <div class="lhead"><span class="lnum">12.02</span><h2>Golden Task Set — สร้างชุดงานมาตรฐาน</h2></div>
+
+  <p>
+    หัวใจของ eval คือชุดงานที่<strong>คงที่</strong> และ<strong>เป็นตัวแทนงานจริง</strong>
+    ถ้าชุดงานแต่งขึ้นเอง คุณจะได้ตัวเลขที่สวยแต่ไม่บอกอะไรเกี่ยวกับงานที่ทีมทำจริง
+  </p>
+
+  <h3><span class="k">องค์ประกอบ</span>หนึ่งงานในชุดประกอบด้วยอะไร</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>ส่วน</th><th>รายละเอียด</th><th>ทำไมต้องมี</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">repo_sha</td><td>git SHA ที่ตรึงสถานะ repo ไว้</td><td>ถ้า repo เคลื่อน ผลเทียบข้ามเวลาไม่ได้</td></tr>
+        <tr><td class="mono">prompt</td><td>คำสั่งตามที่คนจริงจะพิมพ์ ไม่ใช่ที่ขัดเกลาแล้ว</td><td>วัดของจริง ไม่ใช่วัดในห้องแล็บ</td></tr>
+        <tr><td class="mono">criteria</td><td>เกณฑ์ผ่านที่รันเป็นสคริปต์ได้</td><td>ถ้าต้องใช้คนตัดสิน จะรันซ้ำไม่ไหว</td></tr>
+        <tr><td class="mono">env</td><td>เวอร์ชัน dependency, seed ของ DB, network policy</td><td>ตัวแปรที่คนลืมตรึงบ่อยที่สุด</td></tr>
+        <tr><td class="mono">tags</td><td>ประเภทงาน + ระดับความยาก</td><td>เพื่อดูว่าพังเฉพาะกลุ่มไหน</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3><span class="k">องค์ประกอบของชุด</span>สัดส่วนที่ใช้ได้จริง</h3>
+  <p>
+    ขั้นต่ำที่เริ่มมีประโยชน์คือ <strong>20 งาน</strong> และเริ่มเชื่อผลได้จริงราว <strong>40–60 งาน</strong>
+    กระจายตามประเภทงานที่ทีมทำจริง ไม่ใช่ตามที่คิดว่าน่าจะเป็น — ดึงจาก backlog หรือ PR ย้อนหลังสามเดือน
+  </p>
+  <ul>
+    <li><strong>Bugfix</strong> ~40% — วัดง่ายที่สุด เพราะมีเทสต์ที่ควรเปลี่ยนจากแดงเป็นเขียว</li>
+    <li><strong>Feature เล็ก</strong> ~25% — วัดด้วยเทสต์ที่เขียนไว้ล่วงหน้า</li>
+    <li><strong>Refactor</strong> ~20% — วัดด้วย “เทสต์เดิมต้องยังเขียวทั้งหมด” บวกเกณฑ์เชิงโครงสร้าง</li>
+    <li><strong>Investigation</strong> ~15% — งานที่ผลลัพธ์เป็นคำตอบ ไม่ใช่โค้ด ต้องใช้ judge</li>
+  </ul>
+
+  <div class="box trap">
+    <span class="k">งานที่ต้องคัดทิ้ง</span>
+    <ul>
+      <li><strong>ง่ายเกิน</strong> — ผ่าน 100% ทุกครั้ง ไม่ให้สัญญาณ เอาออกหรือเลื่อนไปเป็น smoke test</li>
+      <li><strong>ยากเกิน</strong> — ตกทุกครั้งเหมือนกันหมด ก็ไม่ให้สัญญาณเช่นกัน</li>
+      <li><strong>ไม่ deterministic</strong> — พึ่ง network จริง เวลาปัจจุบัน หรือ service ภายนอกที่เปลี่ยนได้</li>
+      <li><strong>อยู่ในข้อมูลฝึกแน่ ๆ</strong> — เช่น bug ดังใน repo โอเพนซอร์สที่มีคำตอบเต็มอินเทอร์เน็ต</li>
+    </ul>
+  </div>
+
+  <div class="box rule">
+    <span class="k">การดูแลชุดงาน</span>
+    <p>ชุดงานเป็นสิ่งมีชีวิต ทุกครั้งที่เจอความล้มเหลวจริงในการทำงานประจำวัน
+    ให้แปลงมันเป็นงานในชุด นั่นคือวิธีที่ชุดวัดจะแหลมขึ้นเรื่อย ๆ แทนที่จะเก่าลง</p>
+  </div>
+</section>
+
+<!-- ─── L03 ─── -->
+<section class="lesson">
+  <div class="lhead"><span class="lnum">12.03</span><h2>เกณฑ์ deterministic มาก่อนเสมอ</h2></div>
+
+  <p>
+    ความผิดพลาดที่พบบ่อยที่สุดตอนเริ่มทำ eval คือกระโดดไปใช้ LLM ตัดสินทันที
+    ทั้งที่เกณฑ์ส่วนใหญ่ผลักลงมาเป็นเกณฑ์เชิงกลได้ ซึ่ง<strong>ถูกกว่า เร็วกว่า และไม่มีความเห็น</strong>
+  </p>
+
+  <h3><span class="k">ลำดับชั้น</span>ไล่จากถูกไปแพง — ใช้ชั้นที่ต่ำที่สุดที่ตอบคำถามได้</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>ชั้น</th><th>เกณฑ์</th><th>ต้นทุน</th><th>เชื่อถือได้</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">1</td><td>คอมไพล์ / lint / typecheck ผ่าน</td><td>แทบเป็นศูนย์</td><td class="tick">สมบูรณ์</td></tr>
+        <tr><td class="mono">2</td><td>เทสต์ที่มีอยู่เดิมยังเขียวทั้งหมด</td><td>ต่ำ</td><td class="tick">สมบูรณ์</td></tr>
+        <tr><td class="mono">3</td><td>เทสต์เป้าหมาย แดงก่อน → เขียวหลัง</td><td>ต่ำ</td><td class="tick">สมบูรณ์</td></tr>
+        <tr><td class="mono">4</td><td>diff แตะเฉพาะไฟล์ที่อนุญาต / ไม่เกิน N บรรทัด</td><td>ต่ำ</td><td class="tick">สมบูรณ์</td></tr>
+        <tr><td class="mono">5</td><td>ต้นทุนและเวลาไม่เกินเพดาน</td><td>ต่ำ</td><td class="tick">สมบูรณ์</td></tr>
+        <tr><td class="mono">6</td><td>static analysis / security scan ไม่พบของใหม่</td><td>ปานกลาง</td><td>สูง</td></tr>
+        <tr><td class="mono">7</td><td>LLM judge ตาม rubric</td><td>สูง</td><td class="cross">ต้อง calibrate</td></tr>
+        <tr><td class="mono">8</td><td>คนตัดสิน</td><td>สูงมาก</td><td>สูง แต่ไม่ scale</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box good">
+    <span class="k">เกณฑ์ที่ทรงพลังที่สุดต่อบาทที่จ่าย</span>
+    <p><strong>“เทสต์ต้องแดงก่อนแก้ และเขียวหลังแก้”</strong> — สำหรับงาน bugfix เกณฑ์นี้แทบพิสูจน์ความถูกต้องได้เอง
+    เพราะมันปิดทั้งช่องที่ agent แก้ไม่ตรงจุด และช่องที่ agent แก้เทสต์แทนที่จะแก้โค้ด</p>
+  </div>
+
+  <pre><code><span class="c"># โครงเกณฑ์หนึ่งงาน — เป็นสคริปต์ ไม่ใช่คำบรรยาย</span>
+task: fix-null-deref-in-invoice-total
+repo_sha: 8f3a91c
+prompt: "invoice total คำนวณผิดเมื่อไม่มี line item — แก้ให้ถูก"
+criteria:
+  - type: cmd     cmd: "pnpm typecheck"                 expect: exit 0
+  - type: cmd     cmd: "pnpm test --filter invoice"     expect: exit 0
+  - type: before  cmd: "pnpm test -t 'empty line items'" expect: exit != 0   <span class="c"># ต้องแดงก่อน</span>
+  - type: after   cmd: "pnpm test -t 'empty line items'" expect: exit 0      <span class="c"># ต้องเขียวหลัง</span>
+  - type: diff    allow: ["src/billing/**"]  max_lines: 60
+  - type: budget  max_usd: 0.40   max_wall_sec: 300</code></pre>
+
+  <div class="box trap">
+    <span class="k">ช่องโหว่ที่ต้องปิดเสมอ</span>
+    <p>ถ้าไม่มีเกณฑ์ <code>diff.allow</code> agent อาจ “ทำให้เทสต์เขียว” ด้วยการแก้ไฟล์เทสต์
+    หรือเติม <code>skip</code> เข้าไป ทุกชุด eval ที่ไม่จำกัดขอบเขต diff จะถูกโกงในที่สุด</p>
+  </div>
+</section>
+
+<!-- ─── L04 ─── -->
+<section class="lesson">
+  <div class="lhead"><span class="lnum">12.04</span><h2>LLM-as-Judge ที่ใช้ได้จริง</h2></div>
+
+  <p>
+    เมื่อเหลือแต่สิ่งที่วัดเชิงกลไม่ได้ — คุณภาพของคำอธิบาย ความสมเหตุสมผลของสถาปัตยกรรม
+    ความชัดของรายงาน — จึงค่อยใช้ LLM ตัดสิน แต่ต้องรู้ว่ามันมีอคติเป็นระบบ ไม่ใช่สุ่ม
+  </p>
+
+  <h3><span class="k">อคติ 4 แบบ</span>ที่ต้องออกแบบรับมือ ไม่ใช่หวังว่าจะไม่เกิด</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>อคติ</th><th>อาการ</th><th>วิธีรับมือ</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Position bias</strong></td><td>เลือกตัวเลือกแรก (หรือหลัง) บ่อยเกินจริง</td><td>รันสองลำดับแล้วเฉลี่ย ถ้าผลกลับกันให้ถือว่าเสมอ</td></tr>
+        <tr><td><strong>Verbosity bias</strong></td><td>ให้คะแนนคำตอบยาวสูงกว่า ทั้งที่เนื้อเท่ากัน</td><td>ใส่เกณฑ์ความกระชับใน rubric อย่างชัดเจน</td></tr>
+        <tr><td><strong>Self-preference</strong></td><td>โมเดลชอบผลงานของตัวเอง</td><td>ใช้ judge คนละตัวกับ executor</td></tr>
+        <tr><td><strong>Leniency drift</strong></td><td>ตัดสินหลวมขึ้นเมื่อ rubric กำกวม</td><td>เกณฑ์ต้องเป็นคำถามใช่/ไม่ใช่ ไม่ใช่คะแนน 1–10</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box rule">
+    <span class="k">กฎการเลือก judge</span>
+    <p>Judge ต้องมีความสามารถ<strong>เท่ากับหรือมากกว่า</strong>ตัวที่ถูกตัดสินเสมอ
+    การใช้โมเดลเล็กตัดสินผลงานโมเดลใหญ่เพื่อประหยัด คือการเอาไม้บรรทัดที่สั้นกว่าของจริงไปวัด</p>
+  </div>
+
+  <h3><span class="k">การออกแบบ rubric</span>แตกเป็นข้อย่อยแบบไบนารี</h3>
+  <p>
+    คะแนน 1–10 ให้ผลที่ไม่คงเส้นคงวา เพราะโมเดลไม่มีนิยามร่วมว่า 7 ต่างจาก 8 อย่างไร
+    แตกเป็นคำถามที่ตอบได้แค่ใช่หรือไม่ แล้วนับจำนวนข้อที่ผ่าน จะเสถียรกว่ามาก
+  </p>
+  <pre><code><span class="c"># แทนที่จะถามว่า "ให้คะแนนคุณภาพโค้ดนี้ 1-10"</span>
+- โค้ดจัดการกรณี input ว่างหรือไม่                    → ใช่ / ไม่ใช่
+- มี error ที่ถูกกลืนโดยไม่ log หรือไม่                 → ใช่ / ไม่ใช่
+- ชื่อตัวแปรสื่อความหมายโดยไม่ต้องอ่าน implementation → ใช่ / ไม่ใช่
+- มีโค้ดที่เพิ่มมาแต่ไม่ถูกเรียกใช้หรือไม่               → ใช่ / ไม่ใช่
+- การเปลี่ยนแปลงอยู่ในขอบเขตที่ prompt ขอหรือไม่       → ใช่ / ไม่ใช่</code></pre>
+
+  <div class="box good">
+    <span class="k">ขั้นตอนที่คนข้ามแล้วเสียใจทีหลัง</span>
+    <p><strong>Calibrate judge ก่อนใช้</strong> — ให้คนตัดสิน 30 ชิ้นด้วยมือ แล้ววัดว่า judge เห็นตรงกับคนกี่เปอร์เซ็นต์
+    ถ้าต่ำกว่า 80% แปลว่า rubric ยังกำกวม ต้องแก้ rubric ไม่ใช่แก้ judge
+    และควรรายงานอัตราความสอดคล้องนี้ควบคู่ไปกับผลเสมอ เพราะมันคือความน่าเชื่อถือของเครื่องวัด</p>
+  </div>
+</section>
+
+<!-- ─── L05 ─── -->
+<section class="lesson">
+  <div class="lhead"><span class="lnum">12.05</span><h2>Regression Suite สำหรับ prompt, skill และ CLAUDE.md</h2></div>
+
+  <p>
+    เมื่อมีชุดงานและเกณฑ์แล้ว สิ่งที่เปลี่ยนไปคือสถานะของ prompt —
+    มันเลิกเป็นข้อความที่แก้ตามอารมณ์ และกลายเป็น<strong>สินทรัพย์ที่มีเทสต์</strong>
+  </p>
+
+  <div class="box rule">
+    <span class="k">กฎข้อที่ 2</span>
+    <p>ทุกกฎใน <code>CLAUDE.md</code> ควรมีงานอย่างน้อยหนึ่งงานที่<strong>ตกเมื่อลบกฎนั้นออก</strong>
+    ถ้าไม่มี แปลว่ากฎนั้นพิสูจน์ไม่ได้ว่ามีผล และมันกำลังกินงบ context ฟรี ๆ ทุกครั้งที่รัน</p>
+  </div>
+
+  <h3><span class="k">สุสานของกฎ</span>ปรากฏการณ์ที่เกิดกับทุกทีมที่ใช้ไปสักพัก</h3>
+  <p>
+    <code>CLAUDE.md</code> โตขึ้นเรื่อย ๆ เพราะทุกครั้งที่ agent ทำผิดหนึ่งครั้ง มีคนเพิ่มกฎหนึ่งข้อ
+    ผ่านไปหกเดือนได้เอกสาร 400 บรรทัดที่ไม่มีใครกล้าลบ เพราะไม่มีใครรู้ว่าบรรทัดไหนยังจำเป็น
+    Regression suite คือทางเดียวที่จะตัดมันกลับได้อย่างมั่นใจ
+  </p>
+
+  <h3><span class="k">สองระดับ</span>แยกชุดเร็วกับชุดเต็ม</h3>
+  <div class="tw">
+    <table>
+      <thead><tr><th>ชุด</th><th>ขนาด</th><th>รันเมื่อไหร่</th><th>เป้าหมาย</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Smoke</strong></td><td>8–10 งาน</td><td>ทุกครั้งที่แก้ prompt / skill / hook</td><td>จับของที่พังชัด ๆ ภายในไม่กี่นาที</td></tr>
+        <tr><td><strong>Full</strong></td><td>40–60 งาน</td><td>รายคืน และก่อนเปลี่ยนโมเดล</td><td>จับการถดถอยเล็ก ๆ และวัดแนวโน้ม</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3><span class="k">ทริกเกอร์</span>อะไรบ้างที่ควรทำให้ชุดเต็มทำงาน</h3>
+  <ul>
+    <li>เปลี่ยนโมเดล หรือโมเดลออกเวอร์ชันใหม่</li>
+    <li>เพิ่ม/แก้ skill, hook, MCP server หรือ tool ใด ๆ</li>
+    <li>แก้ <code>CLAUDE.md</code> ทั้งระดับ global และระดับโปรเจกต์</li>
+    <li>อัปเกรดเวอร์ชันของ agent harness เอง</li>
+  </ul>
+</section>
+
+<!-- ─── L06 ─── -->
+<section class="lesson">
+  <div class="lhead"><span class="lnum">12.06</span><h2>วัดสี่มิติพร้อมกัน</h2></div>
+
+  <p>
+    การวัดแค่ “ผ่านกี่เปอร์เซ็นต์” นำไปสู่การตัดสินใจที่ผิด เพราะเวิร์กโฟลว์ที่ผ่าน 95%
+    แต่แพงกว่าสี่เท่าและต้องมีคนเข้าไปช่วยทุกงาน ไม่ได้ดีกว่าเวิร์กโฟลว์ที่ผ่าน 88% แล้วจบเอง
+  </p>
+
+  <div class="tw">
+    <table>
+      <thead><tr><th>มิติ</th><th>หน่วย</th><th>บอกอะไร</th></tr></thead>
+      <tbody>
+        <tr><td><strong>ความถูกต้อง</strong></td><td>% ผ่านเกณฑ์ครบ</td><td>ทำงานได้ไหม</td></tr>
+        <tr><td><strong>ต้นทุน</strong></td><td>ดอลลาร์ต่องานที่เสร็จ</td><td>ขยายไปทั้งทีมไหวไหม</td></tr>
+        <tr><td><strong>เวลา</strong></td><td>วินาที p50 และ p95</td><td>ขวางจังหวะการทำงานคนไหม</td></tr>
+        <tr><td><strong>การแทรกแซง</strong></td><td>จำนวนครั้งที่คนต้องเข้าไปช่วย</td><td>อิสระจริงแค่ไหน</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="box good">
+    <span class="k">มิติที่ทุกคนลืม</span>
+    <p><strong>จำนวนครั้งที่มนุษย์ต้องเข้าไปแทรก</strong> คือตัวชี้วัดที่ใกล้เคียงคำว่า “ใช้งานได้จริง” ที่สุด
+    และเป็นตัวเดียวที่ทำนายได้ว่าทีมจะยอมใช้เวิร์กโฟลว์นี้ต่อไปหรือเลิกไปเงียบ ๆ ภายในสองสัปดาห์
+    ทั้งที่ตัวเลข pass rate ยังสวยอยู่</p>
+  </div>
+
+  <p>
+    ต้นทุนต้องคิดเป็น<strong>ต่องานที่เสร็จ</strong> ไม่ใช่ต่อ request — เชื่อมกับ M03 โดยตรง
+    เวิร์กโฟลว์ที่ใช้โมเดลถูกกว่าแต่ต้องวนสามรอบและมีคนเข้าไปแก้สองครั้ง แพงกว่าเสมอเมื่อคิดครบ
+  </p>
+</section>
+
+<!-- ─── L07 ─── -->
+<section class="lesson">
+  <div class="lhead"><span class="lnum">12.07</span><h2>A/B การเปลี่ยนเวิร์กโฟลว์</h2></div>
+
+  <p>
+    เมื่อมีเครื่องวัดแล้ว คำถามอย่าง “sub-agent ช่วยจริงไหม” หรือ “effort สูงคุ้มไหม”
+    เลิกเป็นเรื่องความเห็น แต่ต้องออกแบบการทดลองให้ถูก ไม่งั้นจะได้ตัวเลขที่ดูน่าเชื่อแต่ผิด
+  </p>
+
+  <h3><span class="k">หลักสามข้อ</span>ที่ทำให้ผลเชื่อได้</h3>
+  <ol>
+    <li>
+      <strong>เปลี่ยนทีละอย่าง</strong> — ถ้าเปลี่ยนทั้ง prompt และโมเดลพร้อมกัน คุณจะไม่มีวันรู้ว่าอันไหนมีผล
+    </li>
+    <li>
+      <strong>ใช้ paired design</strong> — รันทั้งสองแบบบน<em>ชุดงานเดียวกัน</em> แล้วเทียบเป็นรายงาน
+      วิธีนี้ให้กำลังทางสถิติสูงกว่าการสุ่มแยกกลุ่มมาก เพราะตัดความแปรปรวนระหว่างงานออกไป
+    </li>
+    <li>
+      <strong>รันซ้ำต่องาน</strong> — อย่างน้อย 3 ครั้งต่องานต่อแบบ แล้วใช้ค่ากลาง เพื่อกดความแปรปรวนของลูปลง
+    </li>
+  </ol>
+
+  <div class="box rule">
+    <span class="k">ขนาดตัวอย่างที่ต้องมี</span>
+    <p>ที่ระดับ pass rate ราว 70% การจะแยกความต่าง <strong>10 จุด</strong> ออกจากความบังเอิญได้
+    ต้องใช้ราว <strong>40–60 งานต่อแบบ</strong> ถ้ามีน้อยกว่านั้น สิ่งที่คุณเห็นคือความแปรปรวน
+    ยิ่งความต่างที่ต้องการจับเล็กลง ยิ่งต้องการงานมากขึ้นอย่างรวดเร็ว</p>
+  </div>
+
+  <div class="box good">
+    <span class="k">สิ่งที่มีค่ากว่าตัวเลขรวม</span>
+    <p><strong>รายการงานที่พลิกผล</strong> — งานที่เดิมตกแล้วผ่าน และงานที่เดิมผ่านแล้วตก
+    ตัวเลขรวมบอกว่าเปลี่ยนไปเท่าไหร่ แต่รายการที่พลิกบอกว่า<em>เปลี่ยนอะไร</em>
+    และบ่อยครั้งเผยว่าการปรับปรุงที่ดูดีในภาพรวม กำลังทำให้งานประเภทหนึ่งแย่ลงอย่างเป็นระบบ</p>
+  </div>
+</section>
+
+<!-- ─── L08 ─── -->
+<section class="lesson">
+  <div class="lhead"><span class="lnum">12.08</span><h2>Drift — เมื่อของเดิมแย่ลงโดยไม่มีใครแตะ</h2></div>
+
+  <p>
+    เวิร์กโฟลว์ที่ปรับจนดีกับโมเดลหนึ่ง ไม่ได้แปลว่าจะดีกับโมเดลถัดไป
+    และรูปแบบความเสื่อมที่พบบ่อยที่สุดไม่ใช่โมเดลแย่ลง แต่คือ<strong>คำสั่งที่เคยช่วยกลายเป็นตัวถ่วง</strong>
+  </p>
+
+  <h3><span class="k">Prompt cruft</span>คำสั่งที่หมดอายุแล้วแต่ยังอยู่</h3>
+  <ul>
+    <li>คำสั่งให้คิดเป็นขั้นตอนทีละข้อ — บนโมเดลที่คิดเองอยู่แล้ว กลายเป็นการรบกวน</li>
+    <li>โครง scaffolding ที่ละเอียดยิบ — บนโมเดลใหม่ทำให้ผลแย่ลง เพราะไปจำกัดวิธีที่มันถนัดกว่า</li>
+    <li>คำสั่งแก้ปัญหาเฉพาะของโมเดลเก่า — ปัญหาหายไปแล้ว แต่คำสั่งยังกินบริบทอยู่</li>
+    <li>ตัวอย่าง few-shot ที่สะท้อนสไตล์เดิม — ดึงผลลัพธ์กลับไปหาพฤติกรรมรุ่นก่อน</li>
+  </ul>
+
+  <div class="box trap">
+    <span class="k">อาการที่มองไม่เห็นถ้าไม่มีชุดวัด</span>
+    <p>ทีมอัปเกรดโมเดล ทุกคนรู้สึกว่า “ก็ดีขึ้นนะ” แต่จริง ๆ งานบางประเภทถดถอยลง
+    เพราะ prompt ที่เขียนไว้สำหรับโมเดลเก่ายังบังคับพฤติกรรมเดิมอยู่ กว่าจะรู้ตัวคือสามเดือนถัดมา
+    ตอนที่มีคนบ่นว่า “ช่วงนี้มันงี่เง่าลง”</p>
+  </div>
+
+  <div class="box rule">
+    <span class="k">วินัยที่ต้องมี</span>
+    <p>เก็บ <strong>baseline พร้อมวันที่</strong> ทุกครั้งที่รันชุดเต็ม — โมเดล เวอร์ชัน harness ชุด prompt และผลทั้งสี่มิติ
+    เมื่อโมเดลใหม่มา ให้รันชุดเดิมก่อนแตะ prompt เพื่อแยกให้ออกว่าอะไรมาจากโมเดล อะไรมาจากที่คุณแก้</p>
+  </div>
+</section>
+
+<!-- ─── L09 / LAB ─── -->
+<div class="lab">
+  <div class="lab-head">12.09 · แล็บประจำโมดูล</div>
+  <div class="lab-body">
+    <h2>สร้าง eval harness 20 งาน แล้วใช้มันยุติข้อถกเถียงจริงหนึ่งข้อ</h2>
+    <p>
+      เป้าหมายของแล็บนี้ไม่ใช่การได้เครื่องมือสวย ๆ แต่คือการ<strong>เปลี่ยนคำถามที่ทีมเถียงกันด้วยความเห็น
+      ให้กลายเป็นคำถามที่มีคำตอบพร้อมตัวเลข</strong>
+    </p>
+
+    <h3><span class="k">ขั้นตอน</span>ทำตามลำดับ อย่าข้ามขั้น 1</h3>
+    <ol>
+      <li><strong>เลือกคำถามก่อนสร้างเครื่องมือ</strong> — เช่น “review sub-agent ของเราช่วยจริงไหม” หรือ
+          “effort สูงคุ้มกับงาน bugfix ไหม” คำถามต้องเป็นเรื่องที่ทีมยังเถียงกันอยู่จริง</li>
+      <li><strong>ดึง 20 งานจาก PR ย้อนหลัง 3 เดือน</strong> ตรึงด้วย git SHA ตามสัดส่วนใน 12.02</li>
+      <li><strong>เขียนเกณฑ์</strong> — อย่างน้อย 15 งานต้องใช้เกณฑ์ deterministic ล้วน เหลือไม่เกิน 5 งานที่ใช้ judge</li>
+      <li><strong>Calibrate judge</strong> กับ 30 ตัวอย่างที่คนตัดสินไว้ ถ้าตรงกันต่ำกว่า 80% ให้กลับไปแก้ rubric</li>
+      <li><strong>รัน paired A/B</strong> — สองแบบบนชุดเดียวกัน 3 ครั้งต่องานต่อแบบ</li>
+      <li><strong>รายงานสี่มิติ</strong> พร้อมรายการงานที่พลิกผล</li>
+    </ol>
+
+    <div class="box good">
+      <span class="k">เกณฑ์ผ่านแล็บ</span>
+      <ul>
+        <li>ตอบคำถามที่ตั้งไว้ได้ด้วยตัวเลข พร้อมระบุว่ามั่นใจแค่ไหนและเพราะอะไร</li>
+        <li>ถ้าผลออกมาว่า <em>“ยังบอกไม่ได้”</em> ถือว่าผ่านเช่นกัน — ตราบใดที่บอกได้ว่าต้องมีอีกกี่งานถึงจะตอบได้</li>
+        <li>ชุดงานรันซ้ำได้จากคำสั่งเดียว โดยไม่ต้องเซ็ตอัปด้วยมือ</li>
+      </ul>
+    </div>
+
+    <div class="box trap">
+      <span class="k">โหมดล้มเหลวของ eval harness เอง</span>
+      <ul>
+        <li><strong>Overfitting</strong> — ปรับ prompt จนชนะชุดวัดของตัวเอง แต่ไม่ดีขึ้นกับงานจริง กันด้วยชุดที่กันไว้ไม่ใช้ปรับ</li>
+        <li><strong>ลืมตรึงสภาพแวดล้อม</strong> — dependency ขยับแล้วผลข้ามสัปดาห์เทียบกันไม่ได้</li>
+        <li><strong>ชุดที่เอียง</strong> — งานส่วนใหญ่มาจากส่วนเดียวของ codebase แล้วสรุปเหมารวมทั้งระบบ</li>
+        <li><strong>ปล่อยให้เก่า</strong> — ไม่เติมงานจากความล้มเหลวจริง สุดท้ายวัดสิ่งที่ไม่มีใครทำแล้ว</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<p class="note">
+  <b>เชื่อมกับโมดูลอื่น</b> — M03 ให้วิธีคิดต้นทุนที่ใช้ในมิติที่สอง,
+  M10 ใช้แล็บนี้เป็นเครื่องตัดสินว่า multi-agent คุ้มจริงหรือแค่แพงกว่า,
+  M11 ใช้เกณฑ์เดียวกันนี้วัด precision และ recall ของ review agent,
+  และ M14 เอาชุด smoke ไปแขวนไว้บนสายพาน CI เป็น quality gate
+</p>
+
+
+</div>
+<script>
+document.getElementById("theme").addEventListener("click",function(){
+  var d=document.documentElement;
+  var dark=d.dataset.theme?d.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;
+  d.dataset.theme=dark?"light":"dark";
+  try{localStorage.setItem("theme",d.dataset.theme)}catch(e){}
+});
+</script>
+</body>
+</html>

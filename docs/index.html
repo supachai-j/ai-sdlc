@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Coding Agent SDLC — ภาพรวมหลักสูตร</title>
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+
+</head>
+<body>
+<div class="wrap">
+<header class="topbar">
+  <a class="brand" href="index.html">Agent SDLC</a>
+  <nav>
+    <a href="index.html" aria-current="page">ภาพรวม</a>
+    <a href="course-th.html">หลักสูตร</a>
+    <a href="m12-evals.html">M12 Evals</a>
+    <button id="theme" type="button" aria-label="สลับธีมสว่าง/มืด">THEME</button>
+  </nav>
+</header>
+<header class="masthead">
+  <span class="eyebrow">หลักสูตรฉบับลงลึก</span>
+  <h1>AI Coding Agent SDLC</h1>
+  <p class="deck">หลักสูตรฉบับลงลึก — เติมช่องว่าง 8 จุดที่คอร์สทั่วไปข้าม — <strong>15 โมดูล 127 บท</strong> เน้นกลไก การวัดผล และการใช้จริงในทีม มากกว่าการสาธิตเครื่องมือ</p>
+  <dl class="specrow">
+  <div class="spec"><dt>โมดูล</dt><dd>15</dd></div>
+  <div class="spec"><dt>บทเรียน</dt><dd>127</dd></div>
+  <div class="spec"><dt>ชั่วโมง</dt><dd>~42</dd></div>
+  <div class="spec"><dt>เฟส</dt><dd>6</dd></div>
+  <div class="spec"><dt>แล็บ</dt><dd>17</dd></div>
+  <div class="spec"><dt>ระดับ</dt><dd><small>กลาง–สูง</small></dd></div>
+</dl>
+</header>
+
+<section>
+  <div class="sechead"><span class="num">§01</span><h2>ช่องว่าง 8 จุดที่เติมเข้าไป</h2></div>
+  <p class="lede">แต่ละจุดไม่ได้เพิ่มเพราะ “มีก็ดี” แต่เพราะ<strong>ถ้าไม่มี เวิร์กโฟลว์จะพังตอนขยายเข้าทีมหรือเข้าโปรดักชัน</strong> เรียงตามความเสียหายที่เกิดถ้าข้าม</p>
+  <div class="gaps"><div class="gap">
+  <div class="gap-id">G1</div>
+  <div class="gap-what"><h3>Evals — วัดผลระบบ agent ของตัวเอง</h3><a href="course-th.html#m12">M12 · 9 บท →</a></div>
+  <div class="gap-why">ถ้าวัดไม่ได้ คุณกำลังปรับ prompt ด้วยความรู้สึก LLM มี variance สูงพอที่ &quot;ลองแล้วรู้สึกว่าดีขึ้น&quot; จะเป็นสัญญาณรบกวนล้วน ๆ</div>
+</div>
+<div class="gap">
+  <div class="gap-id">G2</div>
+  <div class="gap-what"><h3>Security และ Threat Model ของ agent</h3><a href="course-th.html#m13">M13 · 9 บท →</a></div>
+  <div class="gap-why">coding agent มีโมเดลภัยคุกคามที่ต่างจาก web app โดยสิ้นเชิง และ skill ที่ติดตั้งคือโค้ดที่รันด้วยสิทธิ์ของคุณ</div>
+</div>
+<div class="gap">
+  <div class="gap-id">G3</div>
+  <div class="gap-what"><h3>Context Engineering</h3><a href="course-th.html#m02">M02 · 9 บท →</a></div>
+  <div class="gap-why">ทักษะที่แยกคนที่ใช้ agent เป็นกับไม่เป็นชัดที่สุด และให้ผลตอบแทนสูงกว่าการเปลี่ยนโมเดล</div>
+</div>
+<div class="gap">
+  <div class="gap-id">G4</div>
+  <div class="gap-what"><h3>Brownfield และ Legacy</h3><a href="course-th.html#m08">M08 · 7 บท →</a></div>
+  <div class="gap-why">แล็บที่เริ่มจากโฟลเดอร์ว่างสอนงานที่แทบไม่มีใครทำจริง งานจริงคือ codebase อายุ 6 ปีที่ไม่มีเทสต์</div>
+</div>
+<div class="gap">
+  <div class="gap-id">G5</div>
+  <div class="gap-what"><h3>Token และ Model Economics</h3><a href="course-th.html#m03">M03 · 8 บท →</a></div>
+  <div class="gap-why">ต้นทุนคือสิ่งที่ตัดสินว่าเวิร์กโฟลว์จะใช้ได้กับทีม 20 คนหรือแค่คนเดียว</div>
+</div>
+<div class="gap">
+  <div class="gap-id">G6</div>
+  <div class="gap-what"><h3>Agent-Ready Codebase</h3><a href="course-th.html#m05">M05 · 8 บท →</a></div>
+  <div class="gap-why">โครงสร้าง repo ให้ผลถาวร ส่วน prompt ที่ปรับดีขึ้นให้ผลแค่ครั้งเดียว</div>
+</div>
+<div class="gap">
+  <div class="gap-id">G7</div>
+  <div class="gap-what"><h3>Multi-Agent Orchestration</h3><a href="course-th.html#m10">M10 · 8 บท →</a></div>
+  <div class="gap-why">multi-agent คือสถาปัตยกรรม ไม่ใช่เครื่องมือ และบทสำคัญที่สุดคือบทที่บอกว่าเมื่อไหร่มันแพ้ agent เดียว</div>
+</div>
+<div class="gap">
+  <div class="gap-id">G8</div>
+  <div class="gap-what"><h3>Governance และการใช้จริงในทีม</h3><a href="course-th.html#m15">M15 · 9 บท →</a></div>
+  <div class="gap-why">คอร์สส่วนใหญ่จบที่ &quot;คุณใช้ agent เป็นแล้ว&quot; แต่ปัญหาจริงเริ่มตอนที่ทีม 15 คนใช้พร้อมกัน</div>
+</div></div>
+</section>
+
+<section>
+  <div class="sechead"><span class="num">§02</span><h2>โครงหลักสูตร</h2></div>
+  <p class="lede">เรียงตามลำดับการพึ่งพา แต่ละเฟสสมมติว่าเฟสก่อนหน้าผ่านแล้ว — <a href="course-th.html">ดูรายบทเรียนทั้ง 127 บท →</a></p>
+  <div class="phase">
+  <div class="phase-bar">
+    <span class="p-num">PHASE 00</span>
+    <span class="p-name">รากฐาน — เข้าใจกลไก ไม่ใช่ท่องคำสั่ง</span>
+    <span class="p-meta">M01–M03 · 25 บท · 8h</span>
+  </div>
+  <div class="module" id="m01">
+  <div class="m-rail">
+    <span class="m-code">M01</span>
+    <span class="m-stat">8 บท<br>2.5 ชม.</span>
+    
+  </div>
+  <div class="m-body">
+    <h3>กลไกภายในของ Agent</h3>
+    <p class="m-goal">เห็นว่า agent คือลูปธรรมดาที่ห่อด้วยวิศวกรรม ไม่ใช่กล่องดำ เพื่อให้ debug ได้เมื่อมันพัง</p>
+    
+    <div class="m-out"><b>ผลลัพธ์</b>อธิบายได้ว่าเวลา agent ทำอะไรแปลก ๆ มันเกิดที่ชั้นไหนของ harness</div>
+    <div class="m-vids"><b>วิดีโอประกอบ</b><span class="empty">ยังไม่มี — เพิ่มได้ที่ content/videos.yaml แล้วรัน bun run build:site</span></div>
+  </div>
+</div>
+<div class="module flagged" id="m02">
+  <div class="m-rail">
+    <span class="m-code">M02</span>
+    <span class="m-stat">9 บท<br>3 ชม.</span>
+    <span class="m-tag">ขยาย G3</span>
+  </div>
+  <div class="m-body">
+    <h3>Context Engineering</h3>
+    <p class="m-goal">มองบริบทเป็นงบประมาณที่ต้องบริหาร ไม่ใช่ถังที่เทใส่จนกว่าจะเต็ม</p>
+    
+    <div class="m-out"><b>ผลลัพธ์</b>ลดต้นทุนต่องานได้ 30–60% โดยคุณภาพเท่าเดิมหรือดีขึ้น</div>
+    <div class="m-vids"><b>วิดีโอประกอบ</b><span class="empty">ยังไม่มี — เพิ่มได้ที่ content/videos.yaml แล้วรัน bun run build:site</span></div>
+  </div>
+</div>
+<div class="module flagged" id="m03">
+  <div class="m-rail">
+    <span class="m-code">M03</span>
+    <span class="m-stat">8 บท<br>2.5 ชม.</span>
+    <span class="m-tag">ขยาย G5</span>
+  </div>
+  <div class="m-body">
+    <h3>เศรษฐศาสตร์ของ Token และโมเดล</h3>
+    <p class="m-goal">ตัดสินใจเรื่องต้นทุนด้วยตัวเลข ไม่ใช่ความรู้สึกว่า &quot;โมเดลนี้แพง&quot;</p>
+    
+    <div class="m-out"><b>ผลลัพธ์</b>ตอบได้ว่างานนี้ควรใช้โมเดลไหน effort เท่าไหร่ ด้วยข้อมูล ไม่ใช่ความเชื่อ</div>
+    <div class="m-vids"><b>วิดีโอประกอบ</b><span class="empty">ยังไม่มี — เพิ่มได้ที่ content/videos.yaml แล้วรัน bun run build:site</span></div>
+  </div>
+</div>
+</div>
+<div class="phase">
+  <div class="phase-bar">
+    <span class="p-num">PHASE 01</span>
+    <span class="p-name">วางแผน — จุดที่ประหยัดที่สุดในทั้ง SDLC</span>
+    <span class="p-meta">M04–M05 · 16 บท · 5h</span>
+  </div>
+  <div class="module" id="m04">
+  <div class="m-rail">
+    <span class="m-code">M04</span>
+    <span class="m-stat">8 บท<br>2.5 ชม.</span>
+    
+  </div>
+  <div class="m-body">
+    <h3>Requirements, Research และการย่อยงาน</h3>
+    <p class="m-goal">เปลี่ยนความต้องการกำกวมเป็น spec ที่ agent ทำแล้วตรวจได้</p>
+    
+    <div class="m-out"><b>ผลลัพธ์</b>งานที่ต้องสั่งซ้ำลดลงชัดเจน เพราะรอบแรกมี acceptance criteria อยู่แล้ว</div>
+    <div class="m-vids"><b>วิดีโอประกอบ</b><span class="empty">ยังไม่มี — เพิ่มได้ที่ content/videos.yaml แล้วรัน bun run build:site</span></div>
+  </div>
+</div>
+<div class="module flagged" id="m05">
+  <div class="m-rail">
+    <span class="m-code">M05</span>
+    <span class="m-stat">8 บท<br>2.5 ชม.</span>
+    <span class="m-tag">ใหม่ G6</span>
+  </div>
+  <div class="m-body">
+    <h3>ออกแบบ Codebase ให้ Agent ทำงานได้</h3>
+    <p class="m-goal">ลงทุนในโครงสร้าง repo ซึ่งให้ผลถาวร แทนการปรับ prompt ซึ่งให้ผลครั้งเดียว</p>
+    
+    <div class="m-out"><b>ผลลัพธ์</b>repo ที่ agent ตัวใหม่เข้ามาทำงานได้เลยโดยไม่ต้องอธิบายซ้ำ</div>
+    <div class="m-vids"><b>วิดีโอประกอบ</b><span class="empty">ยังไม่มี — เพิ่มได้ที่ content/videos.yaml แล้วรัน bun run build:site</span></div>
+  </div>
+</div>
+</div>
+<div class="phase">
+  <div class="phase-bar">
+    <span class="p-num">PHASE 02</span>
+    <span class="p-name">สร้าง — ทั้ง greenfield และของจริงที่มีอยู่แล้ว</span>
+    <span class="p-meta">M06–M08 · 25 บท · 8.5h</span>
+  </div>
+  <div class="module" id="m06">
+  <div class="m-rail">
+    <span class="m-code">M06</span>
+    <span class="m-stat">9 บท<br>3 ชม.</span>
+    
+  </div>
+  <div class="m-body">
+    <h3>Frontend Implementation</h3>
+    <p class="m-goal">ให้ agent สร้าง UI ที่ถูกจริง ไม่ใช่แค่ดูเหมือนถูกในสกรีนช็อต</p>
+    
+    <div class="m-out"><b>ผลลัพธ์</b>ลูป FE ที่ agent ตรวจงานตัวเองได้ก่อนส่งให้คนดู</div>
+    <div class="m-vids"><b>วิดีโอประกอบ</b><span class="empty">ยังไม่มี — เพิ่มได้ที่ content/videos.yaml แล้วรัน bun run build:site</span></div>
+  </div>
+</div>
+<div class="module" id="m07">
+  <div class="m-rail">
+    <span class="m-code">M07</span>
+    <span class="m-stat">9 บท<br>3 ชม.</span>
+    
+  </div>
+  <div class="m-body">
+    <h3>Backend และงานที่แตะข้อมูล</h3>
+    <p class="m-goal">ทำงาน backend กับ agent โดยที่ migration และ data operation ไม่กลายเป็นอุบัติเหตุ</p>
+    
+    <div class="m-out"><b>ผลลัพธ์</b>ชุด guardrail สำหรับงาน data ที่เอาไปใช้กับ repo ตัวเองได้เลย</div>
+    <div class="m-vids"><b>วิดีโอประกอบ</b><span class="empty">ยังไม่มี — เพิ่มได้ที่ content/videos.yaml แล้วรัน bun run build:site</span></div>
+  </div>
+</div>
+<div class="module flagged" id="m08">
+  <div class="m-rail">
+    <span class="m-code">M08</span>
+    <span class="m-stat">7 บท<br>2.5 ชม.</span>
+    <span class="m-tag">ใหม่ G4</span>
+  </div>
+  <div class="m-body">
+    <h3>Brownfield และ Legacy Code</h3>
+    <p class="m-goal">งานจริงไม่ได้เริ่มจากโฟลเดอร์ว่าง โมดูลนี้คือส่วนที่ใช้จริงมากที่สุด</p>
+    
+    <div class="m-out"><b>ผลลัพธ์</b>วิธีทำงานที่ใช้ได้กับโค้ดที่คุณไม่ได้เขียนและไม่มีใครอธิบายให้ฟัง</div>
+    <div class="m-vids"><b>วิดีโอประกอบ</b><span class="empty">ยังไม่มี — เพิ่มได้ที่ content/videos.yaml แล้วรัน bun run build:site</span></div>
+  </div>
+</div>
+</div>
+<div class="phase">
+  <div class="phase-bar">
+    <span class="p-num">PHASE 03</span>
+    <span class="p-name">ขยายความสามารถ — จากผู้ใช้เป็นผู้สร้างเครื่องมือ</span>
+    <span class="p-meta">M09–M10 · 18 บท · 6.5h</span>
+  </div>
+  <div class="module flagged" id="m09">
+  <div class="m-rail">
+    <span class="m-code">M09</span>
+    <span class="m-stat">10 บท<br>3.5 ชม.</span>
+    <span class="m-tag">ขยาย</span>
+  </div>
+  <div class="m-body">
+    <h3>Tooling — MCP, Skills, Hooks, Plugins</h3>
+    <p class="m-goal">สร้างเครื่องมือที่ agent ใช้ถูก และรู้ว่าเมื่อไหร่ไม่ควรสร้าง</p>
+    
+    <div class="m-out"><b>ผลลัพธ์</b>ชุดเครื่องมือของทีมที่ติดตั้งแล้วทุกคนได้พฤติกรรมเดียวกัน</div>
+    <div class="m-vids"><b>วิดีโอประกอบ</b><span class="empty">ยังไม่มี — เพิ่มได้ที่ content/videos.yaml แล้วรัน bun run build:site</span></div>
+  </div>
+</div>
+<div class="module flagged" id="m10">
+  <div class="m-rail">
+    <span class="m-code">M10</span>
+    <span class="m-stat">8 บท<br>3 ชม.</span>
+    <span class="m-tag">ใหม่ G7</span>
+  </div>
+  <div class="m-body">
+    <h3>Multi-Agent Orchestration</h3>
+    <p class="m-goal">ใช้หลาย agent เมื่อมันชนะจริง และรู้ว่าเมื่อไหร่มันแพ้ agent เดียว</p>
+    
+    <div class="m-out"><b>ผลลัพธ์</b>เกณฑ์ตัดสินของตัวเองว่างานแบบไหนคุ้มที่จะแตกเป็นหลาย agent</div>
+    <div class="m-vids"><b>วิดีโอประกอบ</b><span class="empty">ยังไม่มี — เพิ่มได้ที่ content/videos.yaml แล้วรัน bun run build:site</span></div>
+  </div>
+</div>
+</div>
+<div class="phase">
+  <div class="phase-bar">
+    <span class="p-num">PHASE 04</span>
+    <span class="p-name">ตรวจสอบ — ส่วนที่แยกของเล่นออกจากของใช้จริง</span>
+    <span class="p-meta">M11–M13 · 26 บท · 8.5h</span>
+  </div>
+  <div class="module" id="m11">
+  <div class="m-rail">
+    <span class="m-code">M11</span>
+    <span class="m-stat">8 บท<br>2.5 ชม.</span>
+    
+  </div>
+  <div class="m-body">
+    <h3>Testing และ QA</h3>
+    <p class="m-goal">ได้เทสต์ที่จับบั๊กจริง ไม่ใช่เทสต์ที่ยืนยันว่าบั๊กยังอยู่</p>
+    
+    <div class="m-out"><b>ผลลัพธ์</b>ตัวเลขว่า review agent ของคุณจับได้กี่เปอร์เซ็นต์ และเตือนผิดกี่ครั้ง</div>
+    <div class="m-vids"><b>วิดีโอประกอบ</b><span class="empty">ยังไม่มี — เพิ่มได้ที่ content/videos.yaml แล้วรัน bun run build:site</span></div>
+  </div>
+</div>
+<div class="module flagged" id="m12">
+  <div class="m-rail">
+    <span class="m-code">M12</span>
+    <span class="m-stat">9 บท<br>3 ชม.</span>
+    <span class="m-tag">ใหม่ G1</span>
+  </div>
+  <div class="m-body">
+    <h3><a href="m12-evals.html">Evals — วัดผลระบบ agent ของคุณเอง</a></h3>
+    <p class="m-goal">โมดูลที่คอร์สอื่นไม่มี ถ้าวัดไม่ได้ คุณกำลังปรับ prompt ด้วยความรู้สึก</p>
+    
+    <div class="m-out"><b>ผลลัพธ์</b>เครื่องมือที่ทำให้ทุกการอ้างว่า &quot;แบบนี้ดีกว่า&quot; มีตัวเลขรองรับ</div>
+    <div class="m-vids"><b>วิดีโอประกอบ</b><span class="empty">ยังไม่มี — เพิ่มได้ที่ content/videos.yaml แล้วรัน bun run build:site</span></div>
+  </div>
+</div>
+<div class="module flagged" id="m13">
+  <div class="m-rail">
+    <span class="m-code">M13</span>
+    <span class="m-stat">9 บท<br>3 ชม.</span>
+    <span class="m-tag">ใหม่ G2</span>
+  </div>
+  <div class="m-body">
+    <h3>ความปลอดภัยและโมเดลภัยคุกคาม</h3>
+    <p class="m-goal">agent ที่อ่านอินเทอร์เน็ตได้และรันคำสั่งได้ คือ attack surface ชนิดใหม่</p>
+    
+    <div class="m-out"><b>ผลลัพธ์</b>รายการช่องโหว่จริงในเซ็ตอัปของคุณเอง พร้อมสิ่งที่แก้ไปแล้ว</div>
+    <div class="m-vids"><b>วิดีโอประกอบ</b><span class="empty">ยังไม่มี — เพิ่มได้ที่ content/videos.yaml แล้วรัน bun run build:site</span></div>
+  </div>
+</div>
+</div>
+<div class="phase">
+  <div class="phase-bar">
+    <span class="p-num">PHASE 05</span>
+    <span class="p-name">ส่งมอบและดำเนินการ — จากเครื่องตัวเองสู่ทั้งทีม</span>
+    <span class="p-meta">M14–M15 · 17 บท · 5h</span>
+  </div>
+  <div class="module" id="m14">
+  <div class="m-rail">
+    <span class="m-code">M14</span>
+    <span class="m-stat">8 บท<br>2.5 ชม.</span>
+    
+  </div>
+  <div class="m-body">
+    <h3>CI/CD และ Agent ในสายพาน</h3>
+    <p class="m-goal">เอา agent ขึ้นสายพานโดยไม่มีคนคอยกดอนุมัติ และไม่ให้บิลบาน</p>
+    
+    <div class="m-out"><b>ผลลัพธ์</b>สายพานที่ agent ทำงานได้เองโดยยังมีจุดหยุดที่มนุษย์ควบคุม</div>
+    <div class="m-vids"><b>วิดีโอประกอบ</b><span class="empty">ยังไม่มี — เพิ่มได้ที่ content/videos.yaml แล้วรัน bun run build:site</span></div>
+  </div>
+</div>
+<div class="module flagged" id="m15">
+  <div class="m-rail">
+    <span class="m-code">M15</span>
+    <span class="m-stat">9 บท<br>2.5 ชม.</span>
+    <span class="m-tag">ขยาย G8</span>
+  </div>
+  <div class="m-body">
+    <h3>Operations, Governance และการใช้จริงในทีม</h3>
+    <p class="m-goal">ปัญหาจริงเริ่มตอนที่ทีมทั้งทีมใช้พร้อมกัน ไม่ใช่ตอนคุณใช้คนเดียว</p>
+    
+    <div class="m-out"><b>ผลลัพธ์</b>เอกสารนโยบายและแผน rollout ที่เอาไปเสนอหัวหน้าได้ทันที</div>
+    <div class="m-vids"><b>วิดีโอประกอบ</b><span class="empty">ยังไม่มี — เพิ่มได้ที่ content/videos.yaml แล้วรัน bun run build:site</span></div>
+  </div>
+</div>
+</div>
+</section>
+
+<p class="note"><b>สถานะ</b> — เนื้อหาเต็มเขียนแล้ว 1 โมดูล จาก 15
+· วิดีโอประกอบใส่แล้ว 0 คลิป
+· หน้าเว็บทั้งหมดถูก generate จาก <code>content/curriculum.yaml</code> และ <code>content/videos.yaml</code> อย่าแก้ HTML ตรง ๆ</p>
+</div>
+<script>
+document.getElementById("theme").addEventListener("click",function(){
+  var d=document.documentElement;
+  var dark=d.dataset.theme?d.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;
+  d.dataset.theme=dark?"light":"dark";
+  try{localStorage.setItem("theme",d.dataset.theme)}catch(e){}
+});
+</script>
+</body>
+</html>

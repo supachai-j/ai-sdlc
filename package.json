@@ -5,6 +5,8 @@
   "scripts": {
     "eval": "bun evals/runner.ts",
     "eval:check": "bun evals/runner.ts --dry-run",
-    "report": "bun evals/report.ts"
+    "report": "bun evals/report.ts",
+    "build:site": "bun tools/build-site.ts",
+    "serve": "bun --hot tools/serve.ts"
   }
 }
