@@ -37,191 +37,542 @@
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">05.01</span><h2>Legibility — อ่านรู้เรื่องสำหรับเครื่อง</h2><label class="done"><input type="checkbox" data-lesson="05.01"><span>เรียนจบ</span></label></div>
-  <p>codebase ที่คนอ่านรู้เรื่องกับที่เครื่องอ่านรู้เรื่อง ไม่ใช่สิ่งเดียวกัน คนเติมช่องว่างจากบริบทที่สะสมมาหลายเดือน ส่วน agent เห็นเฉพาะสิ่งที่อยู่ตรงหน้า</p>
-  <div class="tw"><table>
-    <thead><tr><th>สิ่งที่คนทดแทนได้ด้วยความคุ้นเคย</th><th>สิ่งที่ agent ต้องเห็นตรง ๆ</th></tr></thead>
-    <tbody>
-      <tr><td>“ไฟล์ <code>utils.ts</code> น่ะเหรอ ของเก่า อย่าไปแตะ”</td><td>คอมเมนต์บนหัวไฟล์ว่า deprecated ใช้อะไรแทน</td></tr>
-      <tr><td>“เทสต์ชุดนั้นแดงมาตั้งแต่ปีที่แล้ว ปกติ”</td><td>skip พร้อมเหตุผล หรือลบทิ้ง</td></tr>
-      <tr><td>“ต้องรัน seed ก่อนนะ ไม่งั้นพัง”</td><td>สคริปต์เดียวที่ทำให้ครบ หรือ error ที่บอก</td></tr>
-      <tr><td>“โฟลเดอร์นี้กำลังจะย้าย”</td><td>ADR ที่บอกว่ากำลังย้ายไปไหน</td></tr>
-    </tbody>
-  </table></div>
-  <div class="box rule">
-    <span class="k">การทดสอบที่ตรงที่สุด</span>
-    <p>ถ้าคุณต้องอธิบายอะไรกับ dev ใหม่ในสัปดาห์แรกซ้ำ ๆ นั่นคือสิ่งที่ agent ก็ไม่รู้เหมือนกัน และมันจะไม่ถามคุณ มันจะเดา</p>
+
+  <div class="chat">
+    <p>
+      โมดูลนี้ผมอยากเริ่มด้วยประโยคที่คนมักไม่เชื่อตอนแรก —
+      <b>คุณภาพงานของ agent มาจากโครงสร้าง repo มากกว่ามาจาก prompt</b>
+    </p>
+    <p>
+      และที่สำคัญกว่าคือ <b>โครงสร้างให้ผลถาวร ส่วน prompt ที่ปรับดีขึ้นให้ผลแค่ครั้งเดียว</b>
+      คุณปรับ prompt วันนี้ พรุ่งนี้เปิด session ใหม่ก็ต้องปรับใหม่ แต่ถ้าคุณตั้งชื่อไฟล์ให้สื่อ
+      มันสื่อไปตลอดกับทุกคนและทุก agent
+    </p>
   </div>
-</section>
 
-<section class="lesson">
-  <div class="lhead"><span class="lnum">05.02</span><h2>โครงไฟล์ที่ลดต้นทุนการค้นหา</h2><label class="done"><input type="checkbox" data-lesson="05.02"><span>เรียนจบ</span></label></div>
-  <p>agent จ่าย token ทุกครั้งที่หาไม่เจอ และมันหาแบบเดาจากชื่อ ไม่ใช่แบบจำที่ได้ โครงสร้างที่ดีจึงวัดได้ด้วยคำถามเดียว — <strong>“จากชื่อฟีเจอร์ เดาที่อยู่ไฟล์ถูกในครั้งแรกไหม”</strong></p>
-  <ul>
-    <li><strong>จัดตามโดเมน ไม่ใช่ตามชนิดไฟล์</strong> — <code>billing/</code> ที่มีทั้ง logic เทสต์ และ type รวมกัน ชนะ <code>controllers/ services/ types/</code> ที่กระจายเรื่องเดียวไปสามที่</li>
-    <li><strong>ชื่อไฟล์บอกเนื้อหา</strong> — <code>invoice-total.ts</code> ชนะ <code>helpers.ts</code></li>
-    <li><strong>อย่ามีทางเข้าหลายทางไปที่เดียวกัน</strong> — re-export ซ้อนกันหลายชั้นทำให้ agent ตามไม่จบ</li>
-    <li><strong>ไฟล์ที่ห้ามแตะต้องบอกที่ตัวมันเอง</strong> ไม่ใช่ในหัวคน</li>
-  </ul>
-</section>
+  <div class="fig">
+    <svg viewBox="0 0 640 250" role="img" aria-label="What a human fills in from familiarity versus what an agent must see written down">
+      <text class="d-label-mono" x="8" y="16">HUMAN · เติมช่องว่างจากความคุ้นเคย</text>
+      <text class="d-label-mono" x="330" y="16">AGENT · เห็นเฉพาะที่เขียนไว้</text>
+      <line class="d-line" x1="320" y1="24" x2="320" y2="196" stroke-dasharray="4 4"/>
 
-<section class="lesson">
-  <div class="lhead"><span class="lnum">05.03</span><h2>Error message คือช่องทาง feedback</h2><label class="done"><input type="checkbox" data-lesson="05.03"><span>เรียนจบ</span></label></div>
+      <rect class="d-box" x="8" y="28" width="300" height="36"/>
+      <text class="d-label-sm" x="20" y="50">"utils.ts เหรอ ของเก่า อย่าไปแตะ"</text>
+      <rect class="d-box-accent" x="330" y="28" width="302" height="36"/>
+      <text class="d-label-sm" x="342" y="50">คอมเมนต์บนหัวไฟล์ว่า deprecated + ใช้อะไรแทน</text>
+
+      <rect class="d-box" x="8" y="68" width="300" height="36"/>
+      <text class="d-label-sm" x="20" y="90">"เทสต์ชุดนั้นแดงมาตั้งแต่ปีที่แล้ว ปกติ"</text>
+      <rect class="d-box-accent" x="330" y="68" width="302" height="36"/>
+      <text class="d-label-sm" x="342" y="90">skip พร้อมเหตุผล หรือลบทิ้งไปเลย</text>
+
+      <rect class="d-box" x="8" y="108" width="300" height="36"/>
+      <text class="d-label-sm" x="20" y="130">"ต้องรัน seed ก่อนนะ ไม่งั้นพัง"</text>
+      <rect class="d-box-accent" x="330" y="108" width="302" height="36"/>
+      <text class="d-label-sm" x="342" y="130">สคริปต์เดียวที่ทำครบ หรือ error ที่บอก</text>
+
+      <rect class="d-box" x="8" y="148" width="300" height="36"/>
+      <text class="d-label-sm" x="20" y="170">"โฟลเดอร์นี้กำลังจะย้าย"</text>
+      <rect class="d-box-accent" x="330" y="148" width="302" height="36"/>
+      <text class="d-label-sm" x="342" y="170">ADR ที่บอกว่าย้ายไปไหน และเมื่อไหร่</text>
+
+      <rect class="d-box-ink" x="8" y="204" width="624" height="42"/>
+      <text class="d-label-inv" x="22" y="226">Test ที่ตรงที่สุด</text>
+      <text class="d-label-inv" x="22" y="242" opacity=".72">อะไรที่คุณต้องอธิบายกับ dev ใหม่ซ้ำ ๆ ในสัปดาห์แรก = สิ่งที่ agent ก็ไม่รู้ — และมันจะไม่ถาม มันจะเดา</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 1</b> · ความรู้ฝั่งซ้ายอยู่ในหัวคน ไม่ได้อยู่ใน repo — agent เข้าถึงไม่ได้</p>
+  </div>
 
   <p>
-    นี่คือการลงทุนที่ให้ผลตอบแทนสูงที่สุดในโมดูลนี้ และเป็นข้อที่ทีมส่วนใหญ่ไม่เคยคิดถึง
-    เพราะเราชินกับการมองข้อความ error ว่าเป็นสิ่งที่<em>คน</em>อ่านตอนของพัง
-    แต่ในโปรเจกต์ที่มี agent ทำงานอยู่ error คือสิ่งที่มันอ่านตอนหลงทาง
-    และเป็นโอกาสเดียวที่คุณจะชี้ทางได้โดยไม่ต้องอยู่ตรงนั้น
-  </p>
-
-  <pre><code><span class="c">// ไร้ประโยชน์ — agent ได้แต่เดา แล้วลองสุ่มแก้</span>
-Error: Invalid configuration
-
-<span class="c">// มีประโยชน์ — บอกว่าอะไรผิด ที่ไหน และแก้ยังไง</span>
-Error: config.retries ต้องเป็นจำนวนเต็ม 0-10 แต่ได้ค่า "3s"
-  ที่ config/worker.yaml บรรทัด 12
-  ถ้าต้องการกำหนดเวลา ให้ใช้ config.timeout แทน</code></pre>
-
-  <h3><span class="k">โครงสามส่วน</span>ที่ใช้ได้กับ error แทบทุกแบบ</h3>
-  <div class="tw"><table>
-    <thead><tr><th>ส่วน</th><th>ตอบคำถามว่า</th><th>ถ้าขาด</th></tr></thead>
-    <tbody>
-      <tr><td><strong>อะไรผิด</strong></td><td>คาดหวังอะไร ได้อะไรมา</td><td>ไม่รู้ว่าต้องแก้ให้เป็นอะไร</td></tr>
-      <tr><td><strong>ที่ไหน</strong></td><td>ไฟล์ บรรทัด หรือฟิลด์</td><td>ต้องไล่อ่านทั้งโปรเจกต์เพื่อหา</td></tr>
-      <tr><td><strong>ทำยังไงต่อ</strong></td><td>ทางเลือกที่ถูกคืออะไร</td><td>เดาแล้วลองใหม่วนไป</td></tr>
-    </tbody>
-  </table></div>
-  <p>
-    ส่วนที่สามคือส่วนที่คนละเลยเกือบทั้งหมด และเป็นส่วนที่เปลี่ยนการวนแก้สามรอบให้เหลือรอบเดียว
-    สังเกตว่าคุณมักรู้คำตอบอยู่แล้วตอนเขียน error — คนที่เขียนโค้ดตรวจสอบย่อมรู้ว่าค่าที่ถูกคืออะไร
-    การเขียนมันลงไปใช้เวลาสิบวินาที
+    codebase ที่คนอ่านรู้เรื่องกับที่เครื่องอ่านรู้เรื่อง <strong>ไม่ใช่สิ่งเดียวกัน</strong>
+    คนเติมช่องว่างจากบริบทที่สะสมมาหลายเดือน — รู้ว่าไฟล์ไหนตายแล้ว รู้ว่าเทสต์ไหนแดงเป็นปกติ
+    รู้ว่าต้องรันอะไรก่อน ส่วน agent เห็นเฉพาะสิ่งที่อยู่ตรงหน้า
   </p>
 
   <div class="box good">
     <span class="k">ผลพลอยได้ที่มักใหญ่กว่าผลหลัก</span>
     <p>
-      error ที่ดีสำหรับ agent คือ error ที่ดีสำหรับคนด้วย — โดยเฉพาะคนใหม่ในทีม
-      หลายทีมพบว่าเวลาที่ประหยัดจากการที่ dev ใหม่ไม่ต้องมาถาม มากกว่าเวลาที่ประหยัดจาก agent เสียอีก
+      ทุกอย่างในโมดูลนี้ช่วย <strong>dev ใหม่</strong> พอ ๆ กับช่วย agent เพราะทั้งคู่ขาดบริบทที่คนเก่ามีเหมือนกัน
     </p>
     <p>
-      เหตุผลเดียวกันกับ <a href="m15.html">M15.01</a> — ทั้ง agent และคนใหม่ขาดบริบทที่คนเก่ามี
-      อะไรที่ช่วยฝ่ายหนึ่งมักช่วยอีกฝ่ายด้วย
+      หลายทีมพบว่าเวลาที่ประหยัดจากการที่คนใหม่ไม่ต้องมาถาม มากกว่าเวลาที่ประหยัดจาก agent เสียอีก
+      เพราะงั้นถ้าต้องขายงานนี้ให้หัวหน้า <strong>ขายว่าเป็น onboarding ไม่ใช่ AI</strong>
     </p>
   </div>
 
-  <div class="box rule">
-    <span class="k">เริ่มจากตรงไหน</span>
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://www.anthropic.com/engineering/claude-code-best-practices" target="_blank" rel="noopener noreferrer">Claude Code best practices</a>
+        — การเตรียม repo ให้ agent ทำงานได้ดี
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+      <li>
+        <a href="https://martinfowler.com/bliki/CodeSmell.html" target="_blank" rel="noopener noreferrer">Code Smell</a>
+        — กรอบคิดเรื่องสัญญาณที่บอกว่าโครงสร้างมีปัญหา ใช้ได้กับทั้งคนและ agent
+        <span class="src">martinfowler.com</span>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">05.02</span><h2>โครงไฟล์ที่ลดต้นทุนการค้นหา</h2><label class="done"><input type="checkbox" data-lesson="05.02"><span>เรียนจบ</span></label></div>
+
+  <div class="chat">
     <p>
-      อย่าไล่แก้ทั้งโปรเจกต์ ให้เก็บสถิติสองสัปดาห์ว่า error ตัวไหนที่ agent เจอบ่อยที่สุด
-      แล้วแก้แค่สามตัวแรก การกระจายมักเบ้มาก — error ไม่กี่ตัวกินสัดส่วนส่วนใหญ่ของการวนแก้ทั้งหมด
+      agent <b>จ่าย token ทุกครั้งที่หาไม่เจอ</b> และมันหาแบบเดาจากชื่อ ไม่ใช่แบบจำที่ได้
     </p>
+    <p>
+      เพราะงั้นโครงสร้างที่ดีวัดได้ด้วยคำถามเดียว — <b>"จากชื่อฟีเจอร์ เดาที่อยู่ไฟล์ถูกในครั้งแรกไหม"</b>
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 250" role="img" aria-label="Grouping by domain versus by file type, and the search cost of each">
+      <text class="d-label-mono" x="8" y="16">จัดตามชนิดไฟล์ · เรื่องเดียวกระจาย 3 ที่</text>
+      <rect class="d-box" x="8" y="26" width="300" height="112"/>
+      <text class="d-label-sm" x="20" y="48">controllers/billing.ts</text>
+      <text class="d-label-sm" x="20" y="70">services/billing.ts</text>
+      <text class="d-label-sm" x="20" y="92">types/billing.ts</text>
+      <text class="d-label-sm" x="20" y="114">test/billing.spec.ts</text>
+      <text class="d-label-mono" x="20" y="132">→ เปิด 4 ที่กว่าจะเห็นภาพรวม</text>
+
+      <text class="d-label-mono" x="330" y="16">จัดตาม domain · เรื่องเดียวอยู่ที่เดียว</text>
+      <rect class="d-box-accent" x="330" y="26" width="302" height="112"/>
+      <text class="d-label-sm" x="342" y="48">billing/</text>
+      <text class="d-label-sm" x="356" y="70">total.ts · tax.ts · discount.ts</text>
+      <text class="d-label-sm" x="356" y="92">types.ts</text>
+      <text class="d-label-sm" x="356" y="114">total.test.ts</text>
+      <text class="d-label-mono" x="342" y="132">→ เปิดโฟลเดอร์เดียวเห็นครบ</text>
+
+      <line class="d-line" x1="8" y1="154" x2="632" y2="154" stroke-dasharray="3 3"/>
+      <text class="d-label-mono" x="8" y="176">METRIC ที่วัดได้จริง</text>
+      <text class="d-label-sm" x="8" y="200">นับจำนวนไฟล์ที่ agent เปิด "ผิด" ก่อนเจอไฟล์ที่ถูก</text>
+      <rect class="d-bar-new" x="8" y="212" width="300" height="14"/>
+      <text class="d-label-sm" x="316" y="224">ก่อนปรับ</text>
+      <rect class="d-bar" x="8" y="230" width="90" height="14"/>
+      <text class="d-label-sm" x="316" y="242">หลังปรับ ← ใช้เป็นตัวเลขในแล็บท้ายบท</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 2</b> · ทุกไฟล์ที่เปิดผิดคือหลักฐานว่าชื่อหรือที่อยู่เดาไม่ได้ — และมันนับเป็นตัวเลขได้</p>
+  </div>
+
+  <ul>
+    <li><strong>จัดตาม domain ไม่ใช่ตามชนิดไฟล์</strong> — <code>billing/</code> ที่มีทั้ง logic, test, type รวมกัน ชนะการกระจายไป 3 โฟลเดอร์</li>
+    <li><strong>ชื่อไฟล์บอกเนื้อหา</strong> — <code>invoice-total.ts</code> ชนะ <code>helpers.ts</code> เสมอ</li>
+    <li><strong>อย่ามีทางเข้าหลายทางไปที่เดียวกัน</strong> — re-export ซ้อนหลายชั้นทำให้ agent ตามไม่จบ และ grep เจอแต่ตัวกลาง</li>
+    <li><strong>ของที่ห้ามแตะต้องบอกที่ตัวมันเอง</strong> ไม่ใช่ในหัวคน</li>
+  </ul>
+
+  <div class="box trap">
+    <span class="k">Barrel file — ของที่ดูดีแต่ทำร้าย agent</span>
+    <p>
+      ไฟล์ <code>index.ts</code> ที่ re-export ทุกอย่างในโฟลเดอร์ ทำให้ import สวยขึ้นสำหรับคน
+      แต่สำหรับ agent มันแปลว่า <code>grep</code> หาชื่อฟังก์ชันแล้วเจอแต่บรรทัด re-export
+      ไม่เจอที่มันถูกนิยามจริง
+    </p>
+    <p>
+      ผลคือมันต้องไล่ตามอีกชั้นสองชั้น เสีย round เสีย token และบางทีก็หลงไปแก้ผิดไฟล์
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/common-workflows" target="_blank" rel="noopener noreferrer">Common workflows</a>
+        — วิธีที่ agent สำรวจ codebase จริง ซึ่งบอกว่าโครงแบบไหนช่วยมัน
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://www.anthropic.com/engineering/claude-code-best-practices" target="_blank" rel="noopener noreferrer">Claude Code best practices</a>
+        — คำแนะนำเรื่องโครงสร้างและการตั้งชื่อ
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">05.03</span><h2>Error message คือช่องทาง feedback</h2><label class="done"><input type="checkbox" data-lesson="05.03"><span>เรียนจบ</span></label></div>
+
+  <div class="chat">
+    <p>
+      อันนี้คือการลงทุนที่ให้ผลตอบแทนสูงสุดในโมดูลนี้ และเป็นข้อที่ทีมส่วนใหญ่ไม่เคยคิดถึง
+    </p>
+    <p>
+      เพราะเราชินกับการมอง error ว่าเป็นสิ่งที่<b>คน</b>อ่านตอนของพัง
+      แต่ในโปรเจกต์ที่มี agent ทำงานอยู่ <b>error คือสิ่งที่มันอ่านตอนหลงทาง</b> —
+      และเป็นโอกาสเดียวที่เราจะชี้ทางได้โดยไม่ต้องอยู่ตรงนั้น
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 240" role="img" aria-label="Three-part error message structure and how it collapses a retry loop">
+      <text class="d-label-mono" x="8" y="16">ERROR ที่ไร้ประโยชน์</text>
+      <rect class="d-box" x="8" y="26" width="300" height="30"/>
+      <text class="d-label-sm" x="20" y="46">Error: Invalid configuration</text>
+      <text class="d-label-sm" x="8" y="76">→ agent เดา → ลอง → ผิด → เดาใหม่</text>
+      <rect class="d-bar-new" x="8" y="86" width="70" height="14"/>
+      <rect class="d-bar-new" x="82" y="86" width="70" height="14"/>
+      <rect class="d-bar-new" x="156" y="86" width="70" height="14"/>
+      <text class="d-label-mono" x="234" y="98">3 rounds</text>
+
+      <text class="d-label-mono" x="330" y="16">ERROR ที่มีประโยชน์</text>
+      <rect class="d-box-accent" x="330" y="26" width="302" height="62"/>
+      <text class="d-label-sm" x="342" y="44">config.retries ต้องเป็น int 0-10 แต่ได้ "3s"</text>
+      <text class="d-label-sm" x="342" y="62">ที่ config/worker.yaml:12</text>
+      <text class="d-label-sm" x="342" y="80">ถ้าต้องการเวลา ให้ใช้ config.timeout แทน</text>
+      <rect class="d-bar" x="330" y="96" width="70" height="14"/>
+      <text class="d-label-mono" x="408" y="108">1 round</text>
+
+      <line class="d-line" x1="8" y1="126" x2="632" y2="126" stroke-dasharray="3 3"/>
+
+      <text class="d-label-mono" x="8" y="148">โครง 3 ส่วน</text>
+      <rect class="d-box-accent" x="8" y="158" width="196" height="34"/>
+      <text class="d-label" x="20" y="180">1 · อะไรผิด</text>
+      <rect class="d-box-accent" x="212" y="158" width="196" height="34"/>
+      <text class="d-label" x="224" y="180">2 · ที่ไหน</text>
+      <rect class="d-box-accent" x="416" y="158" width="216" height="34"/>
+      <text class="d-label" x="428" y="180">3 · ทำยังไงต่อ ← คนลืมข้อนี้</text>
+
+      <rect class="d-box-ink" x="8" y="200" width="624" height="34"/>
+      <text class="d-label-inv" x="22" y="222">cost เขียน = ครั้งเดียว · payoff = ทุกครั้งที่ใครก็ตาม (คนหรือ agent) เจอมัน</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 3</b> · ส่วนที่ 3 คือส่วนที่เปลี่ยนการวนแก้ 3 รอบให้เหลือรอบเดียว</p>
+  </div>
+
+  <p>
+    สังเกตว่า<strong>เรามักรู้คำตอบอยู่แล้วตอนเขียน error</strong> — คนที่เขียนโค้ดตรวจสอบย่อมรู้ว่าค่าที่ถูกคืออะไร
+    การเขียนมันลงไปใช้เวลาสิบวินาที แต่คนไม่เขียนเพราะคิดว่า "เดี๋ยวคนอ่านก็รู้เอง"
+  </p>
+
+  <div class="box rule">
+    <span class="k">เริ่มจากตรงไหน — อย่าไล่แก้ทั้งโปรเจกต์</span>
+    <p>
+      เก็บสถิติสองสัปดาห์ว่า error ตัวไหนที่ agent เจอบ่อยที่สุด แล้ว<strong>แก้แค่สามตัวแรก</strong>
+    </p>
+    <p>
+      การกระจายมักเบ้มาก — error ไม่กี่ตัวกินสัดส่วนส่วนใหญ่ของการวนแก้ทั้งหมด
+      แก้สามตัวได้ผลเกือบเท่าแก้ทั้งหมด
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://www.anthropic.com/engineering/writing-tools-for-agents" target="_blank" rel="noopener noreferrer">Writing tools for agents</a>
+        — ออกแบบ error ที่ส่งกลับให้ agent ใช้ตัดสินใจต่อได้
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+      <li>
+        <a href="https://docs.claude.com/en/docs/agents-and-tools/tool-use/overview" target="_blank" rel="noopener noreferrer">Tool use overview</a>
+        — การส่ง error result กลับเข้า loop อย่างถูกต้อง
+        <span class="src">docs.claude.com</span>
+      </li>
+    </ol>
   </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">05.04</span><h2>Test affordance</h2><label class="done"><input type="checkbox" data-lesson="05.04"><span>เรียนจบ</span></label></div>
 
-  <p>
-    หลักการของบทนี้ฟังดูเหมือนเรื่องประสิทธิภาพ แต่จริง ๆ เป็นเรื่องพฤติกรรม —
-    <strong>ถ้ารันเทสต์เฉพาะจุดไม่ได้เร็ว agent จะเลิกรันแล้วเดาแทน</strong>
-  </p>
-  <p>
-    และมันไม่ได้ประกาศว่าเลิกรัน มันแค่ค่อย ๆ ข้ามไป แล้วเขียนคำตอบที่ลงท้ายว่า
-    “น่าจะทำงานได้แล้วครับ” ซึ่งคุณจะเห็นเป็นคุณภาพที่ตกลงโดยไม่รู้สาเหตุ
-  </p>
-
-  <div class="tw"><table>
-    <thead><tr><th>เวลารันเทสต์เฉพาะจุด</th><th>พฤติกรรมที่ได้</th><th>ผลต่อคุณ</th></tr></thead>
-    <tbody>
-      <tr><td>ต่ำกว่า 5 วินาที</td><td>รันทุกครั้งที่แก้ วนแก้เองจนเขียว</td><td>ได้งานที่ตรวจแล้ว</td></tr>
-      <tr><td>10–30 วินาที</td><td>รันบ้าง ข้ามบ้าง</td><td>ต้องตรวจเองบางส่วน</td></tr>
-      <tr><td>เกิน 1 นาที หรือรันเฉพาะจุดไม่ได้</td><td><strong>เดาเอาแล้วบอกว่าน่าจะถูก</strong></td><td>ต้องตรวจเองทุกครั้ง</td></tr>
-    </tbody>
-  </table></div>
-
-  <h3><span class="k">ทำไมมันถึงเป็นเรื่องของ affordance ไม่ใช่ความขี้เกียจ</span></h3>
-  <p>
-    agent ไม่ได้ตัดสินใจว่า “ไม่รันดีกว่า” มันทำงานภายใต้แรงกดดันเดียวกับคน —
-    ถ้าการตรวจสอบมีต้นทุนสูง มันจะถูกทำน้อยลง
-    ต่างกันตรงที่คนรู้ตัวว่ากำลังข้ามขั้นตอน ส่วน agent ไม่ได้รายงานให้คุณรู้
-  </p>
-  <p>
-    ข้อนี้ทำให้มันเป็นปัญหาที่แก้ที่ต้นทางได้ผลกว่าแก้ที่ prompt มาก
-    การเขียนกฎว่า “ต้องรันเทสต์ทุกครั้ง” ไม่ได้ทำให้เทสต์เร็วขึ้น มันแค่เพิ่มบรรทัดที่ถูกละเลย
-  </p>
-
-  <div class="box rule">
-    <span class="k">สิ่งที่ต้องมี และมันคุ้มกว่าทุกอย่างในโมดูลนี้</span>
+  <div class="chat">
     <p>
-      <strong>คำสั่งเดียวที่รันเทสต์ของไฟล์เดียวได้ และเสร็จในไม่กี่วินาที</strong>
+      หลักการของบทนี้ฟังดูเหมือนเรื่อง performance แต่จริง ๆ เป็น<b>เรื่องพฤติกรรม</b> —
+      <b>ถ้ารันเทสต์เฉพาะจุดไม่ได้เร็ว agent จะเลิกรันแล้วเดาแทน</b>
     </p>
     <p>
-      ถ้าโปรเจกต์ของคุณยังไม่มี นี่คือสิ่งแรกที่ควรทำก่อนอย่างอื่นทั้งหมด —
-      ก่อนปรับ prompt ก่อนติดตั้งเครื่องมือ ก่อนเปลี่ยนโมเดล
-      มันให้ผลมากกว่าสามอย่างนั้นรวมกัน และผลอยู่ถาวร
+      แล้วมันไม่ประกาศนะครับว่าเลิกรัน มันแค่ค่อย ๆ ข้ามไป แล้วเขียนคำตอบลงท้ายว่า
+      "น่าจะทำงานได้แล้วครับ" — ซึ่งเราจะเห็นเป็นคุณภาพที่ตกโดยหาสาเหตุไม่เจอ
     </p>
   </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 220" role="img" aria-label="Test feedback time changing agent behaviour from verifying to guessing">
+      <text class="d-label-mono" x="8" y="16">เวลารันเทสต์เฉพาะจุด → พฤติกรรมที่ได้</text>
+
+      <rect class="d-box-accent" x="8" y="28" width="200" height="76"/>
+      <text class="d-label-mono" x="20" y="48">&lt; 5 วินาที</text>
+      <text class="d-label-sm" x="20" y="70">รันทุกครั้งที่แก้</text>
+      <text class="d-label-sm" x="20" y="90">วนแก้เองจนเขียว</text>
+
+      <rect class="d-box" x="216" y="28" width="200" height="76"/>
+      <text class="d-label-mono" x="228" y="48">10–30 วินาที</text>
+      <text class="d-label-sm" x="228" y="70">รันบ้าง ข้ามบ้าง</text>
+      <text class="d-label-sm" x="228" y="90">ต้องตรวจเองบางส่วน</text>
+
+      <rect class="d-box" x="424" y="28" width="208" height="76"/>
+      <text class="d-label-mono" x="436" y="48">&gt; 1 นาที / รันเฉพาะจุดไม่ได้</text>
+      <text class="d-label-sm" x="436" y="70">เดาแล้วบอกว่าน่าจะถูก</text>
+      <text class="d-label-sm" x="436" y="90">ต้องตรวจเองทุกครั้ง</text>
+
+      <rect class="d-bar" x="8" y="112" width="200" height="10"/>
+      <rect class="d-bar" x="216" y="112" width="200" height="10" opacity=".5"/>
+      <rect class="d-bar-new" x="424" y="112" width="208" height="10"/>
+      <text class="d-label-sm" x="8" y="140">← ยิ่งซ้าย agent ยิ่ง verify งานตัวเอง · ยิ่งขวายิ่งโยนภาระกลับมาที่เรา</text>
+
+      <rect class="d-box-ink" x="8" y="156" width="624" height="56"/>
+      <text class="d-label-inv" x="22" y="180">สิ่งที่ต้องมี · คุ้มกว่าทุกอย่างในโมดูลนี้</text>
+      <text class="d-label-inv" x="22" y="202" opacity=".72">คำสั่งเดียวที่รันเทสต์ของไฟล์เดียวได้ และเสร็จในไม่กี่วินาที</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 4</b> · agent ทำงานภายใต้แรงกดดันเดียวกับคน — ถ้าการตรวจสอบมีต้นทุนสูง มันจะถูกทำน้อยลง</p>
+  </div>
+
+  <p>
+    ต่างจากคนตรงที่<strong>คนรู้ตัวว่ากำลังข้ามขั้นตอน ส่วน agent ไม่ได้รายงานให้เรารู้</strong>
+    ข้อนี้ทำให้มันเป็นปัญหาที่แก้ที่ต้นทางได้ผลกว่าแก้ที่ prompt มาก —
+    การเขียนกฎว่า "ต้องรันเทสต์ทุกครั้ง" ไม่ได้ทำให้เทสต์เร็วขึ้น มันแค่เพิ่มบรรทัดที่ถูกละเลย
+  </p>
 
   <div class="box trap">
     <span class="k">ทางลัดที่ทำให้แย่ลง</span>
     <p>
-      เมื่อเทสต์ช้า ทางลัดที่คนเลือกคือบอก agent ว่า “ไม่ต้องรันเทสต์ เดี๋ยว CI รันเอง”
-      ซึ่งย้ายการตรวจไปไว้หลังจากที่ agent จบงานไปแล้ว
+      พอเทสต์ช้า ทางลัดที่คนเลือกคือบอก agent ว่า <em>"ไม่ต้องรันเทสต์ เดี๋ยว CI รันเอง"</em>
+      ซึ่งย้ายการตรวจไปไว้<strong>หลังจากที่ agent จบงานไปแล้ว</strong>
     </p>
     <p>
-      ผลคือ agent เสียความสามารถในการวนแก้เองจนถูก และคุณได้งานที่ต้องตีกลับ
-      ซึ่งแพงกว่าการรอเทสต์ห้าวินาทีหลายเท่า
+      ผลคือ agent เสียความสามารถในการวนแก้เองจนถูก และเราได้งานที่ต้องตีกลับ
+      ซึ่งแพงกว่าการรอเทสต์ห้าวินาทีหลายเท่า — และเป็นการย้ายต้นทุนจากเครื่องมาที่คน
     </p>
+  </div>
+
+  <div class="box good">
+    <span class="k">Engineering note · ทำให้เร็วได้ยังไงบ้าง</span>
+    <ul>
+      <li><strong>watch mode ที่รันเฉพาะไฟล์ที่เกี่ยว</strong> — ให้ agent เรียกได้แบบ one-shot ด้วย</li>
+      <li><strong>แยก unit ออกจาก integration</strong> ให้ชัด แล้วให้ default คือ unit</li>
+      <li><strong>อย่าให้ test setup แพง</strong> — ถ้าต้องยก container ทุกครั้ง ให้ทำ in-memory ไว้สำหรับ unit</li>
+      <li><strong>ใส่คำสั่งไว้ใน project memory</strong> ไม่งั้น agent จะรันทั้งชุดเพราะไม่รู้ว่ามีทางลัด</li>
+    </ul>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://martinfowler.com/bliki/TestPyramid.html" target="_blank" rel="noopener noreferrer">Test Pyramid</a>
+        — เหตุผลว่าทำไมชั้นล่างต้องเร็วและเยอะ ซึ่งเป็นเงื่อนไขของบทนี้พอดี
+        <span class="src">martinfowler.com</span>
+      </li>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/memory" target="_blank" rel="noopener noreferrer">Memory</a>
+        — ที่สำหรับเขียนคำสั่งรันเทสต์ให้ agent รู้จัก
+        <span class="src">docs.claude.com</span>
+      </li>
+    </ol>
   </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">05.05</span><h2>Type และ schema เป็น guardrail ที่ถูกที่สุด</h2><label class="done"><input type="checkbox" data-lesson="05.05"><span>เรียนจบ</span></label></div>
-  <p>Type ทำงานต่างจากคำสั่งใน prompt ตรงที่มัน<strong>บังคับได้ ไม่ใช่แค่ขอ</strong> และมันทำงานตอนที่ไม่มีใครดูอยู่</p>
-  <div class="tw"><table>
-    <thead><tr><th>วิธีกัน</th><th>บังคับได้จริงไหม</th><th>ต้นทุนต่อครั้ง</th></tr></thead>
-    <tbody>
-      <tr><td>เขียนกฎใน prompt</td><td>ขอ — ทำตามบ้างไม่ทำบ้าง</td><td>จ่าย token ทุกรอบ</td></tr>
-      <tr><td>Type / schema</td><td><strong>บังคับ</strong> — ผิดแล้วคอมไพล์ไม่ผ่าน</td><td>ศูนย์</td></tr>
-      <tr><td>Hook / lint rule</td><td><strong>บังคับ</strong></td><td>ศูนย์</td></tr>
-      <tr><td>รีวิวโดยคน</td><td>บังคับ แต่ช้าและมีวันพลาด</td><td>เวลาคน</td></tr>
-    </tbody>
-  </table></div>
-  <p>กฎที่ควรใช้คือ — <strong>อะไรที่ทำให้เป็น type ได้ อย่าเอาไปเขียนเป็นกฎใน prompt</strong> เพราะกฎใน prompt กินงบบริบททุกรอบและยังไม่รับประกันผล</p>
+
+  <div class="chat">
+    <p>
+      Type ทำงานต่างจากกฎใน prompt ตรงจุดเดียวที่สำคัญมาก — <b>มันบังคับได้ ไม่ใช่แค่ขอ</b>
+      และมันทำงานตอนที่ไม่มีใครดูอยู่
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 230" role="img" aria-label="Four ways to enforce a rule, compared by whether they bind and what they cost per run">
+      <text class="d-label-mono" x="8" y="16">วิธีบังคับกฎ · เทียบ 2 แกน</text>
+      <text class="d-label-mono" x="300" y="38">บังคับได้จริง?</text>
+      <text class="d-label-mono" x="470" y="38">ต้นทุนต่อรอบ</text>
+
+      <rect class="d-box" x="8" y="48" width="284" height="34"/>
+      <text class="d-label-sm" x="20" y="70">เขียนกฎใน prompt</text>
+      <text class="d-label-sm" x="300" y="70">ขอ · ทำบ้างไม่ทำบ้าง</text>
+      <rect class="d-bar-new" x="470" y="59" width="160" height="12"/>
+
+      <rect class="d-box-accent" x="8" y="86" width="284" height="34"/>
+      <text class="d-label-sm" x="20" y="108">Type / schema</text>
+      <text class="d-label-sm" x="300" y="108">บังคับ · ผิดแล้ว compile ไม่ผ่าน</text>
+      <text class="d-label-mono" x="470" y="108">ศูนย์</text>
+
+      <rect class="d-box-accent" x="8" y="124" width="284" height="34"/>
+      <text class="d-label-sm" x="20" y="146">Hook / lint rule</text>
+      <text class="d-label-sm" x="300" y="146">บังคับ</text>
+      <text class="d-label-mono" x="470" y="146">ศูนย์</text>
+
+      <rect class="d-box" x="8" y="162" width="284" height="34"/>
+      <text class="d-label-sm" x="20" y="184">รีวิวโดยคน</text>
+      <text class="d-label-sm" x="300" y="184">บังคับ แต่มีวันพลาด</text>
+      <text class="d-label-mono" x="470" y="184">เวลาคน</text>
+
+      <rect class="d-box-ink" x="8" y="204" width="624" height="24"/>
+      <text class="d-label-inv" x="22" y="221">กฎที่ทำให้เป็น type ได้ อย่าเอาไปเขียนเป็นข้อความใน prompt</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 5</b> · แถบสีส้มคือต้นทุน context ที่จ่ายทุกรอบโดยไม่รับประกันผล</p>
+  </div>
+
+  <p>
+    กฎที่ควรใช้คือ — <strong>อะไรที่ทำให้เป็น type ได้ อย่าเอาไปเขียนเป็นกฎใน prompt</strong>
+    เพราะกฎใน prompt กินงบ context ทุกรอบ และยังไม่รับประกันว่าจะถูกทำตาม
+  </p>
+
+  <div class="box good">
+    <span class="k">ตัวอย่างการแปลงกฎเป็น type</span>
+    <pre><code><span class="c">// กฎใน prompt — จ่ายทุกรอบ ไม่รับประกัน</span>
+"อย่าลืมเช็คว่า user ยัง active อยู่ก่อนส่ง email"
+
+<span class="c">// เป็น type — ฟรี และเลี่ยงไม่ได้</span>
+type ActiveUser = User &amp; { readonly _active: unique symbol }
+function sendEmail(u: ActiveUser) { ... }
+<span class="c">// ส่ง User ธรรมดาเข้าไป → compile ไม่ผ่าน ไม่ต้องหวังพึ่งความจำ</span></code></pre>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/hooks" target="_blank" rel="noopener noreferrer">Hooks</a>
+        — การบังคับกฎด้วยเครื่องมือแทนการเขียนเป็นข้อความ
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://martinfowler.com/bliki/CodeSmell.html" target="_blank" rel="noopener noreferrer">Code Smell</a>
+        — กรอบคิดว่าเมื่อไหร่ควรย้ายข้อตกลงไปอยู่ในโครงสร้างแทนในหัวคน
+        <span class="src">martinfowler.com</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">05.06</span><h2>Docs-as-context</h2><label class="done"><input type="checkbox" data-lesson="05.06"><span>เรียนจบ</span></label></div>
-  <p>เอกสารในโปรเจกต์ที่มี agent ทำงานอยู่ มีสถานะเปลี่ยนไป มันไม่ใช่ของที่เขียนแล้วไม่มีใครอ่าน แต่เป็น input ที่ถูกอ่านทุกวัน ซึ่งเปลี่ยนวิธีเขียนไปด้วย</p>
-  <div class="tw"><table>
-    <thead><tr><th>เอกสาร</th><th>เขียนแบบเดิม</th><th>เขียนให้เป็นบริบท</th></tr></thead>
-    <tbody>
-      <tr><td>README</td><td>เล่าว่าโปรเจกต์ทำอะไร</td><td>คำสั่งที่ต้องใช้ + ข้อจำกัดที่ไม่เห็นจากโค้ด</td></tr>
-      <tr><td>ADR</td><td>บันทึกไว้เผื่อใครสงสัย</td><td>ระบุสิ่งที่<em>ห้าม</em>รื้อและเพราะอะไร</td></tr>
-      <tr><td>Runbook</td><td>ขั้นตอนสำหรับคน</td><td>คำสั่งที่รันได้จริง + วิธีตรวจว่าสำเร็จ</td></tr>
-      <tr><td>Design system</td><td>ภาพประกอบ</td><td>token กับ primitive ที่ระบุชื่อได้</td></tr>
-    </tbody>
-  </table></div>
+
+  <div class="chat">
+    <p>
+      ในโปรเจกต์ที่มี agent ทำงานอยู่ เอกสาร<b>เปลี่ยนสถานะ</b> — จากของที่เขียนแล้วไม่มีใครอ่าน
+      กลายเป็น input ที่ถูกอ่านทุกวัน ซึ่งเปลี่ยนวิธีเขียนไปด้วย
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 240" role="img" aria-label="Rewriting each document type so an agent can act on it">
+      <text class="d-label-mono" x="8" y="16">เขียนแบบเดิม</text>
+      <text class="d-label-mono" x="330" y="16">เขียนให้เป็น context</text>
+      <line class="d-line" x1="320" y1="24" x2="320" y2="188" stroke-dasharray="4 4"/>
+
+      <text class="d-label" x="8" y="42">README</text>
+      <rect class="d-box" x="100" y="28" width="208" height="26"/>
+      <text class="d-label-sm" x="110" y="46">เล่าว่าโปรเจกต์ทำอะไร</text>
+      <rect class="d-box-accent" x="330" y="28" width="302" height="26"/>
+      <text class="d-label-sm" x="340" y="46">คำสั่งที่ต้องใช้ + ข้อจำกัดที่ไม่เห็นจากโค้ด</text>
+
+      <text class="d-label" x="8" y="82">ADR</text>
+      <rect class="d-box" x="100" y="68" width="208" height="26"/>
+      <text class="d-label-sm" x="110" y="86">บันทึกไว้เผื่อใครสงสัย</text>
+      <rect class="d-box-accent" x="330" y="68" width="302" height="26"/>
+      <text class="d-label-sm" x="340" y="86">ระบุสิ่งที่ห้ามรื้อ และเพราะอะไร</text>
+
+      <text class="d-label" x="8" y="122">Runbook</text>
+      <rect class="d-box" x="100" y="108" width="208" height="26"/>
+      <text class="d-label-sm" x="110" y="126">ขั้นตอนสำหรับคน</text>
+      <rect class="d-box-accent" x="330" y="108" width="302" height="26"/>
+      <text class="d-label-sm" x="340" y="126">คำสั่งที่รันได้ + วิธีตรวจว่าสำเร็จ</text>
+
+      <text class="d-label" x="8" y="162">Design system</text>
+      <rect class="d-box" x="100" y="148" width="208" height="26"/>
+      <text class="d-label-sm" x="110" y="166">ภาพประกอบ</text>
+      <rect class="d-box-accent" x="330" y="148" width="302" height="26"/>
+      <text class="d-label-sm" x="340" y="166">token กับ primitive ที่ระบุชื่อได้</text>
+
+      <rect class="d-box-ink" x="8" y="196" width="624" height="38"/>
+      <text class="d-label-inv" x="22" y="220">เอกสารที่ล้าสมัย แย่กว่าไม่มีเอกสาร — เพราะ agent เชื่อมันแล้วทำตาม</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 6</b> · ฝั่งขวาต่างจากฝั่งซ้ายตรงที่ "ทำตามได้ทันที" ไม่ใช่ "อ่านแล้วเข้าใจ"</p>
+  </div>
+
   <div class="box trap">
     <span class="k">เอกสารที่เป็นโทษ</span>
-    <p>เอกสารที่ล้าสมัยแย่กว่าไม่มีเอกสาร เพราะ agent เชื่อมันและทำตาม ถ้าดูแลไม่ไหว ให้ลบดีกว่าปล่อยไว้ — และถ้าลบไม่ได้ ให้เขียนวันที่กับสถานะไว้บนหัวไฟล์</p>
+    <p>
+      เอกสารล้าสมัยแย่กว่าไม่มี เพราะ agent เชื่อมันและทำตาม โดยไม่มีสัญชาตญาณแบบคนที่จะรู้สึกว่า
+      "เอ๊ะ อันนี้เก่าแล้วมั้ง"
+    </p>
+    <p>
+      ถ้าดูแลไม่ไหว <strong>ลบดีกว่าปล่อยไว้</strong> และถ้าลบไม่ได้ ให้เขียนวันที่กับสถานะไว้บนหัวไฟล์
+      — ตรงกับกฎใน <a href="m15.html">M15.03</a> ที่ว่าเอกสารต้อง "พังได้เมื่อผิด"
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/memory" target="_blank" rel="noopener noreferrer">Memory</a>
+        — ที่ทางของเอกสารที่ต้องการให้ agent อ่านทุกครั้ง
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" target="_blank" rel="noopener noreferrer">Effective context engineering</a>
+        — เอกสารในฐานะ context ที่ต้องบริหาร ไม่ใช่ของที่ใส่ไว้เฉย ๆ
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+    </ol>
   </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">05.07</span><h2>ลำดับชั้นของไฟล์บริบท</h2><label class="done"><input type="checkbox" data-lesson="05.07"><span>เรียนจบ</span></label></div>
-  <p>ไฟล์บริบทมีได้หลายระดับ และการรู้ลำดับทับกันช่วยให้วางกฎถูกที่</p>
-  <div class="tw"><table>
-    <thead><tr><th>ระดับ</th><th>ควรใส่อะไร</th><th>สิ่งที่ไม่ควรอยู่ที่นี่</th></tr></thead>
-    <tbody>
-      <tr><td><strong>Global</strong></td><td>วิธีทำงานที่คุณต้องการเสมอทุกโปรเจกต์</td><td>อะไรที่จริงเฉพาะโปรเจกต์เดียว</td></tr>
-      <tr><td><strong>Project</strong></td><td>convention คำสั่ง ข้อห้ามของ repo นี้</td><td>ความรู้ทั่วไปที่โมเดลรู้อยู่แล้ว</td></tr>
-      <tr><td><strong>Directory</strong></td><td>กฎเฉพาะโซน เช่น โฟลเดอร์ที่กำลัง migrate</td><td>กฎที่ใช้ทั้ง repo</td></tr>
-    </tbody>
-  </table></div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 230" role="img" aria-label="Global, project and directory scoped context files, and the test for placing a rule">
+      <rect class="d-box" x="8" y="26" width="624" height="46"/>
+      <text class="d-label-mono" x="22" y="46">GLOBAL</text>
+      <text class="d-label-sm" x="120" y="46">วิธีทำงานที่เราต้องการเสมอทุกโปรเจกต์</text>
+      <text class="d-label-sm" x="120" y="64" opacity=".7">ห้ามใส่: อะไรที่จริงเฉพาะโปรเจกต์เดียว</text>
+
+      <rect class="d-box-accent" x="40" y="78" width="592" height="46"/>
+      <text class="d-label-mono" x="54" y="98">PROJECT</text>
+      <text class="d-label-sm" x="152" y="98">convention · คำสั่ง · ข้อห้ามของ repo นี้</text>
+      <text class="d-label-sm" x="152" y="116" opacity=".7">ห้ามใส่: ความรู้ทั่วไปที่โมเดลรู้อยู่แล้ว</text>
+
+      <rect class="d-box" x="72" y="130" width="560" height="46"/>
+      <text class="d-label-mono" x="86" y="150">DIRECTORY</text>
+      <text class="d-label-sm" x="184" y="150">กฎเฉพาะโซน เช่นโฟลเดอร์ที่กำลัง migrate</text>
+      <text class="d-label-sm" x="184" y="168" opacity=".7">ห้ามใส่: กฎที่ใช้ทั้ง repo</text>
+
+      <rect class="d-box-ink" x="8" y="188" width="624" height="38"/>
+      <text class="d-label-inv" x="22" y="212">เกณฑ์วาง — "กฎนี้ยังจริงไหมถ้าย้ายไปอีกโปรเจกต์" · จริง→global · ไม่จริง→project · จริงบางโฟลเดอร์→directory</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 7</b> · วางสูงเกินไป = กฎไปรบกวนงานที่ไม่เกี่ยว และกิน context ของทุกงาน</p>
+  </div>
+
+  <p>
+    การวางผิดระดับมีต้นทุนสองทาง — วางสูงเกินทำให้กฎที่เกี่ยวกับโฟลเดอร์เดียวไปกิน context ของทุกงาน
+    ส่วนวางต่ำเกินทำให้กฎสำคัญไม่ถูกโหลดตอนที่ต้องใช้
+  </p>
+
   <div class="box good">
-    <span class="k">เกณฑ์วางกฎให้ถูกระดับ</span>
-    <p>ถามว่า “กฎนี้ยังจริงไหมถ้าย้ายไปอีกโปรเจกต์” — จริง ให้ขึ้น global · ไม่จริง ให้อยู่ project · จริงเฉพาะบางโฟลเดอร์ ให้ลง directory การวางสูงเกินไปทำให้กฎไปรบกวนงานที่ไม่เกี่ยว</p>
+    <span class="k">ต่อยอดจาก M04.09</span>
+    <p>
+      เครื่องมือบางตัวไปไกลกว่าลำดับชั้น — มี <strong>inclusion mode</strong> ให้ระบุได้ว่าไฟล์ไหนโหลดเมื่อไหร่
+      (เสมอ / เมื่อแตะไฟล์ที่ match pattern / เมื่อเรียกเอง / เมื่อคำขอตรงกับคำอธิบาย)
+    </p>
+    <p>
+      ถ้าเครื่องมือที่คุณใช้มีอะไรทำนองนี้ <strong>ควรใช้</strong> เพราะมันคือทางออกเชิงวิศวกรรม
+      ของปัญหา "สุสานของกฎ" ใน <a href="m02.html">M02.05</a>
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/memory" target="_blank" rel="noopener noreferrer">Memory</a>
+        — ลำดับชั้นไฟล์ context และกฎการทับกัน
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://kiro.dev/docs/steering/" target="_blank" rel="noopener noreferrer">Kiro — Steering</a>
+        — ตัวอย่าง inclusion mode สี่แบบจากเครื่องมืออีกเจ้า
+        <span class="src">kiro.dev</span>
+      </li>
+    </ol>
   </div>
 </section>
 
