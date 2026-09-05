@@ -12,6 +12,141 @@
 </div>
 
 <section class="lesson">
+  <div class="lhead"><span class="lnum">ที่มา</span><h2>ทำไมถึงมี context window ตั้งแต่แรก</h2></div>
+
+  <div class="chat">
+    <p>
+      คำถามที่ผมว่าน่าสนใจคือ — <b>ทำไมโมเดลถึงต้องมีขีดจำกัดด้วย?</b>
+      ทำไมไม่ให้มันอ่านได้ไม่จำกัดไปเลย
+    </p>
+    <p>
+      คำตอบอยู่ในสถาปัตยกรรมที่ทุกอย่างวางอยู่บน และมันย้อนกลับไปถึงปี 2017
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 240" role="img" aria-label="Timeline from the transformer in 2017 to context engineering as a named discipline">
+      <line class="d-line" x1="96" y1="30" x2="96" y2="212"/>
+
+      <circle class="d-runner" cx="96" cy="46" r="5"/>
+      <text class="d-label-mono" x="8" y="50">2017-06</text>
+      <text class="d-label" x="116" y="44">Attention Is All You Need</text>
+      <text class="d-label-sm" x="116" y="62">transformer ถือกำเนิด · พร้อมกับข้อจำกัดที่ยังอยู่ถึงทุกวันนี้</text>
+
+      <circle class="d-runner d-pulse-1" cx="96" cy="102" r="5"/>
+      <text class="d-label-mono" x="8" y="106">2020-05</text>
+      <text class="d-label" x="116" y="100">RAG</text>
+      <text class="d-label-sm" x="116" y="118">ทางออกแรก — ดึงเฉพาะที่เกี่ยว แทนที่จะยัดทุกอย่าง</text>
+
+      <circle class="d-runner d-pulse-2" cx="96" cy="158" r="6"/>
+      <text class="d-label-mono" x="8" y="162">2023-07</text>
+      <text class="d-label" x="116" y="156">Lost in the Middle</text>
+      <text class="d-label-sm" x="116" y="174">ค้นพบว่า "ใส่ได้" กับ "ใช้ได้ดี" ไม่ใช่เรื่องเดียวกัน</text>
+
+      <circle class="d-runner d-pulse-3" cx="96" cy="204" r="5"/>
+      <text class="d-label-mono" x="8" y="208">2025</text>
+      <text class="d-label" x="116" y="202">Context engineering กลายเป็นชื่อของศาสตร์</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 0</b> · จากข้อจำกัดทางสถาปัตยกรรม → ทางออกเชิงเทคนิค → การค้นพบว่าทางออกนั้นไม่พอ → กลายเป็นวินัยที่ต้องฝึก</p>
+  </div>
+
+  <h3><span class="k">2017</span>ต้นกำเนิดของข้อจำกัด</h3>
+  <p>
+    <em>Attention Is All You Need</em> (Vaswani และคณะ, มิ.ย. 2017) เสนอสถาปัตยกรรม transformer
+    ซึ่งเป็นฐานของโมเดลภาษาแทบทั้งหมดที่เราใช้ทุกวันนี้ หัวใจของมันคือกลไก attention
+    ที่ให้ทุก token มองเห็นทุก token อื่นได้
+  </p>
+  <p>
+    ข้อดีคือมันจับความสัมพันธ์ระยะไกลได้ดีมาก แต่<strong>ราคาของมันคือ ยิ่งข้อความยาว ต้นทุนยิ่งโตเร็วกว่าเชิงเส้น</strong>
+    เพราะทุก token ต้องเทียบกับทุก token
+  </p>
+  <p>
+    เพราะงั้น context window ไม่ได้เป็นขีดจำกัดที่ใครตั้งขึ้นมาเพื่อกวนใจเรา —
+    <strong>มันเป็นผลโดยตรงจากวิธีที่โมเดลทำงาน</strong> และเป็นเหตุผลว่าทำไมการขยาย window
+    ถึงเป็นงานยากที่ต้องใช้เทคนิคเฉพาะ ไม่ใช่แค่เพิ่มตัวเลขในไฟล์ config
+  </p>
+
+  <h3><span class="k">2020</span>ทางออกแรก — อย่ายัด ให้ดึงเอา</h3>
+  <p>
+    <em>Retrieval-Augmented Generation</em> (Lewis และคณะ, พ.ค. 2020) เสนอไอเดียที่ตอนนี้ฟังดูธรรมดามาก
+    แต่ตอนนั้นเป็นการเปลี่ยนกรอบคิด — แทนที่จะพยายามให้โมเดลรู้ทุกอย่างหรือใส่ทุกอย่างเข้าไป
+    ให้<strong>ค้นเฉพาะชิ้นที่เกี่ยวกับคำถามตรงหน้า แล้วใส่เฉพาะชิ้นนั้น</strong>
+  </p>
+  <div class="chat">
+    <p>
+      สังเกตไหมครับว่านี่คือ<b>กฎข้อ 4 ในบท 02.02 เป๊ะ ๆ</b> — "re-findable"
+    </p>
+    <p>
+      คือไอเดียนี้อายุ 5 ปีแล้ว แต่คนยังทำผิดกันอยู่ทุกวัน เพราะพอ window ใหญ่ขึ้น
+      คนก็เลิกคิดเรื่องนี้ไปเลย ทั้งที่เหตุผลเดิมยังอยู่ครบ
+    </p>
+  </div>
+
+  <h3><span class="k">2023</span>การค้นพบที่เปลี่ยนวิธีคิด</h3>
+  <p>
+    พอ window เริ่มใหญ่ขึ้นจริง ๆ คำถามใหม่ก็ตามมา — ถ้าใส่ได้เยอะแล้ว ยังต้องเลือกอยู่ไหม
+  </p>
+  <p>
+    <em>Lost in the Middle</em> (Liu และคณะ, ก.ค. 2023) วัดเรื่องนี้อย่างเป็นระบบ แล้วพบว่า
+    โมเดลใช้ข้อมูลที่อยู่<strong>ต้นและท้าย</strong>ของ context ได้ดีกว่าข้อมูลที่อยู่<strong>ตรงกลาง</strong>อย่างมีนัยสำคัญ
+  </p>
+  <p>
+    ความหมายคือ <strong>"ใส่เข้าไปได้" ไม่เท่ากับ "โมเดลจะใช้มันได้ดี"</strong>
+    ซึ่งเป็นรากของบท 02.03 ทั้งบท และเป็นเหตุผลว่าทำไมการยัดของเพิ่มถึงไม่ใช่ทางแก้
+  </p>
+
+  <h3><span class="k">2025</span>ตอนที่มันได้ชื่อ</h3>
+  <p>
+    ก่อนหน้านี้เราเรียกทุกอย่างรวม ๆ ว่า prompt engineering ซึ่งเน้นที่ "เขียนคำสั่งยังไง"
+    แต่พอ agent วนหลายรอบและ context สะสมเอง ปัญหาก็เปลี่ยนไป —
+    มันไม่ใช่เรื่องถ้อยคำในคำสั่งอีกต่อไป แต่เป็นเรื่อง<strong>บริหารทั้งกองที่ส่งเข้าไปในแต่ละรอบ</strong>
+  </p>
+  <p>
+    คำว่า <em>context engineering</em> เลยถูกใช้แยกออกมา เพื่อชี้ว่านี่เป็นคนละงานกัน
+    และเป็นงานที่ต้องคิดเชิงระบบ ไม่ใช่เชิงถ้อยคำ
+  </p>
+
+  <div class="box good">
+    <span class="k">สรุปเส้นเรื่องทั้งหมดในสามบรรทัด</span>
+    <ol>
+      <li><strong>2017</strong> — สถาปัตยกรรมทำให้เกิดขีดจำกัด</li>
+      <li><strong>2020</strong> — เราแก้ด้วยการดึงเฉพาะที่เกี่ยว</li>
+      <li><strong>2023</strong> — พบว่าต่อให้ขยายขีดจำกัด การเลือกก็ยังจำเป็นอยู่ดี</li>
+    </ol>
+    <p>
+      เพราะงั้นเวลามีคนบอกว่า "window ใหญ่แล้ว ไม่ต้องคิดเรื่องนี้แล้ว" —
+      เขากำลังข้ามข้อ 3 ซึ่งเป็นข้อที่มีหลักฐานรองรับชัดที่สุด
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>ต้นฉบับงานวิจัย</h3>
+    <ol>
+      <li>
+        <a href="https://arxiv.org/abs/1706.03762" target="_blank" rel="noopener noreferrer">Attention Is All You Need</a>
+        — Vaswani et al. · มิ.ย. 2017 · ต้นกำเนิดของ transformer และของ context window
+        <span class="src">arxiv.org/abs/1706.03762</span>
+      </li>
+      <li>
+        <a href="https://arxiv.org/abs/2005.11401" target="_blank" rel="noopener noreferrer">Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</a>
+        — Lewis et al. · พ.ค. 2020
+        <span class="src">arxiv.org/abs/2005.11401</span>
+      </li>
+      <li>
+        <a href="https://arxiv.org/abs/2307.03172" target="_blank" rel="noopener noreferrer">Lost in the Middle: How Language Models Use Long Contexts</a>
+        — Liu et al. · ก.ค. 2023
+        <span class="src">arxiv.org/abs/2307.03172</span>
+      </li>
+      <li>
+        <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" target="_blank" rel="noopener noreferrer">Effective context engineering for AI agents</a>
+        — มุมมองปัจจุบันว่าทำไมมันถึงเป็นศาสตร์แยกจาก prompt engineering
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="lesson">
   <div class="lhead"><span class="lnum">02.01</span><h2>Context window คืองบ ไม่ใช่พื้นที่เก็บของ</h2></div>
 
   <div class="chat">

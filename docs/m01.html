@@ -36,6 +36,142 @@
 </div>
 
 <section class="lesson">
+  <div class="lhead"><span class="lnum">ที่มา</span><h2>agent loop มาจากไหน</h2></div>
+
+  <div class="chat">
+    <p>
+      ก่อนจะเข้าเนื้อหา ผมอยากเล่าที่มาให้ฟังก่อน เพราะพอรู้ว่าแต่ละชิ้นมาจากไหน
+      <b>มันจะเลิกดูเหมือนเวทมนตร์ทันที</b>
+    </p>
+    <p>
+      สิ่งที่เราใช้กันทุกวันนี้ไม่ได้โผล่มาพร้อมกันทีเดียว มันเป็นของ 4-5 ชิ้นที่คนละทีมคิดคนละปี
+      แล้วค่อย ๆ ประกอบกันขึ้นมาในช่วงประมาณ 2 ปี
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 280" role="img" aria-label="Timeline from WebGPT 2021 to Toolformer 2023 showing how the agent loop was assembled">
+      <line class="d-line" x1="96" y1="30" x2="96" y2="252"/>
+
+      <circle class="d-runner" cx="96" cy="46" r="5"/>
+      <text class="d-label-mono" x="8" y="50">2021-12</text>
+      <text class="d-label" x="116" y="44">WebGPT</text>
+      <text class="d-label-sm" x="116" y="62">โมเดล + browser · เริ่มมีความคิดว่าให้มันไปหาข้อมูลเองได้</text>
+
+      <circle class="d-runner d-pulse-1" cx="96" cy="94" r="5"/>
+      <text class="d-label-mono" x="8" y="98">2022-01</text>
+      <text class="d-label" x="116" y="92">Chain-of-Thought</text>
+      <text class="d-label-sm" x="116" y="110">ให้มันคิดเป็นขั้น ๆ ออกมาเป็นข้อความก่อนตอบ</text>
+
+      <circle class="d-runner d-pulse-2" cx="96" cy="142" r="5"/>
+      <text class="d-label-mono" x="8" y="146">2022-05</text>
+      <text class="d-label" x="116" y="140">MRKL Systems</text>
+      <text class="d-label-sm" x="116" y="158">แยกงานออกไปให้ module ภายนอกทำ แทนที่จะให้โมเดลทำเอง</text>
+
+      <circle class="d-runner d-pulse-3" cx="96" cy="190" r="6"/>
+      <text class="d-label-mono" x="8" y="194">2022-10</text>
+      <text class="d-label" x="116" y="188">ReAct ← ต้นตำรับของลูป</text>
+      <text class="d-label-sm" x="116" y="206">เอา "คิด" กับ "ลงมือ" มาสลับกันในลูปเดียว</text>
+
+      <circle class="d-runner" cx="96" cy="238" r="5"/>
+      <text class="d-label-mono" x="8" y="242">2023-02</text>
+      <text class="d-label" x="116" y="236">Toolformer</text>
+      <text class="d-label-sm" x="116" y="254">โมเดลเรียนรู้เองว่าควรเรียก tool ตอนไหน</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 0</b> · ลูปที่เราใช้ทุกวันนี้คือ ReAct ที่ถูกทำให้เป็นสินค้า — ส่วนที่เหลือคือวิศวกรรมรอบ ๆ มัน</p>
+  </div>
+
+  <h3><span class="k">2021–2022</span>ยุคที่ยังแยกกันอยู่</h3>
+  <p>
+    ตอนนั้นมีสองสายที่เดินแยกกัน สายหนึ่งพยายามทำให้โมเดล<strong>คิดเก่งขึ้น</strong> —
+    <em>Chain-of-Thought Prompting</em> (Wei และคณะ, ม.ค. 2022) แสดงว่าถ้าให้โมเดลเขียนขั้นตอนการคิดออกมาเป็นข้อความก่อนตอบ
+    มันตอบโจทย์ที่ต้องใช้เหตุผลได้ดีขึ้นมาก
+  </p>
+  <p>
+    อีกสายพยายามทำให้มัน<strong>ทำอะไรได้จริง</strong> — <em>WebGPT</em> (Nakano และคณะ, ธ.ค. 2021)
+    ให้โมเดลใช้ browser ค้นข้อมูลมาตอบ ส่วน <em>MRKL Systems</em> (Karpas และคณะ, พ.ค. 2022)
+    เสนอสถาปัตยกรรมที่ให้โมเดลส่งงานบางอย่างออกไปให้ module ภายนอกทำ แทนที่จะพยายามทำเองทั้งหมด
+  </p>
+  <p>
+    แต่สองสายนี้ยังไม่ได้มาบรรจบกัน — คิดก็คิดไป ทำก็ทำไป
+  </p>
+
+  <h3><span class="k">ตุลาคม 2022</span>จุดที่ทุกอย่างมาเจอกัน</h3>
+  <p>
+    <em>ReAct</em> (Yao และคณะ) เอาสองสายนั้นมารวมในลูปเดียว — ให้โมเดล<strong>สลับ</strong>ระหว่างการให้เหตุผล
+    กับการลงมือทำ แทนที่จะทำอย่างใดอย่างหนึ่ง คิดหน่อย → ทำหน่อย → เห็นผล → คิดใหม่ → ทำต่อ
+  </p>
+  <div class="chat">
+    <p>
+      ถ้าย้อนกลับไปดู Figure 1 ในบทถัดไป คุณจะเห็นว่า<b>มันคือ ReAct เป๊ะ ๆ</b>
+      แค่เปลี่ยนจาก paper มาเป็น production code
+    </p>
+    <p>
+      ที่ผมชอบคือ idea มันเรียบง่ายมากจนดูเหมือนไม่น่าจะเป็น research paper ได้ —
+      "ก็แค่ให้มันคิดสลับกับทำ" แต่ก่อนหน้านั้นไม่มีใครทำแบบนี้
+    </p>
+  </div>
+
+  <h3><span class="k">2023 เป็นต้นมา</span>จากงานวิจัยมาเป็นของที่ใช้จริง</h3>
+  <p>
+    <em>Toolformer</em> (Schick และคณะ, ก.พ. 2023) ไปอีกขั้นด้วยการให้โมเดลเรียนรู้เองว่าควรเรียก tool ตอนไหน
+    แทนที่จะต้องบอกในprompt ทุกครั้ง
+  </p>
+  <p>
+    หลังจากนั้นสิ่งที่เกิดขึ้นส่วนใหญ่<strong>ไม่ใช่งานวิจัยแล้ว แต่เป็นงานวิศวกรรม</strong> —
+    ทำ tool calling ให้เป็น API ที่มีสัญญาชัดเจน ทำ permission layer ทำ context management
+    ทำโปรโตคอลกลางอย่าง MCP เพื่อให้ tool จากคนละเจ้าคุยกันได้
+  </p>
+  <p>
+    ห้าชั้นของ harness ที่เราจะดูกันในบท 01.02 <strong>ทั้งหมดเป็นของที่เกิดในยุคนี้</strong>
+    ไม่มีชั้นไหนอยู่ใน paper ต้นฉบับเลย มันคือสิ่งที่ต้องเพิ่มเข้ามาเมื่อเอาของจาก paper ไปใช้กับงานจริง
+  </p>
+
+  <div class="box good">
+    <span class="k">ทำไมประวัติถึงมีประโยชน์กับการ debug</span>
+    <p>
+      เพราะมันบอกว่า<strong>ส่วนไหนเป็นแก่นและส่วนไหนเป็นของที่เราใส่เข้าไปเอง</strong>
+    </p>
+    <p>
+      ลูป ReAct เป็นแก่น — แทบไม่พัง ส่วนอีก 5 ชั้นเป็นวิศวกรรมของแต่ละเจ้า — พังได้และพังบ่อย
+      เวลาเจอปัญหา ให้เดาชั้นนอกก่อนเสมอ นี่คือเหตุผลที่ผมบอกในบทถัดไปว่า
+      "โมเดลไม่เก่งพอ" ควรเป็นข้อสรุปสุดท้าย ไม่ใช่ข้อแรก
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>ต้นฉบับงานวิจัย</h3>
+    <ol>
+      <li>
+        <a href="https://arxiv.org/abs/2112.09332" target="_blank" rel="noopener noreferrer">WebGPT: Browser-assisted question-answering with human feedback</a>
+        — Nakano et al. · ธ.ค. 2021
+        <span class="src">arxiv.org/abs/2112.09332</span>
+      </li>
+      <li>
+        <a href="https://arxiv.org/abs/2201.11903" target="_blank" rel="noopener noreferrer">Chain-of-Thought Prompting Elicits Reasoning in Large Language Models</a>
+        — Wei et al. · ม.ค. 2022
+        <span class="src">arxiv.org/abs/2201.11903</span>
+      </li>
+      <li>
+        <a href="https://arxiv.org/abs/2205.00445" target="_blank" rel="noopener noreferrer">MRKL Systems</a>
+        — Karpas et al. · พ.ค. 2022
+        <span class="src">arxiv.org/abs/2205.00445</span>
+      </li>
+      <li>
+        <a href="https://arxiv.org/abs/2210.03629" target="_blank" rel="noopener noreferrer">ReAct: Synergizing Reasoning and Acting in Language Models</a>
+        — Yao et al. · ต.ค. 2022 · <strong>ต้นตำรับของลูปที่เราใช้กันทุกวันนี้</strong>
+        <span class="src">arxiv.org/abs/2210.03629</span>
+      </li>
+      <li>
+        <a href="https://arxiv.org/abs/2302.04761" target="_blank" rel="noopener noreferrer">Toolformer: Language Models Can Teach Themselves to Use Tools</a>
+        — Schick et al. · ก.พ. 2023
+        <span class="src">arxiv.org/abs/2302.04761</span>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="lesson">
   <div class="lhead"><span class="lnum">01.01</span><h2>Agentic loop จริง ๆ คืออะไร</h2><label class="done"><input type="checkbox" data-lesson="01.01"><span>เรียนจบ</span></label></div>
 
   <div class="chat">
