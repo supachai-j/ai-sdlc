@@ -645,35 +645,42 @@
   </p>
 
   <div class="fig">
-    <svg viewBox="0 0 640 250" role="img" aria-label="Compaction summarises, context editing deletes, memory tool writes out of context">
+    <svg viewBox="0 0 640 300" role="img" aria-label="Four ways to handle a full context: summarise, delete, write out, or keep notes with searchable history">
       <text class="d-label-mono" x="8" y="16">BEFORE</text>
-      <rect class="d-bar" x="70" y="26" width="120" height="16"/>
-      <rect class="d-bar" x="192" y="26" width="180" height="16"/>
-      <rect class="d-bar-new" x="374" y="26" width="90" height="16"/>
-      <text class="d-label-sm" x="474" y="39">เก่า · เก่า · ใหม่</text>
+      <rect class="d-bar" x="120" y="26" width="120" height="16"/>
+      <rect class="d-bar" x="242" y="26" width="180" height="16"/>
+      <rect class="d-bar-new" x="424" y="26" width="90" height="16"/>
+      <text class="d-label-sm" x="524" y="39">เก่า · เก่า · ใหม่</text>
 
       <line class="d-line" x1="8" y1="56" x2="632" y2="56" stroke-dasharray="3 3"/>
 
       <text class="d-label-mono" x="8" y="82">COMPACTION</text>
-      <rect class="d-box" x="140" y="70" width="70" height="16"/>
-      <rect class="d-bar-new" x="374" y="70" width="90" height="16"/>
-      <text class="d-label-sm" x="474" y="83">สรุปย่อ · ยังรู้ว่าเคยเกิด</text>
+      <rect class="d-box" x="120" y="70" width="70" height="16"/>
+      <rect class="d-bar-new" x="424" y="70" width="90" height="16"/>
+      <text class="d-label-sm" x="524" y="83">สรุปย่อ</text>
 
       <text class="d-label-mono" x="8" y="122">CONTEXT EDIT</text>
-      <rect class="d-bar-new" x="374" y="110" width="90" height="16"/>
-      <text class="d-label-sm" x="474" y="123">ลบทิ้ง · หายไปเลย</text>
+      <rect class="d-bar-new" x="424" y="110" width="90" height="16"/>
+      <text class="d-label-sm" x="524" y="123">ลบทิ้งเลย</text>
 
       <text class="d-label-mono" x="8" y="162">MEMORY TOOL</text>
-      <rect class="d-bar-new" x="374" y="150" width="90" height="16"/>
-      <rect class="d-box-accent" x="140" y="150" width="90" height="16"/>
-      <text class="d-label-sm" x="240" y="163">→ เขียนออกไปนอก context</text>
-      <text class="d-label-sm" x="474" y="163">ดึงกลับเองเมื่อใช้</text>
+      <rect class="d-box-accent" x="120" y="150" width="90" height="16"/>
+      <rect class="d-bar-new" x="424" y="150" width="90" height="16"/>
+      <text class="d-label-sm" x="524" y="163">เขียนออกไปนอก</text>
 
-      <rect class="d-box-accent" x="8" y="192" width="624" height="50"/>
-      <text class="d-label" x="22" y="214">เลือกยังไง — ถามว่า "ของชิ้นนี้จะต้องใช้อีกไหม"</text>
-      <text class="d-label-sm" x="22" y="234">ไม่ใช้แล้ว → ลบ · ต้องรู้ว่าเคยเกิดแต่ไม่ต้องรู้รายละเอียด → สรุป · ต้องใช้อีกแน่ แต่ไม่ใช่ตอนนี้ → เขียนออกไป</text>
+      <text class="d-label-mono" x="8" y="202">NOTES + SEARCH</text>
+      <rect class="d-box-accent" x="120" y="190" width="90" height="16"/>
+      <rect class="d-box" x="216" y="190" width="200" height="16" stroke-dasharray="3 3"/>
+      <text class="d-label-sm" x="222" y="203">window เก่า · ยัง search ได้</text>
+      <rect class="d-bar-new" x="424" y="190" width="90" height="16"/>
+      <text class="d-label-sm" x="524" y="203">จด + ค้นย้อน</text>
+
+      <rect class="d-box-accent" x="8" y="228" width="624" height="64"/>
+      <text class="d-label" x="22" y="250">เลือกยังไง — ถามว่า "ของชิ้นนี้จะต้องใช้อีกไหม"</text>
+      <text class="d-label-sm" x="22" y="270">ไม่ใช้แล้ว → ลบ · รู้แค่ว่าเคยเกิด → สรุป · ใช้อีกแน่แต่ไม่ใช่ตอนนี้ → เขียนออกไป</text>
+      <text class="d-label-sm" x="22" y="286">ไม่แน่ใจว่าจะต้องใช้อะไรอีก → จด + เก็บของเก่าไว้ให้ค้นย้อนได้</text>
     </svg>
-    <p class="fig-cap"><b>Figure 6</b> · สามกลไกทำคนละอย่าง — สรุป / ลบ / ย้ายออก · เลือกจากว่าจะได้ใช้อีกไหม</p>
+    <p class="fig-cap"><b>Figure 6</b> · สี่กลไกทำคนละอย่าง — สรุป / ลบ / ย้ายออก / จดแล้วค้นย้อนได้ · เลือกจากว่าจะได้ใช้อีกไหม</p>
   </div>
 
   <div class="tw"><table>
@@ -682,8 +689,43 @@
       <tr><td><strong>Compaction</strong></td><td>สรุปย่อประวัติเก่า</td><td>session ยาวที่ยังต้องรู้ว่าเคยทำอะไร</td><td>รายละเอียดที่ถูกสรุปทิ้ง</td></tr>
       <tr><td><strong>Context editing</strong></td><td>ลบ tool result เก่าทั้งก้อน</td><td>ผลที่ใช้แล้วและไม่ต้องใช้อีก</td><td>ของนั้นหายไปเลย</td></tr>
       <tr><td><strong>Memory tool</strong></td><td>เขียนออกไปเก็บนอก context</td><td>ข้อสรุปที่ต้องใช้ข้าม session</td><td>ต้องดึงกลับเองเมื่อจะใช้</td></tr>
+      <tr><td><strong>Notes + searchable history</strong></td><td>จด note ข้าม window และค้น window เก่าย้อนได้</td><td>งานยาวที่ยังไม่รู้ว่าจะต้องย้อนดูอะไร</td><td>ต้องเก็บของเก่าไว้ ซึ่งมีต้นทุนฝั่งระบบ</td></tr>
     </tbody>
   </table></div>
+
+  <h3><span class="k">กลไกที่ 4</span>จดไว้ แล้วค้นของเก่าย้อนได้</h3>
+  <p>
+    สามกลไกแรกมีจุดอ่อนร่วมกันข้อหนึ่ง — <strong>พอตัดสินใจไปแล้วก็ย้อนไม่ได้</strong>
+    สรุปแล้วรายละเอียดหาย ลบแล้วหายเลย เขียนออกไปแล้วถ้าไม่ได้จดสิ่งที่ถูกก็ดึงกลับไม่ได้
+  </p>
+  <p>
+    ปัญหาคือตอนที่ต้องตัดสินใจ เรามักยังไม่รู้ว่าอีกสิบรอบข้างหน้าจะต้องใช้อะไร
+    เช่นตอน debug ยาว ๆ เหตุผลว่า "ทำไมวิธีที่ 3 ถึงไม่เวิร์ก" อาจสำคัญมากตอนรอบที่ 20
+    แต่ตอนสรุปรอบที่ 8 มันดูเหมือนของที่ตัดได้
+  </p>
+  <p>
+    แนวทางใหม่ที่เริ่มเห็นในเครื่องมือปี 2026 คือให้ agent <strong>จด note สะสมข้าม window</strong>
+    และ<strong>เก็บ window เก่าไว้ให้ค้นย้อนได้</strong> — ถ้ามันนึกได้ทีหลังว่าต้องการอะไร
+    ก็ไปค้นเอาจากของเก่า แม้สิ่งนั้นจะไม่ได้อยู่ใน note ก็ตาม
+  </p>
+  <div class="chat">
+    <p>
+      มองอีกมุมคือ<b>มันเอาแนวคิด retrieval มาใช้กับ "ประวัติของตัวเอง"</b>
+      แทนที่จะใช้กับ codebase อย่างเดียว
+    </p>
+    <p>
+      ซึ่งถ้าย้อนไปดูกฎข้อ 4 ในบท 02.02 (re-findable) — นี่คือการทำให้ประวัติการสนทนา
+      กลายเป็นของที่ "หากลับมาได้" แทนที่จะเป็นของที่ต้องแบกไว้ทั้งกองหรือทิ้งไปเลย
+    </p>
+  </div>
+  <div class="box rule">
+    <span class="k">แล้วมันแทนสามอันแรกไหม</span>
+    <p>
+      ไม่ — มันแก้ปัญหาคนละข้อ ถ้ารู้แน่ว่าของชิ้นนั้นไม่ต้องใช้แล้ว <strong>ลบยังถูกกว่าเสมอ</strong>
+      เพราะการเก็บไว้ให้ค้นได้ก็มีต้นทุนของมัน กลไกที่ 4 มีค่าตอนที่<em>เราไม่รู้</em>ว่าจะต้องใช้อะไร
+      ซึ่งเป็นสถานการณ์ของงานยาวที่ยังไม่จบ ไม่ใช่ของงานที่รู้ขอบเขตแล้ว
+    </p>
+  </div>
 
   <div class="box trap">
     <span class="k">ที่ผิดบ่อย</span>
@@ -708,6 +750,12 @@
         <a href="https://docs.claude.com/en/docs/agents-and-tools/tool-use/memory-tool" target="_blank" rel="noopener noreferrer">Memory tool</a>
         — เขียนความรู้ออกไปเก็บนอก context แล้วดึงกลับเมื่อต้องใช้
         <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://openai.com/index/gpt-6-astra/" target="_blank" rel="noopener noreferrer">GPT-6 Astra</a>
+        — ประกาศของ OpenAI (2026) อธิบายวิธีเก็บ note ข้าม context window และค้น window เก่าย้อนได้
+        · <em>เป็นเอกสารของผู้ผลิต ไม่ใช่แหล่งเป็นกลาง</em>
+        <span class="src">openai.com/index/gpt-6-astra</span>
       </li>
     </ol>
   </div>
