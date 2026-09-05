@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Coding Agent SDLC — สไลด์บรรยาย</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+<style>
+:root{--ink:#14191D;--paper:#F1F3F4;--rule:#D3D9DC;--ink2:#47535C;--ink3:#7E8B93;
+      --signal:#B04716;--steel:#2F5D7C;--good:#2C6A4A;
+      --mono:"IBM Plex Mono",monospace;--sans:"IBM Plex Sans Thai",system-ui,sans-serif}
+.reveal{font-family:var(--sans);font-size:26px;color:var(--ink)}
+.reveal-viewport{background:var(--paper)}
+.reveal .slides{text-align:left}
+.reveal section{padding:0 20px}
+.reveal h1{font-size:64px;font-weight:700;letter-spacing:-.02em;line-height:1.1;color:#F1F3F4;margin:0 0 24px;text-transform:none}
+.reveal h2{font-size:44px;font-weight:700;letter-spacing:-.018em;line-height:1.18;margin:0 0 26px;text-transform:none;color:var(--ink)}
+.reveal h2.closing{font-size:52px;color:#F1F3F4;line-height:1.22}
+.eyebrow-s{font-family:var(--mono);font-size:16px;letter-spacing:.16em;text-transform:uppercase;color:var(--signal);margin:0 0 20px}
+.sub{font-size:26px;color:#A2B0B8;max-width:34ch;margin:0 0 28px;line-height:1.55}
+.lead{font-size:27px;color:var(--ink2);max-width:40ch;line-height:1.6;margin:0 0 28px}
+.lead strong,.big strong{color:var(--ink);font-weight:600}
+.stat{font-family:var(--mono);font-size:19px;color:var(--ink3);letter-spacing:.06em;margin:0}
+section[data-background-color] .stat{color:#7E8B93}
+ul.big{list-style:none;padding:0;margin:0;font-size:27px;line-height:1.6}
+ul.big li{padding:13px 0 13px 34px;border-top:1px solid var(--rule);position:relative;color:var(--ink2)}
+ul.big li:first-child{border-top:none}
+ul.big li::before{content:"";position:absolute;left:0;top:24px;width:16px;height:2px;background:var(--signal)}
+.gapgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.gapcell{background:var(--paper);padding:15px 18px;display:flex;align-items:baseline;gap:12px}
+.gid{font-family:var(--mono);font-size:16px;font-weight:600;color:var(--signal)}
+.gt{font-size:21px;flex:1;line-height:1.35}
+.gm{font-family:var(--mono);font-size:14px;color:var(--ink3)}
+.phasegrid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.pcell{background:var(--paper);padding:18px;display:flex;flex-direction:column;gap:8px}
+.pn{font-family:var(--mono);font-size:14px;letter-spacing:.14em;color:var(--signal)}
+.pnm{font-size:21px;font-weight:600;line-height:1.3}
+.pms{font-family:var(--mono);font-size:14px;color:var(--ink3)}
+table.mtable{width:100%;border-collapse:collapse;font-size:23px}
+table.mtable td{padding:12px 10px;border-bottom:1px solid var(--rule);vertical-align:baseline}
+td.mc{font-family:var(--mono);font-weight:600;width:78px;color:var(--ink3)}
+td.mt{line-height:1.35}
+td.mn{font-family:var(--mono);font-size:16px;color:var(--ink3);text-align:right;white-space:nowrap}
+.badge{font-family:var(--mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;
+       color:var(--signal);border:1px solid var(--signal);padding:2px 6px;margin-left:8px;vertical-align:2px}
+</style>
+</head>
+<body>
+<div class="reveal"><div class="slides">
+<section data-background-color="#14191D">
+  <p class="eyebrow-s">หลักสูตรฉบับลงลึก</p>
+  <h1>AI Coding Agent SDLC</h1>
+  <p class="sub">หลักสูตรฉบับลงลึก — เติมช่องว่าง 8 จุดที่คอร์สทั่วไปข้าม</p>
+  <p class="stat">15 โมดูล · 127 บท · 17 แล็บ · ~42 ชั่วโมง</p>
+</section>
+<section>
+  <h2>ปัญหาที่หลักสูตรนี้ตั้งใจแก้</h2>
+  <p class="lead">คอร์สทั่วไปสอนให้ “ใช้ agent เป็น” ซึ่งพอสำหรับคนเดียว แต่ไม่พอเมื่อ<strong>ทีมทั้งทีมใช้พร้อมกันและของขึ้นโปรดักชัน</strong></p>
+  <ul class="big">
+    <li>ปรับ prompt ด้วยความรู้สึก เพราะไม่มีเครื่องวัด</li>
+    <li>ต้นทุนบานโดยไม่รู้ว่าเงินไปไหน</li>
+    <li>ทำงานได้เฉพาะกับโปรเจกต์ใหม่ ไม่ใช่โค้ดจริงที่มีอยู่</li>
+    <li>เปิดสิทธิ์กว้างเพราะรำคาญ แล้วกลายเป็นช่องโหว่</li>
+  </ul>
+</section>
+<section>
+  <h2>ช่องว่าง 8 จุด</h2>
+  <p class="lead">แต่ละจุดเพิ่มเพราะถ้าไม่มี เวิร์กโฟลว์จะพังตอนขยาย — เรียงตามความเสียหายถ้าข้าม</p>
+  <div class="gapgrid">
+    <div class="gapcell"><span class="gid">G1</span><span class="gt">Evals — วัดผลระบบ agent ของตัวเอง</span><span class="gm">M12</span></div><div class="gapcell"><span class="gid">G2</span><span class="gt">Security และ Threat Model ของ agent</span><span class="gm">M13</span></div><div class="gapcell"><span class="gid">G3</span><span class="gt">Context Engineering</span><span class="gm">M02</span></div><div class="gapcell"><span class="gid">G4</span><span class="gt">Brownfield และ Legacy</span><span class="gm">M08</span></div><div class="gapcell"><span class="gid">G5</span><span class="gt">Token และ Model Economics</span><span class="gm">M03</span></div><div class="gapcell"><span class="gid">G6</span><span class="gt">Agent-Ready Codebase</span><span class="gm">M05</span></div><div class="gapcell"><span class="gid">G7</span><span class="gt">Multi-Agent Orchestration</span><span class="gm">M10</span></div><div class="gapcell"><span class="gid">G8</span><span class="gt">Governance และการใช้จริงในทีม</span><span class="gm">M15</span></div>
+  </div>
+</section>
+<section>
+  <p class="eyebrow-s">G1 · M12 · 9 บท</p>
+  <h2>Evals — วัดผลระบบ agent ของตัวเอง</h2>
+  <p class="lead">ถ้าวัดไม่ได้ คุณกำลังปรับ prompt ด้วยความรู้สึก LLM มี variance สูงพอที่ &quot;ลองแล้วรู้สึกว่าดีขึ้น&quot; จะเป็นสัญญาณรบกวนล้วน ๆ</p>
+</section>
+<section>
+  <p class="eyebrow-s">G2 · M13 · 9 บท</p>
+  <h2>Security และ Threat Model ของ agent</h2>
+  <p class="lead">coding agent มีโมเดลภัยคุกคามที่ต่างจาก web app โดยสิ้นเชิง และ skill ที่ติดตั้งคือโค้ดที่รันด้วยสิทธิ์ของคุณ</p>
+</section>
+<section>
+  <p class="eyebrow-s">G3 · M02 · 9 บท</p>
+  <h2>Context Engineering</h2>
+  <p class="lead">ทักษะที่แยกคนที่ใช้ agent เป็นกับไม่เป็นชัดที่สุด และให้ผลตอบแทนสูงกว่าการเปลี่ยนโมเดล</p>
+</section>
+<section>
+  <p class="eyebrow-s">G4 · M08 · 7 บท</p>
+  <h2>Brownfield และ Legacy</h2>
+  <p class="lead">แล็บที่เริ่มจากโฟลเดอร์ว่างสอนงานที่แทบไม่มีใครทำจริง งานจริงคือ codebase อายุ 6 ปีที่ไม่มีเทสต์</p>
+</section>
+<section>
+  <h2>โครงหลักสูตร</h2>
+  <div class="phasegrid">
+    <div class="pcell">
+        <span class="pn">PHASE 00</span>
+        <span class="pnm">รากฐาน</span>
+        <span class="pms">M01 · M02 · M03</span>
+      </div><div class="pcell">
+        <span class="pn">PHASE 01</span>
+        <span class="pnm">วางแผน</span>
+        <span class="pms">M04 · M05</span>
+      </div><div class="pcell">
+        <span class="pn">PHASE 02</span>
+        <span class="pnm">สร้าง</span>
+        <span class="pms">M06 · M07 · M08</span>
+      </div><div class="pcell">
+        <span class="pn">PHASE 03</span>
+        <span class="pnm">ขยายความสามารถ</span>
+        <span class="pms">M09 · M10</span>
+      </div><div class="pcell">
+        <span class="pn">PHASE 04</span>
+        <span class="pnm">ตรวจสอบ</span>
+        <span class="pms">M11 · M12 · M13</span>
+      </div><div class="pcell">
+        <span class="pn">PHASE 05</span>
+        <span class="pnm">ส่งมอบและดำเนินการ</span>
+        <span class="pms">M14 · M15</span>
+      </div>
+  </div>
+</section>
+<section>
+  <p class="eyebrow-s">PHASE 00</p>
+  <h2>รากฐาน — เข้าใจกลไก ไม่ใช่ท่องคำสั่ง</h2>
+  <table class="mtable">
+    <tbody><tr>
+      <td class="mc">M01</td>
+      <td class="mt">กลไกภายในของ Agent</td>
+      <td class="mn">8 บท</td>
+    </tr><tr>
+      <td class="mc">M02</td>
+      <td class="mt">Context Engineering <span class="badge">ขยาย G3</span></td>
+      <td class="mn">9 บท</td>
+    </tr><tr>
+      <td class="mc">M03</td>
+      <td class="mt">เศรษฐศาสตร์ของ Token และโมเดล <span class="badge">ขยาย G5</span></td>
+      <td class="mn">8 บท</td>
+    </tr></tbody>
+  </table>
+</section>
+<section>
+  <p class="eyebrow-s">PHASE 01</p>
+  <h2>วางแผน — จุดที่ประหยัดที่สุดในทั้ง SDLC</h2>
+  <table class="mtable">
+    <tbody><tr>
+      <td class="mc">M04</td>
+      <td class="mt">Requirements, Research และการย่อยงาน</td>
+      <td class="mn">8 บท</td>
+    </tr><tr>
+      <td class="mc">M05</td>
+      <td class="mt">ออกแบบ Codebase ให้ Agent ทำงานได้ <span class="badge">ใหม่ G6</span></td>
+      <td class="mn">8 บท</td>
+    </tr></tbody>
+  </table>
+</section>
+<section>
+  <p class="eyebrow-s">PHASE 02</p>
+  <h2>สร้าง — ทั้ง greenfield และของจริงที่มีอยู่แล้ว</h2>
+  <table class="mtable">
+    <tbody><tr>
+      <td class="mc">M06</td>
+      <td class="mt">Frontend Implementation</td>
+      <td class="mn">9 บท</td>
+    </tr><tr>
+      <td class="mc">M07</td>
+      <td class="mt">Backend และงานที่แตะข้อมูล</td>
+      <td class="mn">9 บท</td>
+    </tr><tr>
+      <td class="mc">M08</td>
+      <td class="mt">Brownfield และ Legacy Code <span class="badge">ใหม่ G4</span></td>
+      <td class="mn">7 บท</td>
+    </tr></tbody>
+  </table>
+</section>
+<section>
+  <p class="eyebrow-s">PHASE 03</p>
+  <h2>ขยายความสามารถ — จากผู้ใช้เป็นผู้สร้างเครื่องมือ</h2>
+  <table class="mtable">
+    <tbody><tr>
+      <td class="mc">M09</td>
+      <td class="mt">Tooling — MCP, Skills, Hooks, Plugins <span class="badge">ขยาย</span></td>
+      <td class="mn">10 บท</td>
+    </tr><tr>
+      <td class="mc">M10</td>
+      <td class="mt">Multi-Agent Orchestration <span class="badge">ใหม่ G7</span></td>
+      <td class="mn">8 บท</td>
+    </tr></tbody>
+  </table>
+</section>
+<section>
+  <p class="eyebrow-s">PHASE 04</p>
+  <h2>ตรวจสอบ — ส่วนที่แยกของเล่นออกจากของใช้จริง</h2>
+  <table class="mtable">
+    <tbody><tr>
+      <td class="mc">M11</td>
+      <td class="mt">Testing และ QA</td>
+      <td class="mn">8 บท</td>
+    </tr><tr>
+      <td class="mc">M12</td>
+      <td class="mt">Evals — วัดผลระบบ agent ของคุณเอง <span class="badge">ใหม่ G1</span></td>
+      <td class="mn">9 บท</td>
+    </tr><tr>
+      <td class="mc">M13</td>
+      <td class="mt">ความปลอดภัยและโมเดลภัยคุกคาม <span class="badge">ใหม่ G2</span></td>
+      <td class="mn">9 บท</td>
+    </tr></tbody>
+  </table>
+</section>
+<section>
+  <p class="eyebrow-s">PHASE 05</p>
+  <h2>ส่งมอบและดำเนินการ — จากเครื่องตัวเองสู่ทั้งทีม</h2>
+  <table class="mtable">
+    <tbody><tr>
+      <td class="mc">M14</td>
+      <td class="mt">CI/CD และ Agent ในสายพาน</td>
+      <td class="mn">8 บท</td>
+    </tr><tr>
+      <td class="mc">M15</td>
+      <td class="mt">Operations, Governance และการใช้จริงในทีม <span class="badge">ขยาย G8</span></td>
+      <td class="mn">9 บท</td>
+    </tr></tbody>
+  </table>
+</section>
+<section>
+  <h2>เรียนยังไง</h2>
+  <ul class="big">
+    <li>อ่านบทเรียนในเว็บ กด <strong>เรียนจบ</strong> ท้ายแต่ละหัวข้อ</li>
+    <li>ดูวิดีโอประกอบ 49 คลิปได้ในหน้าเลย</li>
+    <li>ทำแล็บ 17 ตัว — ทุกตัวมีเกณฑ์ผ่านที่วัดได้</li>
+    <li>ความคืบหน้าเก็บในเบราว์เซอร์ ย้ายเครื่องได้ด้วยไฟล์</li>
+  </ul>
+  <p class="stat">supachai-j.github.io/ai-sdlc</p>
+</section>
+<section data-background-color="#14191D">
+  <h2 class="closing">ถ้าวัดไม่ได้<br>คุณกำลังปรับ prompt ด้วยความรู้สึก</h2>
+  <p class="sub">เริ่มที่ M12 — ชุดวัด 20 งาน ใช้ตัดสินข้อถกเถียงจริงหนึ่งข้อ</p>
+</section>
+</div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script>
+Reveal.initialize({width:1280,height:800,margin:.07,hash:true,slideNumber:"c/t",transition:"none"});
+</script>
+</body>
+</html>

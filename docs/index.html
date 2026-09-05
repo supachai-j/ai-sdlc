@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="assets/style.css?v=76991f77">
+<link rel="stylesheet" href="assets/style.css?v=db5d8e55">
 </head>
 <body>
 <div class="wrap">
@@ -17,6 +17,8 @@
   <nav>
     <a href="index.html" aria-current="page">ภาพรวม</a>
     <a href="course-th.html">หลักสูตร</a>
+    <a href="slides/training-th.html" target="_blank" rel="noopener">สไลด์</a>
+    <a class="lang" href="index-en.html" hreflang="en">EN</a>
     <span id="nav-progress" class="nav-progress" hidden></span>
     <button id="theme" type="button" aria-label="สลับธีมสว่าง/มืด">THEME</button>
   </nav>
@@ -44,9 +46,11 @@
       <p id="prog-next" class="prog-next"></p>
       <div class="prog-actions">
         <a id="prog-resume" class="btn" href="m01.html">เริ่มเรียน</a>
+        <button id="prog-export" class="btn ghost" type="button">บันทึกเป็นไฟล์</button>
+        <label class="btn ghost" for="prog-import">นำเข้าไฟล์<input id="prog-import" type="file" accept="application/json,.json" hidden></label>
         <button id="prog-reset" class="btn ghost" type="button">ล้างความคืบหน้า</button>
       </div>
-      <p class="prog-note">บันทึกไว้ในเบราว์เซอร์นี้เท่านั้น — เปลี่ยนเครื่องหรือล้างข้อมูลเว็บแล้วจะหาย</p>
+      <p class="prog-note">บันทึกไว้ในเบราว์เซอร์นี้เท่านั้น — ถ้าจะย้ายเครื่องให้กด <strong>บันทึกเป็นไฟล์</strong> แล้วไปกด <strong>นำเข้าไฟล์</strong> ที่อีกเครื่อง (ระบบจะรวมกับของเดิม ไม่ทับ)</p>
     </div>
   </div>
   <div class="prog-grid" id="prog-grid"></div>
@@ -848,7 +852,7 @@
 · หน้าเว็บทั้งหมด generate จาก <code>content/curriculum.yaml</code> และ <code>content/videos.yaml</code></p>
 </div>
 <script src="assets/course-data.js?v=0f15e924" defer></script>
-<script src="assets/progress.js?v=e4d453a7" defer></script>
+<script src="assets/progress.js?v=2c8a93e3" defer></script>
 <script>
 document.getElementById("theme").addEventListener("click",function(){
   var d=document.documentElement;

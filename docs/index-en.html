@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Coding Agent SDLC — Course overview</title>
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/style.css?v=db5d8e55">
+</head>
+<body>
+<div class="wrap">
+<header class="topbar">
+  <a class="brand" href="index-en.html">Agent SDLC</a>
+  <nav>
+    <a href="index-en.html" aria-current="page">Overview</a>
+    <a href="course-en.html">Syllabus</a>
+    <a href="slides/training-th.html" target="_blank" rel="noopener">Slides</a>
+    <a class="lang" href="index.html" hreflang="th">ไทย</a>
+    <span id="nav-progress" class="nav-progress" hidden></span>
+    <button id="theme" type="button" aria-label="สลับธีมสว่าง/มืด">THEME</button>
+  </nav>
+</header>
+<header class="masthead">
+  <span class="eyebrow">Deep edition</span>
+  <h1>AI Coding Agent SDLC</h1>
+  <p class="deck">A deep edition — filling the 8 gaps most courses skip — <strong>15 modules, 127 lessons</strong>, self-paced, with videos playable inline and your progress remembered.</p>
+  <dl class="specrow">
+  <div class="spec"><dt>Modules</dt><dd>15</dd></div>
+  <div class="spec"><dt>Lessons</dt><dd>127</dd></div>
+  <div class="spec"><dt>Hours</dt><dd>~42</dd></div>
+  <div class="spec"><dt>Labs</dt><dd>17</dd></div>
+  <div class="spec"><dt>Videos</dt><dd>49</dd></div>
+  <div class="spec"><dt>Level</dt><dd><small>Intermediate–Advanced</small></dd></div>
+</dl>
+</header>
+
+<section id="progress-panel" class="panel" hidden>
+  <div class="sechead"><span class="num">§00</span><h2>Your progress</h2></div>
+  <div class="prog-top">
+    <div class="ring" id="prog-ring"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="ring-bg" cx="60" cy="60" r="52"></circle><circle class="ring-fg" cx="60" cy="60" r="52"></circle></svg><span id="prog-pct">0%</span></div>
+    <div class="prog-stats">
+      <p id="prog-summary" class="prog-summary"></p>
+      <p id="prog-next" class="prog-next"></p>
+      <div class="prog-actions">
+        <a id="prog-resume" class="btn" href="m01.html">Start learning</a>
+        <button id="prog-export" class="btn ghost" type="button">Save to file</button>
+        <label class="btn ghost" for="prog-import">Load file<input id="prog-import" type="file" accept="application/json,.json" hidden></label>
+        <button id="prog-reset" class="btn ghost" type="button">Clear progress</button>
+      </div>
+      <p class="prog-note">Stored in this browser only. To move devices, save to a file here and load it there — imports merge, they never overwrite.</p>
+    </div>
+  </div>
+  <div class="prog-grid" id="prog-grid"></div>
+</section>
+
+<section>
+  <div class="sechead"><span class="num">§01</span><h2>The 8 gaps this course fills</h2></div>
+  <p class="lede">None of these were added because they were nice to have. Each one is where a workflow breaks once a team depends on it — ordered by the damage of skipping it.</p>
+  <div class="gaps"><div class="gap">
+  <div class="gap-id">G1</div>
+  <div class="gap-what"><h3>Evals — measuring your own agent system</h3><a href="m12-evals.html">M12 · 9 lessons →</a></div>
+  <div class="gap-why">The largest gap. If you cannot measure, you are tuning prompts on feeling. LLM variance is wide enough that &quot;it felt better&quot; is pure noise.</div>
+</div>
+<div class="gap">
+  <div class="gap-id">G2</div>
+  <div class="gap-what"><h3>Security and the agent threat model</h3><a href="m13.html">M13 · 9 lessons →</a></div>
+  <div class="gap-why">A coding agent has a threat model unlike a web app's, and an installed skill is code running with your privileges.</div>
+</div>
+<div class="gap">
+  <div class="gap-id">G3</div>
+  <div class="gap-what"><h3>Context engineering</h3><a href="m02.html">M02 · 9 lessons →</a></div>
+  <div class="gap-why">The clearest dividing line between people who use agents well and people who don't — and it pays back more than changing models.</div>
+</div>
+<div class="gap">
+  <div class="gap-id">G4</div>
+  <div class="gap-what"><h3>Brownfield and legacy</h3><a href="m08.html">M08 · 7 lessons →</a></div>
+  <div class="gap-why">Labs that start from an empty folder teach work almost nobody does. Real work is a six-year-old codebase with no tests.</div>
+</div>
+<div class="gap">
+  <div class="gap-id">G5</div>
+  <div class="gap-what"><h3>Token and model economics</h3><a href="m03.html">M03 · 8 lessons →</a></div>
+  <div class="gap-why">Cost decides whether a workflow survives a team of twenty or only works for you alone.</div>
+</div>
+<div class="gap">
+  <div class="gap-id">G6</div>
+  <div class="gap-what"><h3>An agent-ready codebase</h3><a href="m05.html">M05 · 8 lessons →</a></div>
+  <div class="gap-why">Repo structure pays back permanently; a better prompt pays back once.</div>
+</div>
+<div class="gap">
+  <div class="gap-id">G7</div>
+  <div class="gap-what"><h3>Multi-agent orchestration</h3><a href="m10.html">M10 · 8 lessons →</a></div>
+  <div class="gap-why">Multi-agent is an architecture, not a feature — and the most important lesson is when it loses to a single agent.</div>
+</div>
+<div class="gap">
+  <div class="gap-id">G8</div>
+  <div class="gap-what"><h3>Governance and real team adoption</h3><a href="m15.html">M15 · 9 lessons →</a></div>
+  <div class="gap-why">Most courses end at &quot;you can use an agent now&quot;. The real problems start when fifteen people use one at once.</div>
+</div></div>
+</section>
+
+<section>
+  <div class="sechead"><span class="num">§02</span><h2>Course structure</h2></div>
+  <p class="lede">Ordered by dependency; each phase assumes the one before it. <a href="course-en.html">See all lessons →</a></p>
+  <div class="phase">
+  <div class="phase-bar">
+    <span class="p-num">PHASE 00</span>
+    <span class="p-name">Foundations — understand the mechanism, don't memorise commands</span>
+    <span class="p-meta">M01–M03 · 25 lessons · 8h</span>
+  </div>
+  <div class="module" id="m01" data-module="m01">
+  <div class="m-rail">
+    <span class="m-code">M01</span>
+    <span class="m-stat">8 lessons<br>2.5 h</span>
+    
+  </div>
+  <div class="m-body">
+    <h3><a href="m01.html">How an agent actually works</a></h3>
+    <div class="bar" data-bar="m01"><span></span></div>
+    <p class="m-goal">See that an agent is an ordinary loop wrapped in engineering, so you can debug it when it misbehaves</p>
+    
+    <div class="m-out"><b>Outcome</b>You can name which layer of the harness a strange behaviour came from</div>
+  </div>
+</div>
+<div class="module flagged" id="m02" data-module="m02">
+  <div class="m-rail">
+    <span class="m-code">M02</span>
+    <span class="m-stat">9 lessons<br>3 h</span>
+    <span class="m-tag">EXPANDED G3</span>
+  </div>
+  <div class="m-body">
+    <h3><a href="m02.html">Context engineering</a></h3>
+    <div class="bar" data-bar="m02"><span></span></div>
+    <p class="m-goal">Treat context as a budget to manage, not a bucket to fill until it overflows</p>
+    
+    <div class="m-out"><b>Outcome</b>30–60% lower cost per task at equal or better quality</div>
+  </div>
+</div>
+<div class="module flagged" id="m03" data-module="m03">
+  <div class="m-rail">
+    <span class="m-code">M03</span>
+    <span class="m-stat">8 lessons<br>2.5 h</span>
+    <span class="m-tag">EXPANDED G5</span>
+  </div>
+  <div class="m-body">
+    <h3><a href="m03.html">Token and model economics</a></h3>
+    <div class="bar" data-bar="m03"><span></span></div>
+    <p class="m-goal">Decide about cost with arithmetic instead of a feeling that a model is expensive</p>
+    
+    <div class="m-out"><b>Outcome</b>You can say which model and effort level a task deserves, with data behind it</div>
+  </div>
+</div>
+</div>
+<div class="phase">
+  <div class="phase-bar">
+    <span class="p-num">PHASE 01</span>
+    <span class="p-name">Plan — the cheapest place in the whole SDLC to catch a mistake</span>
+    <span class="p-meta">M04–M05 · 16 lessons · 5h</span>
+  </div>
+  <div class="module" id="m04" data-module="m04">
+  <div class="m-rail">
+    <span class="m-code">M04</span>
+    <span class="m-stat">8 lessons<br>2.5 h</span>
+    
+  </div>
+  <div class="m-body">
+    <h3><a href="m04.html">Requirements, research and decomposition</a></h3>
+    <div class="bar" data-bar="m04"><span></span></div>
+    <p class="m-goal">Turn a vague request into a spec an agent can satisfy and a script can check</p>
+    
+    <div class="m-out"><b>Outcome</b>Noticeably less re-prompting, because the first attempt already had acceptance criteria</div>
+  </div>
+</div>
+<div class="module flagged" id="m05" data-module="m05">
+  <div class="m-rail">
+    <span class="m-code">M05</span>
+    <span class="m-stat">8 lessons<br>2.5 h</span>
+    <span class="m-tag">NEW G6</span>
+  </div>
+  <div class="m-body">
+    <h3><a href="m05.html">Designing a codebase agents can work in</a></h3>
+    <div class="bar" data-bar="m05"><span></span></div>
+    <p class="m-goal">Invest in repo structure, which pays back permanently, instead of prompts, which pay back once</p>
+    
+    <div class="m-out"><b>Outcome</b>A repo a fresh agent can work in without being briefed</div>
+  </div>
+</div>
+</div>
+<div class="phase">
+  <div class="phase-bar">
+    <span class="p-num">PHASE 02</span>
+    <span class="p-name">Build — greenfield and the code you already have</span>
+    <span class="p-meta">M06–M08 · 25 lessons · 8.5h</span>
+  </div>
+  <div class="module" id="m06" data-module="m06">
+  <div class="m-rail">
+    <span class="m-code">M06</span>
+    <span class="m-stat">9 lessons<br>3 h</span>
+    
+  </div>
+  <div class="m-body">
+    <h3><a href="m06.html">Frontend implementation</a></h3>
+    <div class="bar" data-bar="m06"><span></span></div>
+    <p class="m-goal">Get UI that is actually correct, not UI that merely looks correct in a screenshot</p>
+    
+    <div class="m-out"><b>Outcome</b>A frontend loop where the agent checks its own work before you see it</div>
+  </div>
+</div>
+<div class="module" id="m07" data-module="m07">
+  <div class="m-rail">
+    <span class="m-code">M07</span>
+    <span class="m-stat">9 lessons<br>3 h</span>
+    
+  </div>
+  <div class="m-body">
+    <h3><a href="m07.html">Backend and anything that touches data</a></h3>
+    <div class="bar" data-bar="m07"><span></span></div>
+    <p class="m-goal">Work on the backend without migrations and data operations turning into accidents</p>
+    
+    <div class="m-out"><b>Outcome</b>A set of data guardrails you can apply to your own repo immediately</div>
+  </div>
+</div>
+<div class="module flagged" id="m08" data-module="m08">
+  <div class="m-rail">
+    <span class="m-code">M08</span>
+    <span class="m-stat">7 lessons<br>2.5 h</span>
+    <span class="m-tag">NEW G4</span>
+  </div>
+  <div class="m-body">
+    <h3><a href="m08.html">Brownfield and legacy code</a></h3>
+    <div class="bar" data-bar="m08"><span></span></div>
+    <p class="m-goal">Real work does not start from an empty folder — this is the module you will use most</p>
+    
+    <div class="m-out"><b>Outcome</b>An approach that works on code you did not write and nobody will explain</div>
+  </div>
+</div>
+</div>
+<div class="phase">
+  <div class="phase-bar">
+    <span class="p-num">PHASE 03</span>
+    <span class="p-name">Extend — from tool user to tool builder</span>
+    <span class="p-meta">M09–M10 · 18 lessons · 6.5h</span>
+  </div>
+  <div class="module flagged" id="m09" data-module="m09">
+  <div class="m-rail">
+    <span class="m-code">M09</span>
+    <span class="m-stat">10 lessons<br>3.5 h</span>
+    <span class="m-tag">EXPANDED</span>
+  </div>
+  <div class="m-body">
+    <h3><a href="m09.html">Tooling — MCP, skills, hooks, plugins</a></h3>
+    <div class="bar" data-bar="m09"><span></span></div>
+    <p class="m-goal">Build tools an agent uses correctly, and know when not to build one at all</p>
+    
+    <div class="m-out"><b>Outcome</b>A team toolkit that gives everyone the same behaviour once installed</div>
+  </div>
+</div>
+<div class="module flagged" id="m10" data-module="m10">
+  <div class="m-rail">
+    <span class="m-code">M10</span>
+    <span class="m-stat">8 lessons<br>3 h</span>
+    <span class="m-tag">NEW G7</span>
+  </div>
+  <div class="m-body">
+    <h3><a href="m10.html">Multi-agent orchestration</a></h3>
+    <div class="bar" data-bar="m10"><span></span></div>
+    <p class="m-goal">Use several agents where it genuinely wins, and recognise when it loses to one</p>
+    
+    <div class="m-out"><b>Outcome</b>Your own criteria for which work is worth splitting</div>
+  </div>
+</div>
+</div>
+<div class="phase">
+  <div class="phase-bar">
+    <span class="p-num">PHASE 04</span>
+    <span class="p-name">Verify — what separates a toy from something you ship</span>
+    <span class="p-meta">M11–M13 · 26 lessons · 8.5h</span>
+  </div>
+  <div class="module" id="m11" data-module="m11">
+  <div class="m-rail">
+    <span class="m-code">M11</span>
+    <span class="m-stat">8 lessons<br>2.5 h</span>
+    
+  </div>
+  <div class="m-body">
+    <h3><a href="m11.html">Testing and QA</a></h3>
+    <div class="bar" data-bar="m11"><span></span></div>
+    <p class="m-goal">Get tests that catch real bugs, not tests that certify the bug is still there</p>
+    
+    <div class="m-out"><b>Outcome</b>Real numbers for how much your review tooling catches and how often it cries wolf</div>
+  </div>
+</div>
+<div class="module flagged" id="m12" data-module="m12">
+  <div class="m-rail">
+    <span class="m-code">M12</span>
+    <span class="m-stat">9 lessons<br>3 h</span>
+    <span class="m-tag">NEW G1</span>
+  </div>
+  <div class="m-body">
+    <h3><a href="m12-evals.html">Evals — measuring your own agent system</a></h3>
+    <div class="bar" data-bar="m12"><span></span></div>
+    <p class="m-goal">The module other courses skip. Without measurement you are tuning prompts on feeling</p>
+    
+    <div class="m-out"><b>Outcome</b>A tool that puts a number behind every claim that one approach is better</div>
+  </div>
+</div>
+<div class="module flagged" id="m13" data-module="m13">
+  <div class="m-rail">
+    <span class="m-code">M13</span>
+    <span class="m-stat">9 lessons<br>3 h</span>
+    <span class="m-tag">NEW G2</span>
+  </div>
+  <div class="m-body">
+    <h3><a href="m13.html">Security and the threat model</a></h3>
+    <div class="bar" data-bar="m13"><span></span></div>
+    <p class="m-goal">An agent that reads the outside world and runs commands is a new attack surface</p>
+    
+    <div class="m-out"><b>Outcome</b>A list of real holes in your own setup, and the ones you closed</div>
+  </div>
+</div>
+</div>
+<div class="phase">
+  <div class="phase-bar">
+    <span class="p-num">PHASE 05</span>
+    <span class="p-name">Ship &amp; operate — from your machine to the whole team</span>
+    <span class="p-meta">M14–M15 · 17 lessons · 5h</span>
+  </div>
+  <div class="module" id="m14" data-module="m14">
+  <div class="m-rail">
+    <span class="m-code">M14</span>
+    <span class="m-stat">8 lessons<br>2.5 h</span>
+    
+  </div>
+  <div class="m-body">
+    <h3><a href="m14.html">CI/CD and agents in the pipeline</a></h3>
+    <div class="bar" data-bar="m14"><span></span></div>
+    <p class="m-goal">Put an agent in the pipeline while keeping a human stop point and a sane bill</p>
+    
+    <div class="m-out"><b>Outcome</b>A pipeline the agent can work in that still stops where a person decides</div>
+  </div>
+</div>
+<div class="module flagged" id="m15" data-module="m15">
+  <div class="m-rail">
+    <span class="m-code">M15</span>
+    <span class="m-stat">9 lessons<br>2.5 h</span>
+    <span class="m-tag">EXPANDED G8</span>
+  </div>
+  <div class="m-body">
+    <h3><a href="m15.html">Operations, governance and real team adoption</a></h3>
+    <div class="bar" data-bar="m15"><span></span></div>
+    <p class="m-goal">The real problems start when the whole team uses this at once, not when you do</p>
+    
+    <div class="m-out"><b>Outcome</b>A policy and rollout plan you can take to your manager as-is</div>
+  </div>
+</div>
+</div>
+</section>
+
+<p class="note"><b>A note on language</b> — Lesson bodies are written in Thai. This page mirrors the structure, goals and outcomes in English.</p>
+</div>
+<script src="assets/course-data.js?v=0f15e924" defer></script>
+<script src="assets/progress.js?v=2c8a93e3" defer></script>
+<script>
+document.getElementById("theme").addEventListener("click",function(){
+  var d=document.documentElement;
+  var dark=d.dataset.theme?d.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;
+  d.dataset.theme=dark?"light":"dark";
+  try{localStorage.setItem("theme",d.dataset.theme)}catch(e){}
+});
+</script>
+</body>
+</html>

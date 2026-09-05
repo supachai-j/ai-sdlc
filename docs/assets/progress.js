@@ -191,6 +191,57 @@
     });
   });
 
+  /* localStorage is per-browser, so a file is the only portable handoff
+     between a laptop and a phone on a static site. */
+  var exportBtn = document.getElementById("prog-export");
+  if (exportBtn) {
+    exportBtn.addEventListener("click", function () {
+      var payload = { app: "ai-sdlc", version: 1, exported: new Date().toISOString(),
+                      lessons: state.lessons, videos: state.videos };
+      var blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "ai-sdlc-progress-" + new Date().toISOString().slice(0, 10) + ".json";
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+    });
+  }
+
+  var importInput = document.getElementById("prog-import");
+  if (importInput) {
+    importInput.addEventListener("change", function () {
+      var file = importInput.files && importInput.files[0];
+      if (!file) return;
+      var reader = new FileReader();
+      reader.onload = function () {
+        var data;
+        try { data = JSON.parse(String(reader.result)); }
+        catch (e) { alert("ไฟล์นี้อ่านไม่ได้ — ต้องเป็นไฟล์ .json ที่ส่งออกจากคอร์สนี้"); return; }
+        if (!data || data.app !== "ai-sdlc" || !data.lessons) {
+          alert("ไฟล์นี้ไม่ใช่ไฟล์ความคืบหน้าของคอร์สนี้");
+          return;
+        }
+        var incoming = Object.keys(data.lessons).length;
+        var current = Object.keys(state.lessons).length;
+        if (current && !confirm("รวมกับความคืบหน้าเดิม? มีอยู่ " + current + " บท · ในไฟล์ " + incoming + " บท")) return;
+        // merge rather than replace, so importing on a second device never loses work
+        for (var k in data.lessons) if (data.lessons[k]) state.lessons[k] = 1;
+        for (var v in (data.videos || {})) if (data.videos[v]) state.videos[v] = 1;
+        save(state);
+        document.querySelectorAll("input[data-lesson]").forEach(function (b) {
+          b.checked = !!state.lessons[b.getAttribute("data-lesson")];
+          b.closest(".done") && b.closest(".done").classList.toggle("on", b.checked);
+        });
+        document.querySelectorAll("input[data-video]").forEach(function (b) {
+          b.checked = !!state.videos[b.getAttribute("data-video")];
+        });
+        paintAll();
+        importInput.value = "";
+      };
+      reader.readAsText(file);
+    });
+  }
+
   var reset = document.getElementById("prog-reset");
   if (reset) {
     reset.addEventListener("click", function () {

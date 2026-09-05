@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Coding Agent SDLC — Full syllabus</title>
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/style.css?v=db5d8e55">
+</head>
+<body>
+<div class="wrap">
+<header class="topbar">
+  <a class="brand" href="index-en.html">Agent SDLC</a>
+  <nav>
+    <a href="index-en.html">Overview</a>
+    <a href="course-en.html" aria-current="page">Syllabus</a>
+    <a href="slides/training-th.html" target="_blank" rel="noopener">Slides</a>
+    <a class="lang" href="index.html" hreflang="th">ไทย</a>
+    <span id="nav-progress" class="nav-progress" hidden></span>
+    <button id="theme" type="button" aria-label="สลับธีมสว่าง/มืด">THEME</button>
+  </nav>
+</header>
+<header class="masthead">
+  <span class="eyebrow">Every lesson</span>
+  <h1>Full syllabus</h1>
+  <p class="deck">15 modules · 127 lessons · 17 labs · 49 videos · ~42 hours. The bar under each module title is your progress.</p>
+  <dl class="specrow">
+  <div class="spec"><dt>Modules</dt><dd>15</dd></div>
+  <div class="spec"><dt>Lessons</dt><dd>127</dd></div>
+  <div class="spec"><dt>Hours</dt><dd>~42</dd></div>
+  <div class="spec"><dt>Labs</dt><dd>17</dd></div>
+  <div class="spec"><dt>Videos</dt><dd>49</dd></div>
+  <div class="spec"><dt>Level</dt><dd><small>Intermediate–Advanced</small></dd></div>
+</dl>
+</header>
+<section style="padding-top:44px"><div class="phase">
+  <div class="phase-bar">
+    <span class="p-num">PHASE 00</span>
+    <span class="p-name">Foundations — understand the mechanism, don't memorise commands</span>
+    <span class="p-meta">M01–M03 · 25 lessons · 8h</span>
+  </div>
+  <div class="module" id="m01" data-module="m01">
+  <div class="m-rail">
+    <span class="m-code">M01</span>
+    <span class="m-stat">8 lessons<br>2.5 h</span>
+    
+  </div>
+  <div class="m-body">
+    <h3><a href="m01.html">How an agent actually works</a></h3>
+    <div class="bar" data-bar="m01"><span></span></div>
+    <p class="m-goal">See that an agent is an ordinary loop wrapped in engineering, so you can debug it when it misbehaves</p>
+    <ol class="lessons"><li>What the agentic loop really is, and why that is enough</li><li>Anatomy of a harness — system prompt, tool registry, context assembler, permission layer, result renderer</li><li>The tool-use protocol — parallel calls, error results, and why every result must come back in one message</li><li>Every stop reason, and how to handle each one</li><li>Thinking and effort — how depth changes tool-call behaviour, not just quality</li><li>The permission model, and why &quot;allow everything&quot; is security debt</li><li>Seven ways agents fail, and which layer fixes each</li><li class="lab"><span class="chip">LAB</span>write a ~150-line mini-harness — loop, three tools, permission gate</li></ol>
+    <div class="m-out"><b>Outcome</b>You can name which layer of the harness a strange behaviour came from</div>
+  </div>
+</div>
+<div class="module flagged" id="m02" data-module="m02">
+  <div class="m-rail">
+    <span class="m-code">M02</span>
+    <span class="m-stat">9 lessons<br>3 h</span>
+    <span class="m-tag">EXPANDED G3</span>
+  </div>
+  <div class="m-body">
+    <h3><a href="m02.html">Context engineering</a></h3>
+    <div class="bar" data-bar="m02"><span></span></div>
+    <p class="m-goal">Treat context as a budget to manage, not a bucket to fill until it overflows</p>
+    <ol class="lessons"><li>The context window is a budget, not storage — a million tokens still needs managing</li><li>Four rules for what belongs in context — relevant, fresh, cheaply rendered, re-findable</li><li>Attention dilution — why quality drops before the window is full</li><li>The memory hierarchy, and what belongs at each level</li><li>Writing a project memory file that earns its keep</li><li>Three mechanisms people confuse — compaction, context editing, and an external memory</li><li>Sub-agents as a context barrier, not just parallelism</li><li>Retrieval or stuffing — when to attach and when to let it search</li><li class="lab"><span class="chip">LAB</span>cut 40% of context and measure whether quality moves</li></ol>
+    <div class="m-out"><b>Outcome</b>30–60% lower cost per task at equal or better quality</div>
+  </div>
+</div>
+<div class="module flagged" id="m03" data-module="m03">
+  <div class="m-rail">
+    <span class="m-code">M03</span>
+    <span class="m-stat">8 lessons<br>2.5 h</span>
+    <span class="m-tag">EXPANDED G5</span>
+  </div>
+  <div class="m-body">
+    <h3><a href="m03.html">Token and model economics</a></h3>
+    <div class="bar" data-bar="m03"><span></span></div>
+    <p class="m-goal">Decide about cost with arithmetic instead of a feeling that a model is expensive</p>
+    <ol class="lessons"><li>The four token columns — input, output, cache write, cache read</li><li>Prompt caching in depth — prefix matching and render order</li><li>Silent cache killers, and a five-minute audit that finds them</li><li>Routing models by economics — which work repays which tier</li><li>Cost per completed task, not per request</li><li>Effort before model — the lever to pull first, and the cache trap in cascades</li><li>Batch, task budgets, and ceilings the agent can actually see</li><li class="lab"><span class="chip">LAB</span>profile a week of real work and find three levers</li></ol>
+    <div class="m-out"><b>Outcome</b>You can say which model and effort level a task deserves, with data behind it</div>
+  </div>
+</div>
+</div>
+<div class="phase">
+  <div class="phase-bar">
+    <span class="p-num">PHASE 01</span>
+    <span class="p-name">Plan — the cheapest place in the whole SDLC to catch a mistake</span>
+    <span class="p-meta">M04–M05 · 16 lessons · 5h</span>
+  </div>
+  <div class="module" id="m04" data-module="m04">
+  <div class="m-rail">
+    <span class="m-code">M04</span>
+    <span class="m-stat">8 lessons<br>2.5 h</span>
+    
+  </div>
+  <div class="m-body">
+    <h3><a href="m04.html">Requirements, research and decomposition</a></h3>
+    <div class="bar" data-bar="m04"><span></span></div>
+    <p class="m-goal">Turn a vague request into a spec an agent can satisfy and a script can check</p>
+    <ol class="lessons"><li>Spec-first — how an instruction differs from a specification</li><li>Task size that fits an agent</li><li>Four criteria for whether a task should go to an agent at all</li><li>The research loop — separating find, summarise and decide</li><li>Evidence discipline — every claim carries a file, a line or a URL</li><li>Decision records the next agent can actually build on</li><li>Reviewing the plan before any code — the highest-return lesson in the course</li><li class="lab"><span class="chip">LAB</span>turn one page of vague requirements into a spec, a task graph and decision records</li></ol>
+    <div class="m-out"><b>Outcome</b>Noticeably less re-prompting, because the first attempt already had acceptance criteria</div>
+  </div>
+</div>
+<div class="module flagged" id="m05" data-module="m05">
+  <div class="m-rail">
+    <span class="m-code">M05</span>
+    <span class="m-stat">8 lessons<br>2.5 h</span>
+    <span class="m-tag">NEW G6</span>
+  </div>
+  <div class="m-body">
+    <h3><a href="m05.html">Designing a codebase agents can work in</a></h3>
+    <div class="bar" data-bar="m05"><span></span></div>
+    <p class="m-goal">Invest in repo structure, which pays back permanently, instead of prompts, which pay back once</p>
+    <ol class="lessons"><li>Legibility — machine-readable differs from human-readable</li><li>File layout and naming that cut search cost</li><li>Error messages as the agent's feedback channel</li><li>Test affordance — if targeted tests are slow, the agent stops running them and guesses</li><li>Types and schemas as the cheapest guardrail you can buy</li><li>Docs as context — decision records, runbooks and design systems as input</li><li>The context-file hierarchy and how rules override each other</li><li class="lab"><span class="chip">LAB</span>audit a real repo and make five changes that cut tokens per task by 30%</li></ol>
+    <div class="m-out"><b>Outcome</b>A repo a fresh agent can work in without being briefed</div>
+  </div>
+</div>
+</div>
+<div class="phase">
+  <div class="phase-bar">
+    <span class="p-num">PHASE 02</span>
+    <span class="p-name">Build — greenfield and the code you already have</span>
+    <span class="p-meta">M06–M08 · 25 lessons · 8.5h</span>
+  </div>
+  <div class="module" id="m06" data-module="m06">
+  <div class="m-rail">
+    <span class="m-code">M06</span>
+    <span class="m-stat">9 lessons<br>3 h</span>
+    
+  </div>
+  <div class="m-body">
+    <h3><a href="m06.html">Frontend implementation</a></h3>
+    <div class="bar" data-bar="m06"><span></span></div>
+    <p class="m-goal">Get UI that is actually correct, not UI that merely looks correct in a screenshot</p>
+    <ol class="lessons"><li>The order you cannot skip — tokens, components, pages, flows</li><li>The design system as context, not just a picture</li><li>The server/client boundary agents get wrong most often</li><li>State and data fetching — what agents get right and what they habitually break</li><li>The visual verification loop</li><li>Accessibility as an automatically checkable criterion</li><li>UI that passes a glance but fails in use</li><li class="lab"><span class="chip">LAB A</span>build a component library from design tokens</li><li class="lab"><span class="chip">LAB B</span>build a three-page flow with a verification pass</li></ol>
+    <div class="m-out"><b>Outcome</b>A frontend loop where the agent checks its own work before you see it</div>
+  </div>
+</div>
+<div class="module" id="m07" data-module="m07">
+  <div class="m-rail">
+    <span class="m-code">M07</span>
+    <span class="m-stat">9 lessons<br>3 h</span>
+    
+  </div>
+  <div class="m-body">
+    <h3><a href="m07.html">Backend and anything that touches data</a></h3>
+    <div class="bar" data-bar="m07"><span></span></div>
+    <p class="m-goal">Work on the backend without migrations and data operations turning into accidents</p>
+    <ol class="lessons"><li>Contract-first — schemas as a spec that checks itself</li><li>Layering agents navigate easily, and layering that loses them</li><li>Database migrations — the most dangerous work in the course, and the guardrails it needs</li><li>Idempotency, transaction boundaries and an error taxonomy an agent can act on</li><li>Secrets and environment handling — the rules that do not bend</li><li>Background jobs, queues and retries — three things agents routinely design wrong</li><li>Observability from the first line, because logs are how the agent debugs itself next time</li><li class="lab"><span class="chip">LAB A</span>build an API from a contract, with a reversible migration</li><li class="lab"><span class="chip">LAB B</span>have the agent find a real bug from logs alone</li></ol>
+    <div class="m-out"><b>Outcome</b>A set of data guardrails you can apply to your own repo immediately</div>
+  </div>
+</div>
+<div class="module flagged" id="m08" data-module="m08">
+  <div class="m-rail">
+    <span class="m-code">M08</span>
+    <span class="m-stat">7 lessons<br>2.5 h</span>
+    <span class="m-tag">NEW G4</span>
+  </div>
+  <div class="m-body">
+    <h3><a href="m08.html">Brownfield and legacy code</a></h3>
+    <div class="bar" data-bar="m08"><span></span></div>
+    <p class="m-goal">Real work does not start from an empty folder — this is the module you will use most</p>
+    <ol class="lessons"><li>Onboarding an agent to half a million lines — map before you touch</li><li>Characterization tests — pin current behaviour before changing anything</li><li>The strangler pattern with an agent</li><li>Working with code that has no tests and no types</li><li>Reading history as context — blame, old pull requests, past incidents</li><li>Changing safely — blast radius, flags, and a rollback plan written first</li><li class="lab"><span class="chip">LAB</span>add a feature to a real open-source repo you have never seen</li></ol>
+    <div class="m-out"><b>Outcome</b>An approach that works on code you did not write and nobody will explain</div>
+  </div>
+</div>
+</div>
+<div class="phase">
+  <div class="phase-bar">
+    <span class="p-num">PHASE 03</span>
+    <span class="p-name">Extend — from tool user to tool builder</span>
+    <span class="p-meta">M09–M10 · 18 lessons · 6.5h</span>
+  </div>
+  <div class="module flagged" id="m09" data-module="m09">
+  <div class="m-rail">
+    <span class="m-code">M09</span>
+    <span class="m-stat">10 lessons<br>3.5 h</span>
+    <span class="m-tag">EXPANDED</span>
+  </div>
+  <div class="m-body">
+    <h3><a href="m09.html">Tooling — MCP, skills, hooks, plugins</a></h3>
+    <div class="bar" data-bar="m09"><span></span></div>
+    <p class="m-goal">Build tools an agent uses correctly, and know when not to build one at all</p>
+    <ol class="lessons"><li>What MCP actually is — a protocol, not a library</li><li>Transports and auth, and credentials that never reach the context</li><li>A tool description is a prompt, not API documentation</li><li>The token cost of a tool registry, and loading tools on demand</li><li>Skills — packaging a workflow as knowledge loaded only when relevant</li><li>Writing a skill description that triggers at the right moment</li><li>Hooks and the full lifecycle — enforcing what a prompt can only request</li><li>Plugins and slash commands — shipping one toolkit to the whole team</li><li>When not to build an MCP server — a plain script wins more often than people expect</li><li class="lab"><span class="chip">LAB</span>build a server, a skill and a hook that genuinely enforce a team convention</li></ol>
+    <div class="m-out"><b>Outcome</b>A team toolkit that gives everyone the same behaviour once installed</div>
+  </div>
+</div>
+<div class="module flagged" id="m10" data-module="m10">
+  <div class="m-rail">
+    <span class="m-code">M10</span>
+    <span class="m-stat">8 lessons<br>3 h</span>
+    <span class="m-tag">NEW G7</span>
+  </div>
+  <div class="m-body">
+    <h3><a href="m10.html">Multi-agent orchestration</a></h3>
+    <div class="bar" data-bar="m10"><span></span></div>
+    <p class="m-goal">Use several agents where it genuinely wins, and recognise when it loses to one</p>
+    <ol class="lessons"><li>The only two valid reasons — context isolation and genuine parallelism</li><li>Pattern 1 — orchestrator and worker: who holds the plan, who holds the context</li><li>Pattern 2 — pipeline: every stage with a structured contract</li><li>Pattern 3 — fan-out and fan-in: merging results without exploding context</li><li>Pattern 4 — judge and critic: always separate the author from the reviewer</li><li>The handoff protocol — what must travel, and what would poison the next context</li><li>When multi-agent loses — runaway cost, inconsistent results, and no way to debug</li><li class="lab"><span class="chip">LAB</span>build a three-stage review pipeline and measure whether it beats one agent</li></ol>
+    <div class="m-out"><b>Outcome</b>Your own criteria for which work is worth splitting</div>
+  </div>
+</div>
+</div>
+<div class="phase">
+  <div class="phase-bar">
+    <span class="p-num">PHASE 04</span>
+    <span class="p-name">Verify — what separates a toy from something you ship</span>
+    <span class="p-meta">M11–M13 · 26 lessons · 8.5h</span>
+  </div>
+  <div class="module" id="m11" data-module="m11">
+  <div class="m-rail">
+    <span class="m-code">M11</span>
+    <span class="m-stat">8 lessons<br>2.5 h</span>
+    
+  </div>
+  <div class="m-body">
+    <h3><a href="m11.html">Testing and QA</a></h3>
+    <div class="bar" data-bar="m11"><span></span></div>
+    <p class="m-goal">Get tests that catch real bugs, not tests that certify the bug is still there</p>
+    <ol class="lessons"><li>Traps in agent-written tests — pinning wrong behaviour and mocking away the subject</li><li>How coverage lies when an AI writes the tests</li><li>Tests as the spec — write them first, then have the agent make them pass</li><li>Property-based and fuzz testing, where agents have a clear edge</li><li>End-to-end tests that are not flaky</li><li>Designing a review agent that finds real bugs instead of style opinions</li><li>The verification pass — why every finding must be confirmed before it is reported</li><li class="lab"><span class="chip">LAB</span>measure precision and recall against twenty planted bugs</li></ol>
+    <div class="m-out"><b>Outcome</b>Real numbers for how much your review tooling catches and how often it cries wolf</div>
+  </div>
+</div>
+<div class="module flagged" id="m12" data-module="m12">
+  <div class="m-rail">
+    <span class="m-code">M12</span>
+    <span class="m-stat">9 lessons<br>3 h</span>
+    <span class="m-tag">NEW G1</span>
+  </div>
+  <div class="m-body">
+    <h3><a href="m12-evals.html">Evals — measuring your own agent system</a></h3>
+    <div class="bar" data-bar="m12"><span></span></div>
+    <p class="m-goal">The module other courses skip. Without measurement you are tuning prompts on feeling</p>
+    <ol class="lessons"><li>Why &quot;it felt better&quot; cannot be trusted — variance is wider than most prompt changes</li><li>Building a golden task set from real backlog, not invented examples</li><li>Deterministic criteria first — compiles, tests pass, diff stays in scope</li><li>LLM-as-judge — rubrics, position bias, and why the judge must be at least as capable</li><li>A regression suite for prompts, skills and context files</li><li>Measuring four dimensions at once — correctness, cost, latency, human intervention</li><li>A/B-ing a workflow change with enough samples to believe the result</li><li>Drift detection — a new model can quietly make an old workflow worse</li><li class="lab"><span class="chip">LAB</span>build a twenty-task harness and settle one real team argument with it</li></ol>
+    <div class="m-out"><b>Outcome</b>A tool that puts a number behind every claim that one approach is better</div>
+  </div>
+</div>
+<div class="module flagged" id="m13" data-module="m13">
+  <div class="m-rail">
+    <span class="m-code">M13</span>
+    <span class="m-stat">9 lessons<br>3 h</span>
+    <span class="m-tag">NEW G2</span>
+  </div>
+  <div class="m-body">
+    <h3><a href="m13.html">Security and the threat model</a></h3>
+    <div class="bar" data-bar="m13"><span></span></div>
+    <p class="m-goal">An agent that reads the outside world and runs commands is a new attack surface</p>
+    <ol class="lessons"><li>Why the old security checklist does not cover this</li><li>Prompt injection through anything the agent reads — issues, dependency docs, pages, logs, filenames</li><li>Tool poisoning and rug-pulls, when a description changes after you vetted it</li><li>The supply chain of skills, plugins and servers — installed code runs with your privileges</li><li>Designing permission boundaries, including outbound network</li><li>Secret handling, and why a leak into context cannot be undone</li><li>Exfiltration paths that look completely ordinary one action at a time</li><li>Autonomous agents and blast radius</li><li class="lab"><span class="chip">LAB</span>red-team your own workflow with five planted injections</li></ol>
+    <div class="m-out"><b>Outcome</b>A list of real holes in your own setup, and the ones you closed</div>
+  </div>
+</div>
+</div>
+<div class="phase">
+  <div class="phase-bar">
+    <span class="p-num">PHASE 05</span>
+    <span class="p-name">Ship &amp; operate — from your machine to the whole team</span>
+    <span class="p-meta">M14–M15 · 17 lessons · 5h</span>
+  </div>
+  <div class="module" id="m14" data-module="m14">
+  <div class="m-rail">
+    <span class="m-code">M14</span>
+    <span class="m-stat">8 lessons<br>2.5 h</span>
+    
+  </div>
+  <div class="m-body">
+    <h3><a href="m14.html">CI/CD and agents in the pipeline</a></h3>
+    <div class="bar" data-bar="m14"><span></span></div>
+    <p class="m-goal">Put an agent in the pipeline while keeping a human stop point and a sane bill</p>
+    <ol class="lessons"><li>How CI differs from your machine — nobody answers questions and nobody watches</li><li>Pull-request automation, and the line not to cross</li><li>Quality gates that actually block — deterministic checks before any model opinion</li><li>Making the agent a CLI you can wrap in a script</li><li>Scheduled work and the guardrails it needs first</li><li>CI cost blowups, and the one number to put on a dashboard</li><li>Rollback and incidents when the commit came from an agent</li><li class="lab"><span class="chip">LAB</span>ship a review bot with a gate that blocks on high-severity findings</li></ol>
+    <div class="m-out"><b>Outcome</b>A pipeline the agent can work in that still stops where a person decides</div>
+  </div>
+</div>
+<div class="module flagged" id="m15" data-module="m15">
+  <div class="m-rail">
+    <span class="m-code">M15</span>
+    <span class="m-stat">9 lessons<br>2.5 h</span>
+    <span class="m-tag">EXPANDED G8</span>
+  </div>
+  <div class="m-body">
+    <h3><a href="m15.html">Operations, governance and real team adoption</a></h3>
+    <div class="bar" data-bar="m15"><span></span></div>
+    <p class="m-goal">The real problems start when the whole team uses this at once, not when you do</p>
+    <ol class="lessons"><li>Runbooks an agent can execute, which turn out to help new engineers too</li><li>Log triage and incident response — what to delegate and what never to</li><li>Documentation automation that does not rot into noise</li><li>Trust calibration, and what lets you raise the level honestly</li><li>Code review culture when the diff is ten times bigger</li><li>Attribution, licensing and legal exposure</li><li>Team skill atrophy — which abilities you must keep to review the work at all</li><li>Rolling out across an organisation — pilot, policy, platform, in that order</li><li class="lab"><span class="chip">LAB</span>write a two-page AI engineering policy that is actually enforceable</li></ol>
+    <div class="m-out"><b>Outcome</b>A policy and rollout plan you can take to your manager as-is</div>
+  </div>
+</div>
+</div></section>
+<p class="note"><b>A note on language</b> — Lesson bodies are written in Thai. This page mirrors the structure, goals and outcomes in English.</p>
+</div>
+<script src="assets/course-data.js?v=0f15e924" defer></script>
+<script src="assets/progress.js?v=2c8a93e3" defer></script>
+<script>
+document.getElementById("theme").addEventListener("click",function(){
+  var d=document.documentElement;
+  var dark=d.dataset.theme?d.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;
+  d.dataset.theme=dark?"light":"dark";
+  try{localStorage.setItem("theme",d.dataset.theme)}catch(e){}
+});
+</script>
+</body>
+</html>

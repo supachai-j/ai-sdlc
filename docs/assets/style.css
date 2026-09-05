@@ -359,3 +359,9 @@ pre code{background:none; border:none; padding:0; font-size:inherit}
 /* once a clip is playing it takes the full row — a 200px player is unwatchable */
 .vid.playing{grid-template-columns:1fr;gap:12px}
 .vid.playing .vid-frame{max-width:760px}
+label.btn{display:inline-flex;align-items:center}
+.topbar nav a.lang{
+  font-family:var(--mono);font-size:11px;letter-spacing:.1em;
+  border:1px solid var(--rule);padding:4px 8px;color:var(--ink-3);
+}
+.topbar nav a.lang:hover{border-color:var(--signal);color:var(--signal)}
