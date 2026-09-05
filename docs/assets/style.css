@@ -365,3 +365,77 @@ label.btn{display:inline-flex;align-items:center}
   border:1px solid var(--rule);padding:4px 8px;color:var(--ink-3);
 }
 .topbar nav a.lang:hover{border-color:var(--signal);color:var(--signal)}
+
+/* ── figures, diagrams, references ────────────────────── */
+.fig{
+  margin:26px 0;border:1px solid var(--rule);background:var(--surface);
+  padding:22px 20px 16px;
+}
+.fig svg{display:block;width:100%;height:auto;max-width:640px;margin:0 auto}
+.fig-cap{
+  margin:16px 0 0;padding-top:12px;border-top:1px solid var(--rule);
+  font-size:13px;color:var(--ink-3);line-height:1.6;text-align:center;
+}
+.fig-cap b{color:var(--ink-2);font-weight:600}
+
+/* diagram primitives — every colour comes from a token so both themes work */
+.d-box{fill:var(--surface-2);stroke:var(--rule-strong,var(--rule));stroke-width:1.5}
+.d-box-accent{fill:var(--signal-soft);stroke:var(--signal-rule);stroke-width:1.5}
+.d-box-ink{fill:var(--ink);stroke:var(--ink)}
+.d-label{fill:var(--ink);font-family:var(--sans);font-size:13px;font-weight:600}
+.d-label-sm{fill:var(--ink-2);font-family:var(--sans);font-size:11px}
+.d-label-mono{fill:var(--ink-3);font-family:var(--mono);font-size:10.5px;letter-spacing:.06em}
+.d-label-inv{fill:var(--paper);font-family:var(--sans);font-size:13px;font-weight:600}
+.d-line{stroke:var(--ink-3);stroke-width:1.5;fill:none}
+.d-line-accent{stroke:var(--signal);stroke-width:2;fill:none}
+.d-arrow{fill:var(--ink-3)}
+.d-arrow-accent{fill:var(--signal)}
+
+/* the travelling dot that shows the loop actually looping */
+.d-runner{fill:var(--signal)}
+@keyframes d-run{to{stroke-dashoffset:0}}
+@keyframes d-pulse{
+  0%,100%{opacity:.25}
+  50%{opacity:1}
+}
+.d-anim-path{
+  stroke-dasharray:var(--dash,600);stroke-dashoffset:var(--dash,600);
+  animation:d-run 3.2s linear infinite;
+}
+.d-pulse-1{animation:d-pulse 3.2s ease-in-out infinite}
+.d-pulse-2{animation:d-pulse 3.2s ease-in-out infinite;animation-delay:1.06s}
+.d-pulse-3{animation:d-pulse 3.2s ease-in-out infinite;animation-delay:2.13s}
+@media (prefers-reduced-motion:reduce){
+  .d-anim-path{animation:none;stroke-dashoffset:0}
+  .d-pulse-1,.d-pulse-2,.d-pulse-3{animation:none;opacity:1}
+}
+
+/* stacked-bar figure for things that grow per round */
+.d-bar{fill:var(--steel)}
+.d-bar-new{fill:var(--signal)}
+
+/* references block */
+.refs{
+  margin:30px 0 0;border-top:2px solid var(--ink);padding-top:16px;
+}
+.refs h3{
+  font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-3);margin:0 0 12px;font-weight:600;
+}
+.refs ol{margin:0;padding-left:22px;font-size:13.5px;line-height:1.7;color:var(--ink-2)}
+.refs li{margin:7px 0}
+.refs a{color:var(--steel);text-decoration:none;border-bottom:1px solid var(--rule)}
+.refs a:hover{color:var(--signal);border-color:var(--signal)}
+.refs .src{font-family:var(--mono);font-size:11px;color:var(--ink-3);display:block;margin-top:2px}
+
+/* a friendlier aside for the conversational passages */
+.chat{
+  margin:22px 0;padding:16px 20px;border-left:3px solid var(--steel);
+  background:var(--steel-soft);font-size:15px;line-height:1.75;
+}
+.chat p{margin:0 0 10px;max-width:none}
+.chat p:last-child{margin-bottom:0}
+.chat b{color:var(--ink)}
+@keyframes d-march{to{stroke-dashoffset:-26}}
+.d-flow{stroke-dasharray:10 16;animation:d-march 1.1s linear infinite}
+@media (prefers-reduced-motion:reduce){.d-flow{animation:none;stroke-dasharray:none}}
