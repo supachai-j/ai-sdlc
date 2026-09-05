@@ -155,3 +155,81 @@ ol.lessons li.lab::before{color:var(--signal)}
   .m-body{padding:18px}
   .topbar nav{gap:14px}
 }
+
+/* ── module pages ─────────────────────────────────────── */
+/* thesis */
+.thesis{background:var(--ink); color:var(--paper); padding:26px 30px; margin:36px 0 0}
+.thesis .k{font-family:var(--mono); font-size:10px; letter-spacing:.16em;
+           text-transform:uppercase; opacity:.6; display:block; margin-bottom:10px}
+.thesis p{margin:0; font-size:18px; line-height:1.65; font-weight:500; max-width:52ch}
+
+/* lesson */
+.lesson{padding-top:60px}
+.lhead{display:flex; align-items:baseline; gap:14px; border-bottom:1px solid var(--ink);
+       padding-bottom:9px; margin-bottom:22px}
+.lnum{font-family:var(--mono); font-size:12px; font-weight:600; color:var(--signal); letter-spacing:.06em}
+.lhead h2{font-size:22px; font-weight:600; letter-spacing:-.014em; margin:0; flex:1; text-wrap:balance}
+.lesson p{margin:0 0 16px; max-width:66ch}
+.lesson>ul,.lesson>ol{max-width:66ch; padding-left:22px; margin:0 0 18px}
+.lesson li{margin:6px 0}
+.lesson h3{font-size:15px; font-weight:600; margin:26px 0 10px; letter-spacing:-.005em}
+.lesson h3 .k{font-family:var(--mono); font-size:10px; letter-spacing:.13em;
+              text-transform:uppercase; color:var(--ink-3); display:block;
+              margin-bottom:4px; font-weight:500}
+
+/* boxes */
+.box{border:1px solid var(--rule); background:var(--surface);
+     padding:18px 22px; margin:22px 0; max-width:70ch}
+.box .k{font-family:var(--mono); font-size:10px; letter-spacing:.13em;
+        text-transform:uppercase; display:block; margin-bottom:9px; font-weight:600}
+.box p:last-child,.box ul:last-child{margin-bottom:0}
+.box ul{margin:0; padding-left:20px}
+.box li{margin:5px 0; font-size:14.5px}
+.box.rule{background:var(--steel-soft); border-color:var(--steel)}
+.box.rule .k{color:var(--steel)}
+.box.trap{background:var(--signal-soft); border-color:var(--signal-rule)}
+.box.trap .k{color:var(--signal)}
+.box.good{background:var(--good-soft); border-color:var(--good)}
+.box.good .k{color:var(--good)}
+
+/* table */
+.tw{overflow-x:auto; margin:22px 0; border:1px solid var(--rule)}
+table{border-collapse:collapse; width:100%; font-size:14px; background:var(--surface)}
+th{font-family:var(--mono); font-size:10px; letter-spacing:.11em; text-transform:uppercase;
+   color:var(--ink-3); text-align:left; padding:11px 14px; border-bottom:1px solid var(--rule);
+   font-weight:600; white-space:nowrap; background:var(--surface-2)}
+td{padding:11px 14px; border-bottom:1px solid var(--rule); vertical-align:top; line-height:1.6}
+tr:last-child td{border-bottom:none}
+td.mono{white-space:nowrap; font-size:13px}
+.tick{color:var(--good); font-weight:600}
+.cross{color:var(--signal); font-weight:600}
+
+/* code block */
+pre{background:var(--surface-2); border:1px solid var(--rule); padding:16px 18px;
+    overflow-x:auto; font-family:var(--mono); font-size:12.5px; line-height:1.7;
+    margin:20px 0; color:var(--ink)}
+pre .c{color:var(--ink-3)}
+pre code{background:none; border:none; padding:0; font-size:inherit}
+
+/* lab */
+.lab{border:2px solid var(--signal); background:var(--surface); margin-top:60px}
+.lab-head{background:var(--signal); color:#fff; padding:11px 24px;
+          font-family:var(--mono); font-size:11px; letter-spacing:.16em;
+          text-transform:uppercase; font-weight:600}
+:root[data-theme="dark"] .lab-head{color:#1B1108}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .lab-head{color:#1B1108}}
+.lab-body{padding:24px 28px 26px}
+.lab-body h2{font-size:21px; font-weight:600; margin:0 0 14px; letter-spacing:-.012em}
+.lab-body ol{padding-left:22px; margin:0 0 18px; max-width:66ch}
+.lab-body li{margin:7px 0}
+.lab-body p{max-width:66ch}
+
+.note{border-top:2px solid var(--ink); margin-top:76px; padding-top:20px;
+      font-size:13.5px; color:var(--ink-3); max-width:68ch; line-height:1.75}
+.note b{color:var(--ink-2); font-weight:600}
+
+@media (max-width:640px){
+  .wrap{padding:0 18px 76px}
+  .meta{gap:14px}
+  .lhead{flex-direction:column; gap:4px}
+}

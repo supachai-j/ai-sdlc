@@ -4,7 +4,10 @@
 #   mikelopster  youtube.com/@mikelopster  · 4.68 หมื่นผู้ติดตาม · 195 วิดีโอ · ยาว 35–70 นาที · แนวเจาะลึกเชิงแนวคิด
 #   MilerDev     youtube.com/@milerdev     · 1.94 แสนผู้ติดตาม · 3.7 พันวิดีโอ · ยาว 7–22 นาที · แนวข่าว + ทริกใช้งานจริง
 #
+#   ต่างชาติ     ค้นจาก YouTube เมื่อ 2026-09-05 เฉพาะหัวข้อที่ช่องไทยยังไม่ครอบคลุม
+#
 # ใช้ต่างบทบาทกัน: mikelopster เหมาะเป็น before (ปูแนวคิด) · MilerDev เหมาะเป็น after (เห็นท่าจริงหลังเข้าใจหลักการ)
+#                  คลิปต่างชาติเติมเฉพาะช่องว่างที่ไทยไม่มี — evals, testing, context engineering, prompt injection
 # คลิปแนวข่าวเปิดตัวโมเดลของ MilerDev ตั้งใจไม่ใส่ เพราะเก่าเร็วเกินกว่าจะเป็นสื่อประกอบหลักสูตร
 #
 # ขอบเขตที่ตั้งใจไม่ข้าม
@@ -73,6 +76,18 @@ m02:
     channel: MilerDev
     when: optional
     note: "ดูคู่กับบทที่ 1 ที่เถียงว่ามี 1M token แล้วก็ยังต้องบริหารงบบริบทอยู่ดี"
+  - title: "What Is Context Engineering? Why It Matters for AI Agents"
+    url: "https://www.youtube.com/watch?v=Qx0fCqpkBus"
+    channel: IBM Technology
+    lang: en
+    when: before
+    note: "ปูคำว่า context engineering แบบสั้น 10 นาที ก่อนลงกฎสี่ข้อในบทที่ 2"
+  - title: "Context Engineering vs. Prompt Engineering: Smarter AI with RAG & Agents"
+    url: "https://www.youtube.com/watch?v=vD0E3EUb8-8"
+    channel: IBM Technology
+    lang: en
+    when: optional
+    note: "แยกสองคำที่คนใช้ปนกัน ต่อกับบทที่ 8 retrieval vs stuffing"
 m04:
   - title: "มาลองให้ AI เลือก Tech Stack สำหรับทำเว็บกัน"
     url: "https://www.youtube.com/watch?v=smq0S3cvk_U"
@@ -185,6 +200,18 @@ m13:
     channel: MilerDev
     when: optional
     note: "พื้นฐาน attack pattern ทั่วไป สำหรับคนที่ไม่ได้มาสายความปลอดภัย ก่อนเข้าภัยเฉพาะของ agent"
+  - title: "Securing AI Agents: How to Prevent Hidden Prompt Injection Attacks"
+    url: "https://www.youtube.com/watch?v=5ZA1lTxTH3c"
+    channel: IBM Technology
+    lang: en
+    when: before
+    note: "ปู prompt injection ที่ซ่อนอยู่ในเนื้อหา ก่อนบทที่ 2 ที่ไล่ช่องทางทั้งหมด"
+  - title: "Prompt Injection Explained: How Hackers Manipulate AI With Words"
+    url: "https://www.youtube.com/watch?v=kf3QBweeDdo"
+    channel: Pentest Diaries
+    lang: en
+    when: optional
+    note: "มุมผู้โจมตี ดูก่อนทำแล็บ red-team จะได้รู้ว่าจะฝังอะไรบ้าง"
 m15:
   - title: "Software Engineer in AI Era (จาก Google I/O 2026)"
     url: "https://www.youtube.com/watch?v=UreF8tC7QC4"
@@ -202,7 +229,6 @@ m15:
     channel: MilerDev
     when: optional
     note: "มุมทักษะที่ต้องรักษาไว้ ต่อกับบท skill atrophy"
-# ยังไม่มี — เติมได้เลย
 m03:
   - title: "ลดการเปลือง Token! ใช้ Codex ยังไงให้ไม่เปลือง Token และไม่มั่วโค้ด!"
     url: "https://www.youtube.com/watch?v=y6aJ_Ab60e0"
@@ -215,8 +241,38 @@ m05:
     channel: mikelopster
     when: before
     note: "เอกสารในฐานะบริบทถาวรของ repo ตรงกับบทที่ 6 docs-as-context"
-m11: []
-m12: []
+m11:
+  - title: "How I Test With Claude Code (AI TDD)"
+    url: "https://www.youtube.com/watch?v=Kx7bAwVH_1c"
+    channel: Owain Lewis
+    lang: en
+    when: after
+    note: "ท่าเขียนเทสต์ก่อนแล้วให้ agent ทำให้ผ่าน ตรงกับบทที่ 3 ของโมดูลนี้"
+  - title: "How To Use Claude Code To Write Tests For Your Code - Is It Worth It?!"
+    url: "https://www.youtube.com/watch?v=mxr5IWfB9JY"
+    channel: Dev Leader
+    lang: en
+    when: optional
+    note: "มุมวิพากษ์ว่าคุ้มไหม ดูคู่กับบทที่ 1 เรื่องกับดักของเทสต์ที่ agent เขียน"
+m12:
+  - title: "How to Systematically Setup LLM Evals (Metrics, Unit Tests, LLM-as-a-Judge)"
+    url: "https://www.youtube.com/watch?v=a3SMraZWNNs"
+    channel: Dave Ebbelaar
+    lang: en
+    when: before
+    note: "ตัวที่ลงลึกที่สุดที่หาได้ ครอบคลุมทั้ง metric, unit test และ judge"
+  - title: "Complete Beginner's Course on AI Evaluations in 50 Minutes (2025)"
+    url: "https://www.youtube.com/watch?v=TL527yTpxlk"
+    channel: Peter Yang
+    lang: en
+    when: before
+    note: "ปูพื้น evals ตั้งแต่ศูนย์ สำหรับคนที่ยังไม่เคยทำชุดวัดมาก่อน"
+  - title: "LLM as a Judge: Scaling AI Evaluation Strategies"
+    url: "https://www.youtube.com/watch?v=trfUBIDeI1Y"
+    channel: IBM Technology
+    lang: en
+    when: optional
+    note: "สรุป judge แบบ 6 นาที ดูก่อนบทที่ 4 ที่ลงรายละเอียดอคติสี่แบบ"
 m07:
   - title: "จริงๆ แล้วแอปคุณอาจต้องการแค่ SQLite ก็พอ!"
     url: "https://www.youtube.com/watch?v=F62-v-zEkWc"
@@ -228,8 +284,38 @@ m07:
     channel: mikelopster
     when: after
     note: "ต่อ API เข้ากับ agent ดูหลังเรียน contract-first ในบทที่ 1"
-m11: []
-m12: []
+m11:
+  - title: "How I Test With Claude Code (AI TDD)"
+    url: "https://www.youtube.com/watch?v=Kx7bAwVH_1c"
+    channel: Owain Lewis
+    lang: en
+    when: after
+    note: "ท่าเขียนเทสต์ก่อนแล้วให้ agent ทำให้ผ่าน ตรงกับบทที่ 3 ของโมดูลนี้"
+  - title: "How To Use Claude Code To Write Tests For Your Code - Is It Worth It?!"
+    url: "https://www.youtube.com/watch?v=mxr5IWfB9JY"
+    channel: Dev Leader
+    lang: en
+    when: optional
+    note: "มุมวิพากษ์ว่าคุ้มไหม ดูคู่กับบทที่ 1 เรื่องกับดักของเทสต์ที่ agent เขียน"
+m12:
+  - title: "How to Systematically Setup LLM Evals (Metrics, Unit Tests, LLM-as-a-Judge)"
+    url: "https://www.youtube.com/watch?v=a3SMraZWNNs"
+    channel: Dave Ebbelaar
+    lang: en
+    when: before
+    note: "ตัวที่ลงลึกที่สุดที่หาได้ ครอบคลุมทั้ง metric, unit test และ judge"
+  - title: "Complete Beginner's Course on AI Evaluations in 50 Minutes (2025)"
+    url: "https://www.youtube.com/watch?v=TL527yTpxlk"
+    channel: Peter Yang
+    lang: en
+    when: before
+    note: "ปูพื้น evals ตั้งแต่ศูนย์ สำหรับคนที่ยังไม่เคยทำชุดวัดมาก่อน"
+  - title: "LLM as a Judge: Scaling AI Evaluation Strategies"
+    url: "https://www.youtube.com/watch?v=trfUBIDeI1Y"
+    channel: IBM Technology
+    lang: en
+    when: optional
+    note: "สรุป judge แบบ 6 นาที ดูก่อนบทที่ 4 ที่ลงรายละเอียดอคติสี่แบบ"
 m14:
   - title: "สร้าง AI Agent ส่วนตัวด้วย Hermes Agent ทำงานตลอด 24 ชั่วโมง คุยผ่าน Telegram ดูจบบรรลุ!"
     url: "https://www.youtube.com/watch?v=EZ8C1rxaXH4"

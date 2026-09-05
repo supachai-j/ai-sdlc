@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>M05 · ออกแบบ Codebase ให้ Agent ทำงานได้</title>
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+
+</head>
+<body>
+<div class="wrap">
+<header class="topbar">
+  <a class="brand" href="index.html">Agent SDLC</a>
+  <nav>
+    <a href="index.html">ภาพรวม</a>
+    <a href="course-th.html">หลักสูตร</a>
+    <a href="m12-evals.html">M12 Evals</a>
+    <button id="theme" type="button" aria-label="สลับธีมสว่าง/มืด">THEME</button>
+  </nav>
+</header>
+<header class="masthead">
+  <span class="crumb">AI Coding Agent SDLC · Phase 01 · Module 05</span>
+  <h1>ออกแบบ Codebase ให้ Agent ทำงานได้</h1>
+  <p class="deck">คุณภาพงานของ agent มาจากโครงสร้าง repo มากกว่ามาจาก prompt และความต่างที่สำคัญคือ <strong>โครงสร้างให้ผลถาวร ส่วน prompt ที่ปรับดีขึ้นให้ผลแค่ครั้งเดียว</strong></p>
+  <div class="meta"><span><b>8</b> บทเรียน</span><span><b>2.5</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ต้องผ่าน <b>M02</b> · <b>M04</b> ก่อน</span></div>
+</header>
+
+<div class="thesis">
+  <span class="k">ใจความของทั้งโมดูล</span>
+  <p>ทุกครั้งที่ agent หาของไม่เจอ อ่าน error ไม่รู้เรื่อง หรือรันเทสต์ทั้งชุดเพื่อตรวจบรรทัดเดียว คุณจ่ายเงินและเวลาให้กับสิ่งที่แก้ครั้งเดียวจบได้</p>
+</div>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">05.01</span><h2>Legibility — อ่านรู้เรื่องสำหรับเครื่อง</h2></div>
+  <p>codebase ที่คนอ่านรู้เรื่องกับที่เครื่องอ่านรู้เรื่อง ไม่ใช่สิ่งเดียวกัน คนเติมช่องว่างจากบริบทที่สะสมมาหลายเดือน ส่วน agent เห็นเฉพาะสิ่งที่อยู่ตรงหน้า</p>
+  <div class="tw"><table>
+    <thead><tr><th>สิ่งที่คนทดแทนได้ด้วยความคุ้นเคย</th><th>สิ่งที่ agent ต้องเห็นตรง ๆ</th></tr></thead>
+    <tbody>
+      <tr><td>“ไฟล์ <code>utils.ts</code> น่ะเหรอ ของเก่า อย่าไปแตะ”</td><td>คอมเมนต์บนหัวไฟล์ว่า deprecated ใช้อะไรแทน</td></tr>
+      <tr><td>“เทสต์ชุดนั้นแดงมาตั้งแต่ปีที่แล้ว ปกติ”</td><td>skip พร้อมเหตุผล หรือลบทิ้ง</td></tr>
+      <tr><td>“ต้องรัน seed ก่อนนะ ไม่งั้นพัง”</td><td>สคริปต์เดียวที่ทำให้ครบ หรือ error ที่บอก</td></tr>
+      <tr><td>“โฟลเดอร์นี้กำลังจะย้าย”</td><td>ADR ที่บอกว่ากำลังย้ายไปไหน</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box rule">
+    <span class="k">การทดสอบที่ตรงที่สุด</span>
+    <p>ถ้าคุณต้องอธิบายอะไรกับ dev ใหม่ในสัปดาห์แรกซ้ำ ๆ นั่นคือสิ่งที่ agent ก็ไม่รู้เหมือนกัน และมันจะไม่ถามคุณ มันจะเดา</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">05.02</span><h2>โครงไฟล์ที่ลดต้นทุนการค้นหา</h2></div>
+  <p>agent จ่าย token ทุกครั้งที่หาไม่เจอ และมันหาแบบเดาจากชื่อ ไม่ใช่แบบจำที่ได้ โครงสร้างที่ดีจึงวัดได้ด้วยคำถามเดียว — <strong>“จากชื่อฟีเจอร์ เดาที่อยู่ไฟล์ถูกในครั้งแรกไหม”</strong></p>
+  <ul>
+    <li><strong>จัดตามโดเมน ไม่ใช่ตามชนิดไฟล์</strong> — <code>billing/</code> ที่มีทั้ง logic เทสต์ และ type รวมกัน ชนะ <code>controllers/ services/ types/</code> ที่กระจายเรื่องเดียวไปสามที่</li>
+    <li><strong>ชื่อไฟล์บอกเนื้อหา</strong> — <code>invoice-total.ts</code> ชนะ <code>helpers.ts</code></li>
+    <li><strong>อย่ามีทางเข้าหลายทางไปที่เดียวกัน</strong> — re-export ซ้อนกันหลายชั้นทำให้ agent ตามไม่จบ</li>
+    <li><strong>ไฟล์ที่ห้ามแตะต้องบอกที่ตัวมันเอง</strong> ไม่ใช่ในหัวคน</li>
+  </ul>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">05.03</span><h2>Error message คือช่องทาง feedback</h2></div>
+  <p>นี่คือการลงทุนที่คุ้มที่สุดในโมดูลนี้ เพราะ error คือสิ่งที่ agent อ่านตอนที่มันหลงทาง และเป็นโอกาสเดียวที่คุณจะชี้ทางได้โดยไม่ต้องอยู่ตรงนั้น</p>
+  <pre><code><span class="c">// ไร้ประโยชน์ — agent ได้แต่เดา แล้วลองสุ่มแก้</span>
+Error: Invalid configuration
+
+<span class="c">// มีประโยชน์ — บอกว่าอะไรผิด ที่ไหน และแก้ยังไง</span>
+Error: config.retries ต้องเป็นจำนวนเต็ม 0-10 แต่ได้ค่า "3s"
+  ที่ config/worker.yaml บรรทัด 12
+  ถ้าต้องการกำหนดเวลา ให้ใช้ config.timeout แทน</code></pre>
+  <div class="box good">
+    <span class="k">โครงสามส่วนที่ใช้ได้ทุก error</span>
+    <p><strong>อะไรผิด → ที่ไหน → ทำยังไงต่อ</strong> ส่วนที่สามคือส่วนที่คนละเลย และเป็นส่วนที่เปลี่ยนการวนแก้สามรอบให้เหลือรอบเดียว</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">05.04</span><h2>Test affordance</h2></div>
+  <p>หลักการที่คนไม่ค่อยพูดถึง — <strong>ถ้ารันเทสต์เฉพาะจุดไม่ได้เร็ว agent จะเลิกรันแล้วเดาแทน</strong> มันไม่ได้ประกาศว่าเลิกรัน มันแค่ค่อย ๆ ข้ามไป และคุณจะเห็นผลเป็นคุณภาพที่ตกโดยไม่รู้สาเหตุ</p>
+  <div class="tw"><table>
+    <thead><tr><th>เวลารันเทสต์เฉพาะจุด</th><th>พฤติกรรมที่ได้</th></tr></thead>
+    <tbody>
+      <tr><td>ต่ำกว่า 5 วินาที</td><td>รันทุกครั้งที่แก้ วนแก้เองจนเขียว</td></tr>
+      <tr><td>10–30 วินาที</td><td>รันบ้าง ข้ามบ้าง</td></tr>
+      <tr><td>เกิน 1 นาที หรือรันเฉพาะจุดไม่ได้</td><td><strong>เดาเอาแล้วบอกว่าน่าจะถูก</strong></td></tr>
+    </tbody>
+  </table></div>
+  <div class="box rule">
+    <span class="k">สิ่งที่ต้องมี</span>
+    <p>คำสั่งเดียวที่รันเทสต์ของไฟล์เดียวได้ และเสร็จในไม่กี่วินาที ถ้าโปรเจกต์ของคุณยังไม่มี นี่คือสิ่งแรกที่ควรทำ — มันให้ผลมากกว่าการปรับ prompt ทุกอย่างรวมกัน</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">05.05</span><h2>Type และ schema เป็น guardrail ที่ถูกที่สุด</h2></div>
+  <p>Type ทำงานต่างจากคำสั่งใน prompt ตรงที่มัน<strong>บังคับได้ ไม่ใช่แค่ขอ</strong> และมันทำงานตอนที่ไม่มีใครดูอยู่</p>
+  <div class="tw"><table>
+    <thead><tr><th>วิธีกัน</th><th>บังคับได้จริงไหม</th><th>ต้นทุนต่อครั้ง</th></tr></thead>
+    <tbody>
+      <tr><td>เขียนกฎใน prompt</td><td>ขอ — ทำตามบ้างไม่ทำบ้าง</td><td>จ่าย token ทุกรอบ</td></tr>
+      <tr><td>Type / schema</td><td><strong>บังคับ</strong> — ผิดแล้วคอมไพล์ไม่ผ่าน</td><td>ศูนย์</td></tr>
+      <tr><td>Hook / lint rule</td><td><strong>บังคับ</strong></td><td>ศูนย์</td></tr>
+      <tr><td>รีวิวโดยคน</td><td>บังคับ แต่ช้าและมีวันพลาด</td><td>เวลาคน</td></tr>
+    </tbody>
+  </table></div>
+  <p>กฎที่ควรใช้คือ — <strong>อะไรที่ทำให้เป็น type ได้ อย่าเอาไปเขียนเป็นกฎใน prompt</strong> เพราะกฎใน prompt กินงบบริบททุกรอบและยังไม่รับประกันผล</p>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">05.06</span><h2>Docs-as-context</h2></div>
+  <p>เอกสารในโปรเจกต์ที่มี agent ทำงานอยู่ มีสถานะเปลี่ยนไป มันไม่ใช่ของที่เขียนแล้วไม่มีใครอ่าน แต่เป็น input ที่ถูกอ่านทุกวัน ซึ่งเปลี่ยนวิธีเขียนไปด้วย</p>
+  <div class="tw"><table>
+    <thead><tr><th>เอกสาร</th><th>เขียนแบบเดิม</th><th>เขียนให้เป็นบริบท</th></tr></thead>
+    <tbody>
+      <tr><td>README</td><td>เล่าว่าโปรเจกต์ทำอะไร</td><td>คำสั่งที่ต้องใช้ + ข้อจำกัดที่ไม่เห็นจากโค้ด</td></tr>
+      <tr><td>ADR</td><td>บันทึกไว้เผื่อใครสงสัย</td><td>ระบุสิ่งที่<em>ห้าม</em>รื้อและเพราะอะไร</td></tr>
+      <tr><td>Runbook</td><td>ขั้นตอนสำหรับคน</td><td>คำสั่งที่รันได้จริง + วิธีตรวจว่าสำเร็จ</td></tr>
+      <tr><td>Design system</td><td>ภาพประกอบ</td><td>token กับ primitive ที่ระบุชื่อได้</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box trap">
+    <span class="k">เอกสารที่เป็นโทษ</span>
+    <p>เอกสารที่ล้าสมัยแย่กว่าไม่มีเอกสาร เพราะ agent เชื่อมันและทำตาม ถ้าดูแลไม่ไหว ให้ลบดีกว่าปล่อยไว้ — และถ้าลบไม่ได้ ให้เขียนวันที่กับสถานะไว้บนหัวไฟล์</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">05.07</span><h2>ลำดับชั้นของไฟล์บริบท</h2></div>
+  <p>ไฟล์บริบทมีได้หลายระดับ และการรู้ลำดับทับกันช่วยให้วางกฎถูกที่</p>
+  <div class="tw"><table>
+    <thead><tr><th>ระดับ</th><th>ควรใส่อะไร</th><th>สิ่งที่ไม่ควรอยู่ที่นี่</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Global</strong></td><td>วิธีทำงานที่คุณต้องการเสมอทุกโปรเจกต์</td><td>อะไรที่จริงเฉพาะโปรเจกต์เดียว</td></tr>
+      <tr><td><strong>Project</strong></td><td>convention คำสั่ง ข้อห้ามของ repo นี้</td><td>ความรู้ทั่วไปที่โมเดลรู้อยู่แล้ว</td></tr>
+      <tr><td><strong>Directory</strong></td><td>กฎเฉพาะโซน เช่น โฟลเดอร์ที่กำลัง migrate</td><td>กฎที่ใช้ทั้ง repo</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box good">
+    <span class="k">เกณฑ์วางกฎให้ถูกระดับ</span>
+    <p>ถามว่า “กฎนี้ยังจริงไหมถ้าย้ายไปอีกโปรเจกต์” — จริง ให้ขึ้น global · ไม่จริง ให้อยู่ project · จริงเฉพาะบางโฟลเดอร์ ให้ลง directory การวางสูงเกินไปทำให้กฎไปรบกวนงานที่ไม่เกี่ยว</p>
+  </div>
+</section>
+
+<div class="lab">
+  <div class="lab-head">05.08 · แล็บประจำโมดูล</div>
+  <div class="lab-body">
+    <h2>Audit repo จริง แล้วทำห้าการเปลี่ยนที่ลด token ต่องานลง 30%</h2>
+    <p>แล็บนี้วัดผลได้ตรง ๆ และผลมักอยู่ได้นานกว่าทุกอย่างที่คุณทำในหลักสูตรนี้</p>
+    <h3><span class="k">ขั้นตอน</span></h3>
+    <ol>
+      <li><strong>วัดตั้งต้น</strong> — เลือกงานตัวแทนสามงาน รันแล้วบันทึก token ที่ใช้ จำนวนรอบ และจำนวนไฟล์ที่ agent เปิดอ่าน</li>
+      <li><strong>หาจุดรั่ว</strong> — ดูว่ามันเปิดไฟล์อะไรบ้างก่อนจะเจอที่ถูก ทุกไฟล์ที่เปิดผิดคือหลักฐานว่าโครงสร้างหรือชื่อไม่สื่อ</li>
+      <li><strong>เลือกห้าการเปลี่ยน</strong> จากรายการนี้ — คำสั่งรันเทสต์เฉพาะจุด · แก้ error สามข้อที่เจอบ่อยให้บอกวิธีแก้ · ตั้งชื่อไฟล์ที่กำกวมใหม่ · เขียนหัวไฟล์ให้ของ deprecated · ตัด project memory ที่พิสูจน์ไม่ได้ทิ้ง</li>
+      <li><strong>วัดซ้ำด้วยงานเดิม</strong> อย่างละ 3 ครั้ง</li>
+    </ol>
+    <div class="box good">
+      <span class="k">เกณฑ์ผ่าน</span>
+      <ul>
+        <li>token ต่องานลดลงอย่างน้อย 30% โดยอัตราผ่านไม่ตก</li>
+        <li>จำนวนไฟล์ที่เปิดผิดก่อนเจอที่ถูก ลดลงชัดเจน</li>
+        <li>บอกได้ว่าการเปลี่ยนไหนให้ผลมากที่สุด — เกือบทุกครั้งคือข้อ test affordance</li>
+      </ul>
+    </div>
+    <div class="box trap">
+      <span class="k">อย่าทำพร้อมกันทั้งห้า</span>
+      <p>ทำทีละอย่างแล้ววัด ไม่งั้นคุณจะรู้ว่ารวม ๆ ดีขึ้น แต่ไม่รู้ว่าเพราะอะไร แล้วครั้งหน้าในโปรเจกต์อื่นก็ต้องเดาใหม่หมด</p>
+    </div>
+  </div>
+</div>
+
+<p class="note"><b>เชื่อมกับโมดูลอื่น</b> — <a href="m01.html">M01.07</a> สองในเจ็ดโหมดล้มเหลวแก้ได้ที่นี่ · <a href="m02.html">M02.08</a> โครงสร้างที่ดีทำให้ retrieval ชนะ stuffing · <a href="m08.html">M08</a> ใช้เทคนิคเดียวกันกับ repo ที่คุณไม่ได้เขียน · <a href="m09.html">M09</a> เปลี่ยนกฎเป็น hook ที่บังคับได้</p>
+
+</div>
+<script>
+document.getElementById("theme").addEventListener("click",function(){
+  var d=document.documentElement;
+  var dark=d.dataset.theme?d.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;
+  d.dataset.theme=dark?"light":"dark";
+  try{localStorage.setItem("theme",d.dataset.theme)}catch(e){}
+});
+</script>
+</body>
+</html>

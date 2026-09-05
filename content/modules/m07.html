@@ -1,0 +1,146 @@
+<div class="wrap">
+<header class="masthead">
+  <span class="crumb">AI Coding Agent SDLC · Phase 02 · Module 07</span>
+  <h1>Backend และงานที่แตะข้อมูล</h1>
+  <p class="deck">ฝั่งหลังบ้านมีงานที่<strong>ผิดแล้วย้อนไม่ได้</strong> ซึ่งเปลี่ยนกติกาทั้งหมด โมดูลนี้ว่าด้วยการวาง guardrail ก่อนปล่อยให้ agent แตะของที่แตะแล้วเสียหายถาวร</p>
+  <div class="meta"><span><b>9</b> บทเรียน</span><span><b>3</b> ชั่วโมง</span><span><b>2</b> แล็บ</span><span>ต้องผ่าน <b>M04</b> · <b>M05</b> ก่อน</span></div>
+</header>
+
+<div class="thesis">
+  <span class="k">ใจความของทั้งโมดูล</span>
+  <p>เกณฑ์ข้อที่สี่จาก <a href="m04.html">M04.03</a> — “ผิดแล้วจับได้และย้อนกลับได้ไหม” — เป็นเกณฑ์ที่งาน backend หลายอย่างสอบตก และนั่นคือเส้นแบ่งว่าอะไรมอบให้ agent ทำเองได้ อะไรต้องมีคนอยู่ด้วย</p>
+</div>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">07.01</span><h2>Contract-first</h2></div>
+  <p>สัญญา API ที่เขียนเป็นสคีมาให้ประโยชน์สามชั้นพร้อมกัน — เป็น spec ให้ agent เป็นเกณฑ์ตรวจอัตโนมัติ และเป็นเอกสารที่ไม่มีวันล้าสมัย เพราะถ้าล้าสมัยแล้วเทสต์จะแดง</p>
+  <div class="box rule">
+    <span class="k">ลำดับที่ให้ผลดีที่สุด</span>
+    <p>เขียนสัญญาก่อน → ให้ agent สร้าง type จากสัญญา → ให้เขียน implementation ที่ผ่านสัญญา ลำดับนี้ทำให้ความถูกต้องถูกตรวจโดยเครื่องตลอดทาง แทนที่จะต้องรอคนอ่าน</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">07.02</span><h2>Layering ที่ agent ทำงานด้วยง่าย</h2></div>
+  <div class="tw"><table>
+    <thead><tr><th>ลักษณะ</th><th>agent ทำงานด้วยง่าย</th><th>agent หลงทาง</th></tr></thead>
+    <tbody>
+      <tr><td>ทางเข้าโค้ด</td><td>ทางเดียวชัดเจน</td><td>เข้าได้หลายทาง ผ่าน re-export ซ้อน</td></tr>
+      <tr><td>ผลข้างเคียง</td><td>รวมอยู่ชั้นเดียว</td><td>กระจายทุกชั้น</td></tr>
+      <tr><td>การตั้งค่า</td><td>อ่านที่เดียวตอนเริ่ม</td><td>อ่าน env กระจายทั่วโค้ด</td></tr>
+      <tr><td>ขอบเขตธุรกรรม</td><td>ระบุชัดว่าเริ่มและจบที่ไหน</td><td>ซ่อนอยู่ใน decorator หรือ middleware</td></tr>
+    </tbody>
+  </table></div>
+  <p>สังเกตว่าทุกข้อในคอลัมน์ขวาก็ทำให้<em>คน</em>หลงทางเหมือนกัน โครงสร้างที่ดีสำหรับ agent มักคือโครงสร้างที่ดีอยู่แล้ว แค่ agent ไม่มีความอดทนและความคุ้นเคยมาชดเชยให้</p>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">07.03</span><h2>Database migration — งานอันตรายที่สุดในหลักสูตร</h2></div>
+  <p>Migration ต่างจากงานอื่นตรงที่มัน<strong>ทำลายข้อมูลได้ถาวร</strong> และเทสต์ที่เขียวไม่ได้แปลว่าปลอดภัย เพราะเทสต์รันบนฐานข้อมูลว่างที่ไม่มีข้อมูลจริง</p>
+  <div class="box trap">
+    <span class="k">รูปแบบที่อันตรายที่สุดสามอย่าง</span>
+    <ul>
+      <li><strong>ลบหรือเปลี่ยนชนิดคอลัมน์ในขั้นเดียว</strong> — โค้ดเก่าที่ยังรันอยู่จะพังทันที</li>
+      <li><strong>เพิ่มคอลัมน์ NOT NULL โดยไม่มีค่าเริ่มต้น</strong> — ล็อกตารางและล้มบนข้อมูลจริง</li>
+      <li><strong>Backfill ในไฟล์ migration เดียวกัน</strong> — ตารางใหญ่จะล็อกนานจนระบบล่ม</li>
+    </ul>
+  </div>
+  <div class="box good">
+    <span class="k">Guardrail ที่ต้องมีก่อนให้ agent แตะ migration</span>
+    <ol>
+      <li><strong>บังคับรูปแบบขยาย–ย้าย–หด</strong> — เพิ่มของใหม่ ย้ายข้อมูล แล้วค่อยลบของเก่าคนละรอบ deploy</li>
+      <li><strong>ทุก migration ต้องมีทางย้อน</strong> และทางย้อนต้องถูกทดสอบ ไม่ใช่แค่มีอยู่</li>
+      <li><strong>รันกับสำเนาข้อมูลจริงขนาดใกล้เคียง</strong> ก่อนขึ้นเสมอ</li>
+      <li><strong>คนอนุมัติทุกครั้ง</strong> — งานนี้ตกเกณฑ์ข้อสี่ ไม่ควรอยู่ในกลุ่มที่ agent ทำจบเอง</li>
+    </ol>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">07.04</span><h2>Idempotency ขอบเขตธุรกรรม และ error taxonomy</h2></div>
+  <p>สามเรื่องนี้อยู่ด้วยกันเพราะมันตอบคำถามเดียวกัน — <strong>เมื่อเกิดข้อผิดพลาดกลางทาง ระบบอยู่ในสภาพไหน</strong> ซึ่งเป็นคำถามที่ agent ตอบผิดบ่อยเพราะมันมองเห็นแค่เส้นทางที่สำเร็จ</p>
+  <div class="tw"><table>
+    <thead><tr><th>ชนิดข้อผิดพลาด</th><th>ควรลองใหม่ไหม</th><th>สิ่งที่ agent มักทำผิด</th></tr></thead>
+    <tbody>
+      <tr><td>ข้อมูลนำเข้าไม่ถูกต้อง</td><td>ไม่ — ลองกี่ครั้งก็ผิด</td><td>ใส่ retry ให้ทุกอย่างเหมือนกันหมด</td></tr>
+      <tr><td>ไม่มีสิทธิ์</td><td>ไม่</td><td>ลองใหม่จนโดนบล็อก</td></tr>
+      <tr><td>ปลายทางล่มชั่วคราว</td><td>ใช่ พร้อมหน่วงเพิ่มขึ้น</td><td>ลองรัว ๆ จนซ้ำเติมปลายทาง</td></tr>
+      <tr><td>ชนกันเพราะแก้พร้อมกัน</td><td>ใช่ หลังอ่านค่าใหม่</td><td>เขียนทับของคนอื่น</td></tr>
+    </tbody>
+  </table></div>
+  <p>ถ้า error ในโปรเจกต์ของคุณแยกชนิดไม่ได้ agent จะเลือกกลยุทธ์ไม่ถูก การจัดชนิด error ให้ชัดจึงเป็นงาน <a href="m05.html">M05</a> ที่ให้ผลตรงกับโมดูลนี้</p>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">07.05</span><h2>Secret และ env — กฎที่ห้ามยืดหยุ่น</h2></div>
+  <ul>
+    <li><strong>ห้ามให้ไฟล์ที่มีค่าจริงเข้าไปในบริบท</strong> — เมื่อเข้าไปแล้ว มันอยู่ในประวัติการสนทนาและย้อนไม่ได้</li>
+    <li><strong>ใช้ไฟล์ตัวอย่างที่มีแต่ชื่อคีย์</strong> ให้ agent อ่านจากตัวนั้น</li>
+    <li><strong>ตั้ง deny rule ที่ระดับ hook</strong> ไม่ใช่แค่เขียนเป็นกฎใน prompt — กฎที่บังคับได้ชนะกฎที่ขอไว้</li>
+    <li><strong>ถ้าหลุดแล้ว ให้ถือว่ารั่ว</strong> และหมุนคีย์ ไม่ใช่หวังว่าไม่มีใครเห็น</li>
+  </ul>
+  <div class="box rule">
+    <span class="k">ทำไมถึงย้อนไม่ได้</span>
+    <p>บริบทถูกส่งไปประมวลผลแล้ว และอาจถูกเก็บใน log ของ harness ใน transcript หรือใน cache การลบข้อความออกจากหน้าจอไม่ได้ลบสิ่งที่ส่งไปแล้ว — รายละเอียดเต็มใน <a href="m13.html">M13.06</a></p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">07.06</span><h2>Background job, queue และ retry</h2></div>
+  <p>สามอย่างนี้ agent ออกแบบผิดเป็นประจำ เพราะรูปแบบที่ดูถูกต้องในโค้ดกลับผิดในสภาพจริงที่มีความล้มเหลว</p>
+  <div class="tw"><table>
+    <thead><tr><th>สิ่งที่มักได้</th><th>ปัญหาจริง</th><th>สิ่งที่ควรได้</th></tr></thead>
+    <tbody>
+      <tr><td>retry สามครั้งติด</td><td>ซ้ำเติมปลายทางที่กำลังล่ม</td><td>หน่วงเพิ่มขึ้นพร้อมสุ่ม + เพดาน</td></tr>
+      <tr><td>งานไม่ idempotent</td><td>รันซ้ำแล้วเกิดผลซ้ำ</td><td>คีย์กันซ้ำต่อหนึ่งงาน</td></tr>
+      <tr><td>ไม่มีที่เก็บงานที่ล้มถาวร</td><td>งานหายเงียบ</td><td>คิวสำหรับงานที่ล้ม + การแจ้งเตือน</td></tr>
+      <tr><td>ไม่มีเพดานเวลา</td><td>งานค้างกินทรัพยากรตลอดไป</td><td>timeout ที่ชัดเจนทุกงาน</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">07.07</span><h2>Observability ตั้งแต่บรรทัดแรก</h2></div>
+  <p>เหตุผลที่เรื่องนี้อยู่ในโมดูล implementation ไม่ใช่โมดูล operations เพราะ <strong>log คือสิ่งที่ agent ใช้ debug ตัวเองในรอบหน้า</strong> การเขียน log ที่ดีจึงเป็นการลงทุนในความสามารถของ agent โดยตรง</p>
+  <ul>
+    <li>ทุก request มีรหัสที่ตามได้ตลอดเส้นทาง</li>
+    <li>log เป็นโครงสร้าง ไม่ใช่ประโยคที่ต้องใช้ regex แกะ</li>
+    <li>ตอนล้มเหลว ให้ log ค่าที่นำเข้ามาด้วย ไม่ใช่แค่ชื่อ error</li>
+    <li>อย่า log ค่าที่เป็นความลับ — ข้อนี้ต้องบังคับด้วยเครื่องมือ ไม่ใช่ด้วยความระวัง</li>
+  </ul>
+</section>
+
+<div class="lab">
+  <div class="lab-head">07.08 · แล็บ A</div>
+  <div class="lab-body">
+    <h2>สร้าง API จากสัญญา พร้อม migration ที่มีทางย้อน</h2>
+    <ol>
+      <li>เขียนสัญญา API สำหรับทรัพยากรหนึ่งตัว ครบทั้ง success และ error</li>
+      <li>ให้ agent สร้าง implementation ที่ผ่านการตรวจสัญญาอัตโนมัติ</li>
+      <li>เพิ่มฟิลด์ใหม่โดยใช้รูปแบบ <strong>ขยาย–ย้าย–หด</strong> แยกเป็นสาม migration</li>
+      <li>ทดสอบทางย้อนของทุก migration บนฐานที่มีข้อมูล ไม่ใช่ฐานว่าง</li>
+    </ol>
+    <div class="box good">
+      <span class="k">เกณฑ์ผ่าน</span>
+      <ul>
+        <li>รัน migration ไปหน้าแล้วย้อนกลับ ข้อมูลเดิมต้องครบ</li>
+        <li>ระหว่างขั้นกลาง โค้ดเวอร์ชันเก่าต้องยังทำงานได้</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="lab">
+  <div class="lab-head">07.09 · แล็บ B</div>
+  <div class="lab-body">
+    <h2>ให้ agent หาบั๊กจากบันทึกอย่างเดียว</h2>
+    <p>ปลูกบั๊กไว้หนึ่งตัว แล้วส่งให้ agent เฉพาะ log กับ trace <strong>ห้ามบอกว่าพังตรงไหน</strong> นี่คือการทดสอบคุณภาพ observability ของคุณ ไม่ใช่ทดสอบ agent</p>
+    <div class="box trap">
+      <span class="k">อ่านผลยังไง</span>
+      <p>ถ้า agent หาไม่เจอ อย่าเพิ่งสรุปว่าโมเดลไม่เก่ง ให้ถามก่อนว่า<strong>คนจะหาเจอไหมถ้ามีแค่ log ชุดนี้</strong> ถ้าคนก็หาไม่เจอ ปัญหาอยู่ที่ log ไม่ใช่ที่ agent และคุณเพิ่งพบสิ่งที่ต้องแก้</p>
+    </div>
+  </div>
+</div>
+
+<p class="note"><b>เชื่อมกับโมดูลอื่น</b> — <a href="m04.html">M04.03</a> เกณฑ์ตัดสินว่างานไหนมอบให้ agent ได้ · <a href="m05.html">M05.03</a> error taxonomy คือ error message ที่ดีในอีกรูปแบบ · <a href="m13.html">M13.06</a> การจัดการ secret เชิงลึก · <a href="m15.html">M15.02</a> log ชุดเดียวกันนี้ใช้ตอน incident</p>
+</div>

@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>M01 · กลไกภายในของ Agent</title>
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+
+</head>
+<body>
+<div class="wrap">
+<header class="topbar">
+  <a class="brand" href="index.html">Agent SDLC</a>
+  <nav>
+    <a href="index.html">ภาพรวม</a>
+    <a href="course-th.html">หลักสูตร</a>
+    <a href="m12-evals.html">M12 Evals</a>
+    <button id="theme" type="button" aria-label="สลับธีมสว่าง/มืด">THEME</button>
+  </nav>
+</header>
+<header class="masthead">
+  <span class="crumb">AI Coding Agent SDLC · Phase 00 · Module 01</span>
+  <h1>กลไกภายในของ Agent</h1>
+  <p class="deck">Agent ไม่ใช่กล่องดำ มันคือ<strong>ลูป <code>while</code> ธรรมดา</strong>ที่ห่อด้วยวิศวกรรมหลายชั้น โมดูลนี้แกะทีละชั้นเพื่อให้เวลามันทำอะไรแปลก ๆ คุณชี้ได้ว่าเกิดที่ชั้นไหน</p>
+  <div class="meta"><span><b>8</b> บทเรียน</span><span><b>2.5</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ไม่มีข้อกำหนดก่อนหน้า</span></div>
+</header>
+
+<div class="thesis">
+  <span class="k">ใจความของทั้งโมดูล</span>
+  <p>คนที่ debug agent ไม่เป็น ไม่ใช่เพราะไม่เก่ง แต่เพราะไม่มีแบบจำลองในหัวว่าข้างในมีอะไรบ้าง เมื่อมีแล้ว ปัญหาที่เคยดูลึกลับจะกลายเป็นคำถามว่า “ชั้นไหนพัง”</p>
+</div>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">01.01</span><h2>Agentic loop จริง ๆ คืออะไร</h2></div>
+  <p>ตัดทุกอย่างออกจนเหลือแก่น agent คือลูปเดียว โมเดลตอบกลับมาพร้อมคำขอใช้เครื่องมือ โปรแกรมรันเครื่องมือนั้น ส่งผลกลับเข้าไป แล้ววนใหม่จนกว่าโมเดลจะบอกว่าจบ</p>
+  <pre><code>messages = [user_request]
+while True:
+    reply = model(messages, tools)
+    messages.append(reply)
+    if reply.stop_reason != "tool_use":
+        break                      <span class="c"># จบงาน หรือถูกตัด หรือถูกปฏิเสธ</span>
+    results = [run(call) for call in reply.tool_calls]
+    messages.append(results)       <span class="c"># ต้องส่งกลับ "ครบทุกตัว" ใน message เดียว</span></code></pre>
+  <p>แค่นี้จริง ๆ ความสามารถทั้งหมดที่เห็นมาจากสามอย่างที่ประกอบเข้ามารอบลูปนี้ — เครื่องมือที่ให้ บริบทที่ใส่ และขอบเขตสิทธิ์ที่วางไว้ ไม่มีเวทมนตร์อื่น</p>
+  <div class="box rule">
+    <span class="k">ผลที่ตามมาทันที</span>
+    <p>ทุกอย่างที่ agent “รู้” ในรอบถัดไป มาจาก <code>messages</code> ล้วน ๆ ถ้าข้อมูลไม่ได้อยู่ในนั้น มันไม่รู้ และถ้ามันอยู่ในนั้นเยอะเกินไป คุณจ่ายเงินและจ่ายความสนใจของโมเดลไปกับสิ่งที่ไม่เกี่ยว</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">01.02</span><h2>กายวิภาคของ harness</h2></div>
+  <p>สิ่งที่คุณใช้จริงไม่ใช่ลูปเปล่า แต่เป็น harness ที่ห่อลูปนั้นไว้ห้าชั้น การรู้ชั้นทั้งห้าคือเครื่องมือ debug ที่ดีที่สุดในโมดูลนี้</p>
+  <div class="tw"><table>
+    <thead><tr><th>ชั้น</th><th>หน้าที่</th><th>อาการเมื่อชั้นนี้มีปัญหา</th></tr></thead>
+    <tbody>
+      <tr><td><strong>System prompt</strong></td><td>บอกว่าเป็นใคร ทำอะไรได้ กฎอะไรห้ามข้าม</td><td>พฤติกรรมโดยรวมเพี้ยน ไม่ทำตาม convention ของทีม</td></tr>
+      <tr><td><strong>Tool registry</strong></td><td>รายการเครื่องมือ + schema + คำอธิบาย</td><td>เลือกเครื่องมือผิด หรือส่ง argument ผิดซ้ำ ๆ</td></tr>
+      <tr><td><strong>Context assembler</strong></td><td>ประกอบ messages ที่จะส่งเข้าโมเดลแต่ละรอบ</td><td>ลืมของที่เพิ่งทำ วนทำงานเดิม ต้นทุนพุ่ง</td></tr>
+      <tr><td><strong>Permission layer</strong></td><td>ตัดสินว่าคำขอไหนรันได้</td><td>ค้างรออนุมัติ หรือ (แย่กว่า) ทำสิ่งที่ไม่ควรทำ</td></tr>
+      <tr><td><strong>Result renderer</strong></td><td>แปลงผลของเครื่องมือเป็นข้อความที่โมเดลอ่าน</td><td>โมเดลตีความผลผิด เพราะผลถูกตัดหรือจัดรูปแย่</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box trap">
+    <span class="k">ชั้นที่คนโทษน้อยที่สุดแต่ผิดบ่อยที่สุด</span>
+    <p><strong>Result renderer</strong> — เวลาคำสั่งคืน output 20,000 บรรทัดแล้ว harness ตัดเหลือ 200 บรรทัดแรก โมเดลจะสรุปจากส่วนที่เห็น แล้วมั่นใจเต็มที่ว่าเข้าใจครบ อาการคือ “มันตอบผิดแบบมั่นใจ” ซึ่งคนมักโทษว่าโมเดลโง่ ทั้งที่ปัญหาอยู่ที่ท่อ</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">01.03</span><h2>Tool-use protocol และกฎที่ห้ามผิด</h2></div>
+  <p>โมเดลไม่ได้ “เรียกฟังก์ชัน” มันผลิตบล็อกข้อมูลที่บอกว่าอยากเรียกอะไรด้วย argument อะไร แล้วโปรแกรมของคุณเป็นคนรัน ผลลัพธ์ถูกส่งกลับเป็นบล็อกคู่กันที่อ้าง id เดิม</p>
+  <ul>
+    <li><strong>หนึ่งคำตอบมีหลาย tool call ได้</strong> — โมเดลขอหลายอย่างพร้อมกันเมื่อมันไม่ขึ้นต่อกัน ให้รันขนานแล้วรวมผล</li>
+    <li><strong>ต้องส่งผลกลับครบทุกตัวใน message เดียว</strong> — ถ้าแยกส่งทีละอัน โมเดลจะค่อย ๆ เลิกขอแบบขนาน เพราะเรียนรู้ว่ามันไม่ได้ผลดี ประสิทธิภาพตกโดยไม่มีใครสังเกต</li>
+    <li><strong>เครื่องมือที่ล้มเหลวต้องส่งผลกลับพร้อมธง error</strong> ห้ามเงียบ — การไม่ส่งผลกลับทำให้ลูปเสียสภาพ และโมเดลจะเดาว่าเกิดอะไรขึ้น</li>
+  </ul>
+  <div class="box good">
+    <span class="k">ทำไม error ที่ส่งกลับถึงมีค่ากว่าที่คิด</span>
+    <p>ข้อความ error คือช่องทางสอน agent ที่ถูกที่สุดที่มี <code>ENOENT</code> เปล่า ๆ บอกอะไรไม่ได้ แต่ <code>ENOENT: ไม่พบ src/billing/index.ts — ไฟล์ในโฟลเดอร์นี้คือ invoice.ts, tax.ts</code> ทำให้รอบถัดไปมันแก้ถูกเลย เรื่องนี้เป็นแกนของ <a href="m05.html">M05</a></p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">01.04</span><h2>stop_reason ทุกค่า และการจัดการแต่ละแบบ</h2></div>
+  <p>ค่าที่บอกว่าทำไมโมเดลหยุดพูด เป็นข้อมูล debug ที่ดีที่สุดชิ้นเดียว และเป็นสิ่งที่โค้ดต้องแยกกรณีให้ครบ</p>
+  <div class="tw"><table>
+    <thead><tr><th>ค่า</th><th>แปลว่า</th><th>ต้องทำอะไร</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">end_turn</td><td>พูดจบตามปกติ</td><td>ออกจากลูป</td></tr>
+      <tr><td class="mono">tool_use</td><td>ขอใช้เครื่องมือ</td><td>รันแล้วส่งผลกลับ วนต่อ</td></tr>
+      <tr><td class="mono">max_tokens</td><td>ชนเพดานความยาว ถูกตัดกลางคัน</td><td><strong>ห้ามถือว่าเป็นคำตอบ</strong> — ต้องขอต่อหรือขยายเพดาน</td></tr>
+      <tr><td class="mono">pause_turn</td><td>งานฝั่งเซิร์ฟเวอร์ยังไม่จบ</td><td>ส่งกลับเข้าไปให้ทำต่อ</td></tr>
+      <tr><td class="mono">refusal</td><td>ถูกปฏิเสธด้วยเหตุผลด้านความปลอดภัย</td><td>จัดการแยก อย่าลอง retry ซ้ำ ๆ</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box trap">
+    <span class="k">บั๊กคลาสสิก</span>
+    <p>โค้ดที่เช็คแค่ <code>stop_reason == "tool_use"</code> แล้ว <code>else</code> ถือว่าเสร็จ จะกลืน <code>max_tokens</code> เงียบ ๆ ผลคือได้คำตอบที่ถูกตัดครึ่ง แล้วเอาไปใช้ต่อเหมือนสมบูรณ์ นี่คือแหล่งของ “ไฟล์ที่เขียนไม่จบ” จำนวนมาก</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">01.05</span><h2>Thinking และ effort</h2></div>
+  <p>โมเดลรุ่นใหม่คิดก่อนตอบได้ และคุมความลึกได้ผ่านระดับ effort ผลของมันไม่ใช่แค่ “ฉลาดขึ้น” แต่เปลี่ยน<strong>รูปแบบการทำงาน</strong>ด้วย</p>
+  <ul>
+    <li><strong>effort ต่ำ</strong> — tool call น้อยลงและรวบมากขึ้น คำพูดนำสั้นลง เหมาะกับงานซ้ำ ๆ ที่รู้ขั้นตอนแล้ว และเหมาะกับ sub-agent</li>
+    <li><strong>effort สูง</strong> — สำรวจมากขึ้น ตรวจสอบตัวเองมากขึ้น คุ้มกับงานที่ผิดแล้วแพง</li>
+    <li><strong>ห้ามสั่งให้ “คิดทีละขั้น”</strong> กับโมเดลที่คิดเองอยู่แล้ว — คำสั่งแบบนั้นเป็นมรดกจากยุคก่อน และตอนนี้กลายเป็นตัวรบกวน เรื่องนี้กลับมาอีกครั้งใน <a href="m12-evals.html">M12.08</a></li>
+  </ul>
+  <div class="box rule">
+    <span class="k">ลำดับการปรับที่ถูก</span>
+    <p>เจอปัญหาคุณภาพ ให้ไล่ตามลำดับนี้ — <strong>บริบท → effort → โมเดล</strong> คนส่วนใหญ่กระโดดไปข้อสามก่อน ซึ่งแพงที่สุดและมักไม่ใช่สาเหตุ</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">01.06</span><h2>Permission model</h2></div>
+  <p>ชั้นสิทธิ์คือสิ่งเดียวที่กั้นระหว่าง “ผู้ช่วยที่มีประโยชน์” กับ “โปรแกรมที่รันคำสั่งอะไรก็ได้บนเครื่องคุณ” มันไม่ใช่ความรำคาญที่ต้องปิด แต่เป็นส่วนหนึ่งของการออกแบบ</p>
+  <div class="tw"><table>
+    <thead><tr><th>โหมด</th><th>ใช้เมื่อ</th><th>ความเสี่ยง</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">ask</td><td>งานสำรวจ งานที่ยังไม่ไว้ใจ</td><td>ต่ำ แต่ขัดจังหวะ</td></tr>
+      <tr><td class="mono">acceptEdits</td><td>งานแก้ไฟล์ในขอบเขตที่รู้แล้ว</td><td>ปานกลาง — แก้ไฟล์ได้เอง</td></tr>
+      <tr><td>allowlist เฉพาะคำสั่ง</td><td><strong>โหมดที่ควรใช้เป็นค่าเริ่มต้นของทีม</strong></td><td>ต่ำและคาดเดาได้</td></tr>
+      <tr><td class="mono">bypass</td><td>เฉพาะใน container ที่ทิ้งได้</td><td><strong>สูงมาก</strong> — เท่ากับให้ shell เต็ม</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box trap">
+    <span class="k">หนี้ที่มองไม่เห็น</span>
+    <p>การเปิดโหมดผ่านทุกอย่างเพราะ “รำคาญ prompt” คือการกู้ยืมความเร็ววันนี้ด้วยความเสี่ยงพรุ่งนี้ และดอกเบี้ยจะมาเก็บตอนที่ agent อ่านเนื้อหาจากอินเทอร์เน็ตที่มีคำสั่งฝังอยู่ — ดู <a href="m13.html">M13</a></p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">01.07</span><h2>เจ็ดโหมดที่ agent ล้มเหลว</h2></div>
+  <p>เกือบทุกความล้มเหลวที่เจอในงานจริงตกอยู่ในเจ็ดแบบนี้ จำให้ได้แล้วเวลาเจอปัญหาจะวินิจฉัยได้เร็วขึ้นมาก</p>
+  <div class="tw"><table>
+    <thead><tr><th>โหมด</th><th>อาการที่เห็น</th><th>ชั้นที่ต้องแก้</th></tr></thead>
+    <tbody>
+      <tr><td><strong>บริบทล้น</strong></td><td>ลืมสิ่งที่เพิ่งตกลง วนทำงานเดิม</td><td>context assembler</td></tr>
+      <tr><td><strong>คำอธิบายเครื่องมือกำกวม</strong></td><td>เลือกผิดตัวซ้ำ ๆ</td><td>tool registry</td></tr>
+      <tr><td><strong>error อ่านไม่รู้เรื่อง</strong></td><td>แก้วนไปวนมาไม่ตรงจุด</td><td>codebase (M05)</td></tr>
+      <tr><td><strong>ติดลูป</strong></td><td>ทำสามอย่างสลับกันไม่จบ</td><td>เพดาน turn + เกณฑ์จบงาน</td></tr>
+      <tr><td><strong>ค้นเกินจำเป็น</strong></td><td>อ่าน 40 ไฟล์ก่อนแก้ 1 บรรทัด</td><td>โครงสร้าง repo (M05)</td></tr>
+      <tr><td><strong>ลอยจากแผน</strong></td><td>เริ่มถูก แล้วค่อย ๆ ทำอย่างอื่น</td><td>แผนที่ตรวจได้ (M04)</td></tr>
+      <tr><td><strong>ตัดข้อมูลเงียบ</strong></td><td>มั่นใจแต่ผิด</td><td>result renderer</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<div class="lab">
+  <div class="lab-head">01.08 · แล็บประจำโมดูล</div>
+  <div class="lab-body">
+    <h2>เขียน mini-harness ~150 บรรทัด</h2>
+    <p>เป้าหมายไม่ใช่ได้เครื่องมือใช้งาน แต่คือ<strong>ทำลายความรู้สึกว่ามันเป็นเวทมนตร์</strong> เมื่อคุณเขียนลูปเองแล้ว ทุกอาการแปลก ๆ หลังจากนี้จะมีที่ทางให้ชี้</p>
+    <h3><span class="k">ข้อกำหนด</span>ต้องมีครบทั้งห้าข้อ</h3>
+    <ol>
+      <li>ลูป <code>while</code> ที่วนจนกว่า <code>stop_reason</code> จะไม่ใช่ <code>tool_use</code> และ<strong>แยกกรณี <code>max_tokens</code> ออกมาชัด ๆ</strong></li>
+      <li>เครื่องมือสามตัว — อ่านไฟล์ เขียนไฟล์ และรันคำสั่ง</li>
+      <li>Permission gate ที่เป็น allowlist ไม่ใช่ ask ทุกครั้ง</li>
+      <li>รองรับ tool call หลายตัวในหนึ่งคำตอบ และส่งผลกลับครบใน message เดียว</li>
+      <li>นับและพิมพ์จำนวน token กับต้นทุนสะสมทุกรอบ</li>
+    </ol>
+    <div class="box good">
+      <span class="k">เกณฑ์ผ่าน</span>
+      <ul>
+        <li>สั่งงานที่ต้องใช้เครื่องมือสามรอบขึ้นไปแล้วทำสำเร็จ</li>
+        <li>จงใจให้เครื่องมือ error หนึ่งครั้ง แล้ว agent แก้ทางได้เองโดยไม่ค้าง</li>
+        <li>ตั้งเพดาน token ต่ำจนโดนตัด แล้ว harness ต้องรายงานว่าโดนตัด ไม่ใช่ทำเป็นว่าจบ</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<p class="note"><b>เชื่อมกับโมดูลอื่น</b> — <a href="m02.html">M02</a> ลงลึกที่ชั้น context assembler · <a href="m03.html">M03</a> เอาตัวนับ token จากแล็บนี้ไปทำบัญชีจริง · <a href="m05.html">M05</a> แก้สองในเจ็ดโหมดล้มเหลวด้วยการปรับ repo · <a href="m13.html">M13</a> ต่อยอดชั้น permission เป็นโมเดลภัยคุกคามเต็มรูปแบบ</p>
+
+</div>
+<script>
+document.getElementById("theme").addEventListener("click",function(){
+  var d=document.documentElement;
+  var dark=d.dataset.theme?d.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;
+  d.dataset.theme=dark?"light":"dark";
+  try{localStorage.setItem("theme",d.dataset.theme)}catch(e){}
+});
+</script>
+</body>
+</html>

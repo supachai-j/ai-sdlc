@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>M02 · Context Engineering</title>
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+
+</head>
+<body>
+<div class="wrap">
+<header class="topbar">
+  <a class="brand" href="index.html">Agent SDLC</a>
+  <nav>
+    <a href="index.html">ภาพรวม</a>
+    <a href="course-th.html">หลักสูตร</a>
+    <a href="m12-evals.html">M12 Evals</a>
+    <button id="theme" type="button" aria-label="สลับธีมสว่าง/มืด">THEME</button>
+  </nav>
+</header>
+<header class="masthead">
+  <span class="crumb">AI Coding Agent SDLC · Phase 00 · Module 02</span>
+  <h1>Context Engineering</h1>
+  <p class="deck">ทักษะที่แยกคนใช้ agent เป็นกับไม่เป็นได้ชัดที่สุด และเป็นทักษะเดียวที่<strong>ให้ผลตอบแทนสูงกว่าการเปลี่ยนโมเดล</strong> การมี context window ใหญ่ไม่ได้ยกเลิกวินัยข้อนี้ มันแค่ทำให้ค่าเสียหายมาช้าลง</p>
+  <div class="meta"><span><b>9</b> บทเรียน</span><span><b>3</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ต้องผ่าน <b>M01</b> ก่อน</span></div>
+</header>
+
+<div class="thesis">
+  <span class="k">ใจความของทั้งโมดูล</span>
+  <p>บริบทคืองบประมาณ ไม่ใช่ถัง ทุก token ที่ใส่เข้าไปมีต้นทุนสองชั้น — เงินที่จ่าย และความสนใจของโมเดลที่ถูกดึงไปจากสิ่งที่สำคัญกว่า</p>
+</div>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">02.01</span><h2>Context window คืองบ ไม่ใช่พื้นที่เก็บของ</h2></div>
+  <p>เมื่อ window ขยายจากหลักแสนเป็นหลักล้าน คนจำนวนมากสรุปว่าปัญหาบริบทจบแล้ว ยัดทุกอย่างเข้าไปได้เลย ข้อสรุปนี้ผิดด้วยเหตุผลสามข้อที่ไม่เกี่ยวกับขนาด window</p>
+  <ol>
+    <li><strong>คุณจ่ายทุกรอบ</strong> — บริบทถูกส่งซ้ำทุกครั้งที่วนลูป งานที่วน 30 รอบกับบริบท 200K คือการส่ง 6 ล้าน token</li>
+    <li><strong>คุณภาพตกก่อนที่ window จะเต็ม</strong> — ดูบทถัดไป</li>
+    <li><strong>เวลาตอบช้าลงตามขนาด</strong> — บริบทใหญ่ทำให้แต่ละรอบนานขึ้น และ agent วนหลายรอบ</li>
+  </ol>
+  <div class="box rule">
+    <span class="k">กรอบคิดที่ใช้ได้ทั้งโมดูล</span>
+    <p>ถามทุกครั้งว่า “ถ้าตัดสิ่งนี้ออก งานจะพังไหม” ไม่ใช่ “สิ่งนี้อาจมีประโยชน์ไหม” คำถามแรกทำให้บริบทกระชับ คำถามหลังทำให้บริบทบวม เพราะเกือบทุกอย่าง<em>อาจ</em>มีประโยชน์</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">02.02</span><h2>กฎสี่ข้อของสิ่งที่ควรอยู่ในบริบท</h2></div>
+  <div class="tw"><table>
+    <thead><tr><th>กฎ</th><th>หมายความว่า</th><th>ตัวอย่างที่ละเมิด</th></tr></thead>
+    <tbody>
+      <tr><td><strong>เกี่ยวข้อง</strong></td><td>ถ้าตัดออกแล้วคำตอบเปลี่ยน จึงควรอยู่</td><td>แนบทั้งโฟลเดอร์เพราะไม่แน่ใจว่าไฟล์ไหนเกี่ยว</td></tr>
+      <tr><td><strong>สด</strong></td><td>สะท้อนสถานะปัจจุบัน ไม่ใช่ของเมื่อ 20 รอบก่อน</td><td>ผลของไฟล์ที่ถูกแก้ไปแล้วยังค้างอยู่</td></tr>
+      <tr><td><strong>เรนเดอร์เล็ก</strong></td><td>สื่อความหมายเท่าเดิมด้วย token น้อยลง</td><td>แปะ JSON เต็มทั้งที่ต้องการแค่สามฟิลด์</td></tr>
+      <tr><td><strong>หากลับมาได้</strong></td><td>ไม่ต้องอยู่ในบริบทถ้า agent หามันเจอเมื่อต้องใช้</td><td>แนบเอกสาร API ทั้งเล่มแทนที่จะให้ grep เอา</td></tr>
+    </tbody>
+  </table></div>
+  <p>กฎข้อสี่คือข้อที่คนมองข้ามมากที่สุด และเป็นข้อที่ประหยัดได้มากที่สุด — ถ้า agent หาข้อมูลเจอได้ในสองวินาที การแนบมันไปล่วงหน้าคือการจ่ายเงินซื้อสิ่งที่ได้ฟรี</p>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">02.03</span><h2>Attention dilution</h2></div>
+  <p>ปรากฏการณ์ที่คุณภาพตกลงเมื่อบริบทยาวขึ้น ทั้งที่ยังไม่เต็ม window เกิดเพราะคำสั่งสำคัญของคุณต้องแข่งความสนใจกับข้อมูลรอบข้างที่ไม่เกี่ยว</p>
+  <div class="box trap">
+    <span class="k">อาการที่คนตีความผิด</span>
+    <p>“พอคุยไปนาน ๆ มันเริ่มโง่ลง” — ไม่ใช่ว่าโมเดลเหนื่อย แต่กฎสำคัญของคุณที่เขียนไว้ตอนต้น ตอนนี้จมอยู่ใต้ผลลัพธ์เครื่องมือ 60,000 token คนมักแก้ด้วยการเพิ่มคำสั่งย้ำ ซึ่งทำให้แย่ลงเพราะเพิ่มบริบทอีก วิธีที่ถูกคือ<strong>ตัดของที่ไม่ใช้ทิ้ง</strong></p>
+  </div>
+  <div class="box good">
+    <span class="k">ทดสอบได้ในสิบนาที</span>
+    <p>เอางานเดิม รันสองแบบ — แบบเต็มบริบท กับแบบตัดผลเครื่องมือเก่าที่ไม่เกี่ยวออก แล้ววัดด้วยเกณฑ์เดียวกัน คนส่วนใหญ่ประหลาดใจกับผล และนี่คือแล็บของโมดูลนี้</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">02.04</span><h2>ลำดับชั้นหน่วยความจำ</h2></div>
+  <p>ข้อมูลแต่ละประเภทควรอยู่คนละชั้น การวางผิดชั้นคือสาเหตุของทั้งความสิ้นเปลืองและการลืม</p>
+  <div class="tw"><table>
+    <thead><tr><th>ชั้น</th><th>อายุ</th><th>ควรใส่อะไร</th><th>ต้นทุน</th></tr></thead>
+    <tbody>
+      <tr><td><strong>System prompt</strong></td><td>ถาวร</td><td>บทบาท กฎที่ห้ามข้าม</td><td>จ่ายทุกรอบ แต่ cache ได้</td></tr>
+      <tr><td><strong>Project memory</strong></td><td>ข้ามเซสชัน</td><td>convention ของ repo คำสั่ง build</td><td>จ่ายทุกรอบ cache ได้</td></tr>
+      <tr><td><strong>Session</strong></td><td>ในบทสนทนา</td><td>สิ่งที่เพิ่งตัดสินใจ ผลที่เพิ่งได้</td><td>โตเรื่อย ๆ ต้องบริหาร</td></tr>
+      <tr><td><strong>Retrieval</strong></td><td>ตามคำขอ</td><td>โค้ดและเอกสารที่ค้นเมื่อต้องใช้</td><td>จ่ายเฉพาะตอนใช้</td></tr>
+      <tr><td><strong>External KB</strong></td><td>ข้ามโปรเจกต์</td><td>ความรู้ที่ยืนยันแล้ว ใช้ซ้ำได้</td><td>จ่ายเฉพาะตอนดึง</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box rule">
+    <span class="k">กฎการวางชั้น</span>
+    <p>ยิ่งข้อมูลใช้บ่อยและเปลี่ยนน้อย ยิ่งควรอยู่ชั้นบน ยิ่งใช้นาน ๆ ครั้งและใหญ่ ยิ่งควรอยู่ชั้นล่างและดึงเมื่อต้องใช้ ที่ผิดบ่อยคือเอาสิ่งที่ใช้นาน ๆ ครั้งไปแปะไว้ชั้นบนเพราะกลัวลืม</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">02.05</span><h2>เขียน CLAUDE.md ให้ทำงานจริง</h2></div>
+  <p>ไฟล์บริบทประจำโปรเจกต์ถูกส่งเข้าโมเดลทุกรอบ มันจึงเป็นของที่แพงที่สุดต่อบรรทัดในระบบ และควรถูกปฏิบัติแบบนั้น</p>
+  <div class="tw"><table>
+    <thead><tr><th>ควรมี</th><th>ไม่ควรมี</th></tr></thead>
+    <tbody>
+      <tr><td>คำสั่งรันเทสต์เฉพาะจุด</td><td>คำอธิบายว่าโปรเจกต์นี้ทำอะไร (อ่านจากโค้ดได้)</td></tr>
+      <tr><td>convention ที่ฝืนความเคยชินทั่วไป</td><td>convention มาตรฐานที่โมเดลรู้อยู่แล้ว</td></tr>
+      <tr><td>สิ่งที่ห้ามแตะ และเพราะอะไร</td><td>ประวัติการตัดสินใจแบบเล่าเรื่อง</td></tr>
+      <tr><td>ที่อยู่ของสิ่งที่หายาก</td><td>สิ่งที่ <code>grep</code> หาเจอในสองวินาที</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box trap">
+    <span class="k">สุสานของกฎ</span>
+    <p>ทุกครั้งที่ agent ทำผิดหนึ่งครั้ง มีคนเพิ่มกฎหนึ่งข้อ ผ่านไปหกเดือนได้ไฟล์ 400 บรรทัดที่ไม่มีใครกล้าลบ เพราะไม่มีใครรู้ว่าบรรทัดไหนยังจำเป็น ทางออกเดียวคือชุดวัดที่พิสูจน์ได้ว่ากฎไหนมีผล — <a href="m12-evals.html">M12.05</a></p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">02.06</span><h2>สามกลไกที่คนสับสน</h2></div>
+  <p>เมื่อบริบทเริ่มยาว มีสามทางเลือกที่ทำงานคนละแบบ และคนมักใช้ผิดตัว</p>
+  <div class="tw"><table>
+    <thead><tr><th>กลไก</th><th>ทำอะไร</th><th>เหมาะเมื่อ</th><th>เสียอะไร</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Compaction</strong></td><td>สรุปย่อประวัติเก่าให้สั้นลง</td><td>บทสนทนายาวที่ยังต้องรู้ว่าเคยทำอะไร</td><td>รายละเอียดที่ถูกสรุปทิ้ง</td></tr>
+      <tr><td><strong>Context editing</strong></td><td>ลบผลเครื่องมือเก่าออกทั้งก้อน</td><td>ผลที่ใช้แล้วและไม่ต้องใช้อีก</td><td>ของนั้นหายไปเลย</td></tr>
+      <tr><td><strong>Memory tool</strong></td><td>เขียนออกไปเก็บนอกบริบท</td><td>ข้อสรุปที่ต้องใช้ข้ามเซสชัน</td><td>ต้องดึงกลับเองเมื่อจะใช้</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box good">
+    <span class="k">วิธีเลือกให้ถูก</span>
+    <p>ถามว่า “ของชิ้นนี้จะต้องใช้อีกไหม” — ไม่ต้องใช้แล้วก็ <strong>ลบ</strong> · ต้องรู้ว่าเคยเกิดแต่ไม่ต้องรู้รายละเอียดก็ <strong>สรุป</strong> · ต้องใช้อีกแน่ ๆ แต่ไม่ใช่ตอนนี้ก็ <strong>เขียนออกไป</strong></p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">02.07</span><h2>Sub-agent ในฐานะเครื่องมือกันบริบท</h2></div>
+  <p>คนส่วนใหญ่มอง sub-agent เป็นเรื่องความเร็ว แต่ประโยชน์ที่แน่นอนกว่าคือมันมีบริบทของตัวเอง งานที่ต้องอ่านเยอะแต่สรุปสั้น เหมาะกับ sub-agent มากที่สุด เพราะบริบทหลักได้รับแค่ข้อสรุป ไม่ใช่กองข้อมูลดิบ</p>
+  <div class="box rule">
+    <span class="k">เกณฑ์ตัดสิน</span>
+    <p>ถ้าอัตราส่วน “ข้อมูลที่ต้องอ่าน : ข้อสรุปที่ต้องใช้” สูงกว่าราว 10 ต่อ 1 ให้แยกเป็น sub-agent เกือบทุกครั้ง ถ้าใกล้ 1 ต่อ 1 การแยกมีแต่เพิ่มต้นทุนกับความไม่แน่นอน — ขยายเต็มใน <a href="m10.html">M10</a></p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">02.08</span><h2>Retrieval หรือ stuffing</h2></div>
+  <p>ทางเลือกระหว่าง “แนบไปเลย” กับ “ให้มันหาเอง” ตัดสินด้วยสามตัวแปร ไม่ใช่ความรู้สึก</p>
+  <div class="tw"><table>
+    <thead><tr><th>ตัวแปร</th><th>เอียงไปทาง stuffing</th><th>เอียงไปทาง retrieval</th></tr></thead>
+    <tbody>
+      <tr><td>ความแน่ใจว่าต้องใช้</td><td>แน่ใจว่าใช้ทุกครั้ง</td><td>ใช้บ้างไม่ใช้บ้าง</td></tr>
+      <tr><td>ขนาด</td><td>เล็ก (ไม่กี่พัน token)</td><td>ใหญ่</td></tr>
+      <tr><td>ความง่ายในการหา</td><td>หายาก ชื่อไม่สื่อ</td><td>หาง่ายด้วย grep</td></tr>
+    </tbody>
+  </table></div>
+  <p>ข้อสังเกตสำคัญ — ตัวแปรที่สามอยู่ในมือคุณ การทำให้ codebase ค้นง่ายขึ้นคือการเปลี่ยนสมการนี้อย่างถาวร ซึ่งเป็นเหตุผลว่าทำไม <a href="m05.html">M05</a> ถึงให้ผลตอบแทนสูง</p>
+</section>
+
+<div class="lab">
+  <div class="lab-head">02.09 · แล็บประจำโมดูล</div>
+  <div class="lab-body">
+    <h2>ตัดบริบท 40% แล้ววัดว่าคุณภาพเปลี่ยนไหม</h2>
+    <p>แล็บนี้ออกแบบมาให้<strong>ผลลัพธ์ขัดกับสัญชาตญาณ</strong> คนส่วนใหญ่คาดว่าตัดแล้วแย่ลง แต่บ่อยครั้งผลออกมาเท่าเดิมหรือดีขึ้น พร้อมกับต้นทุนที่ลดลงชัดเจน</p>
+    <h3><span class="k">ขั้นตอน</span></h3>
+    <ol>
+      <li>เลือกงานจริงที่คุณทำซ้ำได้ และมีเกณฑ์ตัดสินเชิงกล</li>
+      <li>วัดบริบทตั้งต้น — นับ token แยกเป็นหมวด: system, project memory, ผลเครื่องมือ, ไฟล์ที่แนบ</li>
+      <li>ตัดออก 40% โดยเลือกจากหมวดที่ใหญ่ที่สุดก่อน และเลือกตามกฎข้อสี่ (หากลับมาได้)</li>
+      <li>รันทั้งสองแบบ <strong>อย่างละ 5 ครั้ง</strong> แล้วเทียบทั้งอัตราผ่านและต้นทุน</li>
+      <li>ถ้าคุณภาพไม่ตก ให้ตัดอีก 40% แล้ววัดซ้ำ จนกว่าจะเริ่มตก — นั่นคือขอบของจริง</li>
+    </ol>
+    <div class="box good">
+      <span class="k">เกณฑ์ผ่าน</span>
+      <ul>
+        <li>รู้ตัวเลขจริงว่าบริบทของงานนี้แบ่งเป็นหมวดละกี่ token</li>
+        <li>หาขอบที่คุณภาพเริ่มตกได้ พร้อมบอกว่าตัดอะไรออกแล้วพัง</li>
+        <li>ถ้าคุณภาพไม่ตกเลยแม้ตัดไปมาก ถือว่าผ่าน — และคุณเพิ่งพบว่าจ่ายเกินมานาน</li>
+      </ul>
+    </div>
+    <div class="box trap">
+      <span class="k">ข้อควรระวังในการอ่านผล</span>
+      <p>รันละครั้งไม่พอ ความแปรปรวนของลูปจะกลบผลของการตัด ถ้ายังไม่ได้อ่าน <a href="m12-evals.html">M12.01</a> ให้ข้ามไปอ่านก่อนสรุปอะไรจากแล็บนี้</p>
+    </div>
+  </div>
+</div>
+
+<p class="note"><b>เชื่อมกับโมดูลอื่น</b> — <a href="m03.html">M03</a> เปลี่ยนการตัดบริบทเป็นตัวเลขเงิน · <a href="m05.html">M05</a> ทำให้ retrieval ถูกลงอย่างถาวร · <a href="m10.html">M10</a> ใช้ sub-agent เป็นกำแพงกันบริบทเต็มรูปแบบ · <a href="m12-evals.html">M12</a> คือเครื่องมือที่ทำให้แล็บนี้เชื่อถือได้</p>
+
+</div>
+<script>
+document.getElementById("theme").addEventListener("click",function(){
+  var d=document.documentElement;
+  var dark=d.dataset.theme?d.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;
+  d.dataset.theme=dark?"light":"dark";
+  try{localStorage.setItem("theme",d.dataset.theme)}catch(e){}
+});
+</script>
+</body>
+</html>

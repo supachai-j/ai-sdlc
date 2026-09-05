@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>M08 · Brownfield และ Legacy Code</title>
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+
+</head>
+<body>
+<div class="wrap">
+<header class="topbar">
+  <a class="brand" href="index.html">Agent SDLC</a>
+  <nav>
+    <a href="index.html">ภาพรวม</a>
+    <a href="course-th.html">หลักสูตร</a>
+    <a href="m12-evals.html">M12 Evals</a>
+    <button id="theme" type="button" aria-label="สลับธีมสว่าง/มืด">THEME</button>
+  </nav>
+</header>
+<header class="masthead">
+  <span class="crumb">AI Coding Agent SDLC · Phase 02 · Module 08</span>
+  <h1>Brownfield และ Legacy Code</h1>
+  <p class="deck">แล็บที่เริ่มจากโฟลเดอร์ว่างสอนงานที่แทบไม่มีใครทำจริง งานจริงคือ codebase อายุหกปี ไม่มีเทสต์ ไม่มี type และคนเขียนลาออกไปแล้ว <strong>โมดูลนี้คือส่วนที่คุณจะใช้บ่อยที่สุด</strong></p>
+  <div class="meta"><span><b>7</b> บทเรียน</span><span><b>2.5</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ต้องผ่าน <b>M05</b> ก่อน</span></div>
+</header>
+
+<div class="thesis">
+  <span class="k">ใจความของทั้งโมดูล</span>
+  <p>ใน greenfield ความเสี่ยงคือทำไม่เสร็จ ใน brownfield ความเสี่ยงคือ<em>ทำของที่เคยใช้ได้ให้พัง</em> กลยุทธ์ทั้งหมดจึงกลับด้าน — สร้างตาข่ายก่อน แล้วค่อยขยับ</p>
+</div>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">08.01</span><h2>สร้างแผนที่ก่อน อย่าเพิ่งแก้</h2></div>
+  <p>สัญชาตญาณแรกคือส่งงานให้ agent เลย แต่ใน codebase ที่ไม่มีใครเข้าใจ สิ่งที่ควรสั่งเป็นอย่างแรกคือ <strong>ให้มันอธิบายกลับมา</strong></p>
+  <ol>
+    <li><strong>แผนที่ระดับบน</strong> — โมดูลหลักมีอะไรบ้าง อะไรเรียกอะไร ทางเข้าอยู่ตรงไหน</li>
+    <li><strong>เส้นทางของฟีเจอร์ที่จะแตะ</strong> — จาก request จนถึงฐานข้อมูล ทีละไฟล์ทีละบรรทัด</li>
+    <li><strong>รายการสิ่งที่ดูแปลก</strong> — โค้ดที่ดูเหมือนตายแล้ว ชื่อที่ขัดกัน ของที่ซ้ำกันสองที่</li>
+  </ol>
+  <div class="box good">
+    <span class="k">ทำไมข้อสามถึงมีค่าที่สุด</span>
+    <p>agent ไม่มีความคุ้นเคยมาบดบัง มันจึงชี้ของแปลกที่คนในทีมมองข้ามมาสามปีเพราะชินแล้ว รายการนี้มักมีของที่คุ้มจะแก้ซ่อนอยู่ และเป็นผลพลอยได้ที่คนไม่คาดคิด</p>
+  </div>
+  <div class="box rule">
+    <span class="k">เก็บผลลัพธ์ไว้ อย่าทิ้ง</span>
+    <p>แผนที่ที่ได้ให้เขียนลงไฟล์ในโปรเจกต์ มันจะกลายเป็นบริบทถาวรตามหลัก <a href="m05.html">M05.06</a> และทำให้ครั้งหน้าไม่ต้องเสียเงินสำรวจซ้ำ</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">08.02</span><h2>Characterization test</h2></div>
+  <p>เทสต์ชนิดนี้ไม่ได้ยืนยันว่าโค้ด<em>ถูก</em> แต่ยืนยันว่าโค้ด<em>ทำเหมือนเดิม</em> ซึ่งเป็นสิ่งที่คุณต้องการจริง ๆ ก่อนแตะของที่ไม่เข้าใจ</p>
+  <pre><code><span class="c">// ขั้นตอน — และใช่ ข้อ 3 คือการล็อกพฤติกรรมที่รู้ว่าผิดไว้ โดยตั้งใจ</span>
+1. เรียกโค้ดเดิมด้วยอินพุตหลากหลาย
+2. บันทึกผลที่ได้จริง ไม่ใช่ผลที่ควรจะเป็น
+3. เขียนเทสต์ที่ยืนยันผลนั้น พร้อมคอมเมนต์ว่ายังไม่ได้ตรวจว่าถูกไหม
+4. ทีนี้ค่อยแก้ — ถ้าเทสต์แดง แปลว่าคุณเปลี่ยนพฤติกรรม ซึ่งอาจตั้งใจหรือไม่ก็ได้</code></pre>
+  <div class="box trap">
+    <span class="k">ข้อควรระวัง</span>
+    <p>อย่าลืมคอมเมนต์ในข้อ 3 ไม่งั้นอีกหกเดือนจะมีคนเห็นเทสต์นี้แล้วคิดว่าพฤติกรรมนี้คือสิ่งที่ตั้งใจ แล้วสร้างของทับลงไป เทสต์ที่ล็อกบั๊กไว้โดยไม่มีป้ายบอก คือกับดักที่คุณวางให้ตัวเองในอนาคต</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">08.03</span><h2>Strangler pattern ร่วมกับ agent</h2></div>
+  <p>แทนที่จะเขียนใหม่ทั้งก้อนแล้วสลับทีเดียว ให้สร้างของใหม่ข้าง ๆ ของเก่า แล้วย้ายทราฟฟิกทีละส่วน วิธีนี้เข้ากับ agent ได้ดีเป็นพิเศษเพราะแต่ละก้าวเล็กพอที่จะตรวจได้</p>
+  <div class="tw"><table>
+    <thead><tr><th>ขั้น</th><th>agent ทำได้แค่ไหน</th><th>คนต้องทำอะไร</th></tr></thead>
+    <tbody>
+      <tr><td>สร้างชั้นห่อของเก่า</td><td>ทำได้เอง</td><td>ตรวจว่าครอบคลุมทุกทางเข้า</td></tr>
+      <tr><td>เขียน implementation ใหม่</td><td>ทำได้เอง</td><td>รีวิวตามปกติ</td></tr>
+      <tr><td>รันคู่กันแล้วเทียบผล</td><td>ทำได้เอง</td><td>ตัดสินว่าผลต่างที่เจอรับได้ไหม</td></tr>
+      <tr><td>ย้ายทราฟฟิก</td><td><strong>ไม่ควร</strong></td><td>ตัดสินใจและกดเอง</td></tr>
+      <tr><td>ลบของเก่า</td><td>ทำได้เมื่อไม่มีทราฟฟิกแล้ว</td><td>ยืนยันว่าเงียบจริง</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">08.04</span><h2>ทำงานกับโค้ดที่ไม่มีเทสต์และไม่มี type</h2></div>
+  <p>ลำดับสร้างตาข่ายที่ให้ผลเร็วที่สุดต่อความพยายาม — ทำตามลำดับ อย่ากระโดด</p>
+  <ol>
+    <li><strong>ทำให้รันได้ก่อน</strong> — ถ้ายังตั้งโปรเจกต์ขึ้นไม่ได้ ทุกอย่างหลังจากนี้ไม่มีความหมาย</li>
+    <li><strong>เทสต์ที่ครอบเส้นทางหลักหนึ่งเส้น</strong> — ไม่ต้องครบ ขอให้มีสัญญาณ</li>
+    <li><strong>เปิดการตรวจ type แบบหลวมก่อน</strong> แล้วค่อยเข้มขึ้นเป็นโฟลเดอร์ ๆ</li>
+    <li><strong>characterization test เฉพาะบริเวณที่จะแตะ</strong></li>
+    <li><strong>ค่อยเริ่มแก้</strong></li>
+  </ol>
+  <div class="box rule">
+    <span class="k">ข้อผิดพลาดที่พบบ่อย</span>
+    <p>พยายามเปิด type เข้มทั้งโปรเจกต์ในครั้งเดียว ได้ error หลายพันข้อ แล้วเลิก ให้เปิดเป็นโฟลเดอร์และเฉพาะที่กำลังจะแตะ — agent ทำงานได้ดีกับขอบเขตแบบนี้ และคุณเห็นความคืบหน้าจริง</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">08.05</span><h2>อ่านประวัติเป็นบริบท</h2></div>
+  <p>ใน codebase ที่ไม่มีเอกสาร ประวัติการเปลี่ยนแปลงคือเอกสารที่ดีที่สุดที่มี และเป็นแหล่งที่ agent เข้าถึงได้ดี</p>
+  <div class="tw"><table>
+    <thead><tr><th>คำถาม</th><th>หาจากไหน</th><th>บอกอะไร</th></tr></thead>
+    <tbody>
+      <tr><td>โค้ดนี้ทำไมเขียนแบบนี้</td><td>ประวัติของบรรทัดนั้น</td><td>มักเจอว่าแก้ตาม incident</td></tr>
+      <tr><td>ตรงนี้แตะแล้วเสี่ยงไหม</td><td>ความถี่การแก้ + จำนวนคนที่แตะ</td><td>ไฟล์ที่แก้บ่อยคือไฟล์ที่เปราะ</td></tr>
+      <tr><td>เคยลองแล้วล้มเหลวไหม</td><td>คอมมิตที่ถูกย้อน</td><td>กันไม่ให้ทำผิดซ้ำ</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box good">
+    <span class="k">สัญญาณที่ใช้ได้จริง</span>
+    <p>ไฟล์ที่<strong>แก้บ่อยและมีคนแตะหลายคน</strong> คือจุดที่ควรลงทุนทำเทสต์ก่อนที่อื่น เพราะมันคือจุดที่ความเสียหายจะเกิดถี่ที่สุด สั่งให้ agent จัดอันดับให้ได้ในคำสั่งเดียว</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">08.06</span><h2>แก้อย่างปลอดภัย — blast radius</h2></div>
+  <p>ก่อนแตะทุกครั้ง ต้องตอบสามคำถามให้ได้ ถ้าตอบไม่ได้ แปลว่ายังไม่พร้อมแก้</p>
+  <ol>
+    <li><strong>ถ้าพัง ใครเจอ และเจอเมื่อไหร่</strong> — ผู้ใช้ทันที หรืองานกลางคืนสัปดาห์หน้า</li>
+    <li><strong>รู้ได้ยังไงว่าพัง</strong> — มีสัญญาณเตือนไหม หรือรอลูกค้าโทรมา</li>
+    <li><strong>ย้อนกลับยังไง และใช้เวลานานแค่ไหน</strong></li>
+  </ol>
+  <div class="box rule">
+    <span class="k">กฎที่ควรบังคับ</span>
+    <p>ถ้าตอบข้อสามไม่ได้ ห้ามแก้ ให้ไปทำแผนย้อนกลับก่อน — และถ้ามันย้อนไม่ได้จริง ๆ (เช่นงานที่แตะข้อมูล) ให้ใช้ feature flag เพื่อทำให้มันย้อนได้ นี่คือเหตุผลที่ flag มีค่ามากกว่าที่คนคิด</p>
+  </div>
+</section>
+
+<div class="lab">
+  <div class="lab-head">08.07 · แล็บประจำโมดูล</div>
+  <div class="lab-body">
+    <h2>เพิ่มฟีเจอร์ใน repo โอเพนซอร์สจริงที่ไม่เคยเห็นมาก่อน</h2>
+    <p>เลือก repo ที่มีอายุอย่างน้อยสองปี มีคอมมิตหลายพัน และคุณไม่เคยอ่านมาก่อน จำกัดเวลาสามชั่วโมง</p>
+    <h3><span class="k">ลำดับที่ต้องทำ</span></h3>
+    <ol>
+      <li>ทำแผนที่ตามบท 08.01 <strong>ก่อนแตะโค้ดใด ๆ</strong> — เขียนลงไฟล์</li>
+      <li>ตั้งโปรเจกต์ให้รันและรันเทสต์ได้</li>
+      <li>เลือก issue จริงจาก repo นั้น ขนาดเล็ก</li>
+      <li>เขียน characterization test รอบบริเวณที่จะแตะ</li>
+      <li>แก้ พร้อมตอบสามคำถาม blast radius เป็นลายลักษณ์อักษร</li>
+    </ol>
+    <div class="box good">
+      <span class="k">เกณฑ์ผ่าน</span>
+      <ul>
+        <li>เทสต์เดิมทั้งหมดยังเขียว — ข้อนี้สำคัญกว่าฟีเจอร์เสร็จ</li>
+        <li>มีเอกสารแผนที่ที่คนอื่นอ่านแล้วเข้าใจโครงได้</li>
+        <li>ตอบได้ว่าถ้าการแก้นี้ผิด จะรู้ได้ยังไงและย้อนยังไง</li>
+        <li><strong>ทำไม่เสร็จก็ผ่านได้</strong> ถ้าสามข้อบนครบ — เพราะจุดประสงค์คือฝึกวิธีเข้าหา ไม่ใช่วัดความเร็ว</li>
+      </ul>
+    </div>
+    <div class="box trap">
+      <span class="k">สิ่งที่คนทำผิดในแล็บนี้</span>
+      <p>ข้ามข้อ 1 แล้วสั่งแก้เลย ซึ่งได้ผลบ้างในโปรเจกต์เล็ก แต่พอเจอของจริง agent จะแก้ผิดที่แล้วมั่นใจ เพราะมันเห็นไฟล์ที่ชื่อคล้ายกันสามไฟล์และเลือกผิด</p>
+    </div>
+  </div>
+</div>
+
+<p class="note"><b>เชื่อมกับโมดูลอื่น</b> — <a href="m05.html">M05</a> เทคนิคเดียวกันแต่กับ repo ที่คุณคุมได้ · <a href="m11.html">M11.03</a> เทสต์ในฐานะ spec · <a href="m12-evals.html">M12.02</a> งานจาก brownfield คือวัตถุดิบที่ดีที่สุดของชุดวัด · <a href="m14.html">M14.07</a> แผนย้อนกลับ</p>
+
+</div>
+<script>
+document.getElementById("theme").addEventListener("click",function(){
+  var d=document.documentElement;
+  var dark=d.dataset.theme?d.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;
+  d.dataset.theme=dark?"light":"dark";
+  try{localStorage.setItem("theme",d.dataset.theme)}catch(e){}
+});
+</script>
+</body>
+</html>

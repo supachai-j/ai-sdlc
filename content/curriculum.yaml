@@ -5,336 +5,348 @@ course:
   level_th: กลาง–สูง
   hours: 42
   lang: th
-
 phases:
-  - id: p0
-    num: "00"
-    name_th: รากฐาน — เข้าใจกลไก ไม่ใช่ท่องคำสั่ง
-    modules: [m01, m02, m03]
-  - id: p1
-    num: "01"
-    name_th: วางแผน — จุดที่ประหยัดที่สุดในทั้ง SDLC
-    modules: [m04, m05]
-  - id: p2
-    num: "02"
-    name_th: สร้าง — ทั้ง greenfield และของจริงที่มีอยู่แล้ว
-    modules: [m06, m07, m08]
-  - id: p3
-    num: "03"
-    name_th: ขยายความสามารถ — จากผู้ใช้เป็นผู้สร้างเครื่องมือ
-    modules: [m09, m10]
-  - id: p4
-    num: "04"
-    name_th: ตรวจสอบ — ส่วนที่แยกของเล่นออกจากของใช้จริง
-    modules: [m11, m12, m13]
-  - id: p5
-    num: "05"
-    name_th: ส่งมอบและดำเนินการ — จากเครื่องตัวเองสู่ทั้งทีม
-    modules: [m14, m15]
-
+- id: p0
+  num: '00'
+  name_th: รากฐาน — เข้าใจกลไก ไม่ใช่ท่องคำสั่ง
+  modules:
+  - m01
+  - m02
+  - m03
+- id: p1
+  num: '01'
+  name_th: วางแผน — จุดที่ประหยัดที่สุดในทั้ง SDLC
+  modules:
+  - m04
+  - m05
+- id: p2
+  num: '02'
+  name_th: สร้าง — ทั้ง greenfield และของจริงที่มีอยู่แล้ว
+  modules:
+  - m06
+  - m07
+  - m08
+- id: p3
+  num: '03'
+  name_th: ขยายความสามารถ — จากผู้ใช้เป็นผู้สร้างเครื่องมือ
+  modules:
+  - m09
+  - m10
+- id: p4
+  num: '04'
+  name_th: ตรวจสอบ — ส่วนที่แยกของเล่นออกจากของใช้จริง
+  modules:
+  - m11
+  - m12
+  - m13
+- id: p5
+  num: '05'
+  name_th: ส่งมอบและดำเนินการ — จากเครื่องตัวเองสู่ทั้งทีม
+  modules:
+  - m14
+  - m15
 modules:
-  - id: m01
-    code: M01
-    title_th: กลไกภายในของ Agent
-    hours: 2.5
-    status: core
-    goal_th: เห็นว่า agent คือลูปธรรมดาที่ห่อด้วยวิศวกรรม ไม่ใช่กล่องดำ เพื่อให้ debug ได้เมื่อมันพัง
-    outcome_th: อธิบายได้ว่าเวลา agent ทำอะไรแปลก ๆ มันเกิดที่ชั้นไหนของ harness
-    lessons:
-      - Agentic loop จริง ๆ คืออะไร และทำไมแค่นั้นก็พอ
-      - กายวิภาคของ harness — system prompt, tool registry, context assembler, permission layer, result renderer
-      - Tool-use protocol — tool_use / tool_result, parallel call, is_error และทำไมต้องส่ง result ครบใน message เดียว
-      - stop_reason ทุกค่า และการจัดการแต่ละแบบ
-      - Thinking กับ effort — adaptive thinking, ระดับ low→max, ผลต่อจำนวน tool call
-      - Permission model — allow / ask / deny, sandbox และทำไม "ปล่อยผ่านหมด" คือหนี้ทางความปลอดภัย
-      - 7 โหมดที่ agent ล้มเหลว — context ล้น, tool description กำกวม, error message อ่านไม่รู้เรื่อง, ติดลูป, ค้นเกินจำเป็น, ลอยจากแผน, ตัดข้อมูลเงียบ
-      - "LAB: เขียน mini-harness ~150 บรรทัด — ลูป + 3 tools + permission gate"
-
-  - id: m02
-    code: M02
-    title_th: Context Engineering
-    hours: 3
-    status: expanded
-    gap: G3
-    goal_th: มองบริบทเป็นงบประมาณที่ต้องบริหาร ไม่ใช่ถังที่เทใส่จนกว่าจะเต็ม
-    outcome_th: ลดต้นทุนต่องานได้ 30–60% โดยคุณภาพเท่าเดิมหรือดีขึ้น
-    lessons:
-      - Context window คืองบ ไม่ใช่พื้นที่เก็บของ — มี 1M token ก็ยังต้องบริหาร
-      - กฎ 4 ข้อของสิ่งที่ควรอยู่ในบริบท — เกี่ยวข้อง / สด / เรนเดอร์เล็ก / หากลับมาได้
-      - Attention dilution — ทำไมยัดเยอะแล้วคุณภาพตก ทั้งที่ยังไม่เต็ม window
-      - ลำดับชั้นหน่วยความจำ และอะไรควรอยู่ชั้นไหน
-      - เขียน CLAUDE.md ให้ทำงานจริง — สั้น เป็นกฎ ตรวจสอบได้ ไม่ใช่ README ฉบับสอง
-      - สามกลไกที่คนสับสน — compaction vs context editing vs memory tool
-      - Sub-agent ในฐานะเครื่องมือ context isolation ไม่ใช่แค่ทำงานขนาน
-      - Retrieval vs stuffing — เมื่อไหร่ควรให้ grep เอง เมื่อไหร่ควรแนบไปเลย
-      - "LAB: วัด context ของงานจริง ตัดออก 40% แล้ววัดว่าคุณภาพเปลี่ยนไหม"
-
-  - id: m03
-    code: M03
-    title_th: เศรษฐศาสตร์ของ Token และโมเดล
-    hours: 2.5
-    status: expanded
-    gap: G5
-    goal_th: ตัดสินใจเรื่องต้นทุนด้วยตัวเลข ไม่ใช่ความรู้สึกว่า "โมเดลนี้แพง"
-    outcome_th: ตอบได้ว่างานนี้ควรใช้โมเดลไหน effort เท่าไหร่ ด้วยข้อมูล ไม่ใช่ความเชื่อ
-    lessons:
-      - บัญชี token 4 ช่อง — input / output / cache write / cache read ราคาไม่เท่ากันและต่างกันมาก
-      - Prompt caching เชิงลึก — prefix match, ลำดับเรนเดอร์, เพดาน breakpoint, ขนาดขั้นต่ำที่จะติด cache
-      - ตัวทำลาย cache แบบเงียบ และวิธี audit ด้วย cache_read_input_tokens
-      - Model routing เชิงเศรษฐศาสตร์ — งานแบบไหนคุ้มกับโมเดลตัวไหน
-      - ต้นทุนต่องานที่เสร็จ ไม่ใช่ต่อ request
-      - Effort เป็นคันโยกแรกก่อนเปลี่ยนโมเดล และกับดักที่ cache แยก namespace ตามโมเดล
-      - Batch, task budget และการตั้งเพดานแบบที่ agent รู้ตัว
-      - "LAB: ทำ cost profile ของงานจริง 1 สัปดาห์ หา 3 คันโยกที่ประหยัดได้จริง"
-
-  - id: m04
-    code: M04
-    title_th: Requirements, Research และการย่อยงาน
-    hours: 2.5
-    status: core
-    goal_th: เปลี่ยนความต้องการกำกวมเป็น spec ที่ agent ทำแล้วตรวจได้
-    outcome_th: งานที่ต้องสั่งซ้ำลดลงชัดเจน เพราะรอบแรกมี acceptance criteria อยู่แล้ว
-    lessons:
-      - Spec-first — prompt ที่ดีคือข้อกำหนด ไม่ใช่คำสั่ง และต่างกันตรงไหน
-      - ขนาดงานที่พอดีกับ agent — เล็กพอที่จะยืนยันผลได้ในลูปเดียว
-      - เกณฑ์ตัดสินว่างานนี้ควรให้ agent ทำไหม — ความซับซ้อน / คุณค่า / ความเป็นไปได้ / ต้นทุนเมื่อผิด
-      - Research loop — แยก "ค้นหา" ออกจาก "สรุป" ออกจาก "ตัดสินใจ"
-      - วินัยเรื่องหลักฐาน — บังคับให้อ้างไฟล์ บรรทัด หรือ URL ทุกครั้ง
-      - ADR ที่ agent เขียนแล้ว agent ตัวถัดไปอ่านต่อได้
-      - Plan mode และการรีวิวแผนก่อนลงมือ — บทที่ให้ผลตอบแทนสูงที่สุดในหลักสูตร
-      - "LAB: แปลง requirement กำกวม 1 หน้า เป็น spec + task graph + ADR"
-
-  - id: m05
-    code: M05
-    title_th: ออกแบบ Codebase ให้ Agent ทำงานได้
-    hours: 2.5
-    status: new
-    gap: G6
-    goal_th: ลงทุนในโครงสร้าง repo ซึ่งให้ผลถาวร แทนการปรับ prompt ซึ่งให้ผลครั้งเดียว
-    outcome_th: repo ที่ agent ตัวใหม่เข้ามาทำงานได้เลยโดยไม่ต้องอธิบายซ้ำ
-    lessons:
-      - Legibility — codebase ที่เครื่องอ่านรู้เรื่อง ต่างจากที่คนอ่านรู้เรื่องอย่างไร
-      - โครงไฟล์และการตั้งชื่อที่ลดต้นทุนการค้นหา — agent จ่าย token ทุกครั้งที่หาไม่เจอ
-      - Error message คือช่องทาง feedback ของ agent — ออกแบบให้บอกวิธีแก้
-      - Test affordance — ถ้ารันเทสต์เฉพาะจุดไม่ได้เร็ว agent จะเลิกรันแล้วเดาแทน
-      - Type system และ schema เป็น guardrail ที่ถูกที่สุดที่คุณซื้อได้
-      - Docs-as-context — ADR, runbook, design system ในฐานะ input ไม่ใช่เอกสารที่เขียนทิ้ง
-      - ลำดับชั้น CLAUDE.md — global / project / directory-scoped และกฎการทับกัน
-      - "LAB: audit repo จริง ทำ 5 การเปลี่ยนที่วัดได้ว่าลด token ต่องานลง 30%"
-
-  - id: m06
-    code: M06
-    title_th: Frontend Implementation
-    hours: 3
-    status: core
-    goal_th: ให้ agent สร้าง UI ที่ถูกจริง ไม่ใช่แค่ดูเหมือนถูกในสกรีนช็อต
-    outcome_th: ลูป FE ที่ agent ตรวจงานตัวเองได้ก่อนส่งให้คนดู
-    lessons:
-      - กระบวนการ FE กับ agent — design token → component → page → flow
-      - Design system ในฐานะบริบท — ส่ง token กับ primitive ไม่ใช่ส่งภาพอย่างเดียว
-      - Next.js App Router — เส้นแบ่ง server/client ที่ agent พลาดบ่อยที่สุด
-      - State และ data fetching — แพตเทิร์นที่ agent ทำถูก และที่มันชอบทำผิด
-      - Visual verification loop — ให้ agent เปิดเบราว์เซอร์ ถ่ายภาพ แล้วเทียบกับ spec เอง
-      - Accessibility เป็น acceptance criteria ที่ตรวจอัตโนมัติได้
-      - จับ UI ที่ผ่านสายตาแต่พังจริง — hydration, layout shift, state ค้าง, edge case
-      - "LAB A: สร้าง component library จาก design token"
-      - "LAB B: สร้าง flow 3 หน้าจาก spec พร้อมรอบ visual verification"
-
-  - id: m07
-    code: M07
-    title_th: Backend และงานที่แตะข้อมูล
-    hours: 3
-    status: core
-    goal_th: ทำงาน backend กับ agent โดยที่ migration และ data operation ไม่กลายเป็นอุบัติเหตุ
-    outcome_th: ชุด guardrail สำหรับงาน data ที่เอาไปใช้กับ repo ตัวเองได้เลย
-    lessons:
-      - Contract-first — OpenAPI / schema ในฐานะ spec ที่ตรวจได้อัตโนมัติ
-      - Layering ที่ agent ทำงานด้วยง่าย และ layering ที่ทำให้มันหลงทาง
-      - Database migration กับ agent — งานอันตรายที่สุด และ guardrail ที่ต้องมีก่อนเริ่ม
-      - Idempotency, ขอบเขต transaction และ error taxonomy ที่ agent ใช้ตัดสินใจได้
-      - การจัดการ secret และ env ตอน agent เขียนโค้ด — กฎที่ห้ามยืดหยุ่น
-      - Background job, queue, retry — สามอย่างที่ agent ออกแบบผิดเป็นประจำ
-      - Observability ตั้งแต่บรรทัดแรก — log ที่ agent ใช้ debug ตัวเองได้รอบหน้า
-      - "LAB A: สร้าง API จาก OpenAPI spec พร้อม migration ที่มี rollback"
-      - "LAB B: ให้ agent หา bug จริงจาก log อย่างเดียว ห้ามบอกว่าพังตรงไหน"
-
-  - id: m08
-    code: M08
-    title_th: Brownfield และ Legacy Code
-    hours: 2.5
-    status: new
-    gap: G4
-    goal_th: งานจริงไม่ได้เริ่มจากโฟลเดอร์ว่าง โมดูลนี้คือส่วนที่ใช้จริงมากที่สุด
-    outcome_th: วิธีทำงานที่ใช้ได้กับโค้ดที่คุณไม่ได้เขียนและไม่มีใครอธิบายให้ฟัง
-    lessons:
-      - Onboard agent เข้า codebase ห้าแสนบรรทัด — สร้างแผนที่ก่อน อย่าเพิ่งแก้
-      - Characterization test — ล็อกพฤติกรรมปัจจุบันไว้ก่อนแตะ แม้จะรู้ว่ามันผิด
-      - Strangler pattern ร่วมกับ agent — แทนที่ทีละส่วนโดยของเดิมยังทำงาน
-      - ทำงานกับโค้ดที่ไม่มีเทสต์และไม่มี type — ลำดับการสร้างตาข่ายรองรับ
-      - อ่าน git history เป็นบริบท — blame, PR เก่า, incident ที่เกี่ยวข้อง
-      - แก้อย่างปลอดภัย — blast radius, feature flag, แผน rollback ที่เขียนก่อนแก้
-      - "LAB: เพิ่มฟีเจอร์ใน repo โอเพนซอร์สจริงที่ไม่เคยเห็นมาก่อน ภายในเวลาจำกัด"
-
-  - id: m09
-    code: M09
-    title_th: Tooling — MCP, Skills, Hooks, Plugins
-    hours: 3.5
-    status: expanded
-    goal_th: สร้างเครื่องมือที่ agent ใช้ถูก และรู้ว่าเมื่อไหร่ไม่ควรสร้าง
-    outcome_th: ชุดเครื่องมือของทีมที่ติดตั้งแล้วทุกคนได้พฤติกรรมเดียวกัน
-    lessons:
-      - MCP คืออะไรจริง ๆ — โปรโตคอล ไม่ใช่ไลบรารี แยก resources / tools / prompts ให้ออก
-      - Transport และ auth — stdio vs HTTP, OAuth flow, credential ที่ไม่รั่วเข้า context
-      - ออกแบบ tool ให้ agent ใช้ถูก — description คือ prompt ไม่ใช่เอกสาร API
-      - ต้นทุน token ของ tool registry และเทคนิคโหลดเครื่องมือตามต้องการ
-      - Skills — บรรจุเวิร์กโฟลว์เป็นความรู้ที่โหลดเฉพาะตอนเกี่ยวข้อง
-      - เขียน SKILL.md ที่ trigger ถูกจังหวะ — บรรทัด description คือสิ่งที่ตัดสิน
-      - Hooks และ lifecycle ทั้งหมด — บังคับนโยบายที่ prompt บังคับไม่ได้
-      - Plugins และ slash command — แพ็กเกจเวิร์กโฟลว์ให้ทั้งทีมใช้เหมือนกัน
-      - เมื่อไหร่ไม่ควรทำ MCP server — สคริปต์ธรรมดากับ bash ชนะบ่อยกว่าที่คิดมาก
-      - "LAB: สร้าง MCP server + skill + hook ที่บังคับ convention ของทีมได้จริง"
-
-  - id: m10
-    code: M10
-    title_th: Multi-Agent Orchestration
-    hours: 3
-    status: new
-    gap: G7
-    goal_th: ใช้หลาย agent เมื่อมันชนะจริง และรู้ว่าเมื่อไหร่มันแพ้ agent เดียว
-    outcome_th: เกณฑ์ตัดสินของตัวเองว่างานแบบไหนคุ้มที่จะแตกเป็นหลาย agent
-    lessons:
-      - เหตุผลที่ถูกต้องเพียงสองข้อ — context isolation กับ wall-clock ที่ขนานได้จริง
-      - "Pattern 1 — Orchestrator / Worker: ใครถือแผน ใครถือบริบท"
-      - "Pattern 2 — Pipeline: แต่ละสเตจมีสัญญา input/output ที่ชัด"
-      - "Pattern 3 — Fan-out / Fan-in: การรวมผลที่ไม่ทำให้บริบทระเบิด"
-      - "Pattern 4 — Judge / Critic: แยกคนเขียนออกจากคนตรวจเสมอ"
-      - Handoff protocol — อะไรต้องส่งต่อ อะไรห้ามส่งเพราะจะกลายเป็น context pollution
-      - เมื่อ multi-agent แพ้ single agent — ต้นทุนบาน ผลไม่คงเส้น debug แทบไม่ได้
-      - "LAB: ทำ review pipeline สามขั้น แล้ววัดด้วย eval ว่าดีกว่า agent เดียวจริงหรือแค่แพงกว่า"
-
-  - id: m11
-    code: M11
-    title_th: Testing และ QA
-    hours: 2.5
-    status: core
-    goal_th: ได้เทสต์ที่จับบั๊กจริง ไม่ใช่เทสต์ที่ยืนยันว่าบั๊กยังอยู่
-    outcome_th: ตัวเลขว่า review agent ของคุณจับได้กี่เปอร์เซ็นต์ และเตือนผิดกี่ครั้ง
-    lessons:
-      - กับดักของเทสต์ที่ agent เขียน — ล็อกพฤติกรรมผิดไว้ และ mock จนไม่เหลืออะไรให้ทดสอบ
-      - Coverage โกหกอย่างไรเมื่อ AI เป็นคนเขียนเทสต์
-      - เทสต์ในฐานะ spec — เขียนเทสต์ก่อน แล้วให้ agent implement ให้ผ่าน
-      - Property-based และ fuzz testing — พื้นที่ที่ agent ได้เปรียบคนชัดเจน
-      - E2E ด้วย browser automation ที่ไม่ flaky
-      - ออกแบบ review agent ให้หาบั๊กจริง ไม่ใช่จับผิดสไตล์โค้ด
-      - Verification pass — ทำไมทุก finding ต้องผ่านการยืนยันก่อนถูกรายงาน
-      - "LAB: สร้าง review pipeline วัด precision กับ recall กับบั๊กที่ปลูกไว้"
-
-  - id: m12
-    code: M12
-    title_th: Evals — วัดผลระบบ agent ของคุณเอง
-    hours: 3
-    status: new
-    gap: G1
-    written: true
-    href: m12-evals.html
-    goal_th: โมดูลที่คอร์สอื่นไม่มี ถ้าวัดไม่ได้ คุณกำลังปรับ prompt ด้วยความรู้สึก
-    outcome_th: เครื่องมือที่ทำให้ทุกการอ้างว่า "แบบนี้ดีกว่า" มีตัวเลขรองรับ
-    lessons:
-      - ทำไม "รู้สึกว่าดีขึ้น" เชื่อไม่ได้ — variance ของ LLM ใหญ่กว่าผลของการแก้ prompt ส่วนใหญ่
-      - Golden task set — สร้างชุดงานตัวแทนจาก backlog จริง ไม่ใช่ตัวอย่างที่แต่งขึ้น
-      - เกณฑ์ deterministic มาก่อนเสมอ — คอมไพล์ผ่านไหม เทสต์ผ่านไหม diff ตรงไหม
-      - LLM-as-judge — rubric, position bias และกฎว่า judge ต้องแรงกว่าหรือเท่า
-      - Regression suite สำหรับ prompt / skill / CLAUDE.md — ปฏิบัติกับ prompt เหมือนโค้ด
-      - วัดสี่มิติพร้อมกัน — ความถูกต้อง / ต้นทุน / เวลา / จำนวนครั้งที่มนุษย์ต้องแก้
-      - A/B การเปลี่ยนเวิร์กโฟลว์ — เปลี่ยนทีละอย่าง และ sample ให้พอจะเชื่อผล
-      - Drift detection — โมเดลใหม่ออก เวิร์กโฟลว์เดิมอาจแย่ลงโดยไม่มีใครรู้
-      - "LAB: สร้าง eval harness 20 งาน ใช้ตัดสินข้อถกเถียงจริงหนึ่งข้อในทีม"
-
-  - id: m13
-    code: M13
-    title_th: ความปลอดภัยและโมเดลภัยคุกคาม
-    hours: 3
-    status: new
-    gap: G2
-    goal_th: agent ที่อ่านอินเทอร์เน็ตได้และรันคำสั่งได้ คือ attack surface ชนิดใหม่
-    outcome_th: รายการช่องโหว่จริงในเซ็ตอัปของคุณเอง พร้อมสิ่งที่แก้ไปแล้ว
-    lessons:
-      - โมเดลภัยคุกคามของ coding agent — ต่างจาก web app ตรงไหน และทำไม checklist เดิมใช้ไม่ได้
-      - Prompt injection ผ่านเนื้อหาที่ agent อ่าน — issue, README, หน้าเว็บ, log, แม้แต่ชื่อไฟล์
-      - Tool poisoning และ rug-pull ใน MCP — เมื่อ description เปลี่ยนหลังติดตั้งไปแล้ว
-      - Supply chain ของ skill / plugin / MCP — สิ่งที่ติดตั้งคือโค้ดที่รันด้วยสิทธิ์ของคุณ
-      - ออกแบบขอบเขตสิทธิ์ — allowlist, deny rule, sandbox และการคุม network egress
-      - Secret handling — ทำไม .env ที่หลุดเข้า context คือการรั่วที่ย้อนกลับไม่ได้
-      - เส้นทางขโมยข้อมูลที่มองไม่เห็น — curl, git push, webhook, artifact ที่ถูกอัปโหลด
-      - Agent ที่ปล่อยรันเอง กับการคุม blast radius
-      - "LAB: red-team เวิร์กโฟลว์ของตัวเอง ฝัง injection 5 แบบ วัดว่าติดกี่แบบ"
-
-  - id: m14
-    code: M14
-    title_th: CI/CD และ Agent ในสายพาน
-    hours: 2.5
-    status: core
-    goal_th: เอา agent ขึ้นสายพานโดยไม่มีคนคอยกดอนุมัติ และไม่ให้บิลบาน
-    outcome_th: สายพานที่ agent ทำงานได้เองโดยยังมีจุดหยุดที่มนุษย์ควบคุม
-    lessons:
-      - Agent ใน CI ต่างจากบนเครื่องอย่างไร — ไม่มีคนตอบ ล้มแล้วต้องล้มให้ชัด
-      - PR automation — เขียน PR, รีวิว PR, ตอบคอมเมนต์ และเส้นที่ไม่ควรข้าม
-      - Quality gate ที่บล็อกได้จริง — เกณฑ์ deterministic มาก่อน แล้วค่อยให้ LLM ตัดสิน
-      - Headless mode, exit code และการทำ agent ให้เป็น CLI ที่เขียนสคริปต์ครอบได้
-      - งานอัตโนมัติตามเวลา — scheduled agent และ guardrail ขั้นต่ำก่อนเปิด
-      - ต้นทุน CI ที่บานเพราะ agent — ตัวการที่พบบ่อยและวิธีคุม
-      - Rollback และ incident เมื่อ commit มาจาก agent — ใครรับผิดชอบและตามรอยอย่างไร
-      - "LAB: ตั้ง PR review bot พร้อม gate ที่บล็อก merge เมื่อพบ finding ระดับสูง"
-
-  - id: m15
-    code: M15
-    title_th: Operations, Governance และการใช้จริงในทีม
-    hours: 2.5
-    status: expanded
-    gap: G8
-    goal_th: ปัญหาจริงเริ่มตอนที่ทีมทั้งทีมใช้พร้อมกัน ไม่ใช่ตอนคุณใช้คนเดียว
-    outcome_th: เอกสารนโยบายและแผน rollout ที่เอาไปเสนอหัวหน้าได้ทันที
-    lessons:
-      - Runbook ที่ agent อ่านแล้วทำได้ — ต่างจาก runbook สำหรับคนตรงไหน
-      - Log triage และ incident response ร่วมกับ agent — สิ่งที่มอบให้ได้และห้ามมอบ
-      - Documentation automation ที่ไม่กลายเป็นขยะภายในสองเดือน
-      - Trust calibration — เมื่อไหร่เชื่อได้ เมื่อไหร่ต้องตรวจทุกบรรทัด
-      - วัฒนธรรม code review เมื่อ AI เขียนโค้ด 70% — รีวิวอะไรเมื่อ diff โตขึ้นสิบเท่า
-      - Attribution, license และความเสี่ยงเชิงกฎหมายของโค้ดที่ AI สร้าง
-      - Skill atrophy ของทีม — ทักษะที่ต้องรักษาไว้แม้มอบงานให้ agent ได้แล้ว
-      - แผน rollout ในองค์กร — pilot → policy → platform และกับดักของแต่ละขั้น
-      - "LAB: เขียน AI engineering policy ของทีม 2 หน้า ที่บังคับใช้ได้จริง"
-
+- id: m01
+  code: M01
+  title_th: กลไกภายในของ Agent
+  hours: 2.5
+  status: core
+  goal_th: เห็นว่า agent คือลูปธรรมดาที่ห่อด้วยวิศวกรรม ไม่ใช่กล่องดำ เพื่อให้ debug ได้เมื่อมันพัง
+  outcome_th: อธิบายได้ว่าเวลา agent ทำอะไรแปลก ๆ มันเกิดที่ชั้นไหนของ harness
+  lessons:
+  - Agentic loop จริง ๆ คืออะไร และทำไมแค่นั้นก็พอ
+  - กายวิภาคของ harness — system prompt, tool registry, context assembler, permission layer, result renderer
+  - Tool-use protocol — tool_use / tool_result, parallel call, is_error และทำไมต้องส่ง result ครบใน message เดียว
+  - stop_reason ทุกค่า และการจัดการแต่ละแบบ
+  - Thinking กับ effort — adaptive thinking, ระดับ low→max, ผลต่อจำนวน tool call
+  - Permission model — allow / ask / deny, sandbox และทำไม "ปล่อยผ่านหมด" คือหนี้ทางความปลอดภัย
+  - 7 โหมดที่ agent ล้มเหลว — context ล้น, tool description กำกวม, error message อ่านไม่รู้เรื่อง, ติดลูป, ค้นเกินจำเป็น, ลอยจากแผน, ตัดข้อมูลเงียบ
+  - 'LAB: เขียน mini-harness ~150 บรรทัด — ลูป + 3 tools + permission gate'
+  written: true
+- id: m02
+  code: M02
+  title_th: Context Engineering
+  hours: 3
+  status: expanded
+  gap: G3
+  goal_th: มองบริบทเป็นงบประมาณที่ต้องบริหาร ไม่ใช่ถังที่เทใส่จนกว่าจะเต็ม
+  outcome_th: ลดต้นทุนต่องานได้ 30–60% โดยคุณภาพเท่าเดิมหรือดีขึ้น
+  lessons:
+  - Context window คืองบ ไม่ใช่พื้นที่เก็บของ — มี 1M token ก็ยังต้องบริหาร
+  - กฎ 4 ข้อของสิ่งที่ควรอยู่ในบริบท — เกี่ยวข้อง / สด / เรนเดอร์เล็ก / หากลับมาได้
+  - Attention dilution — ทำไมยัดเยอะแล้วคุณภาพตก ทั้งที่ยังไม่เต็ม window
+  - ลำดับชั้นหน่วยความจำ และอะไรควรอยู่ชั้นไหน
+  - เขียน CLAUDE.md ให้ทำงานจริง — สั้น เป็นกฎ ตรวจสอบได้ ไม่ใช่ README ฉบับสอง
+  - สามกลไกที่คนสับสน — compaction vs context editing vs memory tool
+  - Sub-agent ในฐานะเครื่องมือ context isolation ไม่ใช่แค่ทำงานขนาน
+  - Retrieval vs stuffing — เมื่อไหร่ควรให้ grep เอง เมื่อไหร่ควรแนบไปเลย
+  - 'LAB: วัด context ของงานจริง ตัดออก 40% แล้ววัดว่าคุณภาพเปลี่ยนไหม'
+  written: true
+- id: m03
+  code: M03
+  title_th: เศรษฐศาสตร์ของ Token และโมเดล
+  hours: 2.5
+  status: expanded
+  gap: G5
+  goal_th: ตัดสินใจเรื่องต้นทุนด้วยตัวเลข ไม่ใช่ความรู้สึกว่า "โมเดลนี้แพง"
+  outcome_th: ตอบได้ว่างานนี้ควรใช้โมเดลไหน effort เท่าไหร่ ด้วยข้อมูล ไม่ใช่ความเชื่อ
+  lessons:
+  - บัญชี token 4 ช่อง — input / output / cache write / cache read ราคาไม่เท่ากันและต่างกันมาก
+  - Prompt caching เชิงลึก — prefix match, ลำดับเรนเดอร์, เพดาน breakpoint, ขนาดขั้นต่ำที่จะติด cache
+  - ตัวทำลาย cache แบบเงียบ และวิธี audit ด้วย cache_read_input_tokens
+  - Model routing เชิงเศรษฐศาสตร์ — งานแบบไหนคุ้มกับโมเดลตัวไหน
+  - ต้นทุนต่องานที่เสร็จ ไม่ใช่ต่อ request
+  - Effort เป็นคันโยกแรกก่อนเปลี่ยนโมเดล และกับดักที่ cache แยก namespace ตามโมเดล
+  - Batch, task budget และการตั้งเพดานแบบที่ agent รู้ตัว
+  - 'LAB: ทำ cost profile ของงานจริง 1 สัปดาห์ หา 3 คันโยกที่ประหยัดได้จริง'
+  written: true
+- id: m04
+  code: M04
+  title_th: Requirements, Research และการย่อยงาน
+  hours: 2.5
+  status: core
+  goal_th: เปลี่ยนความต้องการกำกวมเป็น spec ที่ agent ทำแล้วตรวจได้
+  outcome_th: งานที่ต้องสั่งซ้ำลดลงชัดเจน เพราะรอบแรกมี acceptance criteria อยู่แล้ว
+  lessons:
+  - Spec-first — prompt ที่ดีคือข้อกำหนด ไม่ใช่คำสั่ง และต่างกันตรงไหน
+  - ขนาดงานที่พอดีกับ agent — เล็กพอที่จะยืนยันผลได้ในลูปเดียว
+  - เกณฑ์ตัดสินว่างานนี้ควรให้ agent ทำไหม — ความซับซ้อน / คุณค่า / ความเป็นไปได้ / ต้นทุนเมื่อผิด
+  - Research loop — แยก "ค้นหา" ออกจาก "สรุป" ออกจาก "ตัดสินใจ"
+  - วินัยเรื่องหลักฐาน — บังคับให้อ้างไฟล์ บรรทัด หรือ URL ทุกครั้ง
+  - ADR ที่ agent เขียนแล้ว agent ตัวถัดไปอ่านต่อได้
+  - Plan mode และการรีวิวแผนก่อนลงมือ — บทที่ให้ผลตอบแทนสูงที่สุดในหลักสูตร
+  - 'LAB: แปลง requirement กำกวม 1 หน้า เป็น spec + task graph + ADR'
+  written: true
+- id: m05
+  code: M05
+  title_th: ออกแบบ Codebase ให้ Agent ทำงานได้
+  hours: 2.5
+  status: new
+  gap: G6
+  goal_th: ลงทุนในโครงสร้าง repo ซึ่งให้ผลถาวร แทนการปรับ prompt ซึ่งให้ผลครั้งเดียว
+  outcome_th: repo ที่ agent ตัวใหม่เข้ามาทำงานได้เลยโดยไม่ต้องอธิบายซ้ำ
+  lessons:
+  - Legibility — codebase ที่เครื่องอ่านรู้เรื่อง ต่างจากที่คนอ่านรู้เรื่องอย่างไร
+  - โครงไฟล์และการตั้งชื่อที่ลดต้นทุนการค้นหา — agent จ่าย token ทุกครั้งที่หาไม่เจอ
+  - Error message คือช่องทาง feedback ของ agent — ออกแบบให้บอกวิธีแก้
+  - Test affordance — ถ้ารันเทสต์เฉพาะจุดไม่ได้เร็ว agent จะเลิกรันแล้วเดาแทน
+  - Type system และ schema เป็น guardrail ที่ถูกที่สุดที่คุณซื้อได้
+  - Docs-as-context — ADR, runbook, design system ในฐานะ input ไม่ใช่เอกสารที่เขียนทิ้ง
+  - ลำดับชั้น CLAUDE.md — global / project / directory-scoped และกฎการทับกัน
+  - 'LAB: audit repo จริง ทำ 5 การเปลี่ยนที่วัดได้ว่าลด token ต่องานลง 30%'
+  written: true
+- id: m06
+  code: M06
+  title_th: Frontend Implementation
+  hours: 3
+  status: core
+  goal_th: ให้ agent สร้าง UI ที่ถูกจริง ไม่ใช่แค่ดูเหมือนถูกในสกรีนช็อต
+  outcome_th: ลูป FE ที่ agent ตรวจงานตัวเองได้ก่อนส่งให้คนดู
+  lessons:
+  - กระบวนการ FE กับ agent — design token → component → page → flow
+  - Design system ในฐานะบริบท — ส่ง token กับ primitive ไม่ใช่ส่งภาพอย่างเดียว
+  - Next.js App Router — เส้นแบ่ง server/client ที่ agent พลาดบ่อยที่สุด
+  - State และ data fetching — แพตเทิร์นที่ agent ทำถูก และที่มันชอบทำผิด
+  - Visual verification loop — ให้ agent เปิดเบราว์เซอร์ ถ่ายภาพ แล้วเทียบกับ spec เอง
+  - Accessibility เป็น acceptance criteria ที่ตรวจอัตโนมัติได้
+  - จับ UI ที่ผ่านสายตาแต่พังจริง — hydration, layout shift, state ค้าง, edge case
+  - 'LAB A: สร้าง component library จาก design token'
+  - 'LAB B: สร้าง flow 3 หน้าจาก spec พร้อมรอบ visual verification'
+  written: true
+- id: m07
+  code: M07
+  title_th: Backend และงานที่แตะข้อมูล
+  hours: 3
+  status: core
+  goal_th: ทำงาน backend กับ agent โดยที่ migration และ data operation ไม่กลายเป็นอุบัติเหตุ
+  outcome_th: ชุด guardrail สำหรับงาน data ที่เอาไปใช้กับ repo ตัวเองได้เลย
+  lessons:
+  - Contract-first — OpenAPI / schema ในฐานะ spec ที่ตรวจได้อัตโนมัติ
+  - Layering ที่ agent ทำงานด้วยง่าย และ layering ที่ทำให้มันหลงทาง
+  - Database migration กับ agent — งานอันตรายที่สุด และ guardrail ที่ต้องมีก่อนเริ่ม
+  - Idempotency, ขอบเขต transaction และ error taxonomy ที่ agent ใช้ตัดสินใจได้
+  - การจัดการ secret และ env ตอน agent เขียนโค้ด — กฎที่ห้ามยืดหยุ่น
+  - Background job, queue, retry — สามอย่างที่ agent ออกแบบผิดเป็นประจำ
+  - Observability ตั้งแต่บรรทัดแรก — log ที่ agent ใช้ debug ตัวเองได้รอบหน้า
+  - 'LAB A: สร้าง API จาก OpenAPI spec พร้อม migration ที่มี rollback'
+  - 'LAB B: ให้ agent หา bug จริงจาก log อย่างเดียว ห้ามบอกว่าพังตรงไหน'
+  written: true
+- id: m08
+  code: M08
+  title_th: Brownfield และ Legacy Code
+  hours: 2.5
+  status: new
+  gap: G4
+  goal_th: งานจริงไม่ได้เริ่มจากโฟลเดอร์ว่าง โมดูลนี้คือส่วนที่ใช้จริงมากที่สุด
+  outcome_th: วิธีทำงานที่ใช้ได้กับโค้ดที่คุณไม่ได้เขียนและไม่มีใครอธิบายให้ฟัง
+  lessons:
+  - Onboard agent เข้า codebase ห้าแสนบรรทัด — สร้างแผนที่ก่อน อย่าเพิ่งแก้
+  - Characterization test — ล็อกพฤติกรรมปัจจุบันไว้ก่อนแตะ แม้จะรู้ว่ามันผิด
+  - Strangler pattern ร่วมกับ agent — แทนที่ทีละส่วนโดยของเดิมยังทำงาน
+  - ทำงานกับโค้ดที่ไม่มีเทสต์และไม่มี type — ลำดับการสร้างตาข่ายรองรับ
+  - อ่าน git history เป็นบริบท — blame, PR เก่า, incident ที่เกี่ยวข้อง
+  - แก้อย่างปลอดภัย — blast radius, feature flag, แผน rollback ที่เขียนก่อนแก้
+  - 'LAB: เพิ่มฟีเจอร์ใน repo โอเพนซอร์สจริงที่ไม่เคยเห็นมาก่อน ภายในเวลาจำกัด'
+  written: true
+- id: m09
+  code: M09
+  title_th: Tooling — MCP, Skills, Hooks, Plugins
+  hours: 3.5
+  status: expanded
+  goal_th: สร้างเครื่องมือที่ agent ใช้ถูก และรู้ว่าเมื่อไหร่ไม่ควรสร้าง
+  outcome_th: ชุดเครื่องมือของทีมที่ติดตั้งแล้วทุกคนได้พฤติกรรมเดียวกัน
+  lessons:
+  - MCP คืออะไรจริง ๆ — โปรโตคอล ไม่ใช่ไลบรารี แยก resources / tools / prompts ให้ออก
+  - Transport และ auth — stdio vs HTTP, OAuth flow, credential ที่ไม่รั่วเข้า context
+  - ออกแบบ tool ให้ agent ใช้ถูก — description คือ prompt ไม่ใช่เอกสาร API
+  - ต้นทุน token ของ tool registry และเทคนิคโหลดเครื่องมือตามต้องการ
+  - Skills — บรรจุเวิร์กโฟลว์เป็นความรู้ที่โหลดเฉพาะตอนเกี่ยวข้อง
+  - เขียน SKILL.md ที่ trigger ถูกจังหวะ — บรรทัด description คือสิ่งที่ตัดสิน
+  - Hooks และ lifecycle ทั้งหมด — บังคับนโยบายที่ prompt บังคับไม่ได้
+  - Plugins และ slash command — แพ็กเกจเวิร์กโฟลว์ให้ทั้งทีมใช้เหมือนกัน
+  - เมื่อไหร่ไม่ควรทำ MCP server — สคริปต์ธรรมดากับ bash ชนะบ่อยกว่าที่คิดมาก
+  - 'LAB: สร้าง MCP server + skill + hook ที่บังคับ convention ของทีมได้จริง'
+  written: true
+- id: m10
+  code: M10
+  title_th: Multi-Agent Orchestration
+  hours: 3
+  status: new
+  gap: G7
+  goal_th: ใช้หลาย agent เมื่อมันชนะจริง และรู้ว่าเมื่อไหร่มันแพ้ agent เดียว
+  outcome_th: เกณฑ์ตัดสินของตัวเองว่างานแบบไหนคุ้มที่จะแตกเป็นหลาย agent
+  lessons:
+  - เหตุผลที่ถูกต้องเพียงสองข้อ — context isolation กับ wall-clock ที่ขนานได้จริง
+  - 'Pattern 1 — Orchestrator / Worker: ใครถือแผน ใครถือบริบท'
+  - 'Pattern 2 — Pipeline: แต่ละสเตจมีสัญญา input/output ที่ชัด'
+  - 'Pattern 3 — Fan-out / Fan-in: การรวมผลที่ไม่ทำให้บริบทระเบิด'
+  - 'Pattern 4 — Judge / Critic: แยกคนเขียนออกจากคนตรวจเสมอ'
+  - Handoff protocol — อะไรต้องส่งต่อ อะไรห้ามส่งเพราะจะกลายเป็น context pollution
+  - เมื่อ multi-agent แพ้ single agent — ต้นทุนบาน ผลไม่คงเส้น debug แทบไม่ได้
+  - 'LAB: ทำ review pipeline สามขั้น แล้ววัดด้วย eval ว่าดีกว่า agent เดียวจริงหรือแค่แพงกว่า'
+  written: true
+- id: m11
+  code: M11
+  title_th: Testing และ QA
+  hours: 2.5
+  status: core
+  goal_th: ได้เทสต์ที่จับบั๊กจริง ไม่ใช่เทสต์ที่ยืนยันว่าบั๊กยังอยู่
+  outcome_th: ตัวเลขว่า review agent ของคุณจับได้กี่เปอร์เซ็นต์ และเตือนผิดกี่ครั้ง
+  lessons:
+  - กับดักของเทสต์ที่ agent เขียน — ล็อกพฤติกรรมผิดไว้ และ mock จนไม่เหลืออะไรให้ทดสอบ
+  - Coverage โกหกอย่างไรเมื่อ AI เป็นคนเขียนเทสต์
+  - เทสต์ในฐานะ spec — เขียนเทสต์ก่อน แล้วให้ agent implement ให้ผ่าน
+  - Property-based และ fuzz testing — พื้นที่ที่ agent ได้เปรียบคนชัดเจน
+  - E2E ด้วย browser automation ที่ไม่ flaky
+  - ออกแบบ review agent ให้หาบั๊กจริง ไม่ใช่จับผิดสไตล์โค้ด
+  - Verification pass — ทำไมทุก finding ต้องผ่านการยืนยันก่อนถูกรายงาน
+  - 'LAB: สร้าง review pipeline วัด precision กับ recall กับบั๊กที่ปลูกไว้'
+  written: true
+- id: m12
+  code: M12
+  title_th: Evals — วัดผลระบบ agent ของคุณเอง
+  hours: 3
+  status: new
+  gap: G1
+  written: true
+  href: m12-evals.html
+  goal_th: โมดูลที่คอร์สอื่นไม่มี ถ้าวัดไม่ได้ คุณกำลังปรับ prompt ด้วยความรู้สึก
+  outcome_th: เครื่องมือที่ทำให้ทุกการอ้างว่า "แบบนี้ดีกว่า" มีตัวเลขรองรับ
+  lessons:
+  - ทำไม "รู้สึกว่าดีขึ้น" เชื่อไม่ได้ — variance ของ LLM ใหญ่กว่าผลของการแก้ prompt ส่วนใหญ่
+  - Golden task set — สร้างชุดงานตัวแทนจาก backlog จริง ไม่ใช่ตัวอย่างที่แต่งขึ้น
+  - เกณฑ์ deterministic มาก่อนเสมอ — คอมไพล์ผ่านไหม เทสต์ผ่านไหม diff ตรงไหม
+  - LLM-as-judge — rubric, position bias และกฎว่า judge ต้องแรงกว่าหรือเท่า
+  - Regression suite สำหรับ prompt / skill / CLAUDE.md — ปฏิบัติกับ prompt เหมือนโค้ด
+  - วัดสี่มิติพร้อมกัน — ความถูกต้อง / ต้นทุน / เวลา / จำนวนครั้งที่มนุษย์ต้องแก้
+  - A/B การเปลี่ยนเวิร์กโฟลว์ — เปลี่ยนทีละอย่าง และ sample ให้พอจะเชื่อผล
+  - Drift detection — โมเดลใหม่ออก เวิร์กโฟลว์เดิมอาจแย่ลงโดยไม่มีใครรู้
+  - 'LAB: สร้าง eval harness 20 งาน ใช้ตัดสินข้อถกเถียงจริงหนึ่งข้อในทีม'
+- id: m13
+  code: M13
+  title_th: ความปลอดภัยและโมเดลภัยคุกคาม
+  hours: 3
+  status: new
+  gap: G2
+  goal_th: agent ที่อ่านอินเทอร์เน็ตได้และรันคำสั่งได้ คือ attack surface ชนิดใหม่
+  outcome_th: รายการช่องโหว่จริงในเซ็ตอัปของคุณเอง พร้อมสิ่งที่แก้ไปแล้ว
+  lessons:
+  - โมเดลภัยคุกคามของ coding agent — ต่างจาก web app ตรงไหน และทำไม checklist เดิมใช้ไม่ได้
+  - Prompt injection ผ่านเนื้อหาที่ agent อ่าน — issue, README, หน้าเว็บ, log, แม้แต่ชื่อไฟล์
+  - Tool poisoning และ rug-pull ใน MCP — เมื่อ description เปลี่ยนหลังติดตั้งไปแล้ว
+  - Supply chain ของ skill / plugin / MCP — สิ่งที่ติดตั้งคือโค้ดที่รันด้วยสิทธิ์ของคุณ
+  - ออกแบบขอบเขตสิทธิ์ — allowlist, deny rule, sandbox และการคุม network egress
+  - Secret handling — ทำไม .env ที่หลุดเข้า context คือการรั่วที่ย้อนกลับไม่ได้
+  - เส้นทางขโมยข้อมูลที่มองไม่เห็น — curl, git push, webhook, artifact ที่ถูกอัปโหลด
+  - Agent ที่ปล่อยรันเอง กับการคุม blast radius
+  - 'LAB: red-team เวิร์กโฟลว์ของตัวเอง ฝัง injection 5 แบบ วัดว่าติดกี่แบบ'
+  written: true
+- id: m14
+  code: M14
+  title_th: CI/CD และ Agent ในสายพาน
+  hours: 2.5
+  status: core
+  goal_th: เอา agent ขึ้นสายพานโดยไม่มีคนคอยกดอนุมัติ และไม่ให้บิลบาน
+  outcome_th: สายพานที่ agent ทำงานได้เองโดยยังมีจุดหยุดที่มนุษย์ควบคุม
+  lessons:
+  - Agent ใน CI ต่างจากบนเครื่องอย่างไร — ไม่มีคนตอบ ล้มแล้วต้องล้มให้ชัด
+  - PR automation — เขียน PR, รีวิว PR, ตอบคอมเมนต์ และเส้นที่ไม่ควรข้าม
+  - Quality gate ที่บล็อกได้จริง — เกณฑ์ deterministic มาก่อน แล้วค่อยให้ LLM ตัดสิน
+  - Headless mode, exit code และการทำ agent ให้เป็น CLI ที่เขียนสคริปต์ครอบได้
+  - งานอัตโนมัติตามเวลา — scheduled agent และ guardrail ขั้นต่ำก่อนเปิด
+  - ต้นทุน CI ที่บานเพราะ agent — ตัวการที่พบบ่อยและวิธีคุม
+  - Rollback และ incident เมื่อ commit มาจาก agent — ใครรับผิดชอบและตามรอยอย่างไร
+  - 'LAB: ตั้ง PR review bot พร้อม gate ที่บล็อก merge เมื่อพบ finding ระดับสูง'
+  written: true
+- id: m15
+  code: M15
+  title_th: Operations, Governance และการใช้จริงในทีม
+  hours: 2.5
+  status: expanded
+  gap: G8
+  goal_th: ปัญหาจริงเริ่มตอนที่ทีมทั้งทีมใช้พร้อมกัน ไม่ใช่ตอนคุณใช้คนเดียว
+  outcome_th: เอกสารนโยบายและแผน rollout ที่เอาไปเสนอหัวหน้าได้ทันที
+  lessons:
+  - Runbook ที่ agent อ่านแล้วทำได้ — ต่างจาก runbook สำหรับคนตรงไหน
+  - Log triage และ incident response ร่วมกับ agent — สิ่งที่มอบให้ได้และห้ามมอบ
+  - Documentation automation ที่ไม่กลายเป็นขยะภายในสองเดือน
+  - Trust calibration — เมื่อไหร่เชื่อได้ เมื่อไหร่ต้องตรวจทุกบรรทัด
+  - วัฒนธรรม code review เมื่อ AI เขียนโค้ด 70% — รีวิวอะไรเมื่อ diff โตขึ้นสิบเท่า
+  - Attribution, license และความเสี่ยงเชิงกฎหมายของโค้ดที่ AI สร้าง
+  - Skill atrophy ของทีม — ทักษะที่ต้องรักษาไว้แม้มอบงานให้ agent ได้แล้ว
+  - แผน rollout ในองค์กร — pilot → policy → platform และกับดักของแต่ละขั้น
+  - 'LAB: เขียน AI engineering policy ของทีม 2 หน้า ที่บังคับใช้ได้จริง'
+  written: true
 gaps:
-  - id: G1
-    title_th: Evals — วัดผลระบบ agent ของตัวเอง
-    module: m12
-    why_th: ถ้าวัดไม่ได้ คุณกำลังปรับ prompt ด้วยความรู้สึก LLM มี variance สูงพอที่ "ลองแล้วรู้สึกว่าดีขึ้น" จะเป็นสัญญาณรบกวนล้วน ๆ
-  - id: G2
-    title_th: Security และ Threat Model ของ agent
-    module: m13
-    why_th: coding agent มีโมเดลภัยคุกคามที่ต่างจาก web app โดยสิ้นเชิง และ skill ที่ติดตั้งคือโค้ดที่รันด้วยสิทธิ์ของคุณ
-  - id: G3
-    title_th: Context Engineering
-    module: m02
-    why_th: ทักษะที่แยกคนที่ใช้ agent เป็นกับไม่เป็นชัดที่สุด และให้ผลตอบแทนสูงกว่าการเปลี่ยนโมเดล
-  - id: G4
-    title_th: Brownfield และ Legacy
-    module: m08
-    why_th: แล็บที่เริ่มจากโฟลเดอร์ว่างสอนงานที่แทบไม่มีใครทำจริง งานจริงคือ codebase อายุ 6 ปีที่ไม่มีเทสต์
-  - id: G5
-    title_th: Token และ Model Economics
-    module: m03
-    why_th: ต้นทุนคือสิ่งที่ตัดสินว่าเวิร์กโฟลว์จะใช้ได้กับทีม 20 คนหรือแค่คนเดียว
-  - id: G6
-    title_th: Agent-Ready Codebase
-    module: m05
-    why_th: โครงสร้าง repo ให้ผลถาวร ส่วน prompt ที่ปรับดีขึ้นให้ผลแค่ครั้งเดียว
-  - id: G7
-    title_th: Multi-Agent Orchestration
-    module: m10
-    why_th: multi-agent คือสถาปัตยกรรม ไม่ใช่เครื่องมือ และบทสำคัญที่สุดคือบทที่บอกว่าเมื่อไหร่มันแพ้ agent เดียว
-  - id: G8
-    title_th: Governance และการใช้จริงในทีม
-    module: m15
-    why_th: คอร์สส่วนใหญ่จบที่ "คุณใช้ agent เป็นแล้ว" แต่ปัญหาจริงเริ่มตอนที่ทีม 15 คนใช้พร้อมกัน
+- id: G1
+  title_th: Evals — วัดผลระบบ agent ของตัวเอง
+  module: m12
+  why_th: ถ้าวัดไม่ได้ คุณกำลังปรับ prompt ด้วยความรู้สึก LLM มี variance สูงพอที่ "ลองแล้วรู้สึกว่าดีขึ้น" จะเป็นสัญญาณรบกวนล้วน ๆ
+- id: G2
+  title_th: Security และ Threat Model ของ agent
+  module: m13
+  why_th: coding agent มีโมเดลภัยคุกคามที่ต่างจาก web app โดยสิ้นเชิง และ skill ที่ติดตั้งคือโค้ดที่รันด้วยสิทธิ์ของคุณ
+- id: G3
+  title_th: Context Engineering
+  module: m02
+  why_th: ทักษะที่แยกคนที่ใช้ agent เป็นกับไม่เป็นชัดที่สุด และให้ผลตอบแทนสูงกว่าการเปลี่ยนโมเดล
+- id: G4
+  title_th: Brownfield และ Legacy
+  module: m08
+  why_th: แล็บที่เริ่มจากโฟลเดอร์ว่างสอนงานที่แทบไม่มีใครทำจริง งานจริงคือ codebase อายุ 6 ปีที่ไม่มีเทสต์
+- id: G5
+  title_th: Token และ Model Economics
+  module: m03
+  why_th: ต้นทุนคือสิ่งที่ตัดสินว่าเวิร์กโฟลว์จะใช้ได้กับทีม 20 คนหรือแค่คนเดียว
+- id: G6
+  title_th: Agent-Ready Codebase
+  module: m05
+  why_th: โครงสร้าง repo ให้ผลถาวร ส่วน prompt ที่ปรับดีขึ้นให้ผลแค่ครั้งเดียว
+- id: G7
+  title_th: Multi-Agent Orchestration
+  module: m10
+  why_th: multi-agent คือสถาปัตยกรรม ไม่ใช่เครื่องมือ และบทสำคัญที่สุดคือบทที่บอกว่าเมื่อไหร่มันแพ้ agent เดียว
+- id: G8
+  title_th: Governance และการใช้จริงในทีม
+  module: m15
+  why_th: คอร์สส่วนใหญ่จบที่ "คุณใช้ agent เป็นแล้ว" แต่ปัญหาจริงเริ่มตอนที่ทีม 15 คนใช้พร้อมกัน

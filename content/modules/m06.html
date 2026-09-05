@@ -1,0 +1,144 @@
+<div class="wrap">
+<header class="masthead">
+  <span class="crumb">AI Coding Agent SDLC · Phase 02 · Module 06</span>
+  <h1>Frontend Implementation</h1>
+  <p class="deck">ฝั่งหน้าบ้านมีปัญหาเฉพาะตัวที่ฝั่งหลังบ้านไม่มี — <strong>โค้ดที่ผิดอาจดูถูกในสกรีนช็อต</strong> โมดูลนี้ว่าด้วยการปิดช่องนั้นด้วยลูปตรวจที่ agent ทำเองได้</p>
+  <div class="meta"><span><b>9</b> บทเรียน</span><span><b>3</b> ชั่วโมง</span><span><b>2</b> แล็บ</span><span>ต้องผ่าน <b>M04</b> · <b>M05</b> ก่อน</span></div>
+</header>
+
+<div class="thesis">
+  <span class="k">ใจความของทั้งโมดูล</span>
+  <p>งาน FE ที่มอบให้ agent แล้วได้ผลดี คืองานที่มี<em>ภาษากลาง</em>ให้อ้างอิง — design token ชื่อ component และเกณฑ์ที่ตรวจอัตโนมัติได้ ถ้าไม่มีสามอย่างนี้ คุณกำลังสั่งด้วยคำบรรยายความรู้สึก</p>
+</div>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">06.01</span><h2>ลำดับที่ข้ามไม่ได้</h2></div>
+  <p>token → component → page → flow ลำดับนี้ไม่ใช่เรื่องความเป็นระเบียบ แต่เป็นเรื่องของการที่แต่ละขั้นให้<em>คำศัพท์</em>กับขั้นถัดไป</p>
+  <div class="tw"><table>
+    <thead><tr><th>ขั้น</th><th>ให้อะไรกับขั้นถัดไป</th><th>ถ้าข้าม</th></tr></thead>
+    <tbody>
+      <tr><td>Token</td><td>ชื่อสี ระยะ ขนาดตัวอักษร</td><td>agent ใส่ค่าดิบกระจายทั่วโปรเจกต์</td></tr>
+      <tr><td>Component</td><td>ชื่อชิ้นส่วนที่อ้างอิงได้</td><td>เขียน markup ซ้ำทุกหน้า สไตล์ไม่ตรงกัน</td></tr>
+      <tr><td>Page</td><td>โครงหน้าและสถานะ</td><td>flow ต่อไม่ติด state หาย</td></tr>
+      <tr><td>Flow</td><td>เส้นทางผู้ใช้ที่ทดสอบได้</td><td>ทุกหน้าถูกแต่ต่อกันไม่ได้</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">06.02</span><h2>Design system ในฐานะบริบท</h2></div>
+  <p>การส่งภาพอย่างเดียวทำให้ agent ต้องเดาค่าจากพิกเซล ผลคือค่าที่ใกล้เคียงแต่ไม่ตรง และกระจายไปทั่วจนเก็บกวาดยาก</p>
+  <pre><code><span class="c">// สิ่งที่ควรอยู่ในบริบท — ชื่อที่อ้างอิงได้</span>
+--space-1..6, --color-surface/ink/accent, --radius-none
+Button(variant: primary|ghost, size: sm|md)
+Card, Field, Toast   <span class="c">// ชื่อ component ที่มีอยู่แล้ว</span>
+
+<span class="c">// สิ่งที่ไม่ควรเป็นแหล่งข้อมูลเดียว</span>
+screenshot.png       <span class="c">// ใช้เทียบผลได้ แต่ห้ามใช้เป็นที่มาของค่า</span></code></pre>
+  <div class="box rule">
+    <span class="k">กฎเดียวที่ต้องจำ</span>
+    <p>ภาพใช้สำหรับ<strong>ตรวจ</strong> ไม่ใช่สำหรับ<strong>กำหนด</strong> ค่าที่กำหนดต้องมาจาก token ที่มีชื่อ เพราะชื่อคือสิ่งที่ agent อ้างถึงได้ในรอบถัดไป และคือสิ่งที่รีวิวได้</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">06.03</span><h2>เส้นแบ่ง server/client ที่พลาดบ่อยที่สุด</h2></div>
+  <p>เฟรมเวิร์กสมัยใหม่แยกโค้ดที่รันบนเซิร์ฟเวอร์กับบนเบราว์เซอร์ และเส้นนี้คือจุดที่ agent พลาดมากที่สุดในงาน FE ทั้งหมด</p>
+  <ul>
+    <li><strong>เอา state หรือ event handler ไปไว้ฝั่งเซิร์ฟเวอร์</strong> — พังตอน build ไม่ใช่ตอนเขียน</li>
+    <li><strong>ลากทั้งหน้าไปเป็นฝั่ง client เพื่อให้ผ่าน</strong> — ผ่านจริง แต่เสียประโยชน์ทั้งหมดของการเรนเดอร์ฝั่งเซิร์ฟเวอร์</li>
+    <li><strong>ดึงข้อมูลผิดชั้น</strong> — ทำให้เกิด waterfall ที่ช้าแต่ไม่มี error</li>
+    <li><strong>ใช้ของที่มีเฉพาะเบราว์เซอร์ในโค้ดที่รันสองที่</strong> — พังเฉพาะบางเส้นทาง</li>
+  </ul>
+  <div class="box good">
+    <span class="k">วิธีกันที่ได้ผลกว่าการเขียนกฎ</span>
+    <p>ใส่ไว้ใน project memory ว่า <strong>“ถ้าต้องเปลี่ยน component จาก server เป็น client ให้หยุดแล้วอธิบายเหตุผลก่อน”</strong> — เพราะการเปลี่ยนนี้มักเป็นการหลบปัญหา ไม่ใช่การแก้ปัญหา และเป็นจุดที่คนควรตัดสิน</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">06.04</span><h2>Visual verification loop</h2></div>
+  <p>นี่คือสิ่งที่ทำให้งาน FE กับ agent เปลี่ยนจาก “ส่งไปแล้วลุ้น” เป็นลูปปิดที่มันตรวจงานตัวเองได้ก่อนถึงมือคุณ</p>
+  <ol>
+    <li>agent เขียนโค้ด</li>
+    <li>รันเซิร์ฟเวอร์ เปิดหน้าในเบราว์เซอร์</li>
+    <li>ถ่ายภาพหน้าจอ และอ่าน console กับ network</li>
+    <li>เทียบกับ spec แล้วบอกว่าข้อไหนไม่ตรง</li>
+    <li>แก้ แล้ววนใหม่จนผ่าน</li>
+  </ol>
+  <div class="box rule">
+    <span class="k">สิ่งที่ต้องบังคับให้ตรวจ ไม่ใช่แค่ดูภาพ</span>
+    <ul>
+      <li>console ต้องไม่มี error — ข้อนี้จับบั๊กได้มากกว่าการดูภาพ</li>
+      <li>ตรวจอย่างน้อยสองความกว้างหน้าจอ</li>
+      <li>ตรวจสถานะ empty และ error ไม่ใช่แค่สถานะที่มีข้อมูลครบ</li>
+    </ul>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">06.05</span><h2>Accessibility เป็นเกณฑ์ที่ตรวจอัตโนมัติได้</h2></div>
+  <p>ข้อดีของการวางเรื่องนี้เป็น acceptance criteria คือมันเป็นหนึ่งในไม่กี่เรื่องคุณภาพ UI ที่<strong>เครื่องตัดสินได้จริง</strong> จึงเอาไปเป็นเกณฑ์ในชุดวัดได้ตรง ๆ</p>
+  <ul>
+    <li>ทุก control ที่กดได้ต้องเข้าถึงด้วยคีย์บอร์ดและมี focus ที่มองเห็น</li>
+    <li>ทุกภาพมี alt ทุก input มี label ที่ผูกกัน</li>
+    <li>คอนทราสต์ผ่านเกณฑ์ทั้งธีมสว่างและมืด</li>
+    <li>ลำดับหัวข้อไม่ข้ามระดับ</li>
+  </ul>
+  <p>สี่ข้อนี้ตรวจได้ด้วยเครื่องมืออัตโนมัติ ใส่เข้า CI แล้วมันจะกลายเป็นสิ่งที่ agent ต้องทำให้ผ่าน ไม่ใช่สิ่งที่หวังว่ามันจะนึกถึง</p>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">06.06</span><h2>UI ที่ผ่านสายตาแต่พังจริง</h2></div>
+  <div class="tw"><table>
+    <thead><tr><th>อาการ</th><th>ทำไมสกรีนช็อตจับไม่ได้</th><th>วิธีจับ</th></tr></thead>
+    <tbody>
+      <tr><td>Hydration ไม่ตรง</td><td>ภาพนิ่งดูปกติ พังตอนโต้ตอบ</td><td>อ่าน console</td></tr>
+      <tr><td>Layout ขยับตอนโหลด</td><td>ถ่ายหลังโหลดเสร็จเลยไม่เห็น</td><td>วัด layout shift</td></tr>
+      <tr><td>State ค้างข้ามหน้า</td><td>เห็นทีละหน้าเลยไม่รู้</td><td>เทสต์ที่เดินหลายหน้า</td></tr>
+      <tr><td>สถานะไม่มีข้อมูล</td><td>ตอนทดสอบมีข้อมูลเสมอ</td><td>บังคับ fixture ว่าง</td></tr>
+      <tr><td>ข้อความยาวจนล้น</td><td>ข้อความทดสอบสั้นเสมอ</td><td>fixture ที่มีข้อความยาว</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box trap">
+    <span class="k">รูปแบบที่เจอซ้ำ</span>
+    <p>สี่ในห้าข้อข้างบนมีสาเหตุเดียวกัน — <strong>ข้อมูลทดสอบสวยเกินจริง</strong> การเตรียม fixture ที่มีเคสว่าง เคสยาว และเคสพัง ให้ผลมากกว่าการเขียนกฎเพิ่มใน prompt</p>
+  </div>
+</section>
+
+<div class="lab">
+  <div class="lab-head">06.07 · แล็บ A</div>
+  <div class="lab-body">
+    <h2>สร้าง component library จาก design token</h2>
+    <ol>
+      <li>กำหนด token ให้ครบก่อน — สี ระยะ ตัวอักษร มุม เงา พร้อมชื่อที่ใช้อ้างอิงได้</li>
+      <li>ให้ agent สร้าง 5 component จาก token โดย<strong>ห้ามใช้ค่าดิบ</strong></li>
+      <li>ตรวจด้วยเกณฑ์เชิงกล — <code>grep</code> หาค่าสีดิบในไฟล์ component ต้องได้ศูนย์</li>
+      <li>ทุก component ต้องผ่านการตรวจ accessibility อัตโนมัติ</li>
+    </ol>
+    <div class="box good">
+      <span class="k">เกณฑ์ผ่าน</span>
+      <p>เกณฑ์ “ไม่มีค่าดิบ” ตรวจด้วย grep ได้ ทำให้แล็บนี้เอาไปใส่ชุดวัดของ <a href="m12-evals.html">M12</a> ได้ทันทีโดยไม่ต้องใช้คนตัดสิน</p>
+    </div>
+  </div>
+</div>
+
+<div class="lab">
+  <div class="lab-head">06.08 · แล็บ B</div>
+  <div class="lab-body">
+    <h2>สร้าง flow สามหน้าพร้อมรอบ visual verification</h2>
+    <ol>
+      <li>เขียน spec ของ flow ให้ทุกข้อตรวจได้ (ใช้วิธีจาก <a href="m04.html">M04.01</a>)</li>
+      <li>ให้ agent สร้างครบสามหน้าพร้อมสถานะ loading, empty, error</li>
+      <li>บังคับให้มันเปิดเบราว์เซอร์ตรวจเอง ทั้งจอกว้างและจอแคบ</li>
+      <li>ให้มันรายงานว่า spec ข้อไหนยังไม่ผ่าน <strong>ก่อน</strong>ที่คุณจะดู</li>
+    </ol>
+    <div class="box trap">
+      <span class="k">จุดที่แล็บนี้มักล้ม</span>
+      <p>agent จะรายงานว่า “ผ่านหมด” ทั้งที่ยังไม่ผ่าน วิธีกันคือให้มันแปะภาพและบรรทัด console มาเป็นหลักฐานต่อข้อ ตามวินัยหลักฐานใน <a href="m04.html">M04.05</a> ไม่ใช่ให้สรุปลอย ๆ</p>
+    </div>
+  </div>
+</div>
+
+<p class="note"><b>เชื่อมกับโมดูลอื่น</b> — <a href="m05.html">M05</a> design token คือรูปแบบหนึ่งของ docs-as-context · <a href="m11.html">M11</a> ขยาย visual verification เป็น E2E ที่ไม่ flaky · <a href="m12-evals.html">M12.03</a> เกณฑ์ grep และ a11y คือตัวอย่างที่ดีของเกณฑ์เชิงกล</p>
+</div>

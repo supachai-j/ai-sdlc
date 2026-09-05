@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>M04 · Requirements, Research และการย่อยงาน</title>
+<script>try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+
+</head>
+<body>
+<div class="wrap">
+<header class="topbar">
+  <a class="brand" href="index.html">Agent SDLC</a>
+  <nav>
+    <a href="index.html">ภาพรวม</a>
+    <a href="course-th.html">หลักสูตร</a>
+    <a href="m12-evals.html">M12 Evals</a>
+    <button id="theme" type="button" aria-label="สลับธีมสว่าง/มืด">THEME</button>
+  </nav>
+</header>
+<header class="masthead">
+  <span class="crumb">AI Coding Agent SDLC · Phase 01 · Module 04</span>
+  <h1>Requirements, Research และการย่อยงาน</h1>
+  <p class="deck">บทที่ให้ผลตอบแทนสูงที่สุดในหลักสูตรอยู่ในโมดูลนี้ เพราะ<strong>เวลาที่ใช้วางแผนสิบนาที ประหยัดการสั่งซ้ำได้เป็นชั่วโมง</strong> และการสั่งซ้ำคือที่ที่เงินกับความอดทนหายไป</p>
+  <div class="meta"><span><b>8</b> บทเรียน</span><span><b>2.5</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ต้องผ่าน <b>M01</b> · <b>M02</b> ก่อน</span></div>
+</header>
+
+<div class="thesis">
+  <span class="k">ใจความของทั้งโมดูล</span>
+  <p>Prompt ที่ดีไม่ใช่คำสั่งที่เขียนเก่ง แต่คือ<em>ข้อกำหนดที่ตรวจได้</em> ความต่างคือ คำสั่งบอกว่าให้ทำอะไร ข้อกำหนดบอกว่าจะรู้ได้ยังไงว่าทำถูก</p>
+</div>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">04.01</span><h2>Spec-first — คำสั่งกับข้อกำหนดต่างกันตรงไหน</h2></div>
+  <div class="tw"><table>
+    <thead><tr><th></th><th>คำสั่ง</th><th>ข้อกำหนด</th></tr></thead>
+    <tbody>
+      <tr><td>รูปแบบ</td><td>“แก้บั๊กตรงหน้า checkout ให้หน่อย”</td><td>“เมื่อตะกร้าว่าง ปุ่มชำระเงินต้อง disabled และเทสต์ <code>checkout.empty</code> ต้องเขียว”</td></tr>
+      <tr><td>รู้ว่าเสร็จเมื่อ</td><td>คนดูแล้วรู้สึกว่าใช่</td><td>สคริปต์ตัดสินได้</td></tr>
+      <tr><td>เมื่อผิด</td><td>ต้องอธิบายใหม่ทั้งหมด</td><td>ชี้ได้ว่าข้อไหนไม่ผ่าน</td></tr>
+      <tr><td>ส่งต่อได้ไหม</td><td>ไม่ได้ ความรู้อยู่ในหัวคนสั่ง</td><td>ได้ ใครหยิบไปทำต่อก็ได้</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box rule">
+    <span class="k">การทดสอบง่าย ๆ ว่า prompt ของคุณเป็น spec หรือยัง</span>
+    <p>อ่าน prompt แล้วถามว่า <strong>“ถ้าไม่เห็นผลลัพธ์ ฉันเขียนสคริปต์ตัดสินว่าผ่านหรือไม่ผ่านได้ไหม”</strong> ถ้าตอบไม่ได้ แปลว่ายังเป็นคำสั่ง และคุณกำลังจะเสียเวลาไปกับการอธิบายซ้ำ</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">04.02</span><h2>ขนาดงานที่พอดีกับ agent</h2></div>
+  <p>งานที่ใหญ่เกินทำให้ agent ลอยจากแผน งานที่เล็กเกินทำให้คุณเสียเวลาสั่งมากกว่าลงมือทำเอง มีสามเกณฑ์ที่บอกว่าพอดี</p>
+  <ul>
+    <li><strong>ยืนยันผลได้ในรอบเดียว</strong> — มีคำสั่งหนึ่งบรรทัดที่บอกว่าสำเร็จหรือไม่</li>
+    <li><strong>อยู่ในไฟล์ที่นับได้</strong> — ถ้าต้องแตะเกินสิบไฟล์ ให้แตกก่อน</li>
+    <li><strong>อธิบายได้ในสามประโยค</strong> — ถ้าต้องเขียนหน้าเต็มถึงจะสั่งได้ แปลว่ายังไม่ได้ย่อย</li>
+  </ul>
+  <div class="box trap">
+    <span class="k">อาการของงานที่ใหญ่เกิน</span>
+    <p>agent เริ่มถูกทาง ทำได้ดีสามสี่ขั้น แล้วค่อย ๆ เบี่ยงไปทำอย่างอื่นที่ดูเกี่ยวข้อง สุดท้ายได้ diff ใหญ่ที่ทำหลายอย่างพร้อมกันและรีวิวไม่ได้ นี่ไม่ใช่ความผิดของโมเดล แต่คือสัญญาณว่างานไม่ได้ถูกย่อย</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">04.03</span><h2>งานนี้ควรให้ agent ทำไหม</h2></div>
+  <p>ไม่ใช่ทุกงานที่คุ้มจะมอบให้ agent ใช้สี่เกณฑ์นี้ตัดสิน ถ้าตอบ “ไม่” ข้อใดข้อหนึ่ง ให้ทำเองหรือลดขนาดงานลง</p>
+  <div class="tw"><table>
+    <thead><tr><th>เกณฑ์</th><th>คำถาม</th><th>ถ้าตอบไม่</th></tr></thead>
+    <tbody>
+      <tr><td><strong>ความซับซ้อน</strong></td><td>เป็นงานหลายขั้นที่ระบุล่วงหน้าครบไม่ได้ไหม</td><td>งานง่ายเกิน เขียนเองเร็วกว่า</td></tr>
+      <tr><td><strong>คุณค่า</strong></td><td>ผลลัพธ์คุ้มกับต้นทุนและเวลารอไหม</td><td>ไม่คุ้ม ทำเอง</td></tr>
+      <tr><td><strong>ความเป็นไปได้</strong></td><td>โมเดลทำงานประเภทนี้ได้จริงไหม</td><td>ให้ช่วยบางส่วนแทนทั้งงาน</td></tr>
+      <tr><td><strong>ต้นทุนเมื่อผิด</strong></td><td>ผิดแล้วจับได้และย้อนกลับได้ไหม</td><td><strong>อย่ามอบให้ทำเอง</strong> — ต้องมีคนตรวจทุกขั้น</td></tr>
+    </tbody>
+  </table></div>
+  <p>เกณฑ์ที่สี่คือเกณฑ์ที่คนมองข้ามบ่อยที่สุด งาน migration ฐานข้อมูลตกเกณฑ์นี้เกือบทุกครั้ง ซึ่งเป็นเหตุผลว่าทำไม <a href="m07.html">M07</a> ถึงมีบทเฉพาะเรื่องนี้</p>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">04.04</span><h2>Research loop — แยกสามขั้นออกจากกัน</h2></div>
+  <p>ความผิดพลาดที่พบบ่อยคือสั่งรวบ “ไปหาข้อมูลแล้วตัดสินใจให้หน่อย” ซึ่งทำให้ได้ข้อสรุปที่ดูมั่นใจแต่ตรวจย้อนไม่ได้ ให้แยกเป็นสามขั้นที่มีผลลัพธ์คนละแบบ</p>
+  <div class="tw"><table>
+    <thead><tr><th>ขั้น</th><th>ผลลัพธ์ที่ต้องได้</th><th>ใครตัดสิน</th></tr></thead>
+    <tbody>
+      <tr><td><strong>ค้นหา</strong></td><td>รายการแหล่งพร้อมลิงก์และวันที่</td><td>agent</td></tr>
+      <tr><td><strong>สรุป</strong></td><td>ข้อเท็จจริงพร้อมที่มาต่อข้อ</td><td>agent</td></tr>
+      <tr><td><strong>ตัดสินใจ</strong></td><td>ทางเลือกพร้อมข้อแลกเปลี่ยน</td><td><strong>คุณ</strong></td></tr>
+    </tbody>
+  </table></div>
+  <div class="box good">
+    <span class="k">ทำไมการแยกถึงคุ้ม</span>
+    <p>เมื่อผลของขั้นสองมีที่มาต่อข้อ คุณตรวจได้ว่าข้อไหนมีหลักฐานจริง ข้อไหนเป็นการเติมเต็มของโมเดล การรวบสามขั้นทำให้สองอย่างนี้ปนกันจนแยกไม่ออก และคุณจะเชื่อทั้งก้อนหรือทิ้งทั้งก้อน</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">04.05</span><h2>วินัยเรื่องหลักฐาน</h2></div>
+  <p>ข้อความสองแบบนี้หน้าตาเหมือนกันในคำตอบของ agent แต่คุณค่าต่างกันคนละโลก</p>
+  <pre><code><span class="c">// อ้างลอย — ตรวจไม่ได้ อาจจริงอาจไม่จริง</span>
+"ฟังก์ชันนี้ถูกเรียกจากสามที่ในโปรเจกต์"
+
+<span class="c">// อ้างพร้อมหลักฐาน — ตรวจได้ในสิบวินาที</span>
+"ฟังก์ชันนี้ถูกเรียกจากสามที่:
+   src/api/invoice.ts:88
+   src/jobs/nightly.ts:41
+   test/invoice.spec.ts:12"</code></pre>
+  <div class="box rule">
+    <span class="k">กฎที่ควรใส่ใน project memory</span>
+    <p>ทุกข้ออ้างเกี่ยวกับ codebase ต้องมี <code>ไฟล์:บรรทัด</code> ทุกข้ออ้างเกี่ยวกับโลกภายนอกต้องมี URL และวันที่ที่ดึงมา ข้อไหนไม่มีหลักฐาน ให้เขียนกำกับว่าเป็นการอนุมาน กฎข้อนี้เปลี่ยนคุณภาพงาน research มากกว่ากฎอื่นใด</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">04.06</span><h2>ADR ที่ agent ตัวถัดไปอ่านต่อได้</h2></div>
+  <p>บันทึกการตัดสินใจไม่ได้มีไว้ให้คนอ่านอย่างเดียวอีกต่อไป มันคือบริบทถาวรที่ทำให้ agent รอบหน้าไม่ถามซ้ำและไม่รื้อของที่ตัดสินไปแล้ว โครงที่ใช้ได้จริงมีห้าส่วน</p>
+  <ol>
+    <li><strong>บริบท</strong> — สถานการณ์ที่บังคับให้ต้องเลือก</li>
+    <li><strong>ทางเลือกที่พิจารณา</strong> — อย่างน้อยสองทาง พร้อมเหตุผลที่ตกไป</li>
+    <li><strong>สิ่งที่เลือก</strong> — ประโยคเดียว ชัดเจน</li>
+    <li><strong>ผลที่ยอมรับ</strong> — ข้อเสียที่รู้ตัวและยอมแลก</li>
+    <li><strong>เงื่อนไขที่จะทำให้ต้องทบทวน</strong> — ส่วนที่คนลืมใส่ และเป็นส่วนที่มีค่าที่สุด</li>
+  </ol>
+  <div class="box good">
+    <span class="k">ส่วนที่ห้าสำคัญเพราะอะไร</span>
+    <p>ถ้าไม่เขียนไว้ว่า “ถ้าจำนวนผู้ใช้เกินหนึ่งแสนให้กลับมาทบทวน” การตัดสินใจนี้จะกลายเป็นกฎถาวรที่ไม่มีใครกล้าแตะ ทั้งที่เหตุผลเดิมหมดอายุไปแล้ว</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">04.07</span><h2>Plan mode และการรีวิวแผนก่อนลงมือ</h2></div>
+  <p>นี่คือบทที่ให้ผลตอบแทนสูงที่สุดในหลักสูตร เหตุผลเป็นเรื่องเลขคณิตล้วน ๆ</p>
+  <div class="tw"><table>
+    <thead><tr><th>จังหวะที่จับข้อผิดพลาดได้</th><th>ต้นทุนการแก้</th></tr></thead>
+    <tbody>
+      <tr><td>ตอนอ่านแผน</td><td>พิมพ์สองประโยค</td></tr>
+      <tr><td>ตอนรีวิว diff</td><td>อ่านโค้ดที่เขียนเสร็จแล้วทั้งหมด</td></tr>
+      <tr><td>ตอน CI แดง</td><td>รอบ CI + สลับบริบทกลับมา</td></tr>
+      <tr><td>ตอนขึ้นโปรดักชัน</td><td>incident</td></tr>
+    </tbody>
+  </table></div>
+  <p>แผนคือสิ่งเดียวที่อ่านจบใน 30 วินาที และบอกได้ว่าอีก 20 นาทีข้างหน้าจะเดินถูกทางหรือเปล่า การข้ามขั้นนี้เพื่อ “ประหยัดเวลา” คือการยืมเวลาจากตัวเองในอัตราดอกเบี้ยที่แย่มาก</p>
+  <div class="box rule">
+    <span class="k">อ่านแผนยังไงให้ได้ผล</span>
+    <ul>
+      <li>ไฟล์ที่มันบอกว่าจะแตะ ตรงกับที่คุณคาดไหม — ถ้าไม่ตรง แปลว่าเข้าใจโจทย์คนละอย่าง</li>
+      <li>มีขั้นไหนที่กว้างจนแปลได้หลายแบบไหม</li>
+      <li>มันรู้ได้ยังไงว่าเสร็จ — ถ้าแผนไม่มีข้อนี้ ให้ตีกลับ</li>
+    </ul>
+  </div>
+</section>
+
+<div class="lab">
+  <div class="lab-head">04.08 · แล็บประจำโมดูล</div>
+  <div class="lab-body">
+    <h2>แปลง requirement กำกวมหนึ่งหน้าเป็น spec + task graph + ADR</h2>
+    <p>ใช้ requirement จริงจากงานของคุณ ไม่ใช่ตัวอย่างที่แต่งขึ้น เพราะความกำกวมของจริงมีรสชาติที่ตัวอย่างสังเคราะห์ไม่มี</p>
+    <h3><span class="k">ผลลัพธ์สามชิ้น</span></h3>
+    <ol>
+      <li><strong>Spec</strong> — ทุกข้อต้องมีเกณฑ์ที่สคริปต์ตัดสินได้ ข้อไหนเขียนเกณฑ์ไม่ได้ ให้ย้ายไปกอง “คำถามที่ต้องถามคน”</li>
+      <li><strong>Task graph</strong> — ย่อยเป็นงานที่ผ่านเกณฑ์สามข้อในบท 04.02 พร้อมระบุว่าอะไรต้องเสร็จก่อนอะไร</li>
+      <li><strong>ADR</strong> — สำหรับทุกจุดที่คุณต้องเลือก ครบทั้งห้าส่วน โดยเฉพาะส่วนที่ห้า</li>
+    </ol>
+    <div class="box good">
+      <span class="k">เกณฑ์ผ่าน</span>
+      <ul>
+        <li>ส่ง task ใบแรกให้ agent แล้วมันทำได้จบโดยคุณไม่ต้องอธิบายเพิ่มเลย</li>
+        <li>กอง “คำถามที่ต้องถามคน” ไม่ว่างเปล่า — ถ้าว่าง แปลว่าคุณเดาแทนผู้ใช้โดยไม่รู้ตัว</li>
+        <li>ADR ทุกใบมีเงื่อนไขทบทวนที่เป็นรูปธรรม ไม่ใช่ “ถ้าสถานการณ์เปลี่ยน”</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<p class="note"><b>เชื่อมกับโมดูลอื่น</b> — <a href="m05.html">M05</a> ทำให้ ADR และเอกสารกลายเป็นบริบทที่ agent ใช้ได้จริง · <a href="m11.html">M11</a> เปลี่ยน spec เป็นเทสต์ · <a href="m12-evals.html">M12.02</a> ใช้งานจากแล็บนี้เป็นวัตถุดิบของ golden task set</p>
+
+</div>
+<script>
+document.getElementById("theme").addEventListener("click",function(){
+  var d=document.documentElement;
+  var dark=d.dataset.theme?d.dataset.theme==="dark":matchMedia("(prefers-color-scheme:dark)").matches;
+  d.dataset.theme=dark?"light":"dark";
+  try{localStorage.setItem("theme",d.dataset.theme)}catch(e){}
+});
+</script>
+</body>
+</html>

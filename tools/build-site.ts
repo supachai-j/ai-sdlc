@@ -18,7 +18,7 @@ interface Module {
 }
 interface Phase { id: string; num: string; name_th: string; modules: string[] }
 interface Gap { id: string; title_th: string; module: string; why_th: string }
-interface Video { title: string; url: string; channel?: string; when?: string; note?: string }
+interface Video { title: string; url: string; channel?: string; lang?: string; when?: string; note?: string }
 
 const cur = Bun.YAML.parse(readFileSync(join(ROOT, "content/curriculum.yaml"), "utf8")) as {
   course: Record<string, string | number>; phases: Phase[]; modules: Module[]; gaps: Gap[];
@@ -86,7 +86,7 @@ function videoBlock(id: string): string {
     .map((v) => {
       const when = v.when ? `<span class="when ${esc(v.when)}">${esc(v.when)}</span>` : "";
       const note = v.note ? `<span class="note">${esc(v.note)}</span>` : "";
-      const ch = v.channel ? ` · ${esc(v.channel)}` : "";
+      const ch = v.channel ? ` · ${esc(v.channel)}${v.lang === "en" ? " (EN)" : ""}` : "";
       return `<li>${when}<a href="${esc(v.url)}" target="_blank" rel="noopener noreferrer">${esc(v.title)}</a>${ch}${note}</li>`;
     })
     .join("\n");
@@ -96,8 +96,8 @@ function videoBlock(id: string): string {
 function moduleBlock(m: Module, opts: { lessons: boolean }): string {
   const flagged = m.status !== "core";
   const tag = STATUS_TAG[m.status];
-  const title = m.written && m.href
-    ? `<a href="${esc(m.href)}">${esc(m.title_th)}</a>`
+  const title = m.written
+    ? `<a href="${esc(m.href ?? m.id + ".html")}">${esc(m.title_th)}</a>`
     : esc(m.title_th);
   const lessons = opts.lessons
     ? `<ol class="lessons">${m.lessons
@@ -213,14 +213,15 @@ writeFileSync(
 );
 
 // ── module pages ─────────────────────────────────────────
-for (const m of cur.modules.filter((x) => x.written && x.href)) {
-  const src = join(ROOT, "content/modules", m.href!);
-  if (!existsSync(src)) { console.warn(`  ! missing ${m.href}`); continue; }
+let writtenCount = 0;
+for (const m of cur.modules) {
+  const href = m.href ?? `${m.id}.html`;
+  const src = join(ROOT, "content/modules", href);
+  if (!existsSync(src)) continue;
   const raw = readFileSync(src, "utf8");
-  const css = /<!--PAGESTYLE\n([\s\S]*?)\nPAGESTYLE-->/.exec(raw)?.[1] ?? "";
-  const body = raw.replace(/<!--PAGESTYLE[\s\S]*?PAGESTYLE-->\n?/, "");
-  const inner = body.replace(/^<div class="wrap">\n?/, "").replace(/<\/div>\s*$/, "");
-  writeFileSync(join(OUT, m.href!), page({ title: `${m.code} · ${m.title_th}`, nav: m.id, body: inner, extraCss: css }));
+  const inner = raw.replace(/^<div class="wrap">\n?/, "").replace(/<\/div>\s*$/, "");
+  writeFileSync(join(OUT, href), page({ title: `${m.code} · ${m.title_th}`, nav: m.id, body: inner }));
+  writtenCount++;
 }
 
 writeFileSync(join(OUT, ".nojekyll"), "");
@@ -231,4 +232,4 @@ writeFileSync(
 
 console.log(`built → docs/`);
 console.log(`  ${cur.modules.length} modules · ${totalLessons} lessons · ${totalLabs} labs · ${Math.round(totalHours)}h`);
-console.log(`  ${cur.modules.filter((m) => m.written).length} module page(s) written · ${videoCount} video link(s)`);
+console.log(`  ${writtenCount} module page(s) written · ${videoCount} video link(s)`);

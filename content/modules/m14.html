@@ -1,0 +1,163 @@
+<div class="wrap">
+<header class="masthead">
+  <span class="crumb">AI Coding Agent SDLC · Phase 05 · Module 14</span>
+  <h1>CI/CD และ Agent ในสายพาน</h1>
+  <p class="deck">บนเครื่องคุณมีคนคอยกดอนุมัติและสังเกตความผิดปกติ บนสายพาน<strong>ไม่มีทั้งสองอย่าง</strong> โมดูลนี้ว่าด้วยการเอา agent ขึ้นสายพานโดยที่ยังมีจุดหยุดที่มนุษย์ควบคุม และบิลไม่บาน</p>
+  <div class="meta"><span><b>8</b> บทเรียน</span><span><b>2.5</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ต้องผ่าน <b>M11</b> · <b>M12</b> · <b>M13</b> ก่อน</span></div>
+</header>
+
+<div class="thesis">
+  <span class="k">ใจความของทั้งโมดูล</span>
+  <p>สิ่งที่เปลี่ยนเมื่อ agent ขึ้นสายพานไม่ใช่เทคนิค แต่คือ<em>ไม่มีคนอยู่ในลูป</em> ทุกอย่างที่คุณเคยแก้ด้วยการสังเกตแล้วกด Ctrl-C ต้องกลายเป็นกฎที่เขียนไว้ล่วงหน้า</p>
+</div>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">14.01</span><h2>agent ใน CI ต่างจากบนเครื่องอย่างไร</h2></div>
+  <div class="tw"><table>
+    <thead><tr><th></th><th>บนเครื่อง</th><th>ใน CI</th></tr></thead>
+    <tbody>
+      <tr><td>เมื่อไม่แน่ใจ</td><td>ถามแล้วรอ</td><td><strong>ต้องตัดสินใจเองหรือล้ม</strong> — รอคือค้าง</td></tr>
+      <tr><td>เมื่อทำผิดทาง</td><td>คุณเห็นแล้วหยุด</td><td>ทำจนจบแล้วคุณเห็นผลทีหลัง</td></tr>
+      <tr><td>สิทธิ์</td><td>เท่าคุณ</td><td>ควรแคบกว่ามาก</td></tr>
+      <tr><td>ต้นทุน</td><td>คุณเห็นตัวเลขวิ่ง</td><td>ซ่อนอยู่จนบิลมา</td></tr>
+      <tr><td>ความล้มเหลว</td><td>คุยกันต่อได้</td><td><strong>ต้องล้มให้ชัดและมี exit code</strong></td></tr>
+    </tbody>
+  </table></div>
+  <div class="box rule">
+    <span class="k">กฎข้อแรกของ agent ใน CI</span>
+    <p><strong>ไม่แน่ใจต้องล้ม ไม่ใช่เดา</strong> — ให้ออกด้วยรหัสที่บอกว่าต้องมีคนดู ดีกว่าปล่อยให้มันเดาแล้วสร้าง PR ที่ดูดีแต่ผิด เพราะอย่างหลังกินเวลาคนมากกว่าและกัดกร่อนความเชื่อถือ</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">14.02</span><h2>PR automation และเส้นที่ไม่ควรข้าม</h2></div>
+  <div class="tw"><table>
+    <thead><tr><th>งาน</th><th>ให้ agent ทำ</th><th>เหตุผล</th></tr></thead>
+    <tbody>
+      <tr><td>เขียนคำอธิบาย PR จาก diff</td><td><strong>ได้เลย</strong></td><td>ย้อนได้ ผิดแล้วแก้ง่าย</td></tr>
+      <tr><td>รีวิวและคอมเมนต์</td><td><strong>ได้ ถ้าผ่าน verification</strong></td><td>ดู <a href="m11.html">M11.07</a></td></tr>
+      <tr><td>แก้ตามคอมเมนต์รีวิว</td><td>ได้ ถ้าคนอนุมัติ diff</td><td>คนยังเป็นคนตัดสิน</td></tr>
+      <tr><td>สร้าง PR ใหม่จาก issue</td><td>ได้ แต่เป็นร่าง</td><td>เนื้อหา issue คือข้อมูลไม่น่าเชื่อถือ (<a href="m13.html">M13.02</a>)</td></tr>
+      <tr><td><strong>Merge</strong></td><td><strong>ไม่</strong></td><td>ย้อนยาก และเป็นจุดที่ความรับผิดชอบต้องอยู่กับคน</td></tr>
+      <tr><td><strong>Deploy โปรดักชัน</strong></td><td><strong>ไม่</strong></td><td>เหตุผลเดียวกัน แต่หนักกว่า</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box trap">
+    <span class="k">เส้นที่มักถูกข้ามทีละนิด</span>
+    <p>เริ่มจาก “ให้ merge เฉพาะ PR ที่แก้ typo” แล้วขยายเป็น “เฉพาะที่เทสต์ผ่าน” แล้วกลายเป็น merge เกือบทุกอย่าง ให้ตั้งเส้นเป็นกฎที่บังคับด้วยการตั้งค่า ไม่ใช่ข้อตกลงที่พูดกันไว้</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">14.03</span><h2>Quality gate ที่บล็อกได้จริง</h2></div>
+  <p>Gate ที่ทำงานได้ต้องเรียงจากถูกและแน่นอนไปหาแพงและมีความเห็น ถ้าเรียงกลับกัน คุณจะจ่ายค่า LLM เพื่อตรวจโค้ดที่คอมไพล์ไม่ผ่าน</p>
+  <div class="tw"><table>
+    <thead><tr><th>ลำดับ</th><th>Gate</th><th>บล็อกไหม</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>คอมไพล์ / lint / typecheck</td><td><strong>บล็อก</strong></td></tr>
+      <tr><td>2</td><td>เทสต์เดิมทั้งหมด</td><td><strong>บล็อก</strong></td></tr>
+      <tr><td>3</td><td>ขอบเขต diff และขนาด</td><td><strong>บล็อก</strong></td></tr>
+      <tr><td>4</td><td>สแกนความปลอดภัยและ secret</td><td><strong>บล็อก</strong></td></tr>
+      <tr><td>5</td><td>รีวิวโดย LLM ที่ผ่าน verification</td><td>บล็อกเฉพาะระดับสูง</td></tr>
+      <tr><td>6</td><td>ความเห็นเชิงคุณภาพอื่น ๆ</td><td>คอมเมนต์เท่านั้น</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box rule">
+    <span class="k">กฎที่ทำให้ gate อยู่รอด</span>
+    <p>Gate ที่บล็อกต้องมี <strong>อัตราเตือนผิดต่ำมาก</strong> ถ้ามันบล็อกผิดสัปดาห์ละครั้ง คนจะหาทางข้าม และภายในเดือนเดียวมันจะกลายเป็นของประดับ ให้เริ่มจากโหมดเตือนอย่างเดียว วัด precision ตามวิธีใน <a href="m11.html">M11.08</a> แล้วค่อยเปลี่ยนเป็นบล็อกเมื่อตัวเลขดีพอ</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">14.04</span><h2>ทำ agent ให้เป็น CLI ที่เขียนสคริปต์ครอบได้</h2></div>
+  <p>agent ที่ใช้ในสายพานต้องมีพฤติกรรมเหมือนเครื่องมือ unix ทั่วไป ไม่ใช่แอปที่ต้องมีคนนั่งดู</p>
+  <ul>
+    <li><strong>โหมดไม่โต้ตอบ</strong> — รับงานเข้า คืนผลออก ไม่ถามกลับ</li>
+    <li><strong>ผลลัพธ์เป็นโครงสร้าง</strong> — ให้สคริปต์อ่านต่อได้ ไม่ใช่ข้อความสวย ๆ สำหรับคน</li>
+    <li><strong>exit code ที่มีความหมาย</strong> — สำเร็จ / ล้มเหลว / ต้องมีคนดู ต้องแยกกันได้</li>
+    <li><strong>เพดานเวลาและต้นทุน</strong> ที่บังคับจากภายนอก ไม่ใช่หวังว่ามันจะพอดี</li>
+    <li><strong>ทุกอย่างที่ต้องใช้ระบุผ่านพารามิเตอร์</strong> ไม่พึ่งสถานะจากรอบก่อน</li>
+  </ul>
+  <div class="box good">
+    <span class="k">การทดสอบง่าย ๆ</span>
+    <p>ถ้าคุณเขียนสคริปต์ครอบมันแล้วตัดสินใจอัตโนมัติจากผลได้ แปลว่าพร้อมขึ้นสายพาน ถ้ายังต้องมีคนอ่านผลก่อนถึงจะรู้ว่าเกิดอะไรขึ้น แปลว่ายังไม่พร้อม</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">14.05</span><h2>งานอัตโนมัติตามเวลา</h2></div>
+  <p>งานที่รันเองตามตารางมีประโยชน์จริง — ไล่ dependency ที่ล้าสมัย สรุป error ที่เพิ่มขึ้น เตรียมร่างแก้ให้ issue ที่ค้าง แต่ต้องมี guardrail ครบก่อนเปิด</p>
+  <div class="box rule">
+    <span class="k">เช็คลิสต์ก่อนเปิดงานตามเวลา</span>
+    <ol>
+      <li><strong>ผลลัพธ์เป็นร่างเสมอ</strong> — สร้าง PR หรือ issue ไม่ใช่เปลี่ยนของจริง</li>
+      <li><strong>เพดานต้นทุนต่อรอบ</strong> และการแจ้งเตือนเมื่อชน</li>
+      <li><strong>สิทธิ์แยกจากของคุณ</strong> และแคบกว่า</li>
+      <li><strong>ปุ่มปิดที่กดได้ทันที</strong> โดยไม่ต้องแก้โค้ด</li>
+      <li><strong>บันทึกที่ตัวมันแก้ไม่ได้</strong> — ตาม <a href="m13.html">M13.08</a></li>
+    </ol>
+  </div>
+  <div class="box trap">
+    <span class="k">ความเสี่ยงที่มากับความสม่ำเสมอ</span>
+    <p>งานที่รันทุกคืนได้ผลดี 60 คืนติด จะไม่มีใครอ่านผลของคืนที่ 61 นี่คือกลไกเดียวกับที่ทำให้ระบบเตือนภัยที่แม่นมาก ๆ กลายเป็นเสียงพื้นหลัง ทางแก้คือให้มันเงียบเมื่อไม่มีอะไร และส่งเสียงเฉพาะเมื่อมีของจริง</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">14.06</span><h2>ต้นทุน CI ที่บานเพราะ agent</h2></div>
+  <div class="tw"><table>
+    <thead><tr><th>สาเหตุ</th><th>ทำไมโตเร็ว</th><th>วิธีคุม</th></tr></thead>
+    <tbody>
+      <tr><td>รันทุก push</td><td>PR เดียวมี 20 push</td><td>รันตอนเปิด PR และตอนขอรีวิว</td></tr>
+      <tr><td>รีวิวทั้งไฟล์ทุกครั้ง</td><td>จ่ายซ้ำสิ่งที่ไม่เปลี่ยน</td><td>ส่งเฉพาะ diff และบริบทรอบ ๆ</td></tr>
+      <tr><td>cache ไม่ติดใน CI</td><td>สภาพแวดล้อมใหม่ทุกครั้ง</td><td>ทำ prefix ให้นิ่ง (<a href="m03.html">M03.03</a>)</td></tr>
+      <tr><td>ลองใหม่อัตโนมัติ</td><td>ล้มเพราะ prompt แล้วลองอีก 3 ครั้ง</td><td>แยกความล้มเหลวชั่วคราวกับถาวร</td></tr>
+      <tr><td>งานตามเวลาที่ลืมปิด</td><td>จ่ายทุกคืนโดยไม่มีใครดู</td><td>วันหมดอายุที่ต้องต่ออายุ</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box good">
+    <span class="k">ตัวเลขที่ควรติดแดชบอร์ด</span>
+    <p><strong>ดอลลาร์ต่อ PR ที่ merge</strong> — ตัวเดียวจับได้ทั้งห้าสาเหตุ และเป็นตัวที่อธิบายให้ผู้บริหารเข้าใจได้ในประโยคเดียว</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">14.07</span><h2>Rollback และ incident เมื่อคอมมิตมาจาก agent</h2></div>
+  <p>เมื่อของพังแล้วคอมมิตนั้นเขียนโดย agent คำถามเดิม ๆ ตอบยากขึ้น — ใครเข้าใจเจตนา ใครรับผิดชอบ และจะกันไม่ให้เกิดซ้ำยังไง</p>
+  <div class="box rule">
+    <span class="k">สิ่งที่ต้องมีในทุกคอมมิตที่ agent เขียน</span>
+    <ul>
+      <li><strong>ระบุว่าสร้างโดย agent</strong> และคนไหนเป็นผู้อนุมัติ</li>
+      <li><strong>ลิงก์กลับไปยังงานหรือ issue ต้นทาง</strong></li>
+      <li><strong>คำอธิบายเจตนา</strong> ไม่ใช่แค่สรุปว่า diff เปลี่ยนอะไร — สิ่งที่ diff เปลี่ยนอ่านเอาเองได้ สิ่งที่อ่านไม่ได้คือทำไม</li>
+    </ul>
+  </div>
+  <p>เรื่องความรับผิดชอบไม่ใช่เรื่องเทคนิค — <strong>คนที่อนุมัติคือคนที่รับผิดชอบ</strong> เสมอ และการทำให้ข้อนี้ชัดตั้งแต่ต้นสำคัญกว่าเครื่องมือใด ๆ ในโมดูลนี้ รายละเอียดเชิงองค์กรอยู่ใน <a href="m15.html">M15</a></p>
+</section>
+
+<div class="lab">
+  <div class="lab-head">14.08 · แล็บประจำโมดูล</div>
+  <div class="lab-body">
+    <h2>ตั้ง PR review bot พร้อม gate ที่บล็อกเมื่อพบ finding ระดับสูง</h2>
+    <ol>
+      <li><strong>ทำ gate 1–4 ก่อน</strong> (เชิงกลล้วน) แล้วยืนยันว่าบล็อกได้จริง</li>
+      <li><strong>เพิ่ม review agent ในโหมดเตือนอย่างเดียว</strong> — ยังไม่บล็อก</li>
+      <li><strong>รันคู่ขนานกับการรีวิวของคนสองสัปดาห์</strong> เก็บทุก finding</li>
+      <li><strong>วัด precision</strong> ตามวิธีของ <a href="m11.html">M11.08</a></li>
+      <li><strong>เปิดโหมดบล็อกเฉพาะระดับสูง</strong> ก็ต่อเมื่อ precision ของระดับนั้นสูงพอ</li>
+      <li>ใส่เพดานต้นทุนและวัดดอลลาร์ต่อ PR ที่ merge</li>
+    </ol>
+    <div class="box good">
+      <span class="k">เกณฑ์ผ่าน</span>
+      <ul>
+        <li>gate เชิงกลบล็อกได้จริง ทดสอบด้วยการจงใจส่งของที่ควรถูกบล็อก</li>
+        <li>มีตัวเลข precision ของ finding ระดับสูงก่อนเปิดโหมดบล็อก</li>
+        <li>ทีมยอมรับว่า gate นี้ไม่ขวางทาง — ถามจริง อย่าเดาแทน</li>
+        <li><strong>ถ้าผลวัดบอกว่ายังไม่ควรเปิดโหมดบล็อก ถือว่าผ่าน</strong> — การไม่เปิดของที่ยังไม่พร้อมคือคำตอบที่ถูก</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<p class="note"><b>เชื่อมกับโมดูลอื่น</b> — <a href="m03.html">M03</a> ต้นทุนที่บานใน CI · <a href="m11.html">M11</a> เครื่องมือรีวิวที่เอามาแขวนบน gate · <a href="m12-evals.html">M12</a> ชุด smoke ที่รันในสายพาน · <a href="m13.html">M13.08</a> guardrail ของงานอัตโนมัติ · <a href="m15.html">M15</a> ความรับผิดชอบและวัฒนธรรม</p>
+</div>
