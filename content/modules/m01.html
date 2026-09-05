@@ -55,7 +55,7 @@
       <text class="d-label-sm" x="320" y="182" text-anchor="middle">วนกลับไปถามใหม่ พร้อมผลที่เพิ่งได้</text>
 
       <!-- exit -->
-      <text class="d-label-sm" x="545" y="128">ถ้าโมเดลไม่ขออะไรอีก → จบ</text>
+      <text class="d-label-sm" x="545" y="128" text-anchor="middle">ไม่ขอ tool แล้ว → จบ</text>
     </svg>
     <p class="fig-cap"><b>รูปที่ 1</b> · ลูปทั้งหมดของ agent เส้นสีส้มคือส่วนที่ทำให้มันดูฉลาด — มันได้ลองใหม่พร้อมข้อมูลที่เพิ่งได้มา</p>
   </div>
@@ -349,8 +349,8 @@ while True:
       <text class="d-label-sm" x="372" y="52">fs.readFile(...)</text>
       <text class="d-label-mono" x="372" y="70">→ 120 lines</text>
 
-      <path class="d-line d-flow" d="M 496 80 V 108 H 158 V 130"/>
-      <path class="d-arrow" d="M 153 130 l 5 8 l 5 -8 z"/>
+      <path class="d-line d-flow" d="M 496 80 V 108 H 158 V 126"/>
+      <path class="d-arrow" d="M 153 126 l 5 8 l 5 -8 z"/>
 
       <rect class="d-box-accent" x="8" y="136" width="300" height="52"/>
       <text class="d-label-mono" x="20" y="154">tool_result · tool_use_id: call_a1</text>
@@ -628,7 +628,7 @@ switch (reply.stop_reason) {
       <text class="d-label-sm" x="356" y="142">· แพงและช้ากว่า</text>
       <text class="d-label-mono" x="356" y="166">→ plan · review · งานที่ผิดแล้วแพง</text>
 
-      <text class="d-label-sm" x="320" y="206" text-anchor="middle">ปรับ effort ไม่เสีย cache · ปรับ model เสีย</text>
+      <text class="d-label-sm" x="320" y="206" text-anchor="middle">เปลี่ยน model = cache เดิมใช้ไม่ได้เลย · เปลี่ยน effort กลางทาง = messages cache หลุด</text>
     </svg>
     <p class="fig-cap"><b>Figure 6</b> · effort เปลี่ยน pattern การทำงาน ไม่ใช่แค่ IQ — และมันคือ knob ที่ควรหมุนก่อนเปลี่ยน model</p>
   </div>
@@ -651,7 +651,7 @@ switch (reply.stop_reason) {
     <span class="k">ลำดับการ debug คุณภาพที่ถูกต้อง</span>
     <ol>
       <li><strong>Context</strong> — มันเห็นข้อมูลครบไหม มีของรกปนไหม · ฟรี และมักได้ผลมากสุด</li>
-      <li><strong>Effort</strong> — ปรับได้ทันที ไม่เสีย cache ไม่ต้องแก้ code</li>
+      <li><strong>Effort</strong> — ปรับได้ทันที ไม่ต้องแก้ code · ยังอยู่ใน cache namespace เดิม แต่ถ้าเปลี่ยนกลางบทสนทนา messages cache จะหลุด</li>
       <li><strong>Model</strong> — แพงสุด กระทบมากสุด และ<strong>ทำให้ cache ที่สะสมมาใช้ไม่ได้</strong></li>
     </ol>
     <p>
@@ -692,7 +692,7 @@ switch (reply.stop_reason) {
   </div>
 
   <div class="fig">
-    <svg viewBox="0 0 640 230" role="img" aria-label="Permission modes from ask to bypass, with allowlist as the recommended default">
+    <svg viewBox="0 0 640 236" role="img" aria-label="Permission modes from ask to bypass, with allowlist as the recommended default">
       <text class="d-label-mono" x="8" y="16">PERMISSION MODES</text>
 
       <rect class="d-box" x="8" y="28" width="146" height="70"/>
@@ -715,17 +715,21 @@ switch (reply.stop_reason) {
       <text class="d-label-sm" x="494" y="70">ผ่านหมด = full shell</text>
       <text class="d-label-sm" x="494" y="88">เฉพาะ container ที่ทิ้งได้</text>
 
-      <line class="d-line" x1="8" y1="118" x2="632" y2="118" stroke-dasharray="3 3"/>
-      <text class="d-label-mono" x="8" y="140">RISK</text>
-      <rect class="d-bar" x="60" y="130" width="120" height="10"/>
-      <rect class="d-bar" x="184" y="130" width="180" height="10"/>
-      <rect class="d-bar-new" x="368" y="130" width="90" height="10"/>
-      <rect class="d-bar-new" x="462" y="130" width="170" height="10"/>
+      <line class="d-line" x1="8" y1="112" x2="632" y2="112" stroke-dasharray="3 3"/>
+      <text class="d-label-mono" x="8" y="126">BLAST RADIUS</text>
+      <rect class="d-bar" x="20" y="134" width="25" height="10"/>
+      <text class="d-label-mono" x="52" y="143">low</text>
+      <rect class="d-bar" x="176" y="134" width="76" height="10"/>
+      <text class="d-label-mono" x="259" y="143">med-high</text>
+      <rect class="d-bar-new" x="332" y="134" width="50" height="10"/>
+      <text class="d-label-mono" x="389" y="143">med</text>
+      <rect class="d-bar-new" x="494" y="134" width="126" height="10"/>
+      <text class="d-label-mono" x="494" y="158">full shell access</text>
 
-      <rect class="d-box-accent" x="8" y="160" width="624" height="60"/>
-      <text class="d-label-mono" x="22" y="180">EXAMPLE ALLOWLIST</text>
-      <text class="d-label-sm" x="22" y="200">Read · Grep · Glob · Edit · Write · Bash(bun test:*) · Bash(bun run:*) · Bash(git diff:*)</text>
-      <text class="d-label-sm" x="22" y="214">อะไรที่ไม่อยู่ในลิสต์ = ต้องถาม</text>
+      <rect class="d-box-accent" x="8" y="168" width="624" height="56"/>
+      <text class="d-label-mono" x="22" y="187">EXAMPLE ALLOWLIST</text>
+      <text class="d-label-sm" x="22" y="205">Read · Grep · Glob · Edit · Write · Bash(bun test:*) · Bash(bun run:*) · Bash(git diff:*)</text>
+      <text class="d-label-sm" x="22" y="219">อะไรที่ไม่อยู่ในลิสต์ = ต้องถาม</text>
     </svg>
     <p class="fig-cap"><b>Figure 7</b> · allowlist ได้ความลื่นไหลของ bypass โดยไม่ต้องรับความเสี่ยงของมัน</p>
   </div>
