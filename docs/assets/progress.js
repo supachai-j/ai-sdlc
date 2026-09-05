@@ -181,6 +181,9 @@
       frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
       frame.allowFullscreen = true;
       frame.className = "vid-frame";
+      // let the player take the whole row — the 200px thumbnail column is unwatchable
+      var row = btn.closest(".vid");
+      if (row) row.classList.add("playing");
       btn.replaceWith(frame);
       // watching counts as watched, but the viewer can still untick it
       var box = frame.parentElement && frame.parentElement.querySelector("input[data-video][data-video='" + id + "']");
