@@ -1,7 +1,11 @@
 # วิดีโอประกอบต่อโมดูล — supplementary viewing
 #
-# ที่มา: ช่อง mikelopster (youtube.com/@mikelopster) · ผู้ติดตาม 4.68 หมื่น · วิดีโอ 195 รายการ
-# เก็บข้อมูลเมื่อ 2026-09-05 จากแท็บวิดีโอของช่อง (โหลดมา 30 รายการล่าสุด + บางส่วนของเก่า)
+# ที่มา (เก็บข้อมูล 2026-09-05 จากแท็บวิดีโอของแต่ละช่อง)
+#   mikelopster  youtube.com/@mikelopster  · 4.68 หมื่นผู้ติดตาม · 195 วิดีโอ · ยาว 35–70 นาที · แนวเจาะลึกเชิงแนวคิด
+#   MilerDev     youtube.com/@milerdev     · 1.94 แสนผู้ติดตาม · 3.7 พันวิดีโอ · ยาว 7–22 นาที · แนวข่าว + ทริกใช้งานจริง
+#
+# ใช้ต่างบทบาทกัน: mikelopster เหมาะเป็น before (ปูแนวคิด) · MilerDev เหมาะเป็น after (เห็นท่าจริงหลังเข้าใจหลักการ)
+# คลิปแนวข่าวเปิดตัวโมเดลของ MilerDev ตั้งใจไม่ใส่ เพราะเก่าเร็วเกินกว่าจะเป็นสื่อประกอบหลักสูตร
 #
 # ขอบเขตที่ตั้งใจไม่ข้าม
 #   ✅ ทำได้   อ้างอิงเป็นลิงก์ + ชื่อคลิปตามต้นทาง + บอกว่าควรดูตอนไหน
@@ -44,6 +48,11 @@ m02:
     when: optional
     note: "เกี่ยวกับการเรนเดอร์บริบทให้เล็ก ซึ่งเป็นกฎข้อสามในบทที่ 2"
 
+  - title: "/wayfinder มันดีจัง! Skill นี้ช่วยให้ AI ไม่หลงทางในโปรเจกต์ใหญ่ ไปใช้เดี๋ยวนี้!"
+    url: "https://www.youtube.com/watch?v=OdsLWc5uDJA"
+    channel: MilerDev
+    when: after
+    note: "ท่าแก้ปัญหา agent หลงทางในโปรเจกต์ใหญ่ ดูหลังเข้าใจว่าทำไมบริบทถึงเจือจาง"
 m04:
   - title: "มาลองให้ AI เลือก Tech Stack สำหรับทำเว็บกัน"
     url: "https://www.youtube.com/watch?v=smq0S3cvk_U"
@@ -51,6 +60,21 @@ m04:
     when: optional
     note: "เคสให้ agent ช่วยตัดสินใจ ดูคู่กับบทที่ 4 ที่แยกค้นหา/สรุป/ตัดสินใจออกจากกัน"
 
+  - title: "ทำไมเราควรใช้ /plan ก่อนให้ AI เขียนโค้ด?"
+    url: "https://www.youtube.com/watch?v=XuXBNCjHlOo"
+    channel: MilerDev
+    when: before
+    note: "ปูเหตุผลของ plan mode ก่อนบทที่ 7 ซึ่งเป็นบทที่ให้ผลตอบแทนสูงสุดในหลักสูตร"
+  - title: "สุดยอดคอมโบ! /grill-with-docs & /plan ให้ AI ช่วยคิดงานและวางแผนดีขึ้น ดูจบบรรลุ!"
+    url: "https://www.youtube.com/watch?v=sN-zz8clIcQ"
+    channel: MilerDev
+    when: after
+    note: "ท่าวางแผนจริงแบบมีเอกสารประกอบ ดูหลังทำแล็บแปลง requirement เป็น spec"
+  - title: "เลิกสั่ง AI ให้เขียนโค้ดมั่วๆ! แล้วมาใช้ Flow นี้ ของดีจาก AIHero ดูจบบรรลุ!"
+    url: "https://www.youtube.com/watch?v=rBl8C3P2R1Y"
+    channel: MilerDev
+    when: optional
+    note: "อีกหนึ่ง flow ให้เทียบกับ spec-first ที่เราสอนในบทที่ 1"
 m06:
   - title: "Openclaw และ การทำงานร่วมกับ Browser"
     url: "https://www.youtube.com/watch?v=pa73gNh0woM"
@@ -63,6 +87,11 @@ m06:
     when: optional
     note: "มุมการส่ง design เข้าไปเป็นบริบท เทียบกับบทที่ 2 ของโมดูลนี้"
 
+  - title: "ออกแบบเว็บอย่างเทพด้วย /design ฟีเจอร์ใหม่จาก Claude Code ครบจบที่เดียว!"
+    url: "https://www.youtube.com/watch?v=tLGywAHqLzs"
+    channel: MilerDev
+    when: optional
+    note: "ท่าส่ง design เข้าเป็นบริบท ต่อกับบทที่ 2 เรื่อง design system เป็น input"
 m08:
   - title: "มารู้จักกับ Bun ผ่านเรื่องเล่า Migration Bun ด้วย AI กัน"
     url: "https://www.youtube.com/watch?v=ZfI5TE2kjho"
@@ -70,6 +99,11 @@ m08:
     when: after
     note: "เคส migration ของจริง ดูหลังเรียน strangler pattern เพื่อเทียบกับที่เราวางไว้"
 
+  - title: "ผมจะสอนคุณ Contribute Open Source ครั้งแรกในชีวิต ดูจบบรรลุ!"
+    url: "https://www.youtube.com/watch?v=Jx7NoytkMq8"
+    channel: MilerDev
+    when: before
+    note: "ปูขั้นตอนเข้า codebase ที่ไม่เคยเห็น ตรงกับแล็บของโมดูลนี้พอดี"
 m09:
   - title: "มารู้จักกับ Agent Hooks กัน"
     url: "https://www.youtube.com/watch?v=QGk0xrk8074"
@@ -118,10 +152,32 @@ m15:
     when: optional
     note: "ตั้งคำถามเรื่องความไว้ใจ ต่อกับบท trust calibration"
 
+  - title: "4 ทักษะที่จะทำให้ Dev มีมูลค่ามากขึ้นในยุค AI"
+    url: "https://www.youtube.com/watch?v=SwTe4s17eBE"
+    channel: MilerDev
+    when: optional
+    note: "มุมทักษะที่ต้องรักษาไว้ ต่อกับบท skill atrophy"
 # ยังไม่มี — เติมได้เลย
 m03: []
 m05: []
-m07: []
 m11: []
 m12: []
-m14: []
+m07:
+  - title: "จริงๆ แล้วแอปคุณอาจต้องการแค่ SQLite ก็พอ!"
+    url: "https://www.youtube.com/watch?v=F62-v-zEkWc"
+    channel: MilerDev
+    when: optional
+    note: "เตือนเรื่องเลือกของให้พอดีงาน ก่อนปล่อย agent ออกแบบ data layer ให้"
+m11: []
+m12: []
+m14:
+  - title: "สร้าง AI Agent ส่วนตัวด้วย Hermes Agent ทำงานตลอด 24 ชั่วโมง คุยผ่าน Telegram ดูจบบรรลุ!"
+    url: "https://www.youtube.com/watch?v=EZ8C1rxaXH4"
+    channel: MilerDev
+    when: after
+    note: "เคส agent ที่รันเองตลอดเวลา ดูคู่กับบทที่ 5 เรื่อง guardrail ขั้นต่ำก่อนเปิด"
+  - title: "สอนติดตั้ง n8n แบบ Self-Host บน VPS เพื่อทำงาน Automation 24 ชั่วโมง!"
+    url: "https://www.youtube.com/watch?v=ZZXqoB4NUiY"
+    channel: MilerDev
+    when: optional
+    note: "ทางเลือกรัน automation เอง สำหรับคนที่ไม่อยากผูกกับ scheduler ของเจ้าใด"
