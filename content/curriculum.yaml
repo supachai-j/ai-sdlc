@@ -116,6 +116,7 @@ modules:
   - ADR ที่ agent เขียนแล้ว agent ตัวถัดไปอ่านต่อได้
   - Plan mode และการรีวิวแผนก่อนลงมือ — บทที่ให้ผลตอบแทนสูงที่สุดในหลักสูตร
   - 'LAB: แปลง requirement กำกวม 1 หน้า เป็น spec + task graph + ADR'
+  - เครื่องมือที่บังคับ spec-driven ให้เลย — กรณีศึกษา Kiro
   written: true
 - id: m05
   code: M05

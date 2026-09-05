@@ -94,6 +94,7 @@ modules:
       - Decision records the next agent can actually build on
       - Reviewing the plan before any code — the highest-return lesson in the course
       - "LAB: turn one page of vague requirements into a spec, a task graph and decision records"
+      - A tool that makes spec-driven mandatory — the Kiro case study
   m05:
     title: Designing a codebase agents can work in
     goal: Invest in repo structure, which pays back permanently, instead of prompts, which pay back once

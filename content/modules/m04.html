@@ -238,5 +238,279 @@
   </div>
 </div>
 
+<section class="lesson">
+  <div class="lhead"><span class="lnum">04.09</span><h2>เครื่องมือที่บังคับ spec-driven ให้เลย — กรณีศึกษา Kiro</h2></div>
+
+  <div class="chat">
+    <p>
+      ทุกอย่างในโมดูลนี้มีจุดอ่อนร่วมกันข้อเดียว — <b>มันเป็นวินัย</b>
+      แปลว่าวันไหนรีบ วันไหนขี้เกียจ ก็ข้ามได้ แล้วคนก็ข้ามจริง ๆ
+    </p>
+    <p>
+      มีเครื่องมือกลุ่มหนึ่งที่แก้ปัญหานี้ด้วยการ<b>ไม่ให้ข้าม</b> — Kiro ของ AWS เป็นตัวที่ชัดที่สุด
+      ผมเลยอยากพาดูว่ามันทำยังไง แล้วเราเอาอะไรมาใช้ได้บ้างแม้ไม่ได้ใช้ตัวมัน
+    </p>
+  </div>
+
+  <h3><span class="k">แกนของมัน</span>สาม artifact ที่ต้องผ่านก่อนแตะโค้ด</h3>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 300" role="img" aria-label="Kiro spec pipeline: requirements to design to tasks, then implementation in dependency waves">
+      <text class="d-label-mono" x="8" y="16">SPEC PIPELINE · .kiro/specs/&lt;feature&gt;/</text>
+
+      <rect class="d-box-accent" x="8" y="28" width="196" height="76"/>
+      <text class="d-label-mono" x="20" y="48">PHASE 1</text>
+      <text class="d-label" x="20" y="68">requirements.md</text>
+      <text class="d-label-sm" x="20" y="86">user story + acceptance criteria</text>
+
+      <path class="d-line d-flow" d="M 204 66 H 214"/>
+      <path class="d-arrow" d="M 214 61 l 8 5 l -8 5 z"/>
+
+      <rect class="d-box-accent" x="226" y="28" width="196" height="76"/>
+      <text class="d-label-mono" x="238" y="48">PHASE 2</text>
+      <text class="d-label" x="238" y="68">design.md</text>
+      <text class="d-label-sm" x="238" y="86">architecture · sequence · error handling</text>
+
+      <path class="d-line d-flow" d="M 422 66 H 432"/>
+      <path class="d-arrow" d="M 432 61 l 8 5 l -8 5 z"/>
+
+      <rect class="d-box-accent" x="444" y="28" width="188" height="76"/>
+      <text class="d-label-mono" x="456" y="48">PHASE 3</text>
+      <text class="d-label" x="456" y="68">tasks.md</text>
+      <text class="d-label-sm" x="456" y="86">งานย่อย + สถานะ track ได้</text>
+
+      <path class="d-line-accent d-flow" d="M 538 104 V 128"/>
+      <path class="d-arrow-accent" d="M 533 128 l 5 8 l 5 -8 z"/>
+
+      <line class="d-line" x1="8" y1="140" x2="632" y2="140" stroke-dasharray="3 3"/>
+      <text class="d-label-mono" x="8" y="160">EXECUTION · dependency graph → waves</text>
+
+      <rect class="d-box" x="8" y="170" width="130" height="52"/>
+      <text class="d-label-mono" x="20" y="190">WAVE 1</text>
+      <text class="d-label-sm" x="20" y="208">งานที่ไม่ขึ้นกับใคร</text>
+
+      <path class="d-line d-flow" d="M 138 196 H 154"/>
+      <path class="d-arrow" d="M 154 191 l 8 5 l -8 5 z"/>
+
+      <rect class="d-box" x="166" y="170" width="130" height="52"/>
+      <text class="d-label-mono" x="178" y="190">WAVE 2</text>
+      <text class="d-label-sm" x="178" y="208">dep เสร็จจาก wave 1</text>
+
+      <path class="d-line d-flow" d="M 296 196 H 312"/>
+      <path class="d-arrow" d="M 312 191 l 8 5 l -8 5 z"/>
+
+      <rect class="d-box" x="324" y="170" width="130" height="52"/>
+      <text class="d-label-mono" x="336" y="190">WAVE 3</text>
+      <text class="d-label-sm" x="336" y="208">…</text>
+
+      <text class="d-label-sm" x="470" y="196">งานใน wave เดียวกัน</text>
+      <text class="d-label-sm" x="470" y="214">รันขนานได้</text>
+
+      <rect class="d-box-ink" x="8" y="238" width="624" height="52"/>
+      <text class="d-label-inv" x="22" y="260">จุดสำคัญ — ทั้งสามไฟล์อยู่ใน repo และ commit ได้</text>
+      <text class="d-label-inv" x="22" y="280" opacity=".72">แปลว่ามันถูก review ได้ ถูก diff ได้ และไม่หายไปกับ session</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 5</b> · โครง spec ของ Kiro · สังเกตว่า tasks.md ไม่ใช่แค่ checklist แต่มี dependency graph ที่จัดเป็น wave</p>
+  </div>
+
+  <h3><span class="k">มีสองแบบ</span>Feature spec กับ Bugfix spec</h3>
+  <div class="tw"><table>
+    <thead><tr><th></th><th>Feature spec</th><th>Bugfix spec</th></tr></thead>
+    <tbody>
+      <tr><td>ไฟล์เฟสแรก</td><td><code>requirements.md</code></td><td><code>bugfix.md</code></td></tr>
+      <tr><td>เนื้อหา</td><td>user story + acceptance criteria</td><td>current / expected / <strong>unchanged</strong> behavior</td></tr>
+      <tr><td>ใช้เมื่อ</td><td>ของใหม่</td><td>แก้บั๊กแบบเป็นระบบ</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="box good">
+    <span class="k">ช่อง "unchanged behavior" คือของดีที่ควรขโมยมาใช้</span>
+    <p>
+      Bugfix spec บังคับให้ระบุด้วยว่า<strong>อะไรห้ามเปลี่ยน</strong> ไม่ใช่แค่อะไรต้องเปลี่ยน
+      โดยเขียนในรูปแบบเงื่อนไข — <em>เมื่อ [เงื่อนไข] ระบบต้องยังคง [พฤติกรรมเดิม]</em>
+    </p>
+    <p>
+      อันนี้ตรงกับ characterization test ใน <a href="m08.html">M08.02</a> เป๊ะ ๆ
+      และเป็นช่องที่คนลืมใส่ในทุกเครื่องมือ — <strong>ต่อให้ไม่ใช้ Kiro ก็เพิ่มหัวข้อนี้ในเทมเพลตของคุณได้เลย</strong>
+      เพราะบั๊กที่เกิดจากการแก้บั๊ก มักมาจากการที่ไม่มีใครเขียนว่าอะไรห้ามขยับ
+    </p>
+  </div>
+
+  <h3><span class="k">เลือก workflow ก่อนเริ่ม</span>Requirements-first หรือ Design-first</h3>
+  <p>
+    ก่อนสร้าง spec ต้องเลือกว่าจะเริ่มจากอะไร และ<strong>เปลี่ยนกลางทางไม่ได้</strong> ถ้าจะเปลี่ยนต้องสร้าง spec ใหม่
+  </p>
+  <ul>
+    <li><strong>Requirements-first</strong> — รู้ว่าต้องการพฤติกรรมอะไร แต่สถาปัตยกรรมยังเปิด</li>
+    <li><strong>Design-first</strong> — มีข้อกำหนดทางเทคนิคหรือ non-functional requirement ที่ตายตัวอยู่แล้ว</li>
+  </ul>
+  <p>
+    ข้อจำกัดเรื่องเปลี่ยนไม่ได้ฟังดูน่ารำคาญ แต่ผมว่ามันถูก — เพราะถ้าเปลี่ยนได้กลางทาง
+    เอกสารสองชุดจะเริ่มขัดกันเอง แล้วไม่มีใครรู้ว่าอันไหนคือความจริง
+  </p>
+
+  <h3><span class="k">คำสั่งที่ใช้จริงบ่อยสุด</span></h3>
+  <div class="tw"><table>
+    <thead><tr><th>ทำอะไร</th><th>ใช้ตอนไหน</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Analyze Requirements</strong></td><td>ให้มันไล่หาจุดที่ขัดกันเอง กำกวม หรือขาด — คุ้มมากกับฟีเจอร์ที่ซับซ้อนหรืองานที่มีข้อกำหนดกำกับ</td></tr>
+      <tr><td><strong>Refine</strong></td><td>แก้ requirements แล้วสั่งให้ sync design ตาม ไม่ต้องแก้มือสองที่</td></tr>
+      <tr><td><strong>Sync Files</strong></td><td>อัปเดตสถานะงานใน <code>tasks.md</code> ให้ตรงกับของจริง</td></tr>
+      <tr><td><code>#spec</code></td><td>อ้าง spec ในแชต เพื่อให้มันทำงานตามที่ออกแบบไว้ ไม่ใช่ตามที่มันคิดเอง</td></tr>
+      <tr><td><strong>Quick Spec</strong></td><td>ฟีเจอร์ที่เข้าใจดีอยู่แล้ว ไม่ต้องผ่านกระบวนการเต็ม</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="box rule">
+    <span class="k">Analyze Requirements คือของที่คุ้มที่สุดในลิสต์</span>
+    <p>
+      เพราะมันทำสิ่งที่บท 04.01 บอกว่าสำคัญ — <strong>หาความกำกวมก่อนที่มันจะกลายเป็นโค้ด</strong>
+      และเป็นงานที่โมเดลทำได้ดีกว่าคนอ่านเอง เพราะคนอ่าน requirement ของตัวเองแล้วเติมช่องว่างในหัวโดยไม่รู้ตัว
+    </p>
+  </div>
+
+  <h3><span class="k">ขนาดของ spec</span>อย่าทำก้อนเดียวจบ</h3>
+  <p>
+    เอกสารของเขาแนะนำตรง ๆ ว่าอย่าทำ spec ก้อนใหญ่ก้อนเดียว ให้แตกเป็นหลาย spec ต่อ repo
+    เช่นระบบอีคอมเมิร์ซก็แยก auth / catalog / cart / payment / admin ออกจากกัน
+  </p>
+  <p>
+    เหตุผลตรงกับบท <a href="#04.02">04.02</a> เรื่องขนาดงานที่พอดี — spec ใหญ่เกินทำให้ทีมชนกันเอง
+    และทำให้ไม่มีใครอ่านจบ
+  </p>
+
+  <h3><span class="k">Steering files</span>ของที่เทียบได้กับ project memory</h3>
+  <p>
+    Kiro มีระบบไฟล์ความรู้ประจำโปรเจกต์ที่ตรงกับ <a href="m02.html">M02.05</a> มาก และมีจุดที่ออกแบบดีกว่าค่าเฉลี่ย
+  </p>
+  <pre><code>.kiro/steering/          <span class="c"># ระดับ workspace — ชนะเมื่อขัดกัน</span>
+  product.md             <span class="c"># ผลิตภัณฑ์นี้ทำอะไร ใครใช้</span>
+  tech.md                <span class="c"># framework · library · ข้อจำกัดทางเทคนิค</span>
+  structure.md           <span class="c"># การจัดไฟล์ · naming · สถาปัตยกรรม</span>
+  api-standards.md       <span class="c"># ไฟล์เสริมเฉพาะโดเมน เพิ่มเองได้</span>
+
+~/.kiro/steering/        <span class="c"># ระดับ global</span></code></pre>
+
+  <div class="box good">
+    <span class="k">Inclusion mode — ส่วนที่ผมว่าออกแบบมาดี</span>
+    <p>
+      แต่ละไฟล์ระบุได้ว่าจะถูกโหลดเมื่อไหร่ ผ่าน front matter
+    </p>
+    <div class="tw"><table>
+      <thead><tr><th>โหมด</th><th>โหลดเมื่อ</th><th>เหมาะกับ</th></tr></thead>
+      <tbody>
+        <tr><td><code>always</code></td><td>ทุกครั้ง</td><td>กฎที่จริงเสมอ (foundation files)</td></tr>
+        <tr><td><code>fileMatch</code></td><td>เมื่อแตะไฟล์ที่ match pattern</td><td>กฎเฉพาะโซน เช่น <code>components/**/*.tsx</code></td></tr>
+        <tr><td><code>manual</code></td><td>เมื่อเรียกด้วย <code>#ชื่อไฟล์</code></td><td>ของที่ใช้นาน ๆ ครั้ง</td></tr>
+        <tr><td><code>auto</code></td><td>เมื่อคำขอตรงกับคำอธิบายไฟล์</td><td>โดเมนเฉพาะทาง</td></tr>
+      </tbody>
+    </table></div>
+    <p>
+      นี่คือ<strong>คำตอบเชิงวิศวกรรมของปัญหา "สุสานของกฎ" ใน <a href="m02.html">M02.05</a></strong> —
+      แทนที่จะให้ทุกกฎจ่ายค่า context ทุก round ก็ให้กฎที่ใช้เฉพาะโซนโหลดเฉพาะตอนเข้าโซนนั้น
+      ถ้าเครื่องมือที่คุณใช้มีอะไรคล้ายกัน ควรใช้
+    </p>
+  </div>
+
+  <div class="box trap">
+    <span class="k">ข้อควรระวังที่เอกสารระบุเอง</span>
+    <p>
+      ฝั่ง CLI <strong>ยังไม่รองรับ inclusion mode</strong> — steering ทุกไฟล์จะถูกโหลดหมด
+      แปลว่าถ้าคุณออกแบบมาให้แยกโหลด แล้วไปรันใน CI ผ่าน CLI ต้นทุน context จะไม่เหมือนที่ทดสอบไว้บนเครื่อง
+    </p>
+    <p>
+      อันนี้เป็นตัวอย่างที่ดีของสิ่งที่ <a href="m14.html">M14.01</a> เตือน — <strong>พฤติกรรมบนเครื่องกับบนสายพานไม่เหมือนกัน</strong>
+      และเป็นสิ่งที่ต้องวัด ไม่ใช่สมมติ
+    </p>
+  </div>
+
+  <h3><span class="k">Hooks</span>บังคับสิ่งที่ prompt บังคับไม่ได้</h3>
+  <p>
+    Kiro มี hook เก็บเป็นไฟล์ JSON ใน <code>.kiro/hooks/</code> แต่ละตัวระบุ trigger, regex matcher (ถ้าต้องการ)
+    และ action ซึ่งเป็นได้ทั้ง<strong>คำสั่ง shell</strong>หรือ<strong>prompt ที่ inject เข้าไป</strong>
+  </p>
+  <p>
+    Trigger มีมากกว่าสิบแบบ ครอบตั้งแต่ตอนส่ง prompt · agent ทำงานจบ · สร้าง/บันทึก/ลบไฟล์ ·
+    ก่อนและหลังเรียก tool · งานเสร็จ · เปิด session
+  </p>
+  <div class="box rule">
+    <span class="k">เอาไปใช้ได้เลยโดยไม่ต้องใช้ Kiro</span>
+    <p>
+      ไล่กฎใน project memory ของคุณ ข้อไหนขึ้นต้นว่า <em>"ห้าม…"</em> หรือ <em>"ทุกครั้งต้อง…"</em>
+      ข้อนั้นควรเป็น hook — เหตุผลเดียวกับ <a href="m09.html">M09.07</a>
+      สิ่งที่ Kiro ยืนยันคือ<strong>เจ้าอื่นก็มาถึงข้อสรุปเดียวกัน</strong> ว่ากฎที่บังคับได้ชนะกฎที่ขอไว้
+    </p>
+  </div>
+
+  <h3><span class="k">แล้วมันเหมาะกับใคร</span>ข้อดีข้อเสียแบบตรงไปตรงมา</h3>
+  <div class="tw"><table>
+    <thead><tr><th>ได้อะไร</th><th>เสียอะไร</th></tr></thead>
+    <tbody>
+      <tr><td>ข้ามขั้นวางแผนไม่ได้ — วินัยกลายเป็นโครงสร้าง</td><td>งานเล็กก็ต้องผ่านกระบวนการ (บรรเทาด้วย Quick Spec)</td></tr>
+      <tr><td>เอกสารอยู่ใน repo · review ได้ · diff ได้</td><td>ต้องดูแลเอกสารให้ตรงกับโค้ด ไม่งั้นเน่าตาม <a href="m05.html">M05.06</a></td></tr>
+      <tr><td>task มี dependency graph จริง ไม่ใช่ checklist</td><td>ผูกกับเครื่องมือเจ้าเดียว</td></tr>
+      <tr><td>steering มี inclusion mode</td><td>CLI ยังไม่รองรับ ทำให้พฤติกรรมต่างกันสองที่</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="chat">
+    <p>
+      ความเห็นผมนะครับ — <b>อย่าเลือกเครื่องมือเพราะฟีเจอร์ เลือกเพราะมันบังคับพฤติกรรมที่ทีมคุณทำเองไม่ได้</b>
+    </p>
+    <p>
+      ถ้าทีมคุณวางแผนก่อนลงมืออยู่แล้วเป็นนิสัย Kiro จะรู้สึกเหมือนพิธีกรรม
+      แต่ถ้าทีมคุณ "รู้ว่าควรทำแต่ไม่เคยทำ" — การที่มันข้ามไม่ได้คือคุณค่าทั้งหมดของมัน
+    </p>
+    <p>
+      และถ้าไม่ได้ใช้ Kiro ก็เอาโครงสามไฟล์ไปทำเป็นเทมเพลตในโปรเจกต์ตัวเองได้เลย
+      <b>ของที่มีค่าคือลำดับ ไม่ใช่ปุ่ม</b>
+    </p>
+  </div>
+
+  <div class="box good">
+    <span class="k">เอาไปใช้พรุ่งนี้เลย · 3 อย่างที่ไม่ต้องเปลี่ยนเครื่องมือ</span>
+    <ol>
+      <li>
+        <strong>เพิ่มหัวข้อ "อะไรห้ามเปลี่ยน" ในเทมเพลตแก้บั๊ก</strong>
+        เขียนเป็นเงื่อนไข <em>เมื่อ X ระบบต้องยังคง Y</em> แล้วแปลงเป็นเทสต์ตาม <a href="m08.html">M08.02</a>
+      </li>
+      <li>
+        <strong>แยก requirements กับ design ออกจากกันเป็นคนละไฟล์</strong>
+        เพราะปนกันแล้วจะเถียงกันเรื่อง "จะทำยังไง" ก่อนที่จะตกลงกันได้ว่า "จะทำอะไร"
+      </li>
+      <li>
+        <strong>ทำ task ให้มี dependency ไม่ใช่แค่ checklist</strong>
+        แล้วคุณจะเห็นเองว่าอันไหนขนานได้ — ซึ่งเป็นข้อมูลที่ <a href="m10.html">M10.04</a> ต้องใช้
+      </li>
+    </ol>
+  </div>
+
+  <div class="refs">
+    <h3>เอกสารต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://kiro.dev/docs/specs/" target="_blank" rel="noopener noreferrer">Kiro — Specs</a>
+        — โครงสามเฟส ประเภทของ spec และการจัด task เป็น wave
+        <span class="src">kiro.dev/docs/specs</span>
+      </li>
+      <li>
+        <a href="https://kiro.dev/docs/specs/best-practices/" target="_blank" rel="noopener noreferrer">Kiro — Spec best practices</a>
+        — การเลือก workflow · ขนาด spec · Analyze Requirements · Refine · Sync Files
+        <span class="src">kiro.dev/docs/specs/best-practices</span>
+      </li>
+      <li>
+        <a href="https://kiro.dev/docs/steering/" target="_blank" rel="noopener noreferrer">Kiro — Steering</a>
+        — foundation files และ inclusion mode ทั้งสี่แบบ
+        <span class="src">kiro.dev/docs/steering</span>
+      </li>
+      <li>
+        <a href="https://kiro.dev/docs/hooks/" target="_blank" rel="noopener noreferrer">Kiro — Hooks</a>
+        — trigger ที่มี และรูปแบบไฟล์ config
+        <span class="src">kiro.dev/docs/hooks</span>
+      </li>
+    </ol>
+  </div>
+</section>
+
 <p class="note"><b>เชื่อมกับโมดูลอื่น</b> — <a href="m05.html">M05</a> ทำให้ ADR และเอกสารกลายเป็นบริบทที่ agent ใช้ได้จริง · <a href="m11.html">M11</a> เปลี่ยน spec เป็นเทสต์ · <a href="m12-evals.html">M12.02</a> ใช้งานจากแล็บนี้เป็นวัตถุดิบของ golden task set</p>
 </div>

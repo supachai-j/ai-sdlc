@@ -40,6 +40,18 @@ interface EnStrings {
 const en = Bun.YAML.parse(readFileSync(join(ROOT, "content/curriculum-en.yaml"), "utf8")) as EnStrings;
 
 const byId = new Map(cur.modules.map((m) => [m.id, m]));
+
+// Parity guard. The Thai structure is the source of truth; the English strings
+// and the authored bodies must agree with it. A silent mismatch here shipped a
+// page whose lesson count disagreed with its own syllabus, so it now fails the
+// build instead.
+for (const m of cur.modules) {
+  const e = en.modules[m.id];
+  if (!e) throw new Error(`missing English strings for ${m.id}`);
+  if (e.lessons.length !== m.lessons.length) {
+    throw new Error(`${m.code}: curriculum.yaml has ${m.lessons.length} lessons but curriculum-en.yaml has ${e.lessons.length}`);
+  }
+}
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const isLab = (l: string) => /^LAB/.test(l.trim());
 const pageOf = (m: Module) => m.href ?? `${m.id}.html`;
@@ -585,6 +597,13 @@ Reveal.initialize({width:1280,height:800,margin:.07,hash:true,slideNumber:"c/t",
 
 
 writeFileSync(join(OUT, ".nojekyll"), "");
+
+for (const m of cur.modules) {
+  const d = courseData[m.id];
+  if (d && d.lessons.length !== m.lessons.length) {
+    throw new Error(`${m.code}: curriculum.yaml lists ${m.lessons.length} lessons but the page has ${d.lessons.length} checkpoints`);
+  }
+}
 
 const trackedLessons = Object.values(courseData).reduce((a, m) => a + m.lessons.length, 0);
 const trackedVideos = Object.values(courseData).reduce((a, m) => a + m.videos.length, 0);
