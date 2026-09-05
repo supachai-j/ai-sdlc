@@ -319,305 +319,591 @@ while True:
 <section class="lesson">
   <div class="lhead"><span class="lnum">01.03</span><h2>Tool-use protocol และกฎที่ห้ามผิด</h2></div>
 
-  <p>
-    ประโยคที่ว่า “agent เรียกใช้เครื่องมือ” ทำให้เข้าใจผิดนิดหนึ่ง เพราะโมเดลไม่ได้เรียกอะไรเลย
-    มันทำได้อย่างเดียวคือผลิตข้อความออกมา สิ่งที่เกิดขึ้นจริงคือมันผลิต<strong>บล็อกข้อมูลที่มีโครงสร้าง</strong>
-    ซึ่งบอกว่าอยากให้เรียกเครื่องมือชื่ออะไร ด้วย argument อะไร และแนบรหัสอ้างอิงมาด้วย
-    แล้วโปรแกรมของคุณต่างหากที่เป็นคนรัน
-  </p>
-  <p>
-    ความต่างนี้สำคัญเพราะมันบอกว่า<strong>คุณคุมทุกอย่างที่เกิดขึ้นจริง</strong> โมเดลขอได้อย่างเดียว
-    การรันหรือไม่รัน รันยังไง และรายงานผลกลับยังไง เป็นการตัดสินใจของโปรแกรมทั้งหมด
-  </p>
-
-  <pre><code><span class="c">// สิ่งที่โมเดลผลิตออกมา — แค่ข้อมูล ไม่ได้ทำอะไร</span>
-{ type: "tool_use", id: "call_a1", name: "read_file",
-  input: { path: "src/billing/total.ts" } }
-
-<span class="c">// สิ่งที่โปรแกรมส่งกลับเข้าไป — ต้องอ้าง id เดิม</span>
-{ type: "tool_result", tool_use_id: "call_a1",
-  content: "export function calculateTotal(...) { ... }" }</code></pre>
-
-  <h3><span class="k">กฎข้อที่ 1</span>หนึ่งคำตอบมีหลายคำขอได้</h3>
-  <p>
-    เมื่อโมเดลเห็นว่างานหลายอย่างไม่ขึ้นต่อกัน มันจะขอพร้อมกันในคำตอบเดียว เช่นอ่านสามไฟล์รวดเดียว
-    แทนที่จะอ่านทีละไฟล์แล้วรอผล พฤติกรรมนี้มีประโยชน์มากเพราะลดจำนวนรอบ ซึ่งลดทั้งเวลาและเงิน
-    (ย้อนกลับไปดูตารางในบท 01.01 — จำนวนรอบคูณกับขนาดบริบทคือบิลของคุณ)
-  </p>
-
-  <h3><span class="k">กฎข้อที่ 2</span>ต้องส่งผลกลับครบทุกตัวใน message เดียว</h3>
-  <p>
-    นี่คือกฎที่ผิดแล้วไม่มีใครสังเกต และเป็นข้อที่ผมอยากให้จำที่สุดในบทนี้
-    ถ้าโมเดลขอสามอย่างพร้อมกัน คุณต้องรวมผลทั้งสามไว้ใน message เดียวแล้วส่งกลับ
-    ไม่ใช่ส่งทีละอันสามครั้ง
-  </p>
-  <div class="box trap">
-    <span class="k">ทำไมการส่งแยกถึงอันตรายกว่าที่ดู</span>
+  <div class="chat">
     <p>
-      เมื่อคุณส่งผลแยกกัน โครงสร้างบทสนทนาจะกลายเป็นว่าโมเดลขอสามอย่างแต่ได้กลับมาทีละอย่าง
-      ในรอบถัดไปมันจะ<em>เรียนรู้จากรูปแบบนั้น</em>ว่าการขอพร้อมกันไม่ได้ผลดี แล้วค่อย ๆ เลิกขอแบบขนาน
+      เวลาเราพูดว่า "agent เรียก tool" มันชวนให้เข้าใจผิดนิดนึง เพราะโมเดล<b>ไม่ได้เรียกอะไรเลย</b>
     </p>
     <p>
-      อาการที่คุณจะเห็นคือ agent ที่ตอนแรกทำงานเร็ว แล้วช้าลงเรื่อย ๆ โดยไม่มี error ไม่มีอะไรแดง
-      แค่ใช้รอบมากขึ้นและแพงขึ้น เป็นบั๊กที่ debug ยากมากถ้าไม่รู้ว่าจะมองหาอะไร
+      สิ่งที่มันทำได้อย่างเดียวคือ generate text ออกมา แล้วบังเอิญ text นั้นเป็น structured block
+      ที่บอกว่า "อยากให้รัน <code>read_file</code> ด้วย path นี้นะ" — <b>คนที่รันจริงคือโปรแกรมของเรา</b>
+    </p>
+    <p>
+      ฟังดูเป็นเรื่องความหมาย แต่มันสำคัญ เพราะแปลว่า<b>เราคุมทุกอย่างที่เกิดขึ้นจริง</b>
+      โมเดลได้แค่ "ขอ" เท่านั้น
     </p>
   </div>
 
-  <h3><span class="k">กฎข้อที่ 3</span>เครื่องมือที่ล้มเหลวต้องส่งผลกลับ ห้ามเงียบ</h3>
+  <div class="fig">
+    <svg viewBox="0 0 640 250" role="img" aria-label="Diagram of tool_use and tool_result block pairing, including parallel calls">
+      <text class="d-label-mono" x="8" y="16">MODEL OUTPUT</text>
+      <text class="d-label-mono" x="360" y="16">YOUR PROGRAM</text>
+
+      <rect class="d-box-accent" x="8" y="28" width="300" height="52"/>
+      <text class="d-label-mono" x="20" y="46">tool_use · id: call_a1</text>
+      <text class="d-label-sm" x="20" y="66">read_file { path: "src/total.ts" }</text>
+
+      <path class="d-line d-flow" d="M 308 54 H 352"/>
+      <path class="d-arrow" d="M 352 49 l 8 5 l -8 5 z"/>
+
+      <rect class="d-box" x="360" y="28" width="272" height="52"/>
+      <text class="d-label-sm" x="372" y="52">fs.readFile(...)</text>
+      <text class="d-label-mono" x="372" y="70">→ 120 lines</text>
+
+      <path class="d-line d-flow" d="M 496 80 V 108 H 158 V 130"/>
+      <path class="d-arrow" d="M 153 130 l 5 8 l 5 -8 z"/>
+
+      <rect class="d-box-accent" x="8" y="136" width="300" height="52"/>
+      <text class="d-label-mono" x="20" y="154">tool_result · tool_use_id: call_a1</text>
+      <text class="d-label-sm" x="20" y="174">"export function calculateTotal..."</text>
+
+      <text class="d-label-sm" x="360" y="152">id ต้องตรงกัน ไม่งั้นจับคู่ไม่ได้</text>
+
+      <line class="d-line" x1="8" y1="206" x2="632" y2="206" stroke-dasharray="3 3"/>
+      <text class="d-label-mono" x="8" y="226">PARALLEL</text>
+      <text class="d-label-sm" x="86" y="226">1 reply → หลาย tool_use · ต้องส่ง tool_result ครบทุกตัวใน message เดียว</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 4</b> · โมเดลส่ง <code>tool_use</code> พร้อม id · โปรแกรมรันจริง · ส่ง <code>tool_result</code> กลับโดยอ้าง id เดิม</p>
+  </div>
+
+  <h3><span class="k">กฎข้อ 1</span>1 reply มีหลาย tool call ได้</h3>
   <p>
-    เวลาคำสั่งล้มเหลว สัญชาตญาณของคนเขียนโปรแกรมคือ throw แล้วจบ แต่ในลูปนี้การไม่ส่งผลกลับ
-    ทำให้โครงสร้างบทสนทนาเสียสภาพ — มีคำขอที่ไม่มีคำตอบ และโมเดลจะเดาว่าเกิดอะไรขึ้น
+    ถ้างานไม่ depend กัน โมเดลจะขอมาพร้อมกันเลย เช่นขอเปิด 3 ไฟล์รวดเดียว
+    แทนที่จะเปิดทีละไฟล์แล้วรอผล อันนี้ดีมาก เพราะลดจำนวน round trip
+    ซึ่งลดทั้งเวลาและเงิน (ย้อนไปดู Figure 2 — จำนวนรอบ × ขนาด context คือบิลของเรา)
+  </p>
+
+  <h3><span class="k">กฎข้อ 2</span>ต้องส่ง result กลับครบทุกตัวใน message เดียว</h3>
+
+  <div class="chat">
+    <p>
+      อันนี้คือกฎที่ผิดแล้ว<b>ไม่มีใครรู้เลย</b> และผมอยากให้จำที่สุดในบทนี้
+    </p>
+    <p>
+      ถ้าโมเดลขอมา 3 อย่าง เราต้องรวม result ทั้ง 3 ไว้ใน message เดียวแล้วส่งกลับ
+      ห้ามแยกส่งทีละอัน 3 ครั้ง
+    </p>
+    <p>
+      ถามว่าถ้าแยกส่งจะเป็นไง — <b>มันไม่ error นะ ไม่มีอะไรแดง</b> แต่ conversation structure
+      จะกลายเป็นว่า "ขอ 3 ได้กลับมาทีละอัน" แล้วรอบต่อ ๆ ไปโมเดลจะ<b>เรียนรู้จาก pattern นั้น</b>
+      ว่าขอพร้อมกันแล้วไม่เวิร์ก แล้วค่อย ๆ เลิกขอแบบ parallel
+    </p>
+    <p>
+      อาการที่เห็นคือ agent ที่ตอนแรกเร็ว แล้วช้าลงเรื่อย ๆ ใช้ round เยอะขึ้น บิลแพงขึ้น
+      โดยหาสาเหตุไม่เจอ — เป็น bug ที่ debug ยากมากถ้าไม่รู้ว่าต้องมองหาอะไร
+    </p>
+  </div>
+
+  <h3><span class="k">กฎข้อ 3</span>tool ที่ fail ต้องส่ง result กลับ ห้ามเงียบ</h3>
+  <p>
+    สัญชาตญาณของ dev คือเจอ error ก็ throw แล้วจบ แต่ในลูปนี้การไม่ส่ง result กลับ
+    ทำให้ conversation เสียสภาพ — มี <code>tool_use</code> ที่ไม่มีคู่ แล้วโมเดลจะเดาเอาว่าเกิดอะไรขึ้น
   </p>
   <p>
-    สิ่งที่ถูกคือส่งผลกลับพร้อมธงบอกว่าเป็น error แล้วให้โมเดลตัดสินใจว่าจะทำยังไงต่อ
-    ซึ่งมันมักทำได้ดีอย่างน่าประหลาดใจ ถ้าข้อความ error บอกอะไรที่ใช้ได้
+    ที่ถูกคือส่งกลับพร้อม flag ว่า error แล้วให้โมเดลตัดสินใจเอง ซึ่งมันทำได้ดีกว่าที่คิดเยอะ
+    <strong>ถ้า error message บอกอะไรที่ใช้ได้</strong>
   </p>
 
   <div class="box good">
-    <span class="k">Error message คือช่องทางสอน agent ที่ถูกที่สุดที่มี</span>
-    <p>
-      เทียบสองแบบนี้ — แบบแรกทำให้ agent เดาสุ่มแล้วลองใหม่สามรอบ แบบหลังทำให้มันแก้ถูกในรอบเดียว
-    </p>
+    <span class="k">Error message = ช่องทาง teach agent ที่ถูกที่สุดที่มี</span>
+    <p>เทียบสองอันนี้ อันแรกทำให้มันเดาสุ่มแล้ว retry 3 รอบ อันหลังทำให้แก้ถูกในรอบเดียว</p>
     <pre><code><span class="c">// ทำให้วนแก้ไปเรื่อย</span>
 ENOENT: no such file or directory
 
 <span class="c">// ทำให้แก้ถูกทันที</span>
 ENOENT: ไม่พบ src/billing/index.ts
-  ไฟล์ในโฟลเดอร์นี้: total.ts, tax.ts, discount.ts
+  ไฟล์ใน dir นี้: total.ts, tax.ts, discount.ts
   ถ้าต้องการ entry point ของ billing ให้ใช้ total.ts</code></pre>
     <p>
-      ต้นทุนของการเขียน error แบบหลังคือครั้งเดียว ผลตอบแทนคือทุกครั้งที่ใคร — คนหรือ agent — เจอมัน
+      cost ของการเขียนแบบหลัง = ครั้งเดียว · payoff = ทุกครั้งที่ใครก็ตาม (คนหรือ agent) เจอมัน
       เรื่องนี้เป็นแกนของ <a href="m05.html">M05</a> ทั้งโมดูล
     </p>
+  </div>
+
+  <h3><span class="k">Engineering note</span>เคสจริงที่เจอบ่อยเวลาเขียน harness เอง</h3>
+  <p>
+    ถ้าคุณเขียน tool runner เอง มี 3 อย่างที่มักลืมและกัดทีหลัง
+  </p>
+  <ul>
+    <li>
+      <strong>Timeout ต่อ tool call</strong> — คำสั่งที่ hang จะทำให้ทั้ง loop ค้าง
+      ตั้ง timeout แล้วส่งกลับเป็น error result ดีกว่าปล่อยค้าง
+    </li>
+    <li>
+      <strong>Truncate output แล้วต้องบอกด้วย</strong> — ถ้าตัด output ให้ต่อท้ายว่า
+      <code>[truncated 2,860 more lines]</code> ไม่งั้นเข้าเคส Layer 5 ที่เล่าไปในบทที่แล้ว
+    </li>
+    <li>
+      <strong>รัน parallel จริง ๆ</strong> — ถ้าโมเดลขอ 3 อย่างแล้วเรารัน sequential
+      เราเสียประโยชน์ของกฎข้อ 1 ไปฟรี ๆ ใช้ <code>Promise.all</code> ไปเลย
+    </li>
+  </ul>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://docs.claude.com/en/docs/agents-and-tools/tool-use/overview" target="_blank" rel="noopener noreferrer">Tool use overview</a>
+        — โครงสร้าง <code>tool_use</code> / <code>tool_result</code> และกฎการจับคู่ id
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://docs.claude.com/en/api/messages" target="_blank" rel="noopener noreferrer">Messages API reference</a>
+        — shape ของ content block ทั้งหมด รวม <code>is_error</code>
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://www.anthropic.com/engineering/writing-tools-for-agents" target="_blank" rel="noopener noreferrer">Writing tools for agents</a>
+        — ออกแบบ tool ยังไงให้ agent ใช้ถูก รวมเรื่อง error message
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+    </ol>
   </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">01.04</span><h2>stop_reason ทุกค่า และการจัดการแต่ละแบบ</h2></div>
 
-  <p>
-    ทุกครั้งที่โมเดลตอบกลับ มันแนบค่ามาด้วยหนึ่งค่าที่บอกว่า<em>ทำไมถึงหยุดพูด</em>
-    ค่านี้เล็กมากแต่เป็นข้อมูลวินิจฉัยที่ดีที่สุดชิ้นเดียวที่คุณมี และเป็นสิ่งที่โค้ดต้องแยกกรณีให้ครบ
-    เพราะการรวบว่า “ไม่ใช่ tool_use ก็แปลว่าเสร็จ” คือที่มาของบั๊กประเภทหนึ่งที่เจ็บมาก
-  </p>
+  <div class="chat">
+    <p>
+      ทุกครั้งที่โมเดลตอบกลับ มันแนบค่ามาด้วยตัวนึงชื่อ <code>stop_reason</code>
+      บอกว่า<b>ทำไมถึงหยุดพูด</b> ค่าเล็ก ๆ ตัวเดียวนี่แหละคือ debug info ที่ดีที่สุดที่เรามี
+    </p>
+    <p>
+      แล้วก็เป็นจุดที่ code ส่วนใหญ่เขียนผิดด้วย เพราะคนมักเขียนว่า
+      "ไม่ใช่ <code>tool_use</code> ก็แปลว่าเสร็จ" ซึ่ง<b>ไม่จริง</b>
+    </p>
+  </div>
 
-  <div class="tw"><table>
-    <thead><tr><th>ค่า</th><th>แปลว่า</th><th>ต้องทำอะไร</th></tr></thead>
-    <tbody>
-      <tr><td class="mono">end_turn</td><td>พูดจบตามปกติ</td><td>ออกจากลูป</td></tr>
-      <tr><td class="mono">tool_use</td><td>ขอใช้เครื่องมือ</td><td>รันแล้วส่งผลกลับ วนต่อ</td></tr>
-      <tr><td class="mono">max_tokens</td><td>ชนเพดานความยาว ถูกตัดกลางคัน</td><td><strong>ห้ามถือว่าเป็นคำตอบ</strong> — ต้องขอต่อหรือขยายเพดาน</td></tr>
-      <tr><td class="mono">pause_turn</td><td>งานฝั่งเซิร์ฟเวอร์ยังไม่จบ</td><td>ส่งกลับเข้าไปให้ทำต่อ</td></tr>
-      <tr><td class="mono">refusal</td><td>ถูกปฏิเสธด้วยเหตุผลด้านความปลอดภัย</td><td>จัดการแยก อย่าลอง retry ซ้ำ ๆ</td></tr>
-    </tbody>
-  </table></div>
+  <div class="fig">
+    <svg viewBox="0 0 640 250" role="img" aria-label="Decision tree for handling every stop_reason value">
+      <rect class="d-box-ink" x="230" y="12" width="180" height="36"/>
+      <text class="d-label-inv" x="248" y="35">reply.stop_reason</text>
 
-  <h3><span class="k">กรณีที่ต้องระวังที่สุด</span>max_tokens และไฟล์ที่เขียนไม่จบ</h3>
+      <path class="d-line" d="M 320 48 V 68"/>
+      <line class="d-line" x1="60" y1="68" x2="580" y2="68"/>
+
+      <g>
+        <path class="d-line" d="M 60 68 V 88"/>
+        <rect class="d-box-accent" x="8" y="88" width="104" height="34"/>
+        <text class="d-label-mono" x="18" y="109">tool_use</text>
+        <text class="d-label-sm" x="8" y="146">รัน tool</text>
+        <text class="d-label-sm" x="8" y="162">แล้ววนต่อ</text>
+      </g>
+      <g>
+        <path class="d-line" d="M 190 68 V 88"/>
+        <rect class="d-box" x="138" y="88" width="104" height="34"/>
+        <text class="d-label-mono" x="148" y="109">end_turn</text>
+        <text class="d-label-sm" x="138" y="146">ออกจาก loop</text>
+        <text class="d-label-sm" x="138" y="162">แต่ ≠ สำเร็จ</text>
+      </g>
+      <g>
+        <path class="d-line-accent" d="M 320 68 V 88"/>
+        <rect class="d-box-accent" x="268" y="88" width="104" height="34"/>
+        <text class="d-label-mono" x="278" y="109">max_tokens</text>
+        <text class="d-label-sm" x="268" y="146">โดนตัดกลาง!</text>
+        <text class="d-label-sm" x="268" y="162">ห้ามใช้ผลต่อ</text>
+      </g>
+      <g>
+        <path class="d-line" d="M 450 68 V 88"/>
+        <rect class="d-box" x="398" y="88" width="104" height="34"/>
+        <text class="d-label-mono" x="408" y="109">pause_turn</text>
+        <text class="d-label-sm" x="398" y="146">ส่งกลับเข้าไป</text>
+        <text class="d-label-sm" x="398" y="162">ให้ทำต่อ</text>
+      </g>
+      <g>
+        <path class="d-line" d="M 580 68 V 88"/>
+        <rect class="d-box" x="528" y="88" width="104" height="34"/>
+        <text class="d-label-mono" x="538" y="109">refusal</text>
+        <text class="d-label-sm" x="528" y="146">อย่า retry</text>
+        <text class="d-label-sm" x="528" y="162">ให้คนดู</text>
+      </g>
+
+      <rect class="d-box-accent" x="8" y="192" width="624" height="44"/>
+      <text class="d-label" x="22" y="212">กับดัก: else { done() } จะกลืน max_tokens</text>
+      <text class="d-label-sm" x="22" y="230">ผลคือได้ไฟล์ที่เขียนไม่จบ · JSON ขาดปีกกา · function ปิดวงเล็บไม่ครบ</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 5</b> · แยกทุก branch ให้ครบ โดยเฉพาะ <code>max_tokens</code> ที่หน้าตาเหมือนคำตอบปกติทุกอย่าง</p>
+  </div>
+
+  <h3><span class="k">ตัวที่อันตรายสุด</span>max_tokens กับไฟล์ที่เขียนไม่จบ</h3>
   <p>
-    ทุกคำขอมีเพดานว่าโมเดลผลิตข้อความได้ยาวสุดเท่าไร เมื่อชนเพดาน มันไม่ได้สรุปให้จบ
-    มัน<strong>หยุดกลางประโยค</strong> แล้วแนบค่า <code>max_tokens</code> มาบอก
+    ทุก request มีเพดานว่า generate ได้ยาวสุดเท่าไร พอชนเพดาน มันไม่ได้สรุปให้จบนะ
+    มัน<strong>หยุดกลางประโยค</strong> แล้วแนบ <code>max_tokens</code> มาบอก
   </p>
-  <p>
-    ปัญหาคือคำตอบที่ถูกตัดครึ่ง หน้าตาเหมือนคำตอบปกติทุกประการ ถ้าโค้ดของคุณเขียนแบบนี้
-  </p>
-  <pre><code><span class="c">// บั๊กคลาสสิก — กลืน max_tokens เงียบ ๆ</span>
+  <pre><code><span class="c">// bug คลาสสิก — กลืน max_tokens เงียบ ๆ</span>
 if (reply.stop_reason === "tool_use") {
     runTools(reply)
 } else {
     done(reply)          <span class="c">// ← max_tokens ก็มาตกที่นี่ แล้วถูกนับว่าเสร็จ</span>
+}
+
+<span class="c">// ที่ควรเป็น</span>
+switch (reply.stop_reason) {
+    case "tool_use":    runTools(reply); break
+    case "max_tokens":  throw new IncompleteOutput(reply)   <span class="c">// ← ต้องแยก</span>
+    case "refusal":     escalateToHuman(reply); break
+    case "pause_turn":  continueTurn(reply); break
+    case "end_turn":    done(reply); break
 }</code></pre>
   <p>
-    ผลคือคุณได้ไฟล์ที่เขียนไม่จบ ฟังก์ชันที่ปิดวงเล็บไม่ครบ หรือ JSON ที่ขาดปีกกาปิด
-    แล้วขั้นตอนถัดไปก็ทำงานต่อบนของที่ไม่สมบูรณ์ นี่คือที่มาของอาการ
-    “มันเขียนไฟล์มาแล้วพัง” จำนวนมากที่คนโทษว่าโมเดลสะเพร่า
+    เคสที่เจอบ่อยสุดคือสั่งให้เขียนไฟล์ยาว ๆ แล้วได้ไฟล์ที่ขาดครึ่ง
+    หรือให้ generate JSON config แล้วได้ JSON ที่ parse ไม่ผ่าน
+    แล้ว step ถัดไปก็ทำงานต่อบนของที่ไม่สมบูรณ์ — นี่คือที่มาของอาการ
+    "มันเขียนไฟล์มาแล้วพัง" จำนวนมากที่คนโทษว่าโมเดลสะเพร่า
   </p>
+
   <div class="box rule">
-    <span class="k">สิ่งที่โค้ดต้องทำ</span>
+    <span class="k">end_turn ก็มีกับดักนะ</span>
     <p>
-      แยก <code>max_tokens</code> ออกมาเป็นกรณีของตัวเองเสมอ แล้วเลือกหนึ่งในสาม —
-      ขอให้เขียนต่อจากจุดที่ค้าง ขยายเพดานแล้วสั่งใหม่ หรือรายงานว่างานไม่สมบูรณ์
-      <strong>สิ่งที่ห้ามทำคือเงียบแล้วใช้ผลนั้นต่อ</strong>
+      <code>end_turn</code> บอกว่า<strong>โมเดลพูดจบ ไม่ได้บอกว่างานสำเร็จ</strong>
+      agent อาจตอบว่า "ผมแก้ไม่ได้ครับ ต้องให้คนดู" แล้วจบด้วย <code>end_turn</code> เหมือนกัน
+    </p>
+    <p>
+      การตัดสินว่า "สำเร็จ" ต้องมาจากเกณฑ์ของเรา ไม่ใช่จากค่านี้ —
+      typecheck ผ่านไหม test เขียวไหม diff อยู่ใน scope ไหม
+      เรื่องนี้คือหัวใจของ <a href="m12-evals.html">M12</a> เลย
     </p>
   </div>
 
-  <h3><span class="k">อีกสามค่าที่พบน้อยกว่าแต่ต้องมีที่ทาง</span></h3>
-  <p>
-    <code>pause_turn</code> เกิดกับงานที่ฝั่งเซิร์ฟเวอร์ทำค้างไว้และยังไม่เสร็จ วิธีจัดการคือส่งกลับเข้าไปให้ทำต่อ
-    ไม่ใช่ถือว่าจบ ส่วน <code>refusal</code> คือกรณีที่คำขอถูกปฏิเสธด้วยเหตุผลด้านความปลอดภัย
-    การ retry ซ้ำ ๆ ไม่ช่วยและเปลืองเปล่า ควรแยกออกมาให้คนดู
-  </p>
-  <p>
-    สุดท้าย <code>end_turn</code> คือค่าที่ทุกอย่างเรียบร้อย แต่มีข้อควรระวังหนึ่งข้อ —
-    <strong>มันบอกว่าโมเดลพูดจบ ไม่ได้บอกว่างานสำเร็จ</strong> agent อาจตอบว่า “ผมแก้ไม่ได้ครับ”
-    แล้วจบด้วย <code>end_turn</code> เหมือนกัน การตัดสินว่างานสำเร็จหรือไม่ต้องมาจากเกณฑ์ของคุณ
-    ไม่ใช่จากค่านี้ — ซึ่งเป็นเหตุผลที่ <a href="m12-evals.html">M12</a> ยืนยันว่าต้องมีเกณฑ์เชิงกล
-  </p>
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://docs.claude.com/en/api/messages" target="_blank" rel="noopener noreferrer">Messages API reference</a>
+        — ค่า <code>stop_reason</code> ทั้งหมดและความหมายของแต่ละตัว
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://docs.claude.com/en/docs/build-with-claude/context-windows" target="_blank" rel="noopener noreferrer">Context windows</a>
+        — ความสัมพันธ์ระหว่าง input, output และเพดานความยาว
+        <span class="src">docs.claude.com</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">01.05</span><h2>Thinking และ effort</h2></div>
 
-  <p>
-    โมเดลรุ่นใหม่คิดก่อนตอบได้ คือมันผลิตกระบวนการให้เหตุผลออกมาก่อน แล้วค่อยตอบ
-    ส่วนนี้ถูกนับเป็น token ที่คุณจ่ายเหมือนกัน และคุมความลึกได้ผ่านค่าที่เรียกว่า <em>effort</em>
-  </p>
-  <p>
-    สิ่งที่คนมักเข้าใจว่า effort สูง = ฉลาดขึ้น ซึ่งไม่ผิด แต่พลาดประเด็นสำคัญกว่า —
-    <strong>มันเปลี่ยนรูปแบบการทำงาน ไม่ใช่แค่คุณภาพ</strong> และรูปแบบที่เปลี่ยนไปมีผลต่อทั้งเวลาและเงิน
-  </p>
+  <div class="chat">
+    <p>
+      โมเดลรุ่นใหม่ "คิดก่อนตอบ" ได้ คือมัน generate reasoning ออกมาก่อน แล้วค่อยตอบจริง
+      ส่วนนี้นับเป็น output token ที่เราจ่ายเหมือนกันนะ ไม่ได้ฟรี
+    </p>
+    <p>
+      คนส่วนใหญ่เข้าใจว่า effort สูง = ฉลาดขึ้น ซึ่งไม่ผิด แต่พลาดประเด็นที่สำคัญกว่า —
+      <b>มันเปลี่ยน "วิธีทำงาน" ไม่ใช่แค่ "คุณภาพ"</b> แล้ววิธีทำงานที่เปลี่ยนไปมีผลกับทั้งเวลาและบิล
+    </p>
+  </div>
 
-  <div class="tw"><table>
-    <thead><tr><th></th><th>effort ต่ำ</th><th>effort สูง</th></tr></thead>
-    <tbody>
-      <tr><td>จำนวน tool call</td><td>น้อยลง รวบมากขึ้น</td><td>มากขึ้น สำรวจกว้างกว่า</td></tr>
-      <tr><td>คำพูดนำก่อนลงมือ</td><td>สั้น หรือไม่มี</td><td>อธิบายเหตุผลก่อน</td></tr>
-      <tr><td>การตรวจงานตัวเอง</td><td>น้อย</td><td>ย้อนกลับไปตรวจบ่อย</td></tr>
-      <tr><td>เหมาะกับ</td><td>งานซ้ำที่รู้ขั้นตอนแล้ว · sub-agent</td><td>งานที่ผิดแล้วแพง · วางแผน · รีวิว</td></tr>
-    </tbody>
-  </table></div>
+  <div class="fig">
+    <svg viewBox="0 0 640 220" role="img" aria-label="Comparison of agent behaviour at low effort versus high effort">
+      <text class="d-label-mono" x="8" y="16">LOW EFFORT</text>
+      <text class="d-label-mono" x="340" y="16">HIGH EFFORT</text>
 
-  <h3><span class="k">คำสั่งที่เคยช่วย แต่ตอนนี้เป็นตัวถ่วง</span></h3>
+      <rect class="d-box" x="8" y="28" width="300" height="150"/>
+      <rect class="d-box-accent" x="340" y="28" width="292" height="150"/>
+
+      <circle class="d-bar" cx="40" cy="60" r="7"/>
+      <circle class="d-bar" cx="66" cy="60" r="7"/>
+      <circle class="d-bar" cx="92" cy="60" r="7"/>
+      <text class="d-label-sm" x="118" y="65">3 tool calls · รวบทีเดียว</text>
+
+      <circle class="d-bar-new" cx="372" cy="60" r="7"/>
+      <circle class="d-bar-new" cx="394" cy="60" r="7"/>
+      <circle class="d-bar-new" cx="416" cy="60" r="7"/>
+      <circle class="d-bar-new" cx="438" cy="60" r="7"/>
+      <circle class="d-bar-new" cx="460" cy="60" r="7"/>
+      <circle class="d-bar-new" cx="482" cy="60" r="7"/>
+      <circle class="d-bar-new" cx="504" cy="60" r="7"/>
+      <text class="d-label-sm" x="526" y="65">สำรวจกว้างกว่า</text>
+
+      <text class="d-label-sm" x="24" y="98">· preamble สั้น ลงมือเลย</text>
+      <text class="d-label-sm" x="24" y="120">· ตรวจงานตัวเองน้อย</text>
+      <text class="d-label-sm" x="24" y="142">· ถูกและเร็ว</text>
+      <text class="d-label-mono" x="24" y="166">→ งานซ้ำ · sub-agent · CI</text>
+
+      <text class="d-label-sm" x="356" y="98">· อธิบายเหตุผลก่อนลงมือ</text>
+      <text class="d-label-sm" x="356" y="120">· ย้อนกลับไป verify บ่อย</text>
+      <text class="d-label-sm" x="356" y="142">· แพงและช้ากว่า</text>
+      <text class="d-label-mono" x="356" y="166">→ plan · review · งานที่ผิดแล้วแพง</text>
+
+      <text class="d-label-sm" x="320" y="206" text-anchor="middle">ปรับ effort ไม่เสีย cache · ปรับ model เสีย</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 6</b> · effort เปลี่ยน pattern การทำงาน ไม่ใช่แค่ IQ — และมันคือ knob ที่ควรหมุนก่อนเปลี่ยน model</p>
+  </div>
+
+  <h3><span class="k">Prompt cruft</span>คำสั่งที่เคยช่วย แต่ตอนนี้กลายเป็นตัวถ่วง</h3>
   <p>
-    ในยุคที่โมเดลยังไม่คิดเองก่อนตอบ การเขียนใน prompt ว่า “ให้คิดทีละขั้นก่อนตอบ” ช่วยได้จริง
-    และกลายเป็นคำแนะนำมาตรฐานที่ถูกคัดลอกต่อ ๆ กันมา
+    สมัยที่โมเดลยังไม่คิดเองก่อนตอบ การเขียนใน prompt ว่า <em>"think step by step"</em> ช่วยได้จริง
+    แล้วมันก็กลายเป็นคำแนะนำมาตรฐานที่ copy ต่อ ๆ กันมาจนถึงทุกวันนี้
   </p>
   <p>
-    แต่กับโมเดลที่คิดเองอยู่แล้ว คำสั่งแบบนี้ไม่ได้ช่วยอะไร และในหลายกรณีทำให้แย่ลง
-    เพราะมันไปแทรกแซงกระบวนการที่ทำงานได้ดีอยู่แล้ว บวกกับกินงบบริบททุกรอบ
-    นี่คือตัวอย่างของสิ่งที่ <a href="m12-evals.html">M12.08</a> เรียกว่า <em>prompt cruft</em> —
-    คำสั่งที่หมดอายุแล้วแต่ยังอยู่เพราะไม่มีใครกล้าลบ เนื่องจากพิสูจน์ไม่ได้ว่ามันไม่จำเป็น
+    แต่กับโมเดลที่มี thinking อยู่แล้ว คำสั่งแบบนี้ไม่ช่วย และหลายเคสทำให้แย่ลง
+    เพราะไปแทรกแซง process ที่ทำงานดีอยู่แล้ว บวกกับกิน context ทุกรอบ
+  </p>
+  <p>
+    นี่คือตัวอย่างของสิ่งที่ <a href="m12-evals.html">M12.08</a> เรียกว่า <strong>prompt cruft</strong> —
+    คำสั่งหมดอายุที่ยังอยู่เพราะไม่มีใครกล้าลบ เนื่องจากพิสูจน์ไม่ได้ว่าไม่จำเป็น
   </p>
 
   <div class="box rule">
-    <span class="k">ลำดับการปรับที่ถูกต้อง</span>
-    <p>
-      เจอปัญหาคุณภาพ ให้ไล่ตามลำดับนี้ — <strong>บริบท → effort → โมเดล</strong>
-    </p>
+    <span class="k">ลำดับการ debug คุณภาพที่ถูกต้อง</span>
     <ol>
-      <li><strong>บริบท</strong> — มันเห็นข้อมูลที่ต้องใช้ครบไหม มีของรกที่ไม่เกี่ยวปนอยู่ไหม ฟรีและมักได้ผลมากที่สุด</li>
-      <li><strong>effort</strong> — ปรับได้ทันที ไม่เสีย cache ไม่ต้องแก้โค้ด</li>
-      <li><strong>โมเดล</strong> — แพงที่สุด กระทบมากที่สุด และเสีย cache ที่สะสมมา</li>
+      <li><strong>Context</strong> — มันเห็นข้อมูลครบไหม มีของรกปนไหม · ฟรี และมักได้ผลมากสุด</li>
+      <li><strong>Effort</strong> — ปรับได้ทันที ไม่เสีย cache ไม่ต้องแก้ code</li>
+      <li><strong>Model</strong> — แพงสุด กระทบมากสุด และ<strong>ทำให้ cache ที่สะสมมาใช้ไม่ได้</strong></li>
     </ol>
     <p>
-      คนส่วนใหญ่กระโดดไปข้อสามก่อน ซึ่งนอกจากแพงแล้วยังทำให้ไม่รู้ว่าปัญหาจริงคืออะไร
-      เพราะถ้าเปลี่ยนโมเดลแล้วดีขึ้น คุณก็ยังไม่รู้ว่าเพราะโมเดลเก่งกว่า หรือเพราะบริบทของคุณแย่มาตลอด
+      คนส่วนใหญ่กระโดดข้อ 3 ก่อน ซึ่งนอกจากแพงแล้วยังทำให้ไม่รู้ว่าปัญหาจริงคืออะไร —
+      ถ้าเปลี่ยน model แล้วดีขึ้น เราก็ยังไม่รู้ว่าเพราะ model เก่งกว่า หรือเพราะ context เราห่วยมาตลอด
     </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://docs.claude.com/en/docs/build-with-claude/extended-thinking" target="_blank" rel="noopener noreferrer">Extended thinking</a>
+        — thinking ทำงานยังไง และ token ส่วนนี้ถูกคิดเงินยังไง
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://www.anthropic.com/engineering/claude-code-best-practices" target="_blank" rel="noopener noreferrer">Claude Code best practices</a>
+        — แนวทางใช้งานจริง รวมเรื่องเลือกระดับความพยายามให้เหมาะกับงาน
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+    </ol>
   </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">01.06</span><h2>Permission model</h2></div>
 
-  <p>
-    ชั้นสิทธิ์เป็นชั้นเดียวในห้าชั้นที่มีหน้าที่<strong>ปฏิเสธ</strong> ชั้นอื่นทำให้ agent ทำงานได้
-    ชั้นนี้ทำให้มันทำงานได้<em>เท่าที่ควร</em> และเพราะมันขวางทางเป็นครั้งคราว
-    คนจึงมองมันเป็นความรำคาญที่ต้องกำจัด ซึ่งเป็นการมองผิดที่ราคาแพง
-  </p>
+  <div class="chat">
+    <p>
+      Layer 4 เป็นชั้นเดียวในห้าชั้นที่มีหน้าที่ <b>"ปฏิเสธ"</b> ชั้นอื่นทำให้ agent ทำงานได้
+      ชั้นนี้ทำให้มันทำงานได้ <i>เท่าที่ควร</i>
+    </p>
+    <p>
+      แล้วเพราะมันขวางทางเป็นครั้งคราว คนเลยมองว่าเป็นความรำคาญที่ต้องกำจัด —
+      ซึ่งเป็นการมองผิดที่ราคาแพงมาก
+    </p>
+  </div>
 
-  <div class="tw"><table>
-    <thead><tr><th>โหมด</th><th>ใช้เมื่อ</th><th>ความเสี่ยง</th></tr></thead>
-    <tbody>
-      <tr><td class="mono">ask</td><td>งานสำรวจ งานที่ยังไม่ไว้ใจ</td><td>ต่ำ แต่ขัดจังหวะ</td></tr>
-      <tr><td class="mono">acceptEdits</td><td>งานแก้ไฟล์ในขอบเขตที่รู้แล้ว</td><td>ปานกลาง — แก้ไฟล์ได้เอง</td></tr>
-      <tr><td>allowlist เฉพาะคำสั่ง</td><td><strong>โหมดที่ควรใช้เป็นค่าเริ่มต้นของทีม</strong></td><td>ต่ำและคาดเดาได้</td></tr>
-      <tr><td class="mono">bypass</td><td>เฉพาะใน container ที่ทิ้งได้</td><td><strong>สูงมาก</strong> — เท่ากับให้ shell เต็ม</td></tr>
-    </tbody>
-  </table></div>
+  <div class="fig">
+    <svg viewBox="0 0 640 230" role="img" aria-label="Permission modes from ask to bypass, with allowlist as the recommended default">
+      <text class="d-label-mono" x="8" y="16">PERMISSION MODES</text>
+
+      <rect class="d-box" x="8" y="28" width="146" height="70"/>
+      <text class="d-label" x="20" y="50">ask</text>
+      <text class="d-label-sm" x="20" y="70">ถามทุกครั้ง</text>
+      <text class="d-label-sm" x="20" y="88">ปลอดภัย แต่ใช้จริงไม่ไหว</text>
+
+      <rect class="d-box" x="164" y="28" width="146" height="70"/>
+      <text class="d-label" x="176" y="50">acceptEdits</text>
+      <text class="d-label-sm" x="176" y="70">แก้ไฟล์ได้เอง</text>
+      <text class="d-label-sm" x="176" y="88">แต่ bash ยังต้องถาม</text>
+
+      <rect class="d-box-accent" x="320" y="28" width="152" height="70"/>
+      <text class="d-label" x="332" y="50">allowlist ← ใช้ตัวนี้</text>
+      <text class="d-label-sm" x="332" y="70">ระบุคำสั่งที่รันได้</text>
+      <text class="d-label-sm" x="332" y="88">ลื่นไหล + คาดเดาได้</text>
+
+      <rect class="d-box" x="482" y="28" width="150" height="70"/>
+      <text class="d-label" x="494" y="50">bypass</text>
+      <text class="d-label-sm" x="494" y="70">ผ่านหมด = full shell</text>
+      <text class="d-label-sm" x="494" y="88">เฉพาะ container ที่ทิ้งได้</text>
+
+      <line class="d-line" x1="8" y1="118" x2="632" y2="118" stroke-dasharray="3 3"/>
+      <text class="d-label-mono" x="8" y="140">RISK</text>
+      <rect class="d-bar" x="60" y="130" width="120" height="10"/>
+      <rect class="d-bar" x="184" y="130" width="180" height="10"/>
+      <rect class="d-bar-new" x="368" y="130" width="90" height="10"/>
+      <rect class="d-bar-new" x="462" y="130" width="170" height="10"/>
+
+      <rect class="d-box-accent" x="8" y="160" width="624" height="60"/>
+      <text class="d-label-mono" x="22" y="180">EXAMPLE ALLOWLIST</text>
+      <text class="d-label-sm" x="22" y="200">Read · Grep · Glob · Edit · Write · Bash(bun test:*) · Bash(bun run:*) · Bash(git diff:*)</text>
+      <text class="d-label-sm" x="22" y="214">อะไรที่ไม่อยู่ในลิสต์ = ต้องถาม</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 7</b> · allowlist ได้ความลื่นไหลของ bypass โดยไม่ต้องรับความเสี่ยงของมัน</p>
+  </div>
 
   <h3><span class="k">ทำไม allowlist ถึงชนะทั้งสองขั้ว</span></h3>
   <p>
-    โหมด <code>ask</code> ปลอดภัยแต่ทำให้คุณต้องนั่งกดอนุมัติจนเลิกใช้ ส่วนโหมดผ่านหมดสะดวกแต่ให้สิทธิ์เท่ากับ shell
-    ทางออกที่ใช้ได้จริงอยู่ตรงกลาง — ระบุไปเลยว่าคำสั่งกลุ่มไหนรันได้โดยไม่ต้องถาม
+    <code>ask</code> ปลอดภัยแต่ทำให้ต้องนั่งกด approve จนเลิกใช้ · <code>bypass</code> สะดวกแต่ให้สิทธิ์เท่า shell
+    ทางออกจริงอยู่ตรงกลาง — ระบุไปเลยว่าคำสั่งกลุ่มไหนรันได้โดยไม่ต้องถาม
   </p>
-  <pre><code><span class="c">// อนุญาตเฉพาะสิ่งที่งานนี้ต้องใช้จริง</span>
-Read · Grep · Glob · Edit · Write
-Bash(bun test:*)      <span class="c">// รันเทสต์ได้</span>
-Bash(bun run:*)       <span class="c">// รัน script ที่มีใน package.json ได้</span>
-Bash(git diff:*)      <span class="c">// ดู diff ได้</span>
-<span class="c">// สิ่งที่ไม่อยู่ในรายการ = ต้องถาม</span></code></pre>
   <p>
-    ผลที่ได้คือ agent ทำงานลื่นไหลตลอดเส้นทางปกติ — แก้โค้ด รันเทสต์ ดู diff แก้ต่อ — โดยไม่ต้องขออนุญาตเลย
-    แต่ถ้ามันจะทำอะไรนอกกรอบ เช่นเรียกอินเทอร์เน็ตหรือ push โค้ด มันต้องหยุดถาม
-    <strong>คุณได้ความลื่นไหลของโหมดผ่านหมด โดยไม่ต้องรับความเสี่ยงของมัน</strong>
+    ผลคือ agent ทำงานลื่นตลอด happy path — edit code, run test, ดู diff, แก้ต่อ — โดยไม่ต้องขออนุญาตเลย
+    แต่ถ้าจะทำอะไรนอกกรอบ เช่น curl ออกเน็ต หรือ <code>git push</code> มันต้องหยุดถาม
   </p>
 
-  <div class="box trap">
-    <span class="k">หนี้ที่มองไม่เห็นจนวันที่มันมาเก็บ</span>
+  <div class="chat">
     <p>
-      เหตุผลที่คนเปิดโหมดผ่านหมดมักไม่ใช่ความประมาท แต่เป็นความหงุดหงิดสะสม —
-      โดนถามครั้งที่สิบในเช้าวันเดียวแล้วก็กดปิดไป
+      เรื่องที่คนไม่ค่อยพูดถึง — เหตุผลที่คนเปิด bypass มักไม่ใช่ความประมาทนะ
+      แต่เป็น<b>ความหงุดหงิดสะสม</b> โดนถามครั้งที่สิบในเช้าวันเดียวแล้วก็กดปิดไป
     </p>
     <p>
-      ปัญหาคือความเสี่ยงไม่ได้อยู่ที่ agent จะ “คิดชั่ว” ความเสี่ยงอยู่ที่มันอ่านเนื้อหาจากภายนอก —
-      issue ที่ใครก็เปิดได้ README ของไลบรารี หน้าเว็บที่คุณให้ไปอ่าน — แล้วเนื้อหานั้นมีข้อความ
-      ที่หน้าตาเหมือนคำสั่งฝังอยู่ ในโหมดผ่านหมด ไม่มีอะไรกั้นระหว่างข้อความนั้นกับ shell ของคุณ
-      <a href="m13.html">M13</a> ลงรายละเอียดว่าช่องทางเหล่านี้มีอะไรบ้างและปิดยังไง
+      ประเด็นคือความเสี่ยงไม่ได้อยู่ที่ agent จะ "คิดชั่ว" แต่อยู่ที่มันอ่านเนื้อหาจากภายนอก —
+      GitHub issue ที่ใครก็เปิดได้ · README ของ dependency · หน้าเว็บที่เราให้ไปอ่าน —
+      แล้วในนั้นมีข้อความที่หน้าตาเหมือน instruction ฝังอยู่
+    </p>
+    <p>
+      ในโหมด bypass <b>ไม่มีอะไรกั้นระหว่างข้อความนั้นกับ shell ของคุณเลย</b>
+      <a href="m13.html">M13</a> ลงรายละเอียดว่าช่องทางพวกนี้มีอะไรบ้างและปิดยังไง
     </p>
   </div>
 
   <div class="box good">
-    <span class="k">ข้อสังเกตที่คนไม่ค่อยพูดถึง</span>
+    <span class="k">Permission เป็นส่วนหนึ่งของสิ่งที่เรากำลังวัด</span>
     <p>
-      สิทธิ์ที่คุณให้เป็น<strong>ส่วนหนึ่งของสิ่งที่คุณกำลังวัด</strong> ไม่ใช่แค่การตั้งค่าความปลอดภัย
-      agent ที่รันเทสต์ได้กับตัวที่รันไม่ได้ คือคนละระบบกัน ตัวแรกตรวจงานตัวเองได้ ตัวหลังต้องเดา
+      agent ที่รัน test ได้ กับตัวที่รันไม่ได้ คือคนละระบบกัน ตัวแรก verify งานตัวเองได้ ตัวหลังต้องเดา
     </p>
     <p>
-      เวลาเปรียบเทียบสองเวิร์กโฟลว์ตาม <a href="m12-evals.html">M12</a> ถ้าสิทธิ์ต่างกัน
-      คุณกำลังเทียบของสองอย่างที่ต่างกันมากกว่าที่ตั้งใจ — จึงต้องระบุสิทธิ์เป็นส่วนหนึ่งของนิยามแขนที่ทดสอบ
+      เวลาเทียบสอง workflow ตาม <a href="m12-evals.html">M12</a> ถ้า permission ต่างกัน
+      เรากำลังเทียบของที่ต่างกันมากกว่าที่ตั้งใจ — เพราะงั้น<strong>ต้องระบุ allowlist
+      เป็นส่วนหนึ่งของนิยาม arm ที่ทดสอบ</strong> ไม่ใช่ปล่อยให้เป็นค่า default ของใครของมัน
     </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/iam" target="_blank" rel="noopener noreferrer">Identity and access management</a>
+        — permission mode ทั้งหมด และการเขียน allow/deny rule
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/settings" target="_blank" rel="noopener noreferrer">Settings</a>
+        — ตั้ง permission ระดับ user / project / local ยังไง
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/" target="_blank" rel="noopener noreferrer">OWASP LLM01: Prompt Injection</a>
+        — ทำไมสิทธิ์กว้างถึงเป็นตัวคูณความเสียหายเมื่อโดน injection
+        <span class="src">genai.owasp.org</span>
+      </li>
+    </ol>
   </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">01.07</span><h2>เจ็ดโหมดที่ agent ล้มเหลว</h2></div>
 
-  <p>
-    หลังจากดูปัญหาที่คนเจอจริงมาพอสมควร รูปแบบความล้มเหลวเกือบทั้งหมดตกอยู่ในเจ็ดแบบนี้
-    ประโยชน์ของการจำมันได้ไม่ใช่การท่องจำ แต่คือการที่<strong>อาการแต่ละแบบชี้ไปที่ชั้นที่ต่างกัน</strong>
-    ทำให้คุณเลิกเดาแล้วเริ่มวินิจฉัยได้
-  </p>
+  <div class="chat">
+    <p>
+      หลังจากดูปัญหาที่คนเจอจริงมาเยอะพอสมควร ผมพบว่า failure เกือบทั้งหมดตกอยู่ใน 7 แบบนี้
+    </p>
+    <p>
+      ประโยชน์ของการจำได้ไม่ใช่การท่องจำนะ แต่คือ<b>อาการแต่ละแบบชี้ไปคนละ layer</b>
+      ทำให้เราเลิกเดาแล้วเริ่ม diagnose ได้
+    </p>
+  </div>
 
-  <div class="tw"><table>
-    <thead><tr><th>โหมด</th><th>อาการที่เห็น</th><th>ชั้นที่ต้องแก้</th></tr></thead>
-    <tbody>
-      <tr><td><strong>บริบทล้น</strong></td><td>ลืมสิ่งที่เพิ่งตกลง วนทำงานเดิม</td><td>context assembler</td></tr>
-      <tr><td><strong>คำอธิบายเครื่องมือกำกวม</strong></td><td>เลือกผิดตัวซ้ำ ๆ</td><td>tool registry</td></tr>
-      <tr><td><strong>error อ่านไม่รู้เรื่อง</strong></td><td>แก้วนไปวนมาไม่ตรงจุด</td><td>codebase (M05)</td></tr>
-      <tr><td><strong>ติดลูป</strong></td><td>ทำสามอย่างสลับกันไม่จบ</td><td>เพดาน turn + เกณฑ์จบงาน</td></tr>
-      <tr><td><strong>ค้นเกินจำเป็น</strong></td><td>อ่าน 40 ไฟล์ก่อนแก้ 1 บรรทัด</td><td>โครงสร้าง repo (M05)</td></tr>
-      <tr><td><strong>ลอยจากแผน</strong></td><td>เริ่มถูก แล้วค่อย ๆ ทำอย่างอื่น</td><td>แผนที่ตรวจได้ (M04)</td></tr>
-      <tr><td><strong>ตัดข้อมูลเงียบ</strong></td><td>มั่นใจแต่ผิด</td><td>result renderer</td></tr>
-    </tbody>
-  </table></div>
+  <div class="fig">
+    <svg viewBox="0 0 640 260" role="img" aria-label="Mapping seven agent failure modes to the harness layer that causes each">
+      <text class="d-label-mono" x="8" y="16">SYMPTOM</text>
+      <text class="d-label-mono" x="420" y="16">FIX AT</text>
 
-  <h3><span class="k">สามแบบที่เจอบ่อยที่สุด</span>และวิธีแยกออกจากกัน</h3>
+      <g>
+        <rect class="d-box" x="8" y="26" width="300" height="28"/>
+        <text class="d-label-sm" x="20" y="45">ลืมของที่เพิ่งคุย · วนทำงานเดิม</text>
+        <path class="d-line d-flow" d="M 308 40 H 412"/>
+        <rect class="d-box-accent" x="420" y="26" width="212" height="28"/>
+        <text class="d-label-sm" x="432" y="45">Layer 3 · context assembler</text>
+      </g>
+      <g>
+        <rect class="d-box" x="8" y="58" width="300" height="28"/>
+        <text class="d-label-sm" x="20" y="77">หยิบ tool ผิดตัวซ้ำ ๆ</text>
+        <path class="d-line d-flow" d="M 308 72 H 412"/>
+        <rect class="d-box-accent" x="420" y="58" width="212" height="28"/>
+        <text class="d-label-sm" x="432" y="77">Layer 2 · tool registry</text>
+      </g>
+      <g>
+        <rect class="d-box" x="8" y="90" width="300" height="28"/>
+        <text class="d-label-sm" x="20" y="109">แก้วนไปวนมาไม่ตรงจุด</text>
+        <path class="d-line d-flow" d="M 308 104 H 412"/>
+        <rect class="d-box" x="420" y="90" width="212" height="28"/>
+        <text class="d-label-sm" x="432" y="109">codebase · error message (M05)</text>
+      </g>
+      <g>
+        <rect class="d-box" x="8" y="122" width="300" height="28"/>
+        <text class="d-label-sm" x="20" y="141">ติด loop ทำ 3 อย่างสลับไม่จบ</text>
+        <path class="d-line d-flow" d="M 308 136 H 412"/>
+        <rect class="d-box" x="420" y="122" width="212" height="28"/>
+        <text class="d-label-sm" x="432" y="141">max turns + เกณฑ์จบงาน</text>
+      </g>
+      <g>
+        <rect class="d-box" x="8" y="154" width="300" height="28"/>
+        <text class="d-label-sm" x="20" y="173">อ่าน 40 ไฟล์ก่อนแก้ 1 บรรทัด</text>
+        <path class="d-line d-flow" d="M 308 168 H 412"/>
+        <rect class="d-box" x="420" y="154" width="212" height="28"/>
+        <text class="d-label-sm" x="432" y="173">repo structure (M05)</text>
+      </g>
+      <g>
+        <rect class="d-box" x="8" y="186" width="300" height="28"/>
+        <text class="d-label-sm" x="20" y="205">เริ่มถูก แล้วค่อย ๆ ลอยไปทำอย่างอื่น</text>
+        <path class="d-line d-flow" d="M 308 200 H 412"/>
+        <rect class="d-box" x="420" y="186" width="212" height="28"/>
+        <text class="d-label-sm" x="432" y="205">plan ที่ตรวจได้ (M04)</text>
+      </g>
+      <g>
+        <rect class="d-box-accent" x="8" y="218" width="300" height="28"/>
+        <text class="d-label-sm" x="20" y="237">มั่นใจมาก แต่ผิด</text>
+        <path class="d-line-accent d-flow" d="M 308 232 H 412"/>
+        <rect class="d-box-accent" x="420" y="218" width="212" height="28"/>
+        <text class="d-label-sm" x="432" y="237">Layer 5 · result renderer</text>
+      </g>
+    </svg>
+    <p class="fig-cap"><b>Figure 8</b> · จับคู่อาการกับที่ที่ต้องไปแก้ · สังเกตว่ามีแค่ 3 ใน 7 ที่แก้ที่ harness ที่เหลือแก้ที่ codebase หรือ process</p>
+  </div>
+
+  <h3><span class="k">3 แบบที่เจอบ่อยสุด</span>แยกออกจากกันยังไง</h3>
   <p>
-    <strong>บริบทล้น</strong> มีลายเซ็นชัด — มันทำถูกช่วงแรก แล้วเริ่มถามสิ่งที่ตอบไปแล้ว
-    หรือแก้ไฟล์ที่เพิ่งแก้ไปกลับเป็นแบบเดิม จุดสังเกตคืออาการจะแย่ลง<em>ตามความยาวของบทสนทนา</em>
-    ถ้าเริ่มใหม่แล้วหาย นั่นแหละใช่
+    <strong>Context ล้น</strong> — ลายเซ็นชัดมาก ทำถูกช่วงแรก แล้วเริ่มถามสิ่งที่ตอบไปแล้ว
+    หรือแก้ไฟล์ที่เพิ่งแก้กลับเป็นแบบเดิม จุดสังเกตคืออาการ<em>แย่ลงตามความยาวของ session</em>
+    ถ้าเปิด session ใหม่แล้วหาย นั่นแหละใช่ — เป็น test ที่ใช้เวลา 10 วินาทีและแม่นที่สุด
   </p>
   <p>
-    <strong>ค้นเกินจำเป็น</strong> ดูเผิน ๆ เหมือนความขยัน แต่มันคือสัญญาณว่าโครงสร้าง repo ไม่สื่อ
+    <strong>ค้นเกินจำเป็น</strong> — ดูเผิน ๆ เหมือนความขยัน แต่จริง ๆ คือ signal ว่า repo structure ไม่สื่อ
     ทุกไฟล์ที่มันเปิดผิดก่อนเจอไฟล์ที่ถูก คือหลักฐานว่าชื่อหรือที่อยู่เดาไม่ได้
-    ข้อดีคืออาการนี้วัดเป็นตัวเลขได้ตรง ๆ — นับจำนวนไฟล์ที่เปิดก่อนเจอที่ถูก แล้วใช้เป็นตัววัดว่า
-    การปรับ repo ตาม <a href="m05.html">M05</a> ได้ผลจริงไหม
+    ข้อดีคือ<strong>วัดเป็นตัวเลขได้ตรง ๆ</strong> — นับจำนวนไฟล์ที่เปิดก่อนเจอที่ถูก
+    แล้วใช้เป็น metric ว่าการปรับ repo ตาม <a href="m05.html">M05</a> ได้ผลจริงไหม
   </p>
   <p>
-    <strong>ตัดข้อมูลเงียบ</strong> เป็นแบบที่วินิจฉัยยากที่สุดเพราะมันไม่มีอาการภายนอกเลย
-    ผลลัพธ์ดูสมเหตุสมผล น้ำเสียงมั่นใจ แต่ข้อสรุปผิด วิธีจับคือ<strong>ตรวจสิ่งที่มันเห็น ไม่ใช่สิ่งที่มันพูด</strong>
-    ถ้าเป็นไปได้ให้ดู output ดิบของคำสั่งที่มันรัน แล้วเทียบกับสิ่งที่มันสรุป
-    ช่องว่างระหว่างสองอย่างนี้คือคำตอบ
+    <strong>ตัดข้อมูลเงียบ</strong> — วินิจฉัยยากสุด เพราะไม่มีอาการภายนอกเลย ผลลัพธ์ดู reasonable
+    น้ำเสียงมั่นใจ แต่ข้อสรุปผิด วิธีจับคือ<strong>ตรวจสิ่งที่มันเห็น ไม่ใช่สิ่งที่มันพูด</strong> —
+    ดู raw output ของคำสั่งที่มันรัน แล้วเทียบกับที่มันสรุป ช่องว่างตรงนั้นคือคำตอบ
   </p>
 
   <div class="box rule">
-    <span class="k">คำถามเดียวที่ควรถามก่อนสรุปว่าโมเดลไม่เก่งพอ</span>
+    <span class="k">คำถามเดียวที่ควรถามก่อนสรุปว่า "โมเดลไม่เก่งพอ"</span>
     <p>
-      <strong>“ถ้าผมเป็นคนที่เห็นข้อมูลเท่าที่มันเห็น ผมจะตอบต่างจากนี้ไหม”</strong>
+      <strong>"ถ้าผมเป็นคนที่เห็นข้อมูลเท่าที่มันเห็น ผมจะตอบต่างจากนี้ไหม"</strong>
     </p>
     <p>
-      ถ้าคำตอบคือไม่ ปัญหาไม่ได้อยู่ที่โมเดล แต่อยู่ที่ข้อมูลที่ไปถึงมัน ซึ่งเป็นชั้น 3 หรือชั้น 5
-      และเป็นสิ่งที่คุณแก้ได้ ในทางปฏิบัติคำตอบเป็น “ไม่” บ่อยกว่าที่คนคาดมาก
+      ถ้าตอบว่าไม่ ปัญหาไม่ได้อยู่ที่ model แต่อยู่ที่ข้อมูลที่ไปถึงมัน — ซึ่งคือ Layer 3 หรือ Layer 5
+      และเป็นสิ่งที่เราแก้ได้ ในทางปฏิบัติคำตอบเป็น "ไม่" บ่อยกว่าที่คนคาดเยอะมาก
     </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener noreferrer">Building effective agents</a>
+        — pattern ที่ใช้ได้จริงกับที่ over-engineer และ failure ที่มากับแต่ละแบบ
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+      <li>
+        <a href="https://martinfowler.com/articles/exploring-gen-ai.html" target="_blank" rel="noopener noreferrer">Exploring Generative AI</a>
+        — บันทึกภาคสนามจากทีมที่ใช้ AI ในงาน dev จริง รวมสิ่งที่ไม่เวิร์ก
+        <span class="src">martinfowler.com</span>
+      </li>
+    </ol>
   </div>
 </section>
 
