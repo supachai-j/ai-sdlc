@@ -9,6 +9,7 @@
  * re-parsing the pages.
  */
 import { mkdirSync, writeFileSync, readFileSync, readdirSync, existsSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { join, resolve } from "node:path";
 
 const ROOT = resolve(import.meta.dir, "..");
@@ -44,6 +45,14 @@ const STATUS_TAG: Record<string, string> = { new: "ใหม่", expanded: "ข
 /** Collected while rendering module pages, then written out for the client. */
 const courseData: Record<string, { code: string; title: string; href: string; lessons: string[]; videos: string[] }> = {};
 
+/** Content hash for cache-busting: without it a returning learner keeps the
+ *  stylesheet and script their browser cached, and can end up running new
+ *  markup against old CSS. */
+const hash = (p: string) =>
+  existsSync(p) ? createHash("sha1").update(readFileSync(p)).digest("hex").slice(0, 8) : "0";
+const CSS_V = hash(join(OUT, "assets/style.css"));
+const JS_V = hash(join(OUT, "assets/progress.js"));
+
 function page(o: { title: string; nav: string; body: string }): string {
   return `<!doctype html>
 <html lang="th">
@@ -55,7 +64,7 @@ function page(o: { title: string; nav: string; body: string }): string {
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/style.css?v=${CSS_V}">
 </head>
 <body>
 <div class="wrap">
@@ -70,8 +79,8 @@ function page(o: { title: string; nav: string; body: string }): string {
 </header>
 ${o.body}
 </div>
-<script src="assets/course-data.js" defer></script>
-<script src="assets/progress.js" defer></script>
+<script src="assets/course-data.js?v=${DATA_V}" defer></script>
+<script src="assets/progress.js?v=${JS_V}" defer></script>
 <script>
 document.getElementById("theme").addEventListener("click",function(){
   var d=document.documentElement;
@@ -163,6 +172,7 @@ function phases(opts: { lessons: boolean }): string {
 // ── module pages: inject per-lesson completion + video embeds ────────────
 mkdirSync(OUT, { recursive: true });
 let writtenCount = 0;
+const pending: { href: string; title: string; nav: string; body: string }[] = [];
 for (const m of cur.modules) {
   const href = pageOf(m);
   const src = join(ROOT, "content/modules", href);
@@ -190,10 +200,14 @@ for (const m of cur.modules) {
     `$1<div class="m-progress"><div class="bar" data-bar="${m.id}"><span></span></div><span class="bar-label" data-label="${m.id}"></span></div>`,
   ) + (vids ? `<section class="lesson"><div class="lhead"><span class="lnum">วิดีโอ</span><h2>วิดีโอประกอบโมดูลนี้</h2></div>${vids}</section>` : "");
 
-  writeFileSync(join(OUT, href), page({ title: `${m.code} · ${m.title_th}`, nav: m.id, body }));
+  pending.push({ href, title: `${m.code} · ${m.title_th}`, nav: m.id, body });
   courseData[m.id] = { code: m.code, title: m.title_th, href, lessons: lessonIds, videos: videoIds };
   writtenCount++;
 }
+
+const courseDataJs = `window.COURSE=${JSON.stringify({ order: cur.modules.map((m) => m.id), modules: courseData })};\n`;
+const DATA_V = createHash("sha1").update(courseDataJs).digest("hex").slice(0, 8);
+for (const q of pending) writeFileSync(join(OUT, q.href), page({ title: q.title, nav: q.nav, body: q.body }));
 
 // ── index ───────────────────────────────────────────────────────────────
 const specRow = `<dl class="specrow">
@@ -276,8 +290,7 @@ writeFileSync(join(OUT, "404.html"), page({
   body: `<header class="masthead"><span class="eyebrow">404</span><h1>ไม่พบหน้านี้</h1><p class="deck">กลับไปที่ <a href="index.html">ภาพรวมหลักสูตร</a> หรือ <a href="course-th.html">หลักสูตรเต็ม</a></p></header>`,
 }));
 
-writeFileSync(join(OUT, "assets/course-data.js"),
-  `window.COURSE=${JSON.stringify({ order: cur.modules.map((m) => m.id), modules: courseData })};\n`);
+writeFileSync(join(OUT, "assets/course-data.js"), courseDataJs);
 writeFileSync(join(OUT, ".nojekyll"), "");
 
 const trackedLessons = Object.values(courseData).reduce((a, m) => a + m.lessons.length, 0);
