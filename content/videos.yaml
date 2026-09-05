@@ -31,6 +31,21 @@ m01:
     when: optional
     note: "ทบทวน SDLC แบบดั้งเดิม สำหรับคนที่อยากเทียบว่า agent เข้ามาแทรกตรงไหน"
 
+  - title: "ลองเล่น Claude code กัน"
+    url: "https://www.youtube.com/watch?v=cvrwOk2vTAk"
+    channel: mikelopster
+    when: before
+    note: "ทัวร์เครื่องมือแบบยาว สำหรับคนที่ยังไม่เคยใช้ ก่อนเราไปแกะว่าข้างในทำงานยังไง"
+  - title: "ไม่รู้ถือว่าบาป! พื้นฐานที่ต้องมี ก่อนใช้ Agentic AI เขียนโค้ด!"
+    url: "https://www.youtube.com/watch?v=lXfs8JMdNiE"
+    channel: MilerDev
+    when: before
+    note: "ปูพื้นสั้น ๆ สำหรับคนที่ข้ามมาจากการใช้ chat ธรรมดา"
+  - title: "เลิก Vibe Coding แล้วมารู้จัก Agentic Engineering กันเถอะ!"
+    url: "https://www.youtube.com/watch?v=c2M4HTHy-ow"
+    channel: MilerDev
+    when: optional
+    note: "ตั้งกรอบว่าทำไมงานนี้ถึงเป็นวิศวกรรม ไม่ใช่การสั่งไปเรื่อย ๆ"
 m02:
   - title: "มารู้จักกับ RAG"
     url: "https://www.youtube.com/watch?v=4h9mGGmCqlM"
@@ -53,6 +68,11 @@ m02:
     channel: MilerDev
     when: after
     note: "ท่าแก้ปัญหา agent หลงทางในโปรเจกต์ใหญ่ ดูหลังเข้าใจว่าทำไมบริบทถึงเจือจาง"
+  - title: "โคตรอลังการ! Claude Opus 4.6 กับ Context 1 ล้าน Token มีอะไรใหม่"
+    url: "https://www.youtube.com/watch?v=NRWJhNgSCU4"
+    channel: MilerDev
+    when: optional
+    note: "ดูคู่กับบทที่ 1 ที่เถียงว่ามี 1M token แล้วก็ยังต้องบริหารงบบริบทอยู่ดี"
 m04:
   - title: "มาลองให้ AI เลือก Tech Stack สำหรับทำเว็บกัน"
     url: "https://www.youtube.com/watch?v=smq0S3cvk_U"
@@ -92,6 +112,11 @@ m06:
     channel: MilerDev
     when: optional
     note: "ท่าส่ง design เข้าเป็นบริบท ต่อกับบทที่ 2 เรื่อง design system เป็น input"
+  - title: "ประสิทธิภาพดีขึ้น 10 เท่า! Agent Skills ที่ช่วยปรับโค้ด ReactJS & NextJS ให้เร็วขึ้นมากๆ"
+    url: "https://www.youtube.com/watch?v=Xl8UeIZRj_c"
+    channel: MilerDev
+    when: optional
+    note: "ตัวอย่าง skill เฉพาะทางฝั่ง FE ต่อกับ M09 เรื่องแพ็กเกจเวิร์กโฟลว์ให้ทีม"
 m08:
   - title: "มารู้จักกับ Bun ผ่านเรื่องเล่า Migration Bun ด้วย AI กัน"
     url: "https://www.youtube.com/watch?v=ZfI5TE2kjho"
@@ -116,6 +141,21 @@ m09:
     when: optional
     note: "มุมการประกอบเครื่องมือขึ้นเอง ต่อกับแล็บสร้าง MCP server + skill + hook"
 
+  - title: "มารู้จักกับ Agent Skill กัน"
+    url: "https://www.youtube.com/watch?v=4hLCFUJV1sM"
+    channel: mikelopster
+    when: before
+    note: "ปู skill ก่อนบทที่ 5–6 ที่ลงรายละเอียดว่า description คือสิ่งที่ตัดสินการ trigger"
+  - title: "เลิกสั่ง AI ซ้ำซาก! มาใช้ Agent Skills ให้ AI รู้ใจเราตลอดไป"
+    url: "https://www.youtube.com/watch?v=9-N6M3VjoRg"
+    channel: MilerDev
+    when: after
+    note: "ท่าใช้จริงแบบสั้น ดูหลังเขียน SKILL.md เองในแล็บ"
+  - title: "ลองเล่น OpenCode (และ OpenRouter) ฉบับสายฟรี AI Agent"
+    url: "https://www.youtube.com/watch?v=qu06gun_vpc"
+    channel: mikelopster
+    when: optional
+    note: "harness ทางเลือก ช่วยให้เห็นว่าอะไรเป็นมาตรฐานร่วม อะไรเป็นของเฉพาะเจ้า"
 m10:
   - title: "มาลองทำ AI Multi-agent Orchestration กันน"
     url: "https://www.youtube.com/watch?v=oYL0QL435Ag"
@@ -140,6 +180,11 @@ m13:
     when: before
     note: "ปูประเด็นความปลอดภัยของ agent ก่อนลงโมเดลภัยคุกคามเต็มรูปแบบ"
 
+  - title: "พื้นฐานความรู้ Cybersecurity การโจมตีในรูปแบบต่างๆ"
+    url: "https://www.youtube.com/watch?v=bL6_vTPwhKI"
+    channel: MilerDev
+    when: optional
+    note: "พื้นฐาน attack pattern ทั่วไป สำหรับคนที่ไม่ได้มาสายความปลอดภัย ก่อนเข้าภัยเฉพาะของ agent"
 m15:
   - title: "Software Engineer in AI Era (จาก Google I/O 2026)"
     url: "https://www.youtube.com/watch?v=UreF8tC7QC4"
@@ -158,8 +203,18 @@ m15:
     when: optional
     note: "มุมทักษะที่ต้องรักษาไว้ ต่อกับบท skill atrophy"
 # ยังไม่มี — เติมได้เลย
-m03: []
-m05: []
+m03:
+  - title: "ลดการเปลือง Token! ใช้ Codex ยังไงให้ไม่เปลือง Token และไม่มั่วโค้ด!"
+    url: "https://www.youtube.com/watch?v=y6aJ_Ab60e0"
+    channel: MilerDev
+    when: after
+    note: "ท่าประหยัด token ระดับใช้งาน ดูหลังเข้าใจบัญชี 4 ช่องและกลไก cache แล้ว"
+m05:
+  - title: "มารู้จักกับ DESIGN.md กัน"
+    url: "https://www.youtube.com/watch?v=YXljvRV6bak"
+    channel: mikelopster
+    when: before
+    note: "เอกสารในฐานะบริบทถาวรของ repo ตรงกับบทที่ 6 docs-as-context"
 m11: []
 m12: []
 m07:
@@ -168,6 +223,11 @@ m07:
     channel: MilerDev
     when: optional
     note: "เตือนเรื่องเลือกของให้พอดีงาน ก่อนปล่อย agent ออกแบบ data layer ให้"
+  - title: "มาลองทำ API คุยกับ Agent กัน"
+    url: "https://www.youtube.com/watch?v=XOgXXAA1Ijw"
+    channel: mikelopster
+    when: after
+    note: "ต่อ API เข้ากับ agent ดูหลังเรียน contract-first ในบทที่ 1"
 m11: []
 m12: []
 m14:
