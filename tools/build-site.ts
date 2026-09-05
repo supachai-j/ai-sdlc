@@ -39,6 +39,18 @@ interface EnStrings {
 }
 const en = Bun.YAML.parse(readFileSync(join(ROOT, "content/curriculum-en.yaml"), "utf8")) as EnStrings;
 
+// YAML keeps only the last of a duplicated key and discards the rest without a
+// word, which silently dropped video entries once. Catch it in the raw text.
+{
+  const seen = new Set<string>();
+  for (const line of readFileSync(join(ROOT, "content/videos.yaml"), "utf8").split("\n")) {
+    const k = /^(m\d\d):/.exec(line)?.[1];
+    if (!k) continue;
+    if (seen.has(k)) throw new Error(`content/videos.yaml: duplicate key "${k}" — YAML would keep only the last block`);
+    seen.add(k);
+  }
+}
+
 const byId = new Map(cur.modules.map((m) => [m.id, m]));
 
 // Parity guard. The Thai structure is the source of truth; the English strings

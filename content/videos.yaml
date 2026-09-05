@@ -3,6 +3,7 @@
 # ที่มา (เก็บข้อมูล 2026-09-05 จากแท็บวิดีโอของแต่ละช่อง)
 #   mikelopster  youtube.com/@mikelopster  · 4.68 หมื่นผู้ติดตาม · 195 วิดีโอ · ยาว 35–70 นาที · แนวเจาะลึกเชิงแนวคิด
 #   MilerDev     youtube.com/@milerdev     · 1.94 แสนผู้ติดตาม · 3.7 พันวิดีโอ · ยาว 7–22 นาที · แนวข่าว + ทริกใช้งานจริง
+#   ConnectHumanAI youtube.com/@connecthumanai · 4.41 พันผู้ติดตาม · 109 วิดีโอ · ยาว 30 นาที–2 ชม. · แนววิเคราะห์เชิงลึก paper/system card + lecture
 #
 #   ต่างชาติ     ค้นจาก YouTube เมื่อ 2026-09-05 เฉพาะหัวข้อที่ช่องไทยยังไม่ครอบคลุม
 #
@@ -33,7 +34,6 @@ m01:
     channel: mikelopster
     when: optional
     note: "ทบทวน SDLC แบบดั้งเดิม สำหรับคนที่อยากเทียบว่า agent เข้ามาแทรกตรงไหน"
-
   - title: "ลองเล่น Claude code กัน"
     url: "https://www.youtube.com/watch?v=cvrwOk2vTAk"
     channel: mikelopster
@@ -49,6 +49,11 @@ m01:
     channel: MilerDev
     when: optional
     note: "ตั้งกรอบว่าทำไมงานนี้ถึงเป็นวิศวกรรม ไม่ใช่การสั่งไปเรื่อย ๆ"
+  - title: "Harness Engineering Deep Dive"
+    url: "https://www.youtube.com/watch?v=8xz9tgzp_Zk"
+    channel: Connect Human AI
+    when: after
+    note: "เจาะ harness ยาว 1.5 ชม. ดูหลังเข้าใจ 5 layer ในบทที่ 2 แล้วจะตามทัน — เป็นคลิปไทยที่ตรงกับโมดูลนี้ที่สุดที่หาได้"
 m02:
   - title: "มารู้จักกับ RAG"
     url: "https://www.youtube.com/watch?v=4h9mGGmCqlM"
@@ -65,7 +70,6 @@ m02:
     channel: mikelopster
     when: optional
     note: "เกี่ยวกับการเรนเดอร์บริบทให้เล็ก ซึ่งเป็นกฎข้อสามในบทที่ 2"
-
   - title: "/wayfinder มันดีจัง! Skill นี้ช่วยให้ AI ไม่หลงทางในโปรเจกต์ใหญ่ ไปใช้เดี๋ยวนี้!"
     url: "https://www.youtube.com/watch?v=OdsLWc5uDJA"
     channel: MilerDev
@@ -88,13 +92,23 @@ m02:
     lang: en
     when: optional
     note: "แยกสองคำที่คนใช้ปนกัน ต่อกับบทที่ 8 retrieval vs stuffing"
+  - title: "[SF323/CN408] AI Engineer Lecture 7: Agentic AI and Context Engineering"
+    url: "https://www.youtube.com/watch?v=es21pZUxO_E"
+    channel: Connect Human AI
+    when: optional
+    note: "บรรยายระดับมหาวิทยาลัย 2.5 ชม. ครอบทั้ง agentic AI และ context engineering — เหมาะถ้าอยากได้พื้นเชิงวิชาการเสริมบทนี้"
+m03:
+  - title: "ลดการเปลือง Token! ใช้ Codex ยังไงให้ไม่เปลือง Token และไม่มั่วโค้ด!"
+    url: "https://www.youtube.com/watch?v=y6aJ_Ab60e0"
+    channel: MilerDev
+    when: after
+    note: "ท่าประหยัด token ระดับใช้งาน ดูหลังเข้าใจบัญชี 4 ช่องและกลไก cache แล้ว"
 m04:
   - title: "มาลองให้ AI เลือก Tech Stack สำหรับทำเว็บกัน"
     url: "https://www.youtube.com/watch?v=smq0S3cvk_U"
     channel: mikelopster
     when: optional
     note: "เคสให้ agent ช่วยตัดสินใจ ดูคู่กับบทที่ 4 ที่แยกค้นหา/สรุป/ตัดสินใจออกจากกัน"
-
   - title: "ทำไมเราควรใช้ /plan ก่อนให้ AI เขียนโค้ด?"
     url: "https://www.youtube.com/watch?v=XuXBNCjHlOo"
     channel: MilerDev
@@ -110,6 +124,12 @@ m04:
     channel: MilerDev
     when: optional
     note: "อีกหนึ่ง flow ให้เทียบกับ spec-first ที่เราสอนในบทที่ 1"
+m05:
+  - title: "มารู้จักกับ DESIGN.md กัน"
+    url: "https://www.youtube.com/watch?v=YXljvRV6bak"
+    channel: mikelopster
+    when: before
+    note: "เอกสารในฐานะบริบทถาวรของ repo ตรงกับบทที่ 6 docs-as-context"
 m06:
   - title: "Openclaw และ การทำงานร่วมกับ Browser"
     url: "https://www.youtube.com/watch?v=pa73gNh0woM"
@@ -121,7 +141,6 @@ m06:
     channel: mikelopster
     when: optional
     note: "มุมการส่ง design เข้าไปเป็นบริบท เทียบกับบทที่ 2 ของโมดูลนี้"
-
   - title: "ออกแบบเว็บอย่างเทพด้วย /design ฟีเจอร์ใหม่จาก Claude Code ครบจบที่เดียว!"
     url: "https://www.youtube.com/watch?v=tLGywAHqLzs"
     channel: MilerDev
@@ -132,13 +151,23 @@ m06:
     channel: MilerDev
     when: optional
     note: "ตัวอย่าง skill เฉพาะทางฝั่ง FE ต่อกับ M09 เรื่องแพ็กเกจเวิร์กโฟลว์ให้ทีม"
+m07:
+  - title: "จริงๆ แล้วแอปคุณอาจต้องการแค่ SQLite ก็พอ!"
+    url: "https://www.youtube.com/watch?v=F62-v-zEkWc"
+    channel: MilerDev
+    when: optional
+    note: "เตือนเรื่องเลือกของให้พอดีงาน ก่อนปล่อย agent ออกแบบ data layer ให้"
+  - title: "มาลองทำ API คุยกับ Agent กัน"
+    url: "https://www.youtube.com/watch?v=XOgXXAA1Ijw"
+    channel: mikelopster
+    when: after
+    note: "ต่อ API เข้ากับ agent ดูหลังเรียน contract-first ในบทที่ 1"
 m08:
   - title: "มารู้จักกับ Bun ผ่านเรื่องเล่า Migration Bun ด้วย AI กัน"
     url: "https://www.youtube.com/watch?v=ZfI5TE2kjho"
     channel: mikelopster
     when: after
     note: "เคส migration ของจริง ดูหลังเรียน strangler pattern เพื่อเทียบกับที่เราวางไว้"
-
   - title: "ผมจะสอนคุณ Contribute Open Source ครั้งแรกในชีวิต ดูจบบรรลุ!"
     url: "https://www.youtube.com/watch?v=Jx7NoytkMq8"
     channel: MilerDev
@@ -155,7 +184,6 @@ m09:
     channel: mikelopster
     when: optional
     note: "มุมการประกอบเครื่องมือขึ้นเอง ต่อกับแล็บสร้าง MCP server + skill + hook"
-
   - title: "มารู้จักกับ Agent Skill กัน"
     url: "https://www.youtube.com/watch?v=4hLCFUJV1sM"
     channel: mikelopster
@@ -187,14 +215,49 @@ m10:
     channel: mikelopster
     when: optional
     note: "พื้นฐานเฟรมเวิร์ก สำหรับคนที่ยังไม่เคยแตะ"
-
+m11:
+  - title: "How I Test With Claude Code (AI TDD)"
+    url: "https://www.youtube.com/watch?v=Kx7bAwVH_1c"
+    channel: Owain Lewis
+    lang: en
+    when: after
+    note: "ท่าเขียนเทสต์ก่อนแล้วให้ agent ทำให้ผ่าน ตรงกับบทที่ 3 ของโมดูลนี้"
+  - title: "How To Use Claude Code To Write Tests For Your Code - Is It Worth It?!"
+    url: "https://www.youtube.com/watch?v=mxr5IWfB9JY"
+    channel: Dev Leader
+    lang: en
+    when: optional
+    note: "มุมวิพากษ์ว่าคุ้มไหม ดูคู่กับบทที่ 1 เรื่องกับดักของเทสต์ที่ agent เขียน"
+m12:
+  - title: "How to Systematically Setup LLM Evals (Metrics, Unit Tests, LLM-as-a-Judge)"
+    url: "https://www.youtube.com/watch?v=a3SMraZWNNs"
+    channel: Dave Ebbelaar
+    lang: en
+    when: before
+    note: "ตัวที่ลงลึกที่สุดที่หาได้ ครอบคลุมทั้ง metric, unit test และ judge"
+  - title: "Complete Beginner's Course on AI Evaluations in 50 Minutes (2025)"
+    url: "https://www.youtube.com/watch?v=TL527yTpxlk"
+    channel: Peter Yang
+    lang: en
+    when: before
+    note: "ปูพื้น evals ตั้งแต่ศูนย์ สำหรับคนที่ยังไม่เคยทำชุดวัดมาก่อน"
+  - title: "LLM as a Judge: Scaling AI Evaluation Strategies"
+    url: "https://www.youtube.com/watch?v=trfUBIDeI1Y"
+    channel: IBM Technology
+    lang: en
+    when: optional
+    note: "สรุป judge แบบ 6 นาที ดูก่อนบทที่ 4 ที่ลงรายละเอียดอคติสี่แบบ"
+  - title: "Claude Mythos System Card Deep Dive"
+    url: "https://www.youtube.com/watch?v=TmxG2SQ-tAI"
+    channel: Connect Human AI
+    when: after
+    note: "อ่าน system card ของโมเดลแบบวิเคราะห์ทีละหัวข้อ ฝึกทักษะเดียวกับบท 12.02 ที่ว่าด้วยการอ่านตัวเลขของผู้ผลิต"
 m13:
   - title: "OpenClaw & Security"
     url: "https://www.youtube.com/watch?v=0IGRhY9c-lc"
     channel: mikelopster
     when: before
     note: "ปูประเด็นความปลอดภัยของ agent ก่อนลงโมเดลภัยคุกคามเต็มรูปแบบ"
-
   - title: "พื้นฐานความรู้ Cybersecurity การโจมตีในรูปแบบต่างๆ"
     url: "https://www.youtube.com/watch?v=bL6_vTPwhKI"
     channel: MilerDev
@@ -212,110 +275,11 @@ m13:
     lang: en
     when: optional
     note: "มุมผู้โจมตี ดูก่อนทำแล็บ red-team จะได้รู้ว่าจะฝังอะไรบ้าง"
-m15:
-  - title: "Software Engineer in AI Era (จาก Google I/O 2026)"
-    url: "https://www.youtube.com/watch?v=UreF8tC7QC4"
-    channel: mikelopster
-    when: after
-    note: "มุมภาพใหญ่เรื่องบทบาทที่เปลี่ยนไป ดูคู่กับบท skill atrophy และแผน rollout"
-  - title: "Vibe Coding ? จะเกิดอะไรเมื่อมนุษย์ปล่อยใจให้ AI เป็นคน Code แทน"
-    url: "https://www.youtube.com/watch?v=WAxk3LZbBA8"
-    channel: mikelopster
+  - title: "Stealing Reasoning Traces from Proprietary LLM APIs — แกะความคิดของ Claude, GPT และ Gemini"
+    url: "https://www.youtube.com/watch?v=gGk5stgV9-g"
+    channel: Connect Human AI
     when: optional
-    note: "ตั้งคำถามเรื่องความไว้ใจ ต่อกับบท trust calibration"
-
-  - title: "4 ทักษะที่จะทำให้ Dev มีมูลค่ามากขึ้นในยุค AI"
-    url: "https://www.youtube.com/watch?v=SwTe4s17eBE"
-    channel: MilerDev
-    when: optional
-    note: "มุมทักษะที่ต้องรักษาไว้ ต่อกับบท skill atrophy"
-m03:
-  - title: "ลดการเปลือง Token! ใช้ Codex ยังไงให้ไม่เปลือง Token และไม่มั่วโค้ด!"
-    url: "https://www.youtube.com/watch?v=y6aJ_Ab60e0"
-    channel: MilerDev
-    when: after
-    note: "ท่าประหยัด token ระดับใช้งาน ดูหลังเข้าใจบัญชี 4 ช่องและกลไก cache แล้ว"
-m05:
-  - title: "มารู้จักกับ DESIGN.md กัน"
-    url: "https://www.youtube.com/watch?v=YXljvRV6bak"
-    channel: mikelopster
-    when: before
-    note: "เอกสารในฐานะบริบทถาวรของ repo ตรงกับบทที่ 6 docs-as-context"
-m11:
-  - title: "How I Test With Claude Code (AI TDD)"
-    url: "https://www.youtube.com/watch?v=Kx7bAwVH_1c"
-    channel: Owain Lewis
-    lang: en
-    when: after
-    note: "ท่าเขียนเทสต์ก่อนแล้วให้ agent ทำให้ผ่าน ตรงกับบทที่ 3 ของโมดูลนี้"
-  - title: "How To Use Claude Code To Write Tests For Your Code - Is It Worth It?!"
-    url: "https://www.youtube.com/watch?v=mxr5IWfB9JY"
-    channel: Dev Leader
-    lang: en
-    when: optional
-    note: "มุมวิพากษ์ว่าคุ้มไหม ดูคู่กับบทที่ 1 เรื่องกับดักของเทสต์ที่ agent เขียน"
-m12:
-  - title: "How to Systematically Setup LLM Evals (Metrics, Unit Tests, LLM-as-a-Judge)"
-    url: "https://www.youtube.com/watch?v=a3SMraZWNNs"
-    channel: Dave Ebbelaar
-    lang: en
-    when: before
-    note: "ตัวที่ลงลึกที่สุดที่หาได้ ครอบคลุมทั้ง metric, unit test และ judge"
-  - title: "Complete Beginner's Course on AI Evaluations in 50 Minutes (2025)"
-    url: "https://www.youtube.com/watch?v=TL527yTpxlk"
-    channel: Peter Yang
-    lang: en
-    when: before
-    note: "ปูพื้น evals ตั้งแต่ศูนย์ สำหรับคนที่ยังไม่เคยทำชุดวัดมาก่อน"
-  - title: "LLM as a Judge: Scaling AI Evaluation Strategies"
-    url: "https://www.youtube.com/watch?v=trfUBIDeI1Y"
-    channel: IBM Technology
-    lang: en
-    when: optional
-    note: "สรุป judge แบบ 6 นาที ดูก่อนบทที่ 4 ที่ลงรายละเอียดอคติสี่แบบ"
-m07:
-  - title: "จริงๆ แล้วแอปคุณอาจต้องการแค่ SQLite ก็พอ!"
-    url: "https://www.youtube.com/watch?v=F62-v-zEkWc"
-    channel: MilerDev
-    when: optional
-    note: "เตือนเรื่องเลือกของให้พอดีงาน ก่อนปล่อย agent ออกแบบ data layer ให้"
-  - title: "มาลองทำ API คุยกับ Agent กัน"
-    url: "https://www.youtube.com/watch?v=XOgXXAA1Ijw"
-    channel: mikelopster
-    when: after
-    note: "ต่อ API เข้ากับ agent ดูหลังเรียน contract-first ในบทที่ 1"
-m11:
-  - title: "How I Test With Claude Code (AI TDD)"
-    url: "https://www.youtube.com/watch?v=Kx7bAwVH_1c"
-    channel: Owain Lewis
-    lang: en
-    when: after
-    note: "ท่าเขียนเทสต์ก่อนแล้วให้ agent ทำให้ผ่าน ตรงกับบทที่ 3 ของโมดูลนี้"
-  - title: "How To Use Claude Code To Write Tests For Your Code - Is It Worth It?!"
-    url: "https://www.youtube.com/watch?v=mxr5IWfB9JY"
-    channel: Dev Leader
-    lang: en
-    when: optional
-    note: "มุมวิพากษ์ว่าคุ้มไหม ดูคู่กับบทที่ 1 เรื่องกับดักของเทสต์ที่ agent เขียน"
-m12:
-  - title: "How to Systematically Setup LLM Evals (Metrics, Unit Tests, LLM-as-a-Judge)"
-    url: "https://www.youtube.com/watch?v=a3SMraZWNNs"
-    channel: Dave Ebbelaar
-    lang: en
-    when: before
-    note: "ตัวที่ลงลึกที่สุดที่หาได้ ครอบคลุมทั้ง metric, unit test และ judge"
-  - title: "Complete Beginner's Course on AI Evaluations in 50 Minutes (2025)"
-    url: "https://www.youtube.com/watch?v=TL527yTpxlk"
-    channel: Peter Yang
-    lang: en
-    when: before
-    note: "ปูพื้น evals ตั้งแต่ศูนย์ สำหรับคนที่ยังไม่เคยทำชุดวัดมาก่อน"
-  - title: "LLM as a Judge: Scaling AI Evaluation Strategies"
-    url: "https://www.youtube.com/watch?v=trfUBIDeI1Y"
-    channel: IBM Technology
-    lang: en
-    when: optional
-    note: "สรุป judge แบบ 6 นาที ดูก่อนบทที่ 4 ที่ลงรายละเอียดอคติสี่แบบ"
+    note: "มุมผู้โจมตีที่ไม่ค่อยมีใครพูดถึง — ข้อมูลรั่วออกจากระบบได้ทางไหนบ้าง ต่อกับบท 13.07 เรื่องเส้นทางขโมยข้อมูล"
 m14:
   - title: "สร้าง AI Agent ส่วนตัวด้วย Hermes Agent ทำงานตลอด 24 ชั่วโมง คุยผ่าน Telegram ดูจบบรรลุ!"
     url: "https://www.youtube.com/watch?v=EZ8C1rxaXH4"
@@ -327,3 +291,24 @@ m14:
     channel: MilerDev
     when: optional
     note: "ทางเลือกรัน automation เอง สำหรับคนที่ไม่อยากผูกกับ scheduler ของเจ้าใด"
+m15:
+  - title: "Software Engineer in AI Era (จาก Google I/O 2026)"
+    url: "https://www.youtube.com/watch?v=UreF8tC7QC4"
+    channel: mikelopster
+    when: after
+    note: "มุมภาพใหญ่เรื่องบทบาทที่เปลี่ยนไป ดูคู่กับบท skill atrophy และแผน rollout"
+  - title: "Vibe Coding ? จะเกิดอะไรเมื่อมนุษย์ปล่อยใจให้ AI เป็นคน Code แทน"
+    url: "https://www.youtube.com/watch?v=WAxk3LZbBA8"
+    channel: mikelopster
+    when: optional
+    note: "ตั้งคำถามเรื่องความไว้ใจ ต่อกับบท trust calibration"
+  - title: "4 ทักษะที่จะทำให้ Dev มีมูลค่ามากขึ้นในยุค AI"
+    url: "https://www.youtube.com/watch?v=SwTe4s17eBE"
+    channel: MilerDev
+    when: optional
+    note: "มุมทักษะที่ต้องรักษาไว้ ต่อกับบท skill atrophy"
+  - title: "AI and The Future of Programming กับ รศ.ดร.จิตรทัศน์ ฝักเจริญผล และ รศ.ดร.นัทที นิภานันท์"
+    url: "https://www.youtube.com/watch?v=TyZ24k3sxCU"
+    channel: Connect Human AI
+    when: after
+    note: "บทสนทนากับอาจารย์สองท่านเรื่องอนาคตของอาชีพ ดูคู่กับบท skill atrophy และ trust calibration"
