@@ -52,7 +52,9 @@
     <p class="m-goal">เห็นว่า agent คือลูปธรรมดาที่ห่อด้วยวิศวกรรม ไม่ใช่กล่องดำ เพื่อให้ debug ได้เมื่อมันพัง</p>
     <ol class="lessons"><li>Agentic loop จริง ๆ คืออะไร และทำไมแค่นั้นก็พอ</li><li>กายวิภาคของ harness — system prompt, tool registry, context assembler, permission layer, result renderer</li><li>Tool-use protocol — tool_use / tool_result, parallel call, is_error และทำไมต้องส่ง result ครบใน message เดียว</li><li>stop_reason ทุกค่า และการจัดการแต่ละแบบ</li><li>Thinking กับ effort — adaptive thinking, ระดับ low→max, ผลต่อจำนวน tool call</li><li>Permission model — allow / ask / deny, sandbox และทำไม &quot;ปล่อยผ่านหมด&quot; คือหนี้ทางความปลอดภัย</li><li>7 โหมดที่ agent ล้มเหลว — context ล้น, tool description กำกวม, error message อ่านไม่รู้เรื่อง, ติดลูป, ค้นเกินจำเป็น, ลอยจากแผน, ตัดข้อมูลเงียบ</li><li class="lab"><span class="chip">LAB</span>เขียน mini-harness ~150 บรรทัด — ลูป + 3 tools + permission gate</li></ol>
     <div class="m-out"><b>ผลลัพธ์</b>อธิบายได้ว่าเวลา agent ทำอะไรแปลก ๆ มันเกิดที่ชั้นไหนของ harness</div>
-    <div class="m-vids"><b>วิดีโอประกอบ</b><span class="empty">ยังไม่มี — เพิ่มได้ที่ content/videos.yaml แล้วรัน bun run build:site</span></div>
+    <div class="m-vids"><b>วิดีโอประกอบ · 3 คลิป</b><ul><li><span class="when before">before</span><a href="https://www.youtube.com/watch?v=xIVl5X9yUWM" target="_blank" rel="noopener noreferrer">รู้จักกับ Agent Harness กัน</a> · mikelopster<span class="note">ปูคำว่า harness ก่อนลงบทที่ 2 ที่แยกกายวิภาคเป็นห้าชั้น</span></li>
+<li><span class="when before">before</span><a href="https://www.youtube.com/watch?v=qlIuFfs-7pY" target="_blank" rel="noopener noreferrer">รู้จักกับ Loop Engineering</a> · mikelopster<span class="note">เห็นภาพลูปก่อนเราไปเขียน mini-harness เองในแล็บ</span></li>
+<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=vKnbSmb5cLY" target="_blank" rel="noopener noreferrer">SDLC คืออะไร ?</a> · mikelopster<span class="note">ทบทวน SDLC แบบดั้งเดิม สำหรับคนที่อยากเทียบว่า agent เข้ามาแทรกตรงไหน</span></li></ul></div>
   </div>
 </div>
 <div class="module flagged" id="m02">
@@ -66,7 +68,9 @@
     <p class="m-goal">มองบริบทเป็นงบประมาณที่ต้องบริหาร ไม่ใช่ถังที่เทใส่จนกว่าจะเต็ม</p>
     <ol class="lessons"><li>Context window คืองบ ไม่ใช่พื้นที่เก็บของ — มี 1M token ก็ยังต้องบริหาร</li><li>กฎ 4 ข้อของสิ่งที่ควรอยู่ในบริบท — เกี่ยวข้อง / สด / เรนเดอร์เล็ก / หากลับมาได้</li><li>Attention dilution — ทำไมยัดเยอะแล้วคุณภาพตก ทั้งที่ยังไม่เต็ม window</li><li>ลำดับชั้นหน่วยความจำ และอะไรควรอยู่ชั้นไหน</li><li>เขียน CLAUDE.md ให้ทำงานจริง — สั้น เป็นกฎ ตรวจสอบได้ ไม่ใช่ README ฉบับสอง</li><li>สามกลไกที่คนสับสน — compaction vs context editing vs memory tool</li><li>Sub-agent ในฐานะเครื่องมือ context isolation ไม่ใช่แค่ทำงานขนาน</li><li>Retrieval vs stuffing — เมื่อไหร่ควรให้ grep เอง เมื่อไหร่ควรแนบไปเลย</li><li class="lab"><span class="chip">LAB</span>วัด context ของงานจริง ตัดออก 40% แล้ววัดว่าคุณภาพเปลี่ยนไหม</li></ol>
     <div class="m-out"><b>ผลลัพธ์</b>ลดต้นทุนต่องานได้ 30–60% โดยคุณภาพเท่าเดิมหรือดีขึ้น</div>
-    <div class="m-vids"><b>วิดีโอประกอบ</b><span class="empty">ยังไม่มี — เพิ่มได้ที่ content/videos.yaml แล้วรัน bun run build:site</span></div>
+    <div class="m-vids"><b>วิดีโอประกอบ · 3 คลิป</b><ul><li><span class="when before">before</span><a href="https://www.youtube.com/watch?v=4h9mGGmCqlM" target="_blank" rel="noopener noreferrer">มารู้จักกับ RAG</a> · mikelopster<span class="note">พื้นฐาน retrieval ก่อนบทที่ 8 ที่ชั่งว่าเมื่อไหร่ควร retrieve เมื่อไหร่ควรแนบตรง ๆ</span></li>
+<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=h-9Zh4rcs7Q" target="_blank" rel="noopener noreferrer">มาลอง OpenClaw กับการสร้าง Memory ให้ AI ของเรากัน</a> · mikelopster<span class="note">ตัวอย่างการทำ memory ชั้นนอก เทียบกับลำดับชั้นหน่วยความจำในบทที่ 4</span></li>
+<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=rGE9sEEVzrQ" target="_blank" rel="noopener noreferrer">ว่าด้วย AI Agent กับการจัดการ Markdown</a> · mikelopster<span class="note">เกี่ยวกับการเรนเดอร์บริบทให้เล็ก ซึ่งเป็นกฎข้อสามในบทที่ 2</span></li></ul></div>
   </div>
 </div>
 <div class="module flagged" id="m03">
@@ -101,7 +105,7 @@
     <p class="m-goal">เปลี่ยนความต้องการกำกวมเป็น spec ที่ agent ทำแล้วตรวจได้</p>
     <ol class="lessons"><li>Spec-first — prompt ที่ดีคือข้อกำหนด ไม่ใช่คำสั่ง และต่างกันตรงไหน</li><li>ขนาดงานที่พอดีกับ agent — เล็กพอที่จะยืนยันผลได้ในลูปเดียว</li><li>เกณฑ์ตัดสินว่างานนี้ควรให้ agent ทำไหม — ความซับซ้อน / คุณค่า / ความเป็นไปได้ / ต้นทุนเมื่อผิด</li><li>Research loop — แยก &quot;ค้นหา&quot; ออกจาก &quot;สรุป&quot; ออกจาก &quot;ตัดสินใจ&quot;</li><li>วินัยเรื่องหลักฐาน — บังคับให้อ้างไฟล์ บรรทัด หรือ URL ทุกครั้ง</li><li>ADR ที่ agent เขียนแล้ว agent ตัวถัดไปอ่านต่อได้</li><li>Plan mode และการรีวิวแผนก่อนลงมือ — บทที่ให้ผลตอบแทนสูงที่สุดในหลักสูตร</li><li class="lab"><span class="chip">LAB</span>แปลง requirement กำกวม 1 หน้า เป็น spec + task graph + ADR</li></ol>
     <div class="m-out"><b>ผลลัพธ์</b>งานที่ต้องสั่งซ้ำลดลงชัดเจน เพราะรอบแรกมี acceptance criteria อยู่แล้ว</div>
-    <div class="m-vids"><b>วิดีโอประกอบ</b><span class="empty">ยังไม่มี — เพิ่มได้ที่ content/videos.yaml แล้วรัน bun run build:site</span></div>
+    <div class="m-vids"><b>วิดีโอประกอบ · 1 คลิป</b><ul><li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=smq0S3cvk_U" target="_blank" rel="noopener noreferrer">มาลองให้ AI เลือก Tech Stack สำหรับทำเว็บกัน</a> · mikelopster<span class="note">เคสให้ agent ช่วยตัดสินใจ ดูคู่กับบทที่ 4 ที่แยกค้นหา/สรุป/ตัดสินใจออกจากกัน</span></li></ul></div>
   </div>
 </div>
 <div class="module flagged" id="m05">
@@ -136,7 +140,8 @@
     <p class="m-goal">ให้ agent สร้าง UI ที่ถูกจริง ไม่ใช่แค่ดูเหมือนถูกในสกรีนช็อต</p>
     <ol class="lessons"><li>กระบวนการ FE กับ agent — design token → component → page → flow</li><li>Design system ในฐานะบริบท — ส่ง token กับ primitive ไม่ใช่ส่งภาพอย่างเดียว</li><li>Next.js App Router — เส้นแบ่ง server/client ที่ agent พลาดบ่อยที่สุด</li><li>State และ data fetching — แพตเทิร์นที่ agent ทำถูก และที่มันชอบทำผิด</li><li>Visual verification loop — ให้ agent เปิดเบราว์เซอร์ ถ่ายภาพ แล้วเทียบกับ spec เอง</li><li>Accessibility เป็น acceptance criteria ที่ตรวจอัตโนมัติได้</li><li>จับ UI ที่ผ่านสายตาแต่พังจริง — hydration, layout shift, state ค้าง, edge case</li><li class="lab"><span class="chip">LAB A</span>สร้าง component library จาก design token</li><li class="lab"><span class="chip">LAB B</span>สร้าง flow 3 หน้าจาก spec พร้อมรอบ visual verification</li></ol>
     <div class="m-out"><b>ผลลัพธ์</b>ลูป FE ที่ agent ตรวจงานตัวเองได้ก่อนส่งให้คนดู</div>
-    <div class="m-vids"><b>วิดีโอประกอบ</b><span class="empty">ยังไม่มี — เพิ่มได้ที่ content/videos.yaml แล้วรัน bun run build:site</span></div>
+    <div class="m-vids"><b>วิดีโอประกอบ · 2 คลิป</b><ul><li><span class="when before">before</span><a href="https://www.youtube.com/watch?v=pa73gNh0woM" target="_blank" rel="noopener noreferrer">Openclaw และ การทำงานร่วมกับ Browser</a> · mikelopster<span class="note">เห็นกลไก browser automation ก่อนทำ visual verification loop ในบทที่ 5</span></li>
+<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=NYfzprHoAUY" target="_blank" rel="noopener noreferrer">ลองเล่น Open Design กัน</a> · mikelopster<span class="note">มุมการส่ง design เข้าไปเป็นบริบท เทียบกับบทที่ 2 ของโมดูลนี้</span></li></ul></div>
   </div>
 </div>
 <div class="module" id="m07">
@@ -164,7 +169,7 @@
     <p class="m-goal">งานจริงไม่ได้เริ่มจากโฟลเดอร์ว่าง โมดูลนี้คือส่วนที่ใช้จริงมากที่สุด</p>
     <ol class="lessons"><li>Onboard agent เข้า codebase ห้าแสนบรรทัด — สร้างแผนที่ก่อน อย่าเพิ่งแก้</li><li>Characterization test — ล็อกพฤติกรรมปัจจุบันไว้ก่อนแตะ แม้จะรู้ว่ามันผิด</li><li>Strangler pattern ร่วมกับ agent — แทนที่ทีละส่วนโดยของเดิมยังทำงาน</li><li>ทำงานกับโค้ดที่ไม่มีเทสต์และไม่มี type — ลำดับการสร้างตาข่ายรองรับ</li><li>อ่าน git history เป็นบริบท — blame, PR เก่า, incident ที่เกี่ยวข้อง</li><li>แก้อย่างปลอดภัย — blast radius, feature flag, แผน rollback ที่เขียนก่อนแก้</li><li class="lab"><span class="chip">LAB</span>เพิ่มฟีเจอร์ใน repo โอเพนซอร์สจริงที่ไม่เคยเห็นมาก่อน ภายในเวลาจำกัด</li></ol>
     <div class="m-out"><b>ผลลัพธ์</b>วิธีทำงานที่ใช้ได้กับโค้ดที่คุณไม่ได้เขียนและไม่มีใครอธิบายให้ฟัง</div>
-    <div class="m-vids"><b>วิดีโอประกอบ</b><span class="empty">ยังไม่มี — เพิ่มได้ที่ content/videos.yaml แล้วรัน bun run build:site</span></div>
+    <div class="m-vids"><b>วิดีโอประกอบ · 1 คลิป</b><ul><li><span class="when after">after</span><a href="https://www.youtube.com/watch?v=ZfI5TE2kjho" target="_blank" rel="noopener noreferrer">มารู้จักกับ Bun ผ่านเรื่องเล่า Migration Bun ด้วย AI กัน</a> · mikelopster<span class="note">เคส migration ของจริง ดูหลังเรียน strangler pattern เพื่อเทียบกับที่เราวางไว้</span></li></ul></div>
   </div>
 </div>
 </div>
@@ -185,7 +190,8 @@
     <p class="m-goal">สร้างเครื่องมือที่ agent ใช้ถูก และรู้ว่าเมื่อไหร่ไม่ควรสร้าง</p>
     <ol class="lessons"><li>MCP คืออะไรจริง ๆ — โปรโตคอล ไม่ใช่ไลบรารี แยก resources / tools / prompts ให้ออก</li><li>Transport และ auth — stdio vs HTTP, OAuth flow, credential ที่ไม่รั่วเข้า context</li><li>ออกแบบ tool ให้ agent ใช้ถูก — description คือ prompt ไม่ใช่เอกสาร API</li><li>ต้นทุน token ของ tool registry และเทคนิคโหลดเครื่องมือตามต้องการ</li><li>Skills — บรรจุเวิร์กโฟลว์เป็นความรู้ที่โหลดเฉพาะตอนเกี่ยวข้อง</li><li>เขียน SKILL.md ที่ trigger ถูกจังหวะ — บรรทัด description คือสิ่งที่ตัดสิน</li><li>Hooks และ lifecycle ทั้งหมด — บังคับนโยบายที่ prompt บังคับไม่ได้</li><li>Plugins และ slash command — แพ็กเกจเวิร์กโฟลว์ให้ทั้งทีมใช้เหมือนกัน</li><li>เมื่อไหร่ไม่ควรทำ MCP server — สคริปต์ธรรมดากับ bash ชนะบ่อยกว่าที่คิดมาก</li><li class="lab"><span class="chip">LAB</span>สร้าง MCP server + skill + hook ที่บังคับ convention ของทีมได้จริง</li></ol>
     <div class="m-out"><b>ผลลัพธ์</b>ชุดเครื่องมือของทีมที่ติดตั้งแล้วทุกคนได้พฤติกรรมเดียวกัน</div>
-    <div class="m-vids"><b>วิดีโอประกอบ</b><span class="empty">ยังไม่มี — เพิ่มได้ที่ content/videos.yaml แล้วรัน bun run build:site</span></div>
+    <div class="m-vids"><b>วิดีโอประกอบ · 2 คลิป</b><ul><li><span class="when before">before</span><a href="https://www.youtube.com/watch?v=QGk0xrk8074" target="_blank" rel="noopener noreferrer">มารู้จักกับ Agent Hooks กัน</a> · mikelopster<span class="note">ปู hook ก่อนบทที่ 7 ที่ใช้ hook บังคับนโยบายที่ prompt บังคับไม่ได้</span></li>
+<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=GCn7EgjzanA" target="_blank" rel="noopener noreferrer">ใช้ AI สร้าง AI ได้ยังไงบ้าง ?</a> · mikelopster<span class="note">มุมการประกอบเครื่องมือขึ้นเอง ต่อกับแล็บสร้าง MCP server + skill + hook</span></li></ul></div>
   </div>
 </div>
 <div class="module flagged" id="m10">
@@ -199,7 +205,9 @@
     <p class="m-goal">ใช้หลาย agent เมื่อมันชนะจริง และรู้ว่าเมื่อไหร่มันแพ้ agent เดียว</p>
     <ol class="lessons"><li>เหตุผลที่ถูกต้องเพียงสองข้อ — context isolation กับ wall-clock ที่ขนานได้จริง</li><li>Pattern 1 — Orchestrator / Worker: ใครถือแผน ใครถือบริบท</li><li>Pattern 2 — Pipeline: แต่ละสเตจมีสัญญา input/output ที่ชัด</li><li>Pattern 3 — Fan-out / Fan-in: การรวมผลที่ไม่ทำให้บริบทระเบิด</li><li>Pattern 4 — Judge / Critic: แยกคนเขียนออกจากคนตรวจเสมอ</li><li>Handoff protocol — อะไรต้องส่งต่อ อะไรห้ามส่งเพราะจะกลายเป็น context pollution</li><li>เมื่อ multi-agent แพ้ single agent — ต้นทุนบาน ผลไม่คงเส้น debug แทบไม่ได้</li><li class="lab"><span class="chip">LAB</span>ทำ review pipeline สามขั้น แล้ววัดด้วย eval ว่าดีกว่า agent เดียวจริงหรือแค่แพงกว่า</li></ol>
     <div class="m-out"><b>ผลลัพธ์</b>เกณฑ์ตัดสินของตัวเองว่างานแบบไหนคุ้มที่จะแตกเป็นหลาย agent</div>
-    <div class="m-vids"><b>วิดีโอประกอบ</b><span class="empty">ยังไม่มี — เพิ่มได้ที่ content/videos.yaml แล้วรัน bun run build:site</span></div>
+    <div class="m-vids"><b>วิดีโอประกอบ · 3 คลิป</b><ul><li><span class="when before">before</span><a href="https://www.youtube.com/watch?v=oYL0QL435Ag" target="_blank" rel="noopener noreferrer">มาลองทำ AI Multi-agent Orchestration กันน</a> · mikelopster<span class="note">เห็น orchestration ทำงานจริงก่อนเข้าสี่ pattern และก่อนบทที่ว่ามันแพ้ single agent เมื่อไหร่</span></li>
+<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=DJ2ZrbIkkO8" target="_blank" rel="noopener noreferrer">LangGraph 101</a> · mikelopster<span class="note">อีกวิธีประกอบ graph ของ agent เทียบกับ pattern pipeline ในบทที่ 3</span></li>
+<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=mH36GOYeJmw" target="_blank" rel="noopener noreferrer">LangChain 101</a> · mikelopster<span class="note">พื้นฐานเฟรมเวิร์ก สำหรับคนที่ยังไม่เคยแตะ</span></li></ul></div>
   </div>
 </div>
 </div>
@@ -248,7 +256,7 @@
     <p class="m-goal">agent ที่อ่านอินเทอร์เน็ตได้และรันคำสั่งได้ คือ attack surface ชนิดใหม่</p>
     <ol class="lessons"><li>โมเดลภัยคุกคามของ coding agent — ต่างจาก web app ตรงไหน และทำไม checklist เดิมใช้ไม่ได้</li><li>Prompt injection ผ่านเนื้อหาที่ agent อ่าน — issue, README, หน้าเว็บ, log, แม้แต่ชื่อไฟล์</li><li>Tool poisoning และ rug-pull ใน MCP — เมื่อ description เปลี่ยนหลังติดตั้งไปแล้ว</li><li>Supply chain ของ skill / plugin / MCP — สิ่งที่ติดตั้งคือโค้ดที่รันด้วยสิทธิ์ของคุณ</li><li>ออกแบบขอบเขตสิทธิ์ — allowlist, deny rule, sandbox และการคุม network egress</li><li>Secret handling — ทำไม .env ที่หลุดเข้า context คือการรั่วที่ย้อนกลับไม่ได้</li><li>เส้นทางขโมยข้อมูลที่มองไม่เห็น — curl, git push, webhook, artifact ที่ถูกอัปโหลด</li><li>Agent ที่ปล่อยรันเอง กับการคุม blast radius</li><li class="lab"><span class="chip">LAB</span>red-team เวิร์กโฟลว์ของตัวเอง ฝัง injection 5 แบบ วัดว่าติดกี่แบบ</li></ol>
     <div class="m-out"><b>ผลลัพธ์</b>รายการช่องโหว่จริงในเซ็ตอัปของคุณเอง พร้อมสิ่งที่แก้ไปแล้ว</div>
-    <div class="m-vids"><b>วิดีโอประกอบ</b><span class="empty">ยังไม่มี — เพิ่มได้ที่ content/videos.yaml แล้วรัน bun run build:site</span></div>
+    <div class="m-vids"><b>วิดีโอประกอบ · 1 คลิป</b><ul><li><span class="when before">before</span><a href="https://www.youtube.com/watch?v=0IGRhY9c-lc" target="_blank" rel="noopener noreferrer">OpenClaw &amp; Security</a> · mikelopster<span class="note">ปูประเด็นความปลอดภัยของ agent ก่อนลงโมเดลภัยคุกคามเต็มรูปแบบ</span></li></ul></div>
   </div>
 </div>
 </div>
@@ -283,7 +291,8 @@
     <p class="m-goal">ปัญหาจริงเริ่มตอนที่ทีมทั้งทีมใช้พร้อมกัน ไม่ใช่ตอนคุณใช้คนเดียว</p>
     <ol class="lessons"><li>Runbook ที่ agent อ่านแล้วทำได้ — ต่างจาก runbook สำหรับคนตรงไหน</li><li>Log triage และ incident response ร่วมกับ agent — สิ่งที่มอบให้ได้และห้ามมอบ</li><li>Documentation automation ที่ไม่กลายเป็นขยะภายในสองเดือน</li><li>Trust calibration — เมื่อไหร่เชื่อได้ เมื่อไหร่ต้องตรวจทุกบรรทัด</li><li>วัฒนธรรม code review เมื่อ AI เขียนโค้ด 70% — รีวิวอะไรเมื่อ diff โตขึ้นสิบเท่า</li><li>Attribution, license และความเสี่ยงเชิงกฎหมายของโค้ดที่ AI สร้าง</li><li>Skill atrophy ของทีม — ทักษะที่ต้องรักษาไว้แม้มอบงานให้ agent ได้แล้ว</li><li>แผน rollout ในองค์กร — pilot → policy → platform และกับดักของแต่ละขั้น</li><li class="lab"><span class="chip">LAB</span>เขียน AI engineering policy ของทีม 2 หน้า ที่บังคับใช้ได้จริง</li></ol>
     <div class="m-out"><b>ผลลัพธ์</b>เอกสารนโยบายและแผน rollout ที่เอาไปเสนอหัวหน้าได้ทันที</div>
-    <div class="m-vids"><b>วิดีโอประกอบ</b><span class="empty">ยังไม่มี — เพิ่มได้ที่ content/videos.yaml แล้วรัน bun run build:site</span></div>
+    <div class="m-vids"><b>วิดีโอประกอบ · 2 คลิป</b><ul><li><span class="when after">after</span><a href="https://www.youtube.com/watch?v=UreF8tC7QC4" target="_blank" rel="noopener noreferrer">Software Engineer in AI Era (จาก Google I/O 2026)</a> · mikelopster<span class="note">มุมภาพใหญ่เรื่องบทบาทที่เปลี่ยนไป ดูคู่กับบท skill atrophy และแผน rollout</span></li>
+<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=WAxk3LZbBA8" target="_blank" rel="noopener noreferrer">Vibe Coding ? จะเกิดอะไรเมื่อมนุษย์ปล่อยใจให้ AI เป็นคน Code แทน</a> · mikelopster<span class="note">ตั้งคำถามเรื่องความไว้ใจ ต่อกับบท trust calibration</span></li></ul></div>
   </div>
 </div>
 </div></section>

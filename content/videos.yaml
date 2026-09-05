@@ -1,43 +1,127 @@
 # วิดีโอประกอบต่อโมดูล — supplementary viewing
 #
+# ที่มา: ช่อง mikelopster (youtube.com/@mikelopster) · ผู้ติดตาม 4.68 หมื่น · วิดีโอ 195 รายการ
+# เก็บข้อมูลเมื่อ 2026-09-05 จากแท็บวิดีโอของช่อง (โหลดมา 30 รายการล่าสุด + บางส่วนของเก่า)
+#
 # ขอบเขตที่ตั้งใจไม่ข้าม
-#   ✅ ทำได้   อ้างอิงเป็นลิงก์ + ชื่อคลิป + บอกว่าควรดูก่อน/หลังโมดูลไหน
+#   ✅ ทำได้   อ้างอิงเป็นลิงก์ + ชื่อคลิปตามต้นทาง + บอกว่าควรดูตอนไหน
 #   ❌ ไม่ทำ   ถอดเนื้อหาคลิป สรุปยาว หรือเอามาเป็นบทเรียนในคอร์ส
-# เนื้อหาบทเรียนเป็นของเราเอง วิดีโอเป็นของผู้สร้างคลิป ผู้เรียนไปดูที่ต้นทาง
+# note ในแต่ละรายการเขียนขึ้นเอง เป็นเหตุผลว่าทำไมวางไว้ตรงนี้ ไม่ใช่คำโปรยของคลิป
 #
-# วิธีเติม
-#   1. วาง entry ใต้ module id ที่ต้องการ
-#   2. bun run build:site
-#   3. หน้าเว็บ render ให้เอง ไม่ต้องแก้ HTML
-#
-# schema ต่อหนึ่งรายการ
-#   title    ชื่อคลิปตามต้นทาง (ห้ามแต่งเอง)
-#   url      ลิงก์เต็ม
-#   channel  ชื่อช่อง
-#   when     before | after | optional   ควรดูก่อนเรียน / หลังเรียน / เสริม
-#   note     หนึ่งบรรทัดว่าทำไมถึงแนะนำคลิปนี้ตรงนี้ (เขียนเอง ไม่ใช่คำโปรยของคลิป)
+# when:  before = ปูพื้นก่อนเรียน · after = ดูหลังเรียนเพื่อเห็นของจริง · optional = เสริม
 
-# ตัวอย่างรูปแบบ — ลบคอมเมนต์แล้วใส่ของจริง
-#
-# m01:
-#   - title: "<ชื่อคลิปตามที่ขึ้นบน YouTube>"
-#     url: "https://www.youtube.com/watch?v=XXXXXXXXXXX"
-#     channel: "mikelopster"
-#     when: before
-#     note: "ปูภาพรวมก่อนลงกลไก harness ในบทที่ 2"
+m01:
+  - title: "รู้จักกับ Agent Harness กัน"
+    url: "https://www.youtube.com/watch?v=xIVl5X9yUWM"
+    channel: mikelopster
+    when: before
+    note: "ปูคำว่า harness ก่อนลงบทที่ 2 ที่แยกกายวิภาคเป็นห้าชั้น"
+  - title: "รู้จักกับ Loop Engineering"
+    url: "https://www.youtube.com/watch?v=qlIuFfs-7pY"
+    channel: mikelopster
+    when: before
+    note: "เห็นภาพลูปก่อนเราไปเขียน mini-harness เองในแล็บ"
+  - title: "SDLC คืออะไร ?"
+    url: "https://www.youtube.com/watch?v=vKnbSmb5cLY"
+    channel: mikelopster
+    when: optional
+    note: "ทบทวน SDLC แบบดั้งเดิม สำหรับคนที่อยากเทียบว่า agent เข้ามาแทรกตรงไหน"
 
-m01: []
-m02: []
+m02:
+  - title: "มารู้จักกับ RAG"
+    url: "https://www.youtube.com/watch?v=4h9mGGmCqlM"
+    channel: mikelopster
+    when: before
+    note: "พื้นฐาน retrieval ก่อนบทที่ 8 ที่ชั่งว่าเมื่อไหร่ควร retrieve เมื่อไหร่ควรแนบตรง ๆ"
+  - title: "มาลอง OpenClaw กับการสร้าง Memory ให้ AI ของเรากัน"
+    url: "https://www.youtube.com/watch?v=h-9Zh4rcs7Q"
+    channel: mikelopster
+    when: optional
+    note: "ตัวอย่างการทำ memory ชั้นนอก เทียบกับลำดับชั้นหน่วยความจำในบทที่ 4"
+  - title: "ว่าด้วย AI Agent กับการจัดการ Markdown"
+    url: "https://www.youtube.com/watch?v=rGE9sEEVzrQ"
+    channel: mikelopster
+    when: optional
+    note: "เกี่ยวกับการเรนเดอร์บริบทให้เล็ก ซึ่งเป็นกฎข้อสามในบทที่ 2"
+
+m04:
+  - title: "มาลองให้ AI เลือก Tech Stack สำหรับทำเว็บกัน"
+    url: "https://www.youtube.com/watch?v=smq0S3cvk_U"
+    channel: mikelopster
+    when: optional
+    note: "เคสให้ agent ช่วยตัดสินใจ ดูคู่กับบทที่ 4 ที่แยกค้นหา/สรุป/ตัดสินใจออกจากกัน"
+
+m06:
+  - title: "Openclaw และ การทำงานร่วมกับ Browser"
+    url: "https://www.youtube.com/watch?v=pa73gNh0woM"
+    channel: mikelopster
+    when: before
+    note: "เห็นกลไก browser automation ก่อนทำ visual verification loop ในบทที่ 5"
+  - title: "ลองเล่น Open Design กัน"
+    url: "https://www.youtube.com/watch?v=NYfzprHoAUY"
+    channel: mikelopster
+    when: optional
+    note: "มุมการส่ง design เข้าไปเป็นบริบท เทียบกับบทที่ 2 ของโมดูลนี้"
+
+m08:
+  - title: "มารู้จักกับ Bun ผ่านเรื่องเล่า Migration Bun ด้วย AI กัน"
+    url: "https://www.youtube.com/watch?v=ZfI5TE2kjho"
+    channel: mikelopster
+    when: after
+    note: "เคส migration ของจริง ดูหลังเรียน strangler pattern เพื่อเทียบกับที่เราวางไว้"
+
+m09:
+  - title: "มารู้จักกับ Agent Hooks กัน"
+    url: "https://www.youtube.com/watch?v=QGk0xrk8074"
+    channel: mikelopster
+    when: before
+    note: "ปู hook ก่อนบทที่ 7 ที่ใช้ hook บังคับนโยบายที่ prompt บังคับไม่ได้"
+  - title: "ใช้ AI สร้าง AI ได้ยังไงบ้าง ?"
+    url: "https://www.youtube.com/watch?v=GCn7EgjzanA"
+    channel: mikelopster
+    when: optional
+    note: "มุมการประกอบเครื่องมือขึ้นเอง ต่อกับแล็บสร้าง MCP server + skill + hook"
+
+m10:
+  - title: "มาลองทำ AI Multi-agent Orchestration กันน"
+    url: "https://www.youtube.com/watch?v=oYL0QL435Ag"
+    channel: mikelopster
+    when: before
+    note: "เห็น orchestration ทำงานจริงก่อนเข้าสี่ pattern และก่อนบทที่ว่ามันแพ้ single agent เมื่อไหร่"
+  - title: "LangGraph 101"
+    url: "https://www.youtube.com/watch?v=DJ2ZrbIkkO8"
+    channel: mikelopster
+    when: optional
+    note: "อีกวิธีประกอบ graph ของ agent เทียบกับ pattern pipeline ในบทที่ 3"
+  - title: "LangChain 101"
+    url: "https://www.youtube.com/watch?v=mH36GOYeJmw"
+    channel: mikelopster
+    when: optional
+    note: "พื้นฐานเฟรมเวิร์ก สำหรับคนที่ยังไม่เคยแตะ"
+
+m13:
+  - title: "OpenClaw & Security"
+    url: "https://www.youtube.com/watch?v=0IGRhY9c-lc"
+    channel: mikelopster
+    when: before
+    note: "ปูประเด็นความปลอดภัยของ agent ก่อนลงโมเดลภัยคุกคามเต็มรูปแบบ"
+
+m15:
+  - title: "Software Engineer in AI Era (จาก Google I/O 2026)"
+    url: "https://www.youtube.com/watch?v=UreF8tC7QC4"
+    channel: mikelopster
+    when: after
+    note: "มุมภาพใหญ่เรื่องบทบาทที่เปลี่ยนไป ดูคู่กับบท skill atrophy และแผน rollout"
+  - title: "Vibe Coding ? จะเกิดอะไรเมื่อมนุษย์ปล่อยใจให้ AI เป็นคน Code แทน"
+    url: "https://www.youtube.com/watch?v=WAxk3LZbBA8"
+    channel: mikelopster
+    when: optional
+    note: "ตั้งคำถามเรื่องความไว้ใจ ต่อกับบท trust calibration"
+
+# ยังไม่มี — เติมได้เลย
 m03: []
-m04: []
 m05: []
-m06: []
 m07: []
-m08: []
-m09: []
-m10: []
 m11: []
 m12: []
-m13: []
 m14: []
-m15: []
