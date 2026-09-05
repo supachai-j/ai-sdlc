@@ -9,7 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/style.css">
-
 </head>
 <body>
 <div class="wrap">
@@ -18,7 +17,7 @@
   <nav>
     <a href="index.html">ภาพรวม</a>
     <a href="course-th.html">หลักสูตร</a>
-    <a href="m12-evals.html">M12 Evals</a>
+    <span id="nav-progress" class="nav-progress" hidden></span>
     <button id="theme" type="button" aria-label="สลับธีมสว่าง/มืด">THEME</button>
   </nav>
 </header>
@@ -26,7 +25,7 @@
   <span class="crumb">AI Coding Agent SDLC · Phase 01 · Module 05</span>
   <h1>ออกแบบ Codebase ให้ Agent ทำงานได้</h1>
   <p class="deck">คุณภาพงานของ agent มาจากโครงสร้าง repo มากกว่ามาจาก prompt และความต่างที่สำคัญคือ <strong>โครงสร้างให้ผลถาวร ส่วน prompt ที่ปรับดีขึ้นให้ผลแค่ครั้งเดียว</strong></p>
-  <div class="meta"><span><b>8</b> บทเรียน</span><span><b>2.5</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ต้องผ่าน <b>M02</b> · <b>M04</b> ก่อน</span></div>
+  <div class="meta"><span><b>8</b> บทเรียน</span><span><b>2.5</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ต้องผ่าน <b>M02</b> · <b>M04</b> ก่อน</span></div><div class="m-progress"><div class="bar" data-bar="m05"><span></span></div><span class="bar-label" data-label="m05"></span></div>
 </header>
 
 <div class="thesis">
@@ -35,7 +34,7 @@
 </div>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">05.01</span><h2>Legibility — อ่านรู้เรื่องสำหรับเครื่อง</h2></div>
+  <div class="lhead"><span class="lnum">05.01</span><h2>Legibility — อ่านรู้เรื่องสำหรับเครื่อง</h2><label class="done"><input type="checkbox" data-lesson="05.01"><span>เรียนจบ</span></label></div>
   <p>codebase ที่คนอ่านรู้เรื่องกับที่เครื่องอ่านรู้เรื่อง ไม่ใช่สิ่งเดียวกัน คนเติมช่องว่างจากบริบทที่สะสมมาหลายเดือน ส่วน agent เห็นเฉพาะสิ่งที่อยู่ตรงหน้า</p>
   <div class="tw"><table>
     <thead><tr><th>สิ่งที่คนทดแทนได้ด้วยความคุ้นเคย</th><th>สิ่งที่ agent ต้องเห็นตรง ๆ</th></tr></thead>
@@ -53,7 +52,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">05.02</span><h2>โครงไฟล์ที่ลดต้นทุนการค้นหา</h2></div>
+  <div class="lhead"><span class="lnum">05.02</span><h2>โครงไฟล์ที่ลดต้นทุนการค้นหา</h2><label class="done"><input type="checkbox" data-lesson="05.02"><span>เรียนจบ</span></label></div>
   <p>agent จ่าย token ทุกครั้งที่หาไม่เจอ และมันหาแบบเดาจากชื่อ ไม่ใช่แบบจำที่ได้ โครงสร้างที่ดีจึงวัดได้ด้วยคำถามเดียว — <strong>“จากชื่อฟีเจอร์ เดาที่อยู่ไฟล์ถูกในครั้งแรกไหม”</strong></p>
   <ul>
     <li><strong>จัดตามโดเมน ไม่ใช่ตามชนิดไฟล์</strong> — <code>billing/</code> ที่มีทั้ง logic เทสต์ และ type รวมกัน ชนะ <code>controllers/ services/ types/</code> ที่กระจายเรื่องเดียวไปสามที่</li>
@@ -64,7 +63,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">05.03</span><h2>Error message คือช่องทาง feedback</h2></div>
+  <div class="lhead"><span class="lnum">05.03</span><h2>Error message คือช่องทาง feedback</h2><label class="done"><input type="checkbox" data-lesson="05.03"><span>เรียนจบ</span></label></div>
   <p>นี่คือการลงทุนที่คุ้มที่สุดในโมดูลนี้ เพราะ error คือสิ่งที่ agent อ่านตอนที่มันหลงทาง และเป็นโอกาสเดียวที่คุณจะชี้ทางได้โดยไม่ต้องอยู่ตรงนั้น</p>
   <pre><code><span class="c">// ไร้ประโยชน์ — agent ได้แต่เดา แล้วลองสุ่มแก้</span>
 Error: Invalid configuration
@@ -80,7 +79,7 @@ Error: config.retries ต้องเป็นจำนวนเต็ม 0-10 �
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">05.04</span><h2>Test affordance</h2></div>
+  <div class="lhead"><span class="lnum">05.04</span><h2>Test affordance</h2><label class="done"><input type="checkbox" data-lesson="05.04"><span>เรียนจบ</span></label></div>
   <p>หลักการที่คนไม่ค่อยพูดถึง — <strong>ถ้ารันเทสต์เฉพาะจุดไม่ได้เร็ว agent จะเลิกรันแล้วเดาแทน</strong> มันไม่ได้ประกาศว่าเลิกรัน มันแค่ค่อย ๆ ข้ามไป และคุณจะเห็นผลเป็นคุณภาพที่ตกโดยไม่รู้สาเหตุ</p>
   <div class="tw"><table>
     <thead><tr><th>เวลารันเทสต์เฉพาะจุด</th><th>พฤติกรรมที่ได้</th></tr></thead>
@@ -97,7 +96,7 @@ Error: config.retries ต้องเป็นจำนวนเต็ม 0-10 �
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">05.05</span><h2>Type และ schema เป็น guardrail ที่ถูกที่สุด</h2></div>
+  <div class="lhead"><span class="lnum">05.05</span><h2>Type และ schema เป็น guardrail ที่ถูกที่สุด</h2><label class="done"><input type="checkbox" data-lesson="05.05"><span>เรียนจบ</span></label></div>
   <p>Type ทำงานต่างจากคำสั่งใน prompt ตรงที่มัน<strong>บังคับได้ ไม่ใช่แค่ขอ</strong> และมันทำงานตอนที่ไม่มีใครดูอยู่</p>
   <div class="tw"><table>
     <thead><tr><th>วิธีกัน</th><th>บังคับได้จริงไหม</th><th>ต้นทุนต่อครั้ง</th></tr></thead>
@@ -112,7 +111,7 @@ Error: config.retries ต้องเป็นจำนวนเต็ม 0-10 �
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">05.06</span><h2>Docs-as-context</h2></div>
+  <div class="lhead"><span class="lnum">05.06</span><h2>Docs-as-context</h2><label class="done"><input type="checkbox" data-lesson="05.06"><span>เรียนจบ</span></label></div>
   <p>เอกสารในโปรเจกต์ที่มี agent ทำงานอยู่ มีสถานะเปลี่ยนไป มันไม่ใช่ของที่เขียนแล้วไม่มีใครอ่าน แต่เป็น input ที่ถูกอ่านทุกวัน ซึ่งเปลี่ยนวิธีเขียนไปด้วย</p>
   <div class="tw"><table>
     <thead><tr><th>เอกสาร</th><th>เขียนแบบเดิม</th><th>เขียนให้เป็นบริบท</th></tr></thead>
@@ -130,7 +129,7 @@ Error: config.retries ต้องเป็นจำนวนเต็ม 0-10 �
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">05.07</span><h2>ลำดับชั้นของไฟล์บริบท</h2></div>
+  <div class="lhead"><span class="lnum">05.07</span><h2>ลำดับชั้นของไฟล์บริบท</h2><label class="done"><input type="checkbox" data-lesson="05.07"><span>เรียนจบ</span></label></div>
   <p>ไฟล์บริบทมีได้หลายระดับ และการรู้ลำดับทับกันช่วยให้วางกฎถูกที่</p>
   <div class="tw"><table>
     <thead><tr><th>ระดับ</th><th>ควรใส่อะไร</th><th>สิ่งที่ไม่ควรอยู่ที่นี่</th></tr></thead>
@@ -147,7 +146,7 @@ Error: config.retries ต้องเป็นจำนวนเต็ม 0-10 �
 </section>
 
 <div class="lab">
-  <div class="lab-head">05.08 · แล็บประจำโมดูล</div>
+  <div class="lab-head">05.08 · แล็บประจำโมดูล<label class="done"><input type="checkbox" data-lesson="05.08"><span>ทำแล็บแล้ว</span></label></div>
   <div class="lab-body">
     <h2>Audit repo จริง แล้วทำห้าการเปลี่ยนที่ลด token ต่องานลง 30%</h2>
     <p>แล็บนี้วัดผลได้ตรง ๆ และผลมักอยู่ได้นานกว่าทุกอย่างที่คุณทำในหลักสูตรนี้</p>
@@ -174,8 +173,19 @@ Error: config.retries ต้องเป็นจำนวนเต็ม 0-10 �
 </div>
 
 <p class="note"><b>เชื่อมกับโมดูลอื่น</b> — <a href="m01.html">M01.07</a> สองในเจ็ดโหมดล้มเหลวแก้ได้ที่นี่ · <a href="m02.html">M02.08</a> โครงสร้างที่ดีทำให้ retrieval ชนะ stuffing · <a href="m08.html">M08</a> ใช้เทคนิคเดียวกันกับ repo ที่คุณไม่ได้เขียน · <a href="m09.html">M09</a> เปลี่ยนกฎเป็น hook ที่บังคับได้</p>
-
+<section class="lesson"><div class="lhead"><span class="lnum">วิดีโอ</span><h2>วิดีโอประกอบโมดูลนี้</h2></div><div class="m-vids"><b>วิดีโอประกอบ · 1 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="YXljvRV6bak" data-title="มารู้จักกับ DESIGN.md กัน" aria-label="เล่นวิดีโอ มารู้จักกับ DESIGN.md กัน">
+           <img src="https://i.ytimg.com/vi/YXljvRV6bak/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=YXljvRV6bak" target="_blank" rel="noopener noreferrer">มารู้จักกับ DESIGN.md กัน</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">เอกสารในฐานะบริบทถาวรของ repo ตรงกับบทที่ 6 docs-as-context</span><label class="vid-done"><input type="checkbox" data-video="YXljvRV6bak"> ดูแล้ว</label>
+  </div>
+</li></ul></div></section>
 </div>
+<script src="assets/course-data.js" defer></script>
+<script src="assets/progress.js" defer></script>
 <script>
 document.getElementById("theme").addEventListener("click",function(){
   var d=document.documentElement;

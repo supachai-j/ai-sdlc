@@ -9,7 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/style.css">
-
 </head>
 <body>
 <div class="wrap">
@@ -18,7 +17,7 @@
   <nav>
     <a href="index.html">ภาพรวม</a>
     <a href="course-th.html">หลักสูตร</a>
-    <a href="m12-evals.html">M12 Evals</a>
+    <span id="nav-progress" class="nav-progress" hidden></span>
     <button id="theme" type="button" aria-label="สลับธีมสว่าง/มืด">THEME</button>
   </nav>
 </header>
@@ -26,7 +25,7 @@
   <span class="crumb">AI Coding Agent SDLC · Phase 02 · Module 08</span>
   <h1>Brownfield และ Legacy Code</h1>
   <p class="deck">แล็บที่เริ่มจากโฟลเดอร์ว่างสอนงานที่แทบไม่มีใครทำจริง งานจริงคือ codebase อายุหกปี ไม่มีเทสต์ ไม่มี type และคนเขียนลาออกไปแล้ว <strong>โมดูลนี้คือส่วนที่คุณจะใช้บ่อยที่สุด</strong></p>
-  <div class="meta"><span><b>7</b> บทเรียน</span><span><b>2.5</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ต้องผ่าน <b>M05</b> ก่อน</span></div>
+  <div class="meta"><span><b>7</b> บทเรียน</span><span><b>2.5</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ต้องผ่าน <b>M05</b> ก่อน</span></div><div class="m-progress"><div class="bar" data-bar="m08"><span></span></div><span class="bar-label" data-label="m08"></span></div>
 </header>
 
 <div class="thesis">
@@ -35,7 +34,7 @@
 </div>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">08.01</span><h2>สร้างแผนที่ก่อน อย่าเพิ่งแก้</h2></div>
+  <div class="lhead"><span class="lnum">08.01</span><h2>สร้างแผนที่ก่อน อย่าเพิ่งแก้</h2><label class="done"><input type="checkbox" data-lesson="08.01"><span>เรียนจบ</span></label></div>
   <p>สัญชาตญาณแรกคือส่งงานให้ agent เลย แต่ใน codebase ที่ไม่มีใครเข้าใจ สิ่งที่ควรสั่งเป็นอย่างแรกคือ <strong>ให้มันอธิบายกลับมา</strong></p>
   <ol>
     <li><strong>แผนที่ระดับบน</strong> — โมดูลหลักมีอะไรบ้าง อะไรเรียกอะไร ทางเข้าอยู่ตรงไหน</li>
@@ -53,7 +52,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">08.02</span><h2>Characterization test</h2></div>
+  <div class="lhead"><span class="lnum">08.02</span><h2>Characterization test</h2><label class="done"><input type="checkbox" data-lesson="08.02"><span>เรียนจบ</span></label></div>
   <p>เทสต์ชนิดนี้ไม่ได้ยืนยันว่าโค้ด<em>ถูก</em> แต่ยืนยันว่าโค้ด<em>ทำเหมือนเดิม</em> ซึ่งเป็นสิ่งที่คุณต้องการจริง ๆ ก่อนแตะของที่ไม่เข้าใจ</p>
   <pre><code><span class="c">// ขั้นตอน — และใช่ ข้อ 3 คือการล็อกพฤติกรรมที่รู้ว่าผิดไว้ โดยตั้งใจ</span>
 1. เรียกโค้ดเดิมด้วยอินพุตหลากหลาย
@@ -67,7 +66,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">08.03</span><h2>Strangler pattern ร่วมกับ agent</h2></div>
+  <div class="lhead"><span class="lnum">08.03</span><h2>Strangler pattern ร่วมกับ agent</h2><label class="done"><input type="checkbox" data-lesson="08.03"><span>เรียนจบ</span></label></div>
   <p>แทนที่จะเขียนใหม่ทั้งก้อนแล้วสลับทีเดียว ให้สร้างของใหม่ข้าง ๆ ของเก่า แล้วย้ายทราฟฟิกทีละส่วน วิธีนี้เข้ากับ agent ได้ดีเป็นพิเศษเพราะแต่ละก้าวเล็กพอที่จะตรวจได้</p>
   <div class="tw"><table>
     <thead><tr><th>ขั้น</th><th>agent ทำได้แค่ไหน</th><th>คนต้องทำอะไร</th></tr></thead>
@@ -82,7 +81,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">08.04</span><h2>ทำงานกับโค้ดที่ไม่มีเทสต์และไม่มี type</h2></div>
+  <div class="lhead"><span class="lnum">08.04</span><h2>ทำงานกับโค้ดที่ไม่มีเทสต์และไม่มี type</h2><label class="done"><input type="checkbox" data-lesson="08.04"><span>เรียนจบ</span></label></div>
   <p>ลำดับสร้างตาข่ายที่ให้ผลเร็วที่สุดต่อความพยายาม — ทำตามลำดับ อย่ากระโดด</p>
   <ol>
     <li><strong>ทำให้รันได้ก่อน</strong> — ถ้ายังตั้งโปรเจกต์ขึ้นไม่ได้ ทุกอย่างหลังจากนี้ไม่มีความหมาย</li>
@@ -98,7 +97,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">08.05</span><h2>อ่านประวัติเป็นบริบท</h2></div>
+  <div class="lhead"><span class="lnum">08.05</span><h2>อ่านประวัติเป็นบริบท</h2><label class="done"><input type="checkbox" data-lesson="08.05"><span>เรียนจบ</span></label></div>
   <p>ใน codebase ที่ไม่มีเอกสาร ประวัติการเปลี่ยนแปลงคือเอกสารที่ดีที่สุดที่มี และเป็นแหล่งที่ agent เข้าถึงได้ดี</p>
   <div class="tw"><table>
     <thead><tr><th>คำถาม</th><th>หาจากไหน</th><th>บอกอะไร</th></tr></thead>
@@ -115,7 +114,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">08.06</span><h2>แก้อย่างปลอดภัย — blast radius</h2></div>
+  <div class="lhead"><span class="lnum">08.06</span><h2>แก้อย่างปลอดภัย — blast radius</h2><label class="done"><input type="checkbox" data-lesson="08.06"><span>เรียนจบ</span></label></div>
   <p>ก่อนแตะทุกครั้ง ต้องตอบสามคำถามให้ได้ ถ้าตอบไม่ได้ แปลว่ายังไม่พร้อมแก้</p>
   <ol>
     <li><strong>ถ้าพัง ใครเจอ และเจอเมื่อไหร่</strong> — ผู้ใช้ทันที หรืองานกลางคืนสัปดาห์หน้า</li>
@@ -129,7 +128,7 @@
 </section>
 
 <div class="lab">
-  <div class="lab-head">08.07 · แล็บประจำโมดูล</div>
+  <div class="lab-head">08.07 · แล็บประจำโมดูล<label class="done"><input type="checkbox" data-lesson="08.07"><span>ทำแล็บแล้ว</span></label></div>
   <div class="lab-body">
     <h2>เพิ่มฟีเจอร์ใน repo โอเพนซอร์สจริงที่ไม่เคยเห็นมาก่อน</h2>
     <p>เลือก repo ที่มีอายุอย่างน้อยสองปี มีคอมมิตหลายพัน และคุณไม่เคยอ่านมาก่อน จำกัดเวลาสามชั่วโมง</p>
@@ -158,8 +157,29 @@
 </div>
 
 <p class="note"><b>เชื่อมกับโมดูลอื่น</b> — <a href="m05.html">M05</a> เทคนิคเดียวกันแต่กับ repo ที่คุณคุมได้ · <a href="m11.html">M11.03</a> เทสต์ในฐานะ spec · <a href="m12-evals.html">M12.02</a> งานจาก brownfield คือวัตถุดิบที่ดีที่สุดของชุดวัด · <a href="m14.html">M14.07</a> แผนย้อนกลับ</p>
-
+<section class="lesson"><div class="lhead"><span class="lnum">วิดีโอ</span><h2>วิดีโอประกอบโมดูลนี้</h2></div><div class="m-vids"><b>วิดีโอประกอบ · 2 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="ZfI5TE2kjho" data-title="มารู้จักกับ Bun ผ่านเรื่องเล่า Migration Bun ด้วย AI กัน" aria-label="เล่นวิดีโอ มารู้จักกับ Bun ผ่านเรื่องเล่า Migration Bun ด้วย AI กัน">
+           <img src="https://i.ytimg.com/vi/ZfI5TE2kjho/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when after">after</span><a href="https://www.youtube.com/watch?v=ZfI5TE2kjho" target="_blank" rel="noopener noreferrer">มารู้จักกับ Bun ผ่านเรื่องเล่า Migration Bun ด้วย AI กัน</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">เคส migration ของจริง ดูหลังเรียน strangler pattern เพื่อเทียบกับที่เราวางไว้</span><label class="vid-done"><input type="checkbox" data-video="ZfI5TE2kjho"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="Jx7NoytkMq8" data-title="ผมจะสอนคุณ Contribute Open Source ครั้งแรกในชีวิต ดูจบบรรลุ!" aria-label="เล่นวิดีโอ ผมจะสอนคุณ Contribute Open Source ครั้งแรกในชีวิต ดูจบบรรลุ!">
+           <img src="https://i.ytimg.com/vi/Jx7NoytkMq8/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=Jx7NoytkMq8" target="_blank" rel="noopener noreferrer">ผมจะสอนคุณ Contribute Open Source ครั้งแรกในชีวิต ดูจบบรรลุ!</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">ปูขั้นตอนเข้า codebase ที่ไม่เคยเห็น ตรงกับแล็บของโมดูลนี้พอดี</span><label class="vid-done"><input type="checkbox" data-video="Jx7NoytkMq8"> ดูแล้ว</label>
+  </div>
+</li></ul></div></section>
 </div>
+<script src="assets/course-data.js" defer></script>
+<script src="assets/progress.js" defer></script>
 <script>
 document.getElementById("theme").addEventListener("click",function(){
   var d=document.documentElement;

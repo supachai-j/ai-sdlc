@@ -9,7 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/style.css">
-
 </head>
 <body>
 <div class="wrap">
@@ -18,7 +17,7 @@
   <nav>
     <a href="index.html">ภาพรวม</a>
     <a href="course-th.html">หลักสูตร</a>
-    <a href="m12-evals.html">M12 Evals</a>
+    <span id="nav-progress" class="nav-progress" hidden></span>
     <button id="theme" type="button" aria-label="สลับธีมสว่าง/มืด">THEME</button>
   </nav>
 </header>
@@ -26,7 +25,7 @@
   <span class="crumb">AI Coding Agent SDLC · Phase 03 · Module 09</span>
   <h1>Tooling — MCP, Skills, Hooks, Plugins</h1>
   <p class="deck">โมดูลนี้พาคุณข้ามจากผู้ใช้เครื่องมือไปเป็นผู้สร้าง และบทที่สำคัญที่สุดคือบทท้าย ๆ ที่บอกว่า <strong>เมื่อไหร่ไม่ควรสร้าง</strong> — เพราะสคริปต์ธรรมดาชนะบ่อยกว่าที่คนคิดมาก</p>
-  <div class="meta"><span><b>10</b> บทเรียน</span><span><b>3.5</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ต้องผ่าน <b>M01</b> · <b>M02</b> · <b>M05</b> ก่อน</span></div>
+  <div class="meta"><span><b>10</b> บทเรียน</span><span><b>3.5</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ต้องผ่าน <b>M01</b> · <b>M02</b> · <b>M05</b> ก่อน</span></div><div class="m-progress"><div class="bar" data-bar="m09"><span></span></div><span class="bar-label" data-label="m09"></span></div>
 </header>
 
 <div class="thesis">
@@ -35,7 +34,7 @@
 </div>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">09.01</span><h2>MCP คือโปรโตคอล ไม่ใช่ไลบรารี</h2></div>
+  <div class="lhead"><span class="lnum">09.01</span><h2>MCP คือโปรโตคอล ไม่ใช่ไลบรารี</h2><label class="done"><input type="checkbox" data-lesson="09.01"><span>เรียนจบ</span></label></div>
   <p>ความเข้าใจผิดที่พบบ่อยคือคิดว่ามันเป็นแพ็กเกจที่ติดตั้งแล้วได้ความสามารถ จริง ๆ มันคือข้อตกลงว่าโปรแกรมสองตัวจะคุยกันยังไง ซึ่งแปลว่าคุณเขียนฝั่งเซิร์ฟเวอร์เองด้วยภาษาอะไรก็ได้</p>
   <div class="tw"><table>
     <thead><tr><th>สิ่งที่ให้ได้</th><th>คืออะไร</th><th>ใช้เมื่อ</th></tr></thead>
@@ -49,7 +48,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">09.02</span><h2>Transport และ auth</h2></div>
+  <div class="lhead"><span class="lnum">09.02</span><h2>Transport และ auth</h2><label class="done"><input type="checkbox" data-lesson="09.02"><span>เรียนจบ</span></label></div>
   <div class="tw"><table>
     <thead><tr><th>รูปแบบ</th><th>เหมาะกับ</th><th>ข้อควรระวัง</th></tr></thead>
     <tbody>
@@ -64,7 +63,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">09.03</span><h2>คำอธิบายเครื่องมือคือ prompt</h2></div>
+  <div class="lhead"><span class="lnum">09.03</span><h2>คำอธิบายเครื่องมือคือ prompt</h2><label class="done"><input type="checkbox" data-lesson="09.03"><span>เรียนจบ</span></label></div>
   <p>agent เลือกเครื่องมือจากคำอธิบายเท่านั้น มันไม่ได้อ่านโค้ดข้างใน คำอธิบายจึงไม่ใช่เอกสาร API แต่เป็นคำสั่งที่กำหนดพฤติกรรม</p>
   <pre><code><span class="c">// อ่อน — agent ไม่รู้ว่าเมื่อไหร่ควรใช้ตัวนี้แทนตัวอื่น</span>
 "ค้นหาผู้ใช้"
@@ -81,7 +80,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">09.04</span><h2>ต้นทุน token ของ tool registry</h2></div>
+  <div class="lhead"><span class="lnum">09.04</span><h2>ต้นทุน token ของ tool registry</h2><label class="done"><input type="checkbox" data-lesson="09.04"><span>เรียนจบ</span></label></div>
   <p>เครื่องมือทุกตัวและ schema ของมันถูกส่งเข้าโมเดลทุกรอบ ทีมที่ติด MCP server ไว้สิบตัวอาจจ่ายค่าคำอธิบายเครื่องมือหลายหมื่น token ต่อรอบ โดยที่ใช้จริงสามตัว</p>
   <div class="box good">
     <span class="k">สามวิธีลด เรียงจากง่ายไปยาก</span>
@@ -98,7 +97,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">09.05</span><h2>Skills — ความรู้ที่โหลดตามบริบท</h2></div>
+  <div class="lhead"><span class="lnum">09.05</span><h2>Skills — ความรู้ที่โหลดตามบริบท</h2><label class="done"><input type="checkbox" data-lesson="09.05"><span>เรียนจบ</span></label></div>
   <p>Skill ต่างจาก tool ตรงที่มันไม่ใช่สิ่งที่ agent <em>เรียก</em> แต่เป็นความรู้ที่ถูก<em>โหลดเข้ามา</em>เมื่อสถานการณ์ตรง ทำให้มันเหมาะกับเวิร์กโฟลว์หลายขั้นที่มีวิธีทำเฉพาะ</p>
   <div class="tw"><table>
     <thead><tr><th></th><th>Tool</th><th>Skill</th></tr></thead>
@@ -111,7 +110,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">09.06</span><h2>เขียน skill ที่ trigger ถูกจังหวะ</h2></div>
+  <div class="lhead"><span class="lnum">09.06</span><h2>เขียน skill ที่ trigger ถูกจังหวะ</h2><label class="done"><input type="checkbox" data-lesson="09.06"><span>เรียนจบ</span></label></div>
   <p>ข้อเท็จจริงที่คนเขียน skill ครั้งแรกมักพลาด — <strong>บรรทัด description คือสิ่งเดียวที่ตัดสินว่าจะถูกโหลดหรือไม่</strong> ตัวเนื้อหาจะถูกอ่านก็ต่อเมื่อโหลดแล้ว ดังนั้นเนื้อหาที่ดีแต่ description แย่ เท่ากับไม่มี</p>
   <pre><code><span class="c">// โหลดไม่ตรงจังหวะ — กว้างเกินจนไม่รู้ว่าเมื่อไหร่เกี่ยว</span>
 description: ช่วยเรื่องฐานข้อมูล
@@ -129,7 +128,7 @@ description: >
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">09.07</span><h2>Hooks — บังคับสิ่งที่ prompt บังคับไม่ได้</h2></div>
+  <div class="lhead"><span class="lnum">09.07</span><h2>Hooks — บังคับสิ่งที่ prompt บังคับไม่ได้</h2><label class="done"><input type="checkbox" data-lesson="09.07"><span>เรียนจบ</span></label></div>
   <p>ความต่างที่เป็นแก่นของบทนี้ — <strong>prompt คือการขอ hook คือการบังคับ</strong> อะไรที่ต้องเกิดขึ้นแน่นอนทุกครั้ง ต้องเป็น hook ไม่ใช่กฎในไฟล์บริบท</p>
   <div class="tw"><table>
     <thead><tr><th>จังหวะ</th><th>ใช้ทำอะไรได้จริง</th></tr></thead>
@@ -147,7 +146,7 @@ description: >
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">09.08</span><h2>Plugins และ slash command</h2></div>
+  <div class="lhead"><span class="lnum">09.08</span><h2>Plugins และ slash command</h2><label class="done"><input type="checkbox" data-lesson="09.08"><span>เรียนจบ</span></label></div>
   <p>เมื่อคุณมี skill, hook และ MCP server ที่ใช้ได้ผลแล้ว ขั้นถัดไปคือทำให้ทั้งทีมได้ของชุดเดียวกัน เพราะประโยชน์ที่แท้จริงเกิดตอนที่ทุกคนได้พฤติกรรมเหมือนกัน ไม่ใช่ตอนที่คุณคนเดียวเก่งขึ้น</p>
   <ul>
     <li><strong>เวอร์ชันได้และย้อนได้</strong> — ปฏิบัติกับมันเหมือนโค้ด เพราะมันคือโค้ด</li>
@@ -157,7 +156,7 @@ description: >
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">09.09</span><h2>เมื่อไหร่ไม่ควรทำ MCP server</h2></div>
+  <div class="lhead"><span class="lnum">09.09</span><h2>เมื่อไหร่ไม่ควรทำ MCP server</h2><label class="done"><input type="checkbox" data-lesson="09.09"><span>เรียนจบ</span></label></div>
   <p>บทที่สำคัญที่สุดในโมดูลนี้ ทีมจำนวนมากสร้าง MCP server สำหรับสิ่งที่สคริปต์ 20 บรรทัดทำได้ดีกว่า แล้วต้องดูแลมันไปตลอด</p>
   <div class="tw"><table>
     <thead><tr><th>สถานการณ์</th><th>ควรใช้</th><th>เพราะ</th></tr></thead>
@@ -176,7 +175,7 @@ description: >
 </section>
 
 <div class="lab">
-  <div class="lab-head">09.10 · แล็บประจำโมดูล</div>
+  <div class="lab-head">09.10 · แล็บประจำโมดูล<label class="done"><input type="checkbox" data-lesson="09.10"><span>ทำแล็บแล้ว</span></label></div>
   <div class="lab-body">
     <h2>สร้าง MCP server + skill + hook ที่บังคับ convention ของทีมได้จริง</h2>
     <p>เลือก convention จริงที่ทีมคุณมีปัญหาว่าคนทำตามบ้างไม่ทำบ้าง แล้วทำให้มันบังคับได้</p>
@@ -199,8 +198,59 @@ description: >
 </div>
 
 <p class="note"><b>เชื่อมกับโมดูลอื่น</b> — <a href="m02.html">M02</a> tool registry คือส่วนหนึ่งของงบบริบท · <a href="m05.html">M05.05</a> hook คือ guardrail ที่บังคับได้แบบเดียวกับ type · <a href="m12-evals.html">M12.05</a> ชุดวัดสำหรับ skill · <a href="m13.html">M13.03</a> ภัยจาก tool poisoning</p>
-
+<section class="lesson"><div class="lhead"><span class="lnum">วิดีโอ</span><h2>วิดีโอประกอบโมดูลนี้</h2></div><div class="m-vids"><b>วิดีโอประกอบ · 5 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="QGk0xrk8074" data-title="มารู้จักกับ Agent Hooks กัน" aria-label="เล่นวิดีโอ มารู้จักกับ Agent Hooks กัน">
+           <img src="https://i.ytimg.com/vi/QGk0xrk8074/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=QGk0xrk8074" target="_blank" rel="noopener noreferrer">มารู้จักกับ Agent Hooks กัน</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">ปู hook ก่อนบทที่ 7 ที่ใช้ hook บังคับนโยบายที่ prompt บังคับไม่ได้</span><label class="vid-done"><input type="checkbox" data-video="QGk0xrk8074"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="GCn7EgjzanA" data-title="ใช้ AI สร้าง AI ได้ยังไงบ้าง ?" aria-label="เล่นวิดีโอ ใช้ AI สร้าง AI ได้ยังไงบ้าง ?">
+           <img src="https://i.ytimg.com/vi/GCn7EgjzanA/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=GCn7EgjzanA" target="_blank" rel="noopener noreferrer">ใช้ AI สร้าง AI ได้ยังไงบ้าง ?</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">มุมการประกอบเครื่องมือขึ้นเอง ต่อกับแล็บสร้าง MCP server + skill + hook</span><label class="vid-done"><input type="checkbox" data-video="GCn7EgjzanA"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="4hLCFUJV1sM" data-title="มารู้จักกับ Agent Skill กัน" aria-label="เล่นวิดีโอ มารู้จักกับ Agent Skill กัน">
+           <img src="https://i.ytimg.com/vi/4hLCFUJV1sM/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=4hLCFUJV1sM" target="_blank" rel="noopener noreferrer">มารู้จักกับ Agent Skill กัน</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">ปู skill ก่อนบทที่ 5–6 ที่ลงรายละเอียดว่า description คือสิ่งที่ตัดสินการ trigger</span><label class="vid-done"><input type="checkbox" data-video="4hLCFUJV1sM"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="9-N6M3VjoRg" data-title="เลิกสั่ง AI ซ้ำซาก! มาใช้ Agent Skills ให้ AI รู้ใจเราตลอดไป" aria-label="เล่นวิดีโอ เลิกสั่ง AI ซ้ำซาก! มาใช้ Agent Skills ให้ AI รู้ใจเราตลอดไป">
+           <img src="https://i.ytimg.com/vi/9-N6M3VjoRg/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when after">after</span><a href="https://www.youtube.com/watch?v=9-N6M3VjoRg" target="_blank" rel="noopener noreferrer">เลิกสั่ง AI ซ้ำซาก! มาใช้ Agent Skills ให้ AI รู้ใจเราตลอดไป</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">ท่าใช้จริงแบบสั้น ดูหลังเขียน SKILL.md เองในแล็บ</span><label class="vid-done"><input type="checkbox" data-video="9-N6M3VjoRg"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="qu06gun_vpc" data-title="ลองเล่น OpenCode (และ OpenRouter) ฉบับสายฟรี AI Agent" aria-label="เล่นวิดีโอ ลองเล่น OpenCode (และ OpenRouter) ฉบับสายฟรี AI Agent">
+           <img src="https://i.ytimg.com/vi/qu06gun_vpc/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=qu06gun_vpc" target="_blank" rel="noopener noreferrer">ลองเล่น OpenCode (และ OpenRouter) ฉบับสายฟรี AI Agent</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">harness ทางเลือก ช่วยให้เห็นว่าอะไรเป็นมาตรฐานร่วม อะไรเป็นของเฉพาะเจ้า</span><label class="vid-done"><input type="checkbox" data-video="qu06gun_vpc"> ดูแล้ว</label>
+  </div>
+</li></ul></div></section>
 </div>
+<script src="assets/course-data.js" defer></script>
+<script src="assets/progress.js" defer></script>
 <script>
 document.getElementById("theme").addEventListener("click",function(){
   var d=document.documentElement;

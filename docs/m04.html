@@ -9,7 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/style.css">
-
 </head>
 <body>
 <div class="wrap">
@@ -18,7 +17,7 @@
   <nav>
     <a href="index.html">ภาพรวม</a>
     <a href="course-th.html">หลักสูตร</a>
-    <a href="m12-evals.html">M12 Evals</a>
+    <span id="nav-progress" class="nav-progress" hidden></span>
     <button id="theme" type="button" aria-label="สลับธีมสว่าง/มืด">THEME</button>
   </nav>
 </header>
@@ -26,7 +25,7 @@
   <span class="crumb">AI Coding Agent SDLC · Phase 01 · Module 04</span>
   <h1>Requirements, Research และการย่อยงาน</h1>
   <p class="deck">บทที่ให้ผลตอบแทนสูงที่สุดในหลักสูตรอยู่ในโมดูลนี้ เพราะ<strong>เวลาที่ใช้วางแผนสิบนาที ประหยัดการสั่งซ้ำได้เป็นชั่วโมง</strong> และการสั่งซ้ำคือที่ที่เงินกับความอดทนหายไป</p>
-  <div class="meta"><span><b>8</b> บทเรียน</span><span><b>2.5</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ต้องผ่าน <b>M01</b> · <b>M02</b> ก่อน</span></div>
+  <div class="meta"><span><b>8</b> บทเรียน</span><span><b>2.5</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ต้องผ่าน <b>M01</b> · <b>M02</b> ก่อน</span></div><div class="m-progress"><div class="bar" data-bar="m04"><span></span></div><span class="bar-label" data-label="m04"></span></div>
 </header>
 
 <div class="thesis">
@@ -35,7 +34,7 @@
 </div>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">04.01</span><h2>Spec-first — คำสั่งกับข้อกำหนดต่างกันตรงไหน</h2></div>
+  <div class="lhead"><span class="lnum">04.01</span><h2>Spec-first — คำสั่งกับข้อกำหนดต่างกันตรงไหน</h2><label class="done"><input type="checkbox" data-lesson="04.01"><span>เรียนจบ</span></label></div>
   <div class="tw"><table>
     <thead><tr><th></th><th>คำสั่ง</th><th>ข้อกำหนด</th></tr></thead>
     <tbody>
@@ -52,7 +51,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">04.02</span><h2>ขนาดงานที่พอดีกับ agent</h2></div>
+  <div class="lhead"><span class="lnum">04.02</span><h2>ขนาดงานที่พอดีกับ agent</h2><label class="done"><input type="checkbox" data-lesson="04.02"><span>เรียนจบ</span></label></div>
   <p>งานที่ใหญ่เกินทำให้ agent ลอยจากแผน งานที่เล็กเกินทำให้คุณเสียเวลาสั่งมากกว่าลงมือทำเอง มีสามเกณฑ์ที่บอกว่าพอดี</p>
   <ul>
     <li><strong>ยืนยันผลได้ในรอบเดียว</strong> — มีคำสั่งหนึ่งบรรทัดที่บอกว่าสำเร็จหรือไม่</li>
@@ -66,7 +65,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">04.03</span><h2>งานนี้ควรให้ agent ทำไหม</h2></div>
+  <div class="lhead"><span class="lnum">04.03</span><h2>งานนี้ควรให้ agent ทำไหม</h2><label class="done"><input type="checkbox" data-lesson="04.03"><span>เรียนจบ</span></label></div>
   <p>ไม่ใช่ทุกงานที่คุ้มจะมอบให้ agent ใช้สี่เกณฑ์นี้ตัดสิน ถ้าตอบ “ไม่” ข้อใดข้อหนึ่ง ให้ทำเองหรือลดขนาดงานลง</p>
   <div class="tw"><table>
     <thead><tr><th>เกณฑ์</th><th>คำถาม</th><th>ถ้าตอบไม่</th></tr></thead>
@@ -81,7 +80,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">04.04</span><h2>Research loop — แยกสามขั้นออกจากกัน</h2></div>
+  <div class="lhead"><span class="lnum">04.04</span><h2>Research loop — แยกสามขั้นออกจากกัน</h2><label class="done"><input type="checkbox" data-lesson="04.04"><span>เรียนจบ</span></label></div>
   <p>ความผิดพลาดที่พบบ่อยคือสั่งรวบ “ไปหาข้อมูลแล้วตัดสินใจให้หน่อย” ซึ่งทำให้ได้ข้อสรุปที่ดูมั่นใจแต่ตรวจย้อนไม่ได้ ให้แยกเป็นสามขั้นที่มีผลลัพธ์คนละแบบ</p>
   <div class="tw"><table>
     <thead><tr><th>ขั้น</th><th>ผลลัพธ์ที่ต้องได้</th><th>ใครตัดสิน</th></tr></thead>
@@ -98,7 +97,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">04.05</span><h2>วินัยเรื่องหลักฐาน</h2></div>
+  <div class="lhead"><span class="lnum">04.05</span><h2>วินัยเรื่องหลักฐาน</h2><label class="done"><input type="checkbox" data-lesson="04.05"><span>เรียนจบ</span></label></div>
   <p>ข้อความสองแบบนี้หน้าตาเหมือนกันในคำตอบของ agent แต่คุณค่าต่างกันคนละโลก</p>
   <pre><code><span class="c">// อ้างลอย — ตรวจไม่ได้ อาจจริงอาจไม่จริง</span>
 "ฟังก์ชันนี้ถูกเรียกจากสามที่ในโปรเจกต์"
@@ -115,7 +114,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">04.06</span><h2>ADR ที่ agent ตัวถัดไปอ่านต่อได้</h2></div>
+  <div class="lhead"><span class="lnum">04.06</span><h2>ADR ที่ agent ตัวถัดไปอ่านต่อได้</h2><label class="done"><input type="checkbox" data-lesson="04.06"><span>เรียนจบ</span></label></div>
   <p>บันทึกการตัดสินใจไม่ได้มีไว้ให้คนอ่านอย่างเดียวอีกต่อไป มันคือบริบทถาวรที่ทำให้ agent รอบหน้าไม่ถามซ้ำและไม่รื้อของที่ตัดสินไปแล้ว โครงที่ใช้ได้จริงมีห้าส่วน</p>
   <ol>
     <li><strong>บริบท</strong> — สถานการณ์ที่บังคับให้ต้องเลือก</li>
@@ -131,7 +130,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">04.07</span><h2>Plan mode และการรีวิวแผนก่อนลงมือ</h2></div>
+  <div class="lhead"><span class="lnum">04.07</span><h2>Plan mode และการรีวิวแผนก่อนลงมือ</h2><label class="done"><input type="checkbox" data-lesson="04.07"><span>เรียนจบ</span></label></div>
   <p>นี่คือบทที่ให้ผลตอบแทนสูงที่สุดในหลักสูตร เหตุผลเป็นเรื่องเลขคณิตล้วน ๆ</p>
   <div class="tw"><table>
     <thead><tr><th>จังหวะที่จับข้อผิดพลาดได้</th><th>ต้นทุนการแก้</th></tr></thead>
@@ -154,7 +153,7 @@
 </section>
 
 <div class="lab">
-  <div class="lab-head">04.08 · แล็บประจำโมดูล</div>
+  <div class="lab-head">04.08 · แล็บประจำโมดูล<label class="done"><input type="checkbox" data-lesson="04.08"><span>ทำแล็บแล้ว</span></label></div>
   <div class="lab-body">
     <h2>แปลง requirement กำกวมหนึ่งหน้าเป็น spec + task graph + ADR</h2>
     <p>ใช้ requirement จริงจากงานของคุณ ไม่ใช่ตัวอย่างที่แต่งขึ้น เพราะความกำกวมของจริงมีรสชาติที่ตัวอย่างสังเคราะห์ไม่มี</p>
@@ -176,8 +175,49 @@
 </div>
 
 <p class="note"><b>เชื่อมกับโมดูลอื่น</b> — <a href="m05.html">M05</a> ทำให้ ADR และเอกสารกลายเป็นบริบทที่ agent ใช้ได้จริง · <a href="m11.html">M11</a> เปลี่ยน spec เป็นเทสต์ · <a href="m12-evals.html">M12.02</a> ใช้งานจากแล็บนี้เป็นวัตถุดิบของ golden task set</p>
-
+<section class="lesson"><div class="lhead"><span class="lnum">วิดีโอ</span><h2>วิดีโอประกอบโมดูลนี้</h2></div><div class="m-vids"><b>วิดีโอประกอบ · 4 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="smq0S3cvk_U" data-title="มาลองให้ AI เลือก Tech Stack สำหรับทำเว็บกัน" aria-label="เล่นวิดีโอ มาลองให้ AI เลือก Tech Stack สำหรับทำเว็บกัน">
+           <img src="https://i.ytimg.com/vi/smq0S3cvk_U/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=smq0S3cvk_U" target="_blank" rel="noopener noreferrer">มาลองให้ AI เลือก Tech Stack สำหรับทำเว็บกัน</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">เคสให้ agent ช่วยตัดสินใจ ดูคู่กับบทที่ 4 ที่แยกค้นหา/สรุป/ตัดสินใจออกจากกัน</span><label class="vid-done"><input type="checkbox" data-video="smq0S3cvk_U"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="XuXBNCjHlOo" data-title="ทำไมเราควรใช้ /plan ก่อนให้ AI เขียนโค้ด?" aria-label="เล่นวิดีโอ ทำไมเราควรใช้ /plan ก่อนให้ AI เขียนโค้ด?">
+           <img src="https://i.ytimg.com/vi/XuXBNCjHlOo/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=XuXBNCjHlOo" target="_blank" rel="noopener noreferrer">ทำไมเราควรใช้ /plan ก่อนให้ AI เขียนโค้ด?</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">ปูเหตุผลของ plan mode ก่อนบทที่ 7 ซึ่งเป็นบทที่ให้ผลตอบแทนสูงสุดในหลักสูตร</span><label class="vid-done"><input type="checkbox" data-video="XuXBNCjHlOo"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="sN-zz8clIcQ" data-title="สุดยอดคอมโบ! /grill-with-docs &amp; /plan ให้ AI ช่วยคิดงานและวางแผนดีขึ้น ดูจบบรรลุ!" aria-label="เล่นวิดีโอ สุดยอดคอมโบ! /grill-with-docs &amp; /plan ให้ AI ช่วยคิดงานและวางแผนดีขึ้น ดูจบบรรลุ!">
+           <img src="https://i.ytimg.com/vi/sN-zz8clIcQ/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when after">after</span><a href="https://www.youtube.com/watch?v=sN-zz8clIcQ" target="_blank" rel="noopener noreferrer">สุดยอดคอมโบ! /grill-with-docs &amp; /plan ให้ AI ช่วยคิดงานและวางแผนดีขึ้น ดูจบบรรลุ!</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">ท่าวางแผนจริงแบบมีเอกสารประกอบ ดูหลังทำแล็บแปลง requirement เป็น spec</span><label class="vid-done"><input type="checkbox" data-video="sN-zz8clIcQ"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="rBl8C3P2R1Y" data-title="เลิกสั่ง AI ให้เขียนโค้ดมั่วๆ! แล้วมาใช้ Flow นี้ ของดีจาก AIHero ดูจบบรรลุ!" aria-label="เล่นวิดีโอ เลิกสั่ง AI ให้เขียนโค้ดมั่วๆ! แล้วมาใช้ Flow นี้ ของดีจาก AIHero ดูจบบรรลุ!">
+           <img src="https://i.ytimg.com/vi/rBl8C3P2R1Y/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=rBl8C3P2R1Y" target="_blank" rel="noopener noreferrer">เลิกสั่ง AI ให้เขียนโค้ดมั่วๆ! แล้วมาใช้ Flow นี้ ของดีจาก AIHero ดูจบบรรลุ!</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">อีกหนึ่ง flow ให้เทียบกับ spec-first ที่เราสอนในบทที่ 1</span><label class="vid-done"><input type="checkbox" data-video="rBl8C3P2R1Y"> ดูแล้ว</label>
+  </div>
+</li></ul></div></section>
 </div>
+<script src="assets/course-data.js" defer></script>
+<script src="assets/progress.js" defer></script>
 <script>
 document.getElementById("theme").addEventListener("click",function(){
   var d=document.documentElement;

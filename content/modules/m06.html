@@ -57,7 +57,29 @@ screenshot.png       <span class="c">// ใช้เทียบผลได้ 
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">06.04</span><h2>Visual verification loop</h2></div>
+  <div class="lhead"><span class="lnum">06.04</span><h2>State และ data fetching</h2></div>
+  <p>สองเรื่องนี้อยู่ด้วยกันเพราะความผิดพลาดส่วนใหญ่เกิดที่รอยต่อของมัน — ข้อมูลถูกดึงผิดที่ แล้ว state ก็เลยอยู่ผิดที่ตามไปด้วย</p>
+  <div class="tw"><table>
+    <thead><tr><th>แพตเทิร์น</th><th>agent ทำถูก</th><th>agent ชอบทำผิด</th></tr></thead>
+    <tbody>
+      <tr><td>ดึงข้อมูลใกล้จุดที่ใช้</td><td>ใช่ ถ้าบอกโครงไว้ชัด</td><td>ยกไปไว้ชั้นบนสุดแล้วส่งผ่านหลายชั้น</td></tr>
+      <tr><td>แยก server state กับ UI state</td><td>ทำได้เมื่อมีตัวอย่างในโปรเจกต์</td><td>ยัดทุกอย่างลง state ก้อนเดียว</td></tr>
+      <tr><td>จัดการสถานะกำลังโหลดและผิดพลาด</td><td>เขียนได้ครบถ้าอยู่ใน spec</td><td>ทำแต่ทางที่สำเร็จถ้าไม่ได้สั่ง</td></tr>
+      <tr><td>ทำให้ข้อมูลสดหลังแก้ไข</td><td>ทำได้</td><td>รีเฟรชทั้งหน้าแทนที่จะอัปเดตเฉพาะจุด</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box trap">
+    <span class="k">อาการที่ไม่มี error แต่ช้าลงเรื่อย ๆ</span>
+    <p>เมื่อ agent วางการดึงข้อมูลเป็นลำดับที่ต้องรอกันไปเรื่อย ๆ หน้าจะทำงานถูกทุกอย่างแต่ช้าขึ้นทุกครั้งที่เพิ่มของ ไม่มีอะไรแดง ไม่มีเทสต์แตก และไม่มีใครสังเกตจนกว่าจะมีคนบ่น ให้ใส่เพดานเวลาโหลดเป็นเกณฑ์ในเทสต์ ตามหลักเดียวกับ budget ใน <a href="m03.html">M03</a></p>
+  </div>
+  <div class="box good">
+    <span class="k">สิ่งที่ควรใส่ใน project memory</span>
+    <p>ระบุให้ชัดว่าโปรเจกต์นี้ใช้อะไรจัดการ server state และห้ามเพิ่มตัวใหม่โดยไม่ถาม — ไม่งั้น agent จะเลือกวิธีที่มันคุ้นเคยที่สุด ซึ่งอาจเป็นคนละตัวกับที่ทีมใช้อยู่ แล้วคุณจะได้สองระบบในโปรเจกต์เดียว</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">06.05</span><h2>Visual verification loop</h2></div>
   <p>นี่คือสิ่งที่ทำให้งาน FE กับ agent เปลี่ยนจาก “ส่งไปแล้วลุ้น” เป็นลูปปิดที่มันตรวจงานตัวเองได้ก่อนถึงมือคุณ</p>
   <ol>
     <li>agent เขียนโค้ด</li>
@@ -77,7 +99,7 @@ screenshot.png       <span class="c">// ใช้เทียบผลได้ 
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">06.05</span><h2>Accessibility เป็นเกณฑ์ที่ตรวจอัตโนมัติได้</h2></div>
+  <div class="lhead"><span class="lnum">06.06</span><h2>Accessibility เป็นเกณฑ์ที่ตรวจอัตโนมัติได้</h2></div>
   <p>ข้อดีของการวางเรื่องนี้เป็น acceptance criteria คือมันเป็นหนึ่งในไม่กี่เรื่องคุณภาพ UI ที่<strong>เครื่องตัดสินได้จริง</strong> จึงเอาไปเป็นเกณฑ์ในชุดวัดได้ตรง ๆ</p>
   <ul>
     <li>ทุก control ที่กดได้ต้องเข้าถึงด้วยคีย์บอร์ดและมี focus ที่มองเห็น</li>
@@ -89,7 +111,7 @@ screenshot.png       <span class="c">// ใช้เทียบผลได้ 
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">06.06</span><h2>UI ที่ผ่านสายตาแต่พังจริง</h2></div>
+  <div class="lhead"><span class="lnum">06.07</span><h2>UI ที่ผ่านสายตาแต่พังจริง</h2></div>
   <div class="tw"><table>
     <thead><tr><th>อาการ</th><th>ทำไมสกรีนช็อตจับไม่ได้</th><th>วิธีจับ</th></tr></thead>
     <tbody>
@@ -107,7 +129,7 @@ screenshot.png       <span class="c">// ใช้เทียบผลได้ 
 </section>
 
 <div class="lab">
-  <div class="lab-head">06.07 · แล็บ A</div>
+  <div class="lab-head">06.08 · แล็บ A</div>
   <div class="lab-body">
     <h2>สร้าง component library จาก design token</h2>
     <ol>
@@ -124,7 +146,7 @@ screenshot.png       <span class="c">// ใช้เทียบผลได้ 
 </div>
 
 <div class="lab">
-  <div class="lab-head">06.08 · แล็บ B</div>
+  <div class="lab-head">06.09 · แล็บ B</div>
   <div class="lab-body">
     <h2>สร้าง flow สามหน้าพร้อมรอบ visual verification</h2>
     <ol>

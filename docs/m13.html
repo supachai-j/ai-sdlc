@@ -9,7 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/style.css">
-
 </head>
 <body>
 <div class="wrap">
@@ -18,7 +17,7 @@
   <nav>
     <a href="index.html">ภาพรวม</a>
     <a href="course-th.html">หลักสูตร</a>
-    <a href="m12-evals.html">M12 Evals</a>
+    <span id="nav-progress" class="nav-progress" hidden></span>
     <button id="theme" type="button" aria-label="สลับธีมสว่าง/มืด">THEME</button>
   </nav>
 </header>
@@ -26,7 +25,7 @@
   <span class="crumb">AI Coding Agent SDLC · Phase 04 · Module 13</span>
   <h1>ความปลอดภัยและโมเดลภัยคุกคาม</h1>
   <p class="deck">agent ที่<strong>อ่านเนื้อหาจากภายนอกได้</strong>และ<strong>รันคำสั่งได้</strong> คือพื้นผิวการโจมตีชนิดใหม่ที่ checklist ความปลอดภัยเดิมไม่ครอบคลุม โมดูลนี้สร้างโมเดลภัยคุกคามสำหรับมันโดยเฉพาะ</p>
-  <div class="meta"><span><b>9</b> บทเรียน</span><span><b>3</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ต้องผ่าน <b>M01</b> · <b>M09</b> ก่อน</span></div>
+  <div class="meta"><span><b>9</b> บทเรียน</span><span><b>3</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ต้องผ่าน <b>M01</b> · <b>M09</b> ก่อน</span></div><div class="m-progress"><div class="bar" data-bar="m13"><span></span></div><span class="bar-label" data-label="m13"></span></div>
 </header>
 
 <div class="thesis">
@@ -35,7 +34,7 @@
 </div>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">13.01</span><h2>ทำไม checklist เดิมใช้ไม่ได้</h2></div>
+  <div class="lhead"><span class="lnum">13.01</span><h2>ทำไม checklist เดิมใช้ไม่ได้</h2><label class="done"><input type="checkbox" data-lesson="13.01"><span>เรียนจบ</span></label></div>
   <div class="tw"><table>
     <thead><tr><th></th><th>Web application</th><th>Coding agent</th></tr></thead>
     <tbody>
@@ -52,7 +51,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">13.02</span><h2>Prompt injection ผ่านเนื้อหาที่ agent อ่าน</h2></div>
+  <div class="lhead"><span class="lnum">13.02</span><h2>Prompt injection ผ่านเนื้อหาที่ agent อ่าน</h2><label class="done"><input type="checkbox" data-lesson="13.02"><span>เรียนจบ</span></label></div>
   <p>ช่องทางที่ใช้ได้จริงมีเยอะกว่าที่คนคิด ทุกที่ที่ข้อความจากภายนอกเข้ามาถึงบริบทได้ คือช่องทาง</p>
   <ul>
     <li><strong>Issue และคอมเมนต์ใน PR</strong> — ใครก็เปิดได้ในโปรเจกต์เปิด</li>
@@ -69,7 +68,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">13.03</span><h2>Tool poisoning และ rug-pull</h2></div>
+  <div class="lhead"><span class="lnum">13.03</span><h2>Tool poisoning และ rug-pull</h2><label class="done"><input type="checkbox" data-lesson="13.03"><span>เรียนจบ</span></label></div>
   <p>เพราะ agent เลือกเครื่องมือจากคำอธิบาย (<a href="m09.html">M09.03</a>) คำอธิบายจึงเป็นพื้นผิวการโจมตี และมันเปลี่ยนได้หลังจากที่คุณตรวจไปแล้ว</p>
   <div class="tw"><table>
     <thead><tr><th>รูปแบบ</th><th>วิธีการ</th><th>วิธีกัน</th></tr></thead>
@@ -83,7 +82,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">13.04</span><h2>Supply chain ของ skill, plugin และ MCP</h2></div>
+  <div class="lhead"><span class="lnum">13.04</span><h2>Supply chain ของ skill, plugin และ MCP</h2><label class="done"><input type="checkbox" data-lesson="13.04"><span>เรียนจบ</span></label></div>
   <p>ประโยคเดียวที่ต้องจำ — <strong>สิ่งที่คุณติดตั้งคือโค้ดที่รันด้วยสิทธิ์ของคุณ</strong> ไม่ใช่ปลั๊กอินในแซนด์บ็อกซ์ ไม่ใช่ส่วนขยายที่ถูกจำกัด</p>
   <div class="box rule">
     <span class="k">เช็คลิสต์ก่อนติดตั้งของจากภายนอก</span>
@@ -102,7 +101,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">13.05</span><h2>ออกแบบขอบเขตสิทธิ์</h2></div>
+  <div class="lhead"><span class="lnum">13.05</span><h2>ออกแบบขอบเขตสิทธิ์</h2><label class="done"><input type="checkbox" data-lesson="13.05"><span>เรียนจบ</span></label></div>
   <p>หลักการคือให้เท่าที่งานต้องใช้ ไม่ใช่ให้เท่าที่สะดวก และควรออกแบบเป็นระดับตามความเสี่ยงของงาน</p>
   <div class="tw"><table>
     <thead><tr><th>ระดับ</th><th>ให้อะไร</th><th>เหมาะกับ</th></tr></thead>
@@ -120,7 +119,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">13.06</span><h2>Secret handling</h2></div>
+  <div class="lhead"><span class="lnum">13.06</span><h2>Secret handling</h2><label class="done"><input type="checkbox" data-lesson="13.06"><span>เรียนจบ</span></label></div>
   <p>เมื่อค่าลับเข้าไปในบริบทแล้ว มันเข้าไปแล้วจริง ๆ — อยู่ในสิ่งที่ส่งไปประมวลผล อาจอยู่ใน log ของ harness อยู่ใน transcript และอาจอยู่ใน cache การลบข้อความบนหน้าจอไม่ได้ลบสิ่งเหล่านั้น</p>
   <div class="tw"><table>
     <thead><tr><th>ช่องที่หลุดบ่อย</th><th>วิธีกันที่บังคับได้</th></tr></thead>
@@ -138,7 +137,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">13.07</span><h2>เส้นทางขโมยข้อมูลที่มองไม่เห็น</h2></div>
+  <div class="lhead"><span class="lnum">13.07</span><h2>เส้นทางขโมยข้อมูลที่มองไม่เห็น</h2><label class="done"><input type="checkbox" data-lesson="13.07"><span>เรียนจบ</span></label></div>
   <p>เมื่อ prompt injection สำเร็จ ขั้นถัดไปคือส่งข้อมูลออก และเส้นทางเหล่านี้ทุกเส้นดู<strong>ปกติมาก</strong>เมื่อดูทีละอย่าง</p>
   <div class="tw"><table>
     <thead><tr><th>เส้นทาง</th><th>หน้าตาปกติแค่ไหน</th><th>วิธีปิด</th></tr></thead>
@@ -157,7 +156,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">13.08</span><h2>Agent ที่ปล่อยรันเองกับ blast radius</h2></div>
+  <div class="lhead"><span class="lnum">13.08</span><h2>Agent ที่ปล่อยรันเองกับ blast radius</h2><label class="done"><input type="checkbox" data-lesson="13.08"><span>เรียนจบ</span></label></div>
   <p>งานอัตโนมัติที่ไม่มีคนดูเพิ่มความเสี่ยงสองทางพร้อมกัน — ไม่มีใครสังเกตความผิดปกติ และมันทำงานกับเนื้อหาจากภายนอกโดยไม่มีคนกรอง</p>
   <div class="box rule">
     <span class="k">กฎขั้นต่ำก่อนเปิดงานอัตโนมัติ</span>
@@ -173,7 +172,7 @@
 </section>
 
 <div class="lab">
-  <div class="lab-head">13.09 · แล็บประจำโมดูล</div>
+  <div class="lab-head">13.09 · แล็บประจำโมดูล<label class="done"><input type="checkbox" data-lesson="13.09"><span>ทำแล็บแล้ว</span></label></div>
   <div class="lab-body">
     <h2>Red-team เวิร์กโฟลว์ของตัวเอง</h2>
     <p>ทดสอบเซ็ตอัปจริงของคุณ ไม่ใช่ตัวอย่างสมมติ เป้าหมายคือได้<strong>รายการช่องโหว่จริงพร้อมสิ่งที่แก้ไปแล้ว</strong></p>
@@ -207,8 +206,49 @@
 </div>
 
 <p class="note"><b>เชื่อมกับโมดูลอื่น</b> — <a href="m01.html">M01.06</a> permission model คือพื้นฐานของบท 13.05 · <a href="m07.html">M07.05</a> การจัดการ secret ฝั่ง backend · <a href="m09.html">M09.02</a> ความเสี่ยงของ MCP · <a href="m14.html">M14.05</a> guardrail ของงานตามเวลา · <a href="m15.html">M15.06</a> ความเสี่ยงเชิงกฎหมาย</p>
-
+<section class="lesson"><div class="lhead"><span class="lnum">วิดีโอ</span><h2>วิดีโอประกอบโมดูลนี้</h2></div><div class="m-vids"><b>วิดีโอประกอบ · 4 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="0IGRhY9c-lc" data-title="OpenClaw &amp; Security" aria-label="เล่นวิดีโอ OpenClaw &amp; Security">
+           <img src="https://i.ytimg.com/vi/0IGRhY9c-lc/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=0IGRhY9c-lc" target="_blank" rel="noopener noreferrer">OpenClaw &amp; Security</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">ปูประเด็นความปลอดภัยของ agent ก่อนลงโมเดลภัยคุกคามเต็มรูปแบบ</span><label class="vid-done"><input type="checkbox" data-video="0IGRhY9c-lc"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="bL6_vTPwhKI" data-title="พื้นฐานความรู้ Cybersecurity การโจมตีในรูปแบบต่างๆ" aria-label="เล่นวิดีโอ พื้นฐานความรู้ Cybersecurity การโจมตีในรูปแบบต่างๆ">
+           <img src="https://i.ytimg.com/vi/bL6_vTPwhKI/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=bL6_vTPwhKI" target="_blank" rel="noopener noreferrer">พื้นฐานความรู้ Cybersecurity การโจมตีในรูปแบบต่างๆ</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">พื้นฐาน attack pattern ทั่วไป สำหรับคนที่ไม่ได้มาสายความปลอดภัย ก่อนเข้าภัยเฉพาะของ agent</span><label class="vid-done"><input type="checkbox" data-video="bL6_vTPwhKI"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="5ZA1lTxTH3c" data-title="Securing AI Agents: How to Prevent Hidden Prompt Injection Attacks" aria-label="เล่นวิดีโอ Securing AI Agents: How to Prevent Hidden Prompt Injection Attacks">
+           <img src="https://i.ytimg.com/vi/5ZA1lTxTH3c/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=5ZA1lTxTH3c" target="_blank" rel="noopener noreferrer">Securing AI Agents: How to Prevent Hidden Prompt Injection Attacks</a></p>
+    <span class="vid-ch">IBM Technology · EN</span><span class="note">ปู prompt injection ที่ซ่อนอยู่ในเนื้อหา ก่อนบทที่ 2 ที่ไล่ช่องทางทั้งหมด</span><label class="vid-done"><input type="checkbox" data-video="5ZA1lTxTH3c"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="kf3QBweeDdo" data-title="Prompt Injection Explained: How Hackers Manipulate AI With Words" aria-label="เล่นวิดีโอ Prompt Injection Explained: How Hackers Manipulate AI With Words">
+           <img src="https://i.ytimg.com/vi/kf3QBweeDdo/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=kf3QBweeDdo" target="_blank" rel="noopener noreferrer">Prompt Injection Explained: How Hackers Manipulate AI With Words</a></p>
+    <span class="vid-ch">Pentest Diaries · EN</span><span class="note">มุมผู้โจมตี ดูก่อนทำแล็บ red-team จะได้รู้ว่าจะฝังอะไรบ้าง</span><label class="vid-done"><input type="checkbox" data-video="kf3QBweeDdo"> ดูแล้ว</label>
+  </div>
+</li></ul></div></section>
 </div>
+<script src="assets/course-data.js" defer></script>
+<script src="assets/progress.js" defer></script>
 <script>
 document.getElementById("theme").addEventListener("click",function(){
   var d=document.documentElement;

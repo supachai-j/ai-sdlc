@@ -9,7 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/style.css">
-
 </head>
 <body>
 <div class="wrap">
@@ -18,7 +17,7 @@
   <nav>
     <a href="index.html">ภาพรวม</a>
     <a href="course-th.html">หลักสูตร</a>
-    <a href="m12-evals.html">M12 Evals</a>
+    <span id="nav-progress" class="nav-progress" hidden></span>
     <button id="theme" type="button" aria-label="สลับธีมสว่าง/มืด">THEME</button>
   </nav>
 </header>
@@ -26,7 +25,7 @@
   <span class="crumb">AI Coding Agent SDLC · Phase 05 · Module 15</span>
   <h1>Operations, Governance และการใช้จริงในทีม</h1>
   <p class="deck">คอร์สส่วนใหญ่จบที่ “คุณใช้ agent เป็นแล้ว” แต่ปัญหาจริงเริ่มตอนที่<strong>ทีมสิบห้าคนใช้พร้อมกัน</strong> โมดูลนี้ว่าด้วยสิ่งที่เกิดขึ้นหลังจากนั้น</p>
-  <div class="meta"><span><b>9</b> บทเรียน</span><span><b>2.5</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ต้องผ่าน <b>M12</b> · <b>M13</b> · <b>M14</b> ก่อน</span></div>
+  <div class="meta"><span><b>9</b> บทเรียน</span><span><b>2.5</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ต้องผ่าน <b>M12</b> · <b>M13</b> · <b>M14</b> ก่อน</span></div><div class="m-progress"><div class="bar" data-bar="m15"><span></span></div><span class="bar-label" data-label="m15"></span></div>
 </header>
 
 <div class="thesis">
@@ -35,7 +34,7 @@
 </div>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">15.01</span><h2>Runbook ที่ agent อ่านแล้วทำได้</h2></div>
+  <div class="lhead"><span class="lnum">15.01</span><h2>Runbook ที่ agent อ่านแล้วทำได้</h2><label class="done"><input type="checkbox" data-lesson="15.01"><span>เรียนจบ</span></label></div>
   <div class="tw"><table>
     <thead><tr><th>สำหรับคน</th><th>สำหรับ agent</th></tr></thead>
     <tbody>
@@ -52,7 +51,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">15.02</span><h2>Log triage และ incident response</h2></div>
+  <div class="lhead"><span class="lnum">15.02</span><h2>Log triage และ incident response</h2><label class="done"><input type="checkbox" data-lesson="15.02"><span>เรียนจบ</span></label></div>
   <div class="tw"><table>
     <thead><tr><th>มอบให้ agent ได้</th><th>ห้ามมอบ</th></tr></thead>
     <tbody>
@@ -69,7 +68,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">15.03</span><h2>Documentation automation ที่ไม่กลายเป็นขยะ</h2></div>
+  <div class="lhead"><span class="lnum">15.03</span><h2>Documentation automation ที่ไม่กลายเป็นขยะ</h2><label class="done"><input type="checkbox" data-lesson="15.03"><span>เรียนจบ</span></label></div>
   <p>การให้ agent เขียนเอกสารอัตโนมัติล้มเหลวเสมอถ้าไม่มีกลไกทำให้มันตายเมื่อผิด สิ่งที่แยกเอกสารที่มีชีวิตจากขยะคือ<strong>มันพังได้ไหมเมื่อไม่ตรงกับความจริง</strong></p>
   <div class="tw"><table>
     <thead><tr><th>ประเภท</th><th>สร้างอัตโนมัติได้ไหม</th><th>กลไกที่ทำให้ไม่เน่า</th></tr></thead>
@@ -88,7 +87,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">15.04</span><h2>Trust calibration</h2></div>
+  <div class="lhead"><span class="lnum">15.04</span><h2>Trust calibration</h2><label class="done"><input type="checkbox" data-lesson="15.04"><span>เรียนจบ</span></label></div>
   <p>ความไว้ใจที่ถูกต้องไม่ใช่ตัวเลขเดียว แต่แตกต่างตามประเภทงาน และควรมาจากข้อมูลของทีมคุณเอง ไม่ใช่จากความรู้สึกหรือจากที่คนอื่นบอก</p>
   <div class="tw"><table>
     <thead><tr><th>ระดับ</th><th>หมายความว่า</th><th>เลื่อนขึ้นได้เมื่อ</th></tr></thead>
@@ -106,7 +105,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">15.05</span><h2>วัฒนธรรม code review เมื่อ diff โตขึ้นสิบเท่า</h2></div>
+  <div class="lhead"><span class="lnum">15.05</span><h2>วัฒนธรรม code review เมื่อ diff โตขึ้นสิบเท่า</h2><label class="done"><input type="checkbox" data-lesson="15.05"><span>เรียนจบ</span></label></div>
   <p>เมื่อปริมาณโค้ดที่ต้องรีวิวโตขึ้นมาก การรีวิวแบบเดิมพังลงเงียบ ๆ — คนยังกด approve เท่าเดิม แต่<strong>อ่านจริงน้อยลงมาก</strong> ซึ่งแย่กว่าไม่รีวิว เพราะมันสร้างภาพลวงว่ามีการตรวจ</p>
   <div class="box rule">
     <span class="k">เปลี่ยนสิ่งที่รีวิว ไม่ใช่เร่งความเร็ว</span>
@@ -124,7 +123,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">15.06</span><h2>Attribution license และความเสี่ยงเชิงกฎหมาย</h2></div>
+  <div class="lhead"><span class="lnum">15.06</span><h2>Attribution license และความเสี่ยงเชิงกฎหมาย</h2><label class="done"><input type="checkbox" data-lesson="15.06"><span>เรียนจบ</span></label></div>
   <div class="box rule">
     <span class="k">สิ่งที่ควรทำเป็นนโยบาย</span>
     <ul>
@@ -138,7 +137,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">15.07</span><h2>Skill atrophy — สิ่งที่ไม่มีใครพูดถึง</h2></div>
+  <div class="lhead"><span class="lnum">15.07</span><h2>Skill atrophy — สิ่งที่ไม่มีใครพูดถึง</h2><label class="done"><input type="checkbox" data-lesson="15.07"><span>เรียนจบ</span></label></div>
   <p>เมื่อ agent ทำงานบางอย่างแทนได้ดี ทีมจะเลิกฝึกทักษะนั้น ซึ่งบางกรณีดี บางกรณีอันตราย เกณฑ์แยกคือ <strong>“ทักษะนี้จำเป็นตอนที่ agent ทำไม่ได้หรือทำผิดหรือเปล่า”</strong></p>
   <div class="tw"><table>
     <thead><tr><th>ปล่อยได้</th><th>ต้องรักษาไว้</th></tr></thead>
@@ -160,7 +159,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">15.08</span><h2>แผน rollout ในองค์กร</h2></div>
+  <div class="lhead"><span class="lnum">15.08</span><h2>แผน rollout ในองค์กร</h2><label class="done"><input type="checkbox" data-lesson="15.08"><span>เรียนจบ</span></label></div>
   <div class="tw"><table>
     <thead><tr><th>ขั้น</th><th>เป้าหมาย</th><th>ผ่านเมื่อ</th><th>กับดัก</th></tr></thead>
     <tbody>
@@ -176,7 +175,7 @@
 </section>
 
 <div class="lab">
-  <div class="lab-head">15.09 · แล็บประจำโมดูล</div>
+  <div class="lab-head">15.09 · แล็บประจำโมดูล<label class="done"><input type="checkbox" data-lesson="15.09"><span>ทำแล็บแล้ว</span></label></div>
   <div class="lab-body">
     <h2>เขียน AI engineering policy ของทีมความยาว 2 หน้า ที่บังคับใช้ได้จริง</h2>
     <p>เกณฑ์ที่ทำให้แล็บนี้ต่างจากการเขียนเอกสารทั่วไป — <strong>ทุกข้อในนโยบายต้องระบุได้ว่าบังคับด้วยอะไร</strong> ข้อที่บังคับด้วย “ความร่วมมือของทุกคน” ให้ตัดออกหรือหาวิธีบังคับ</p>
@@ -205,8 +204,39 @@
 </div>
 
 <p class="note"><b>จบหลักสูตร</b> — จากที่นี่วนกลับไปที่ <a href="m12-evals.html">M12</a> ทุกไตรมาส เพราะโมเดลเปลี่ยน เครื่องมือเปลี่ยน และเวิร์กโฟลว์ที่เคยดีที่สุดเมื่อหกเดือนก่อนอาจไม่ใช่แล้ว — ชุดวัดคือสิ่งเดียวที่บอกคุณได้</p>
-
+<section class="lesson"><div class="lhead"><span class="lnum">วิดีโอ</span><h2>วิดีโอประกอบโมดูลนี้</h2></div><div class="m-vids"><b>วิดีโอประกอบ · 3 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="UreF8tC7QC4" data-title="Software Engineer in AI Era (จาก Google I/O 2026)" aria-label="เล่นวิดีโอ Software Engineer in AI Era (จาก Google I/O 2026)">
+           <img src="https://i.ytimg.com/vi/UreF8tC7QC4/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when after">after</span><a href="https://www.youtube.com/watch?v=UreF8tC7QC4" target="_blank" rel="noopener noreferrer">Software Engineer in AI Era (จาก Google I/O 2026)</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">มุมภาพใหญ่เรื่องบทบาทที่เปลี่ยนไป ดูคู่กับบท skill atrophy และแผน rollout</span><label class="vid-done"><input type="checkbox" data-video="UreF8tC7QC4"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="WAxk3LZbBA8" data-title="Vibe Coding ? จะเกิดอะไรเมื่อมนุษย์ปล่อยใจให้ AI เป็นคน Code แทน" aria-label="เล่นวิดีโอ Vibe Coding ? จะเกิดอะไรเมื่อมนุษย์ปล่อยใจให้ AI เป็นคน Code แทน">
+           <img src="https://i.ytimg.com/vi/WAxk3LZbBA8/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=WAxk3LZbBA8" target="_blank" rel="noopener noreferrer">Vibe Coding ? จะเกิดอะไรเมื่อมนุษย์ปล่อยใจให้ AI เป็นคน Code แทน</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">ตั้งคำถามเรื่องความไว้ใจ ต่อกับบท trust calibration</span><label class="vid-done"><input type="checkbox" data-video="WAxk3LZbBA8"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="SwTe4s17eBE" data-title="4 ทักษะที่จะทำให้ Dev มีมูลค่ามากขึ้นในยุค AI" aria-label="เล่นวิดีโอ 4 ทักษะที่จะทำให้ Dev มีมูลค่ามากขึ้นในยุค AI">
+           <img src="https://i.ytimg.com/vi/SwTe4s17eBE/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=SwTe4s17eBE" target="_blank" rel="noopener noreferrer">4 ทักษะที่จะทำให้ Dev มีมูลค่ามากขึ้นในยุค AI</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">มุมทักษะที่ต้องรักษาไว้ ต่อกับบท skill atrophy</span><label class="vid-done"><input type="checkbox" data-video="SwTe4s17eBE"> ดูแล้ว</label>
+  </div>
+</li></ul></div></section>
 </div>
+<script src="assets/course-data.js" defer></script>
+<script src="assets/progress.js" defer></script>
 <script>
 document.getElementById("theme").addEventListener("click",function(){
   var d=document.documentElement;

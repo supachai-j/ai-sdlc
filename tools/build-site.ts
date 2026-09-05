@@ -4,8 +4,11 @@
  * Single source of truth is YAML — never hand-edit the generated HTML.
  *
  *   bun tools/build-site.ts
+ *
+ * Emits assets/course-data.js so the client can compute progress without
+ * re-parsing the pages.
  */
-import { mkdirSync, writeFileSync, readFileSync, existsSync } from "node:fs";
+import { mkdirSync, writeFileSync, readFileSync, readdirSync, existsSync } from "node:fs";
 import { join, resolve } from "node:path";
 
 const ROOT = resolve(import.meta.dir, "..");
@@ -28,17 +31,20 @@ const videos = (Bun.YAML.parse(readFileSync(join(ROOT, "content/videos.yaml"), "
 
 const byId = new Map(cur.modules.map((m) => [m.id, m]));
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const isLab = (l: string) => /^LAB/.test(l.trim());
+const pageOf = (m: Module) => m.href ?? `${m.id}.html`;
+const ytId = (url: string) => /[?&]v=([A-Za-z0-9_-]{6,})/.exec(url)?.[1] ?? "";
+
 const totalLessons = cur.modules.reduce((a, m) => a + m.lessons.length, 0);
 const totalLabs = cur.modules.reduce((a, m) => a + m.lessons.filter(isLab).length, 0);
 const totalHours = cur.modules.reduce((a, m) => a + m.hours, 0);
 const videoCount = Object.values(videos).reduce((a, v) => a + (v?.length ?? 0), 0);
-
-function isLab(l: string) { return /^LAB/.test(l.trim()); }
-
 const STATUS_TAG: Record<string, string> = { new: "ใหม่", expanded: "ขยาย", core: "" };
 
-/** Page shell. The theme script runs before paint so the toggle never flashes. */
-function page(o: { title: string; nav: string; body: string; extraCss?: string }): string {
+/** Collected while rendering module pages, then written out for the client. */
+const courseData: Record<string, { code: string; title: string; href: string; lessons: string[]; videos: string[] }> = {};
+
+function page(o: { title: string; nav: string; body: string }): string {
   return `<!doctype html>
 <html lang="th">
 <head>
@@ -50,7 +56,6 @@ function page(o: { title: string; nav: string; body: string; extraCss?: string }
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/style.css">
-${o.extraCss ? `<style>${o.extraCss}</style>` : ""}
 </head>
 <body>
 <div class="wrap">
@@ -59,12 +64,14 @@ ${o.extraCss ? `<style>${o.extraCss}</style>` : ""}
   <nav>
     <a href="index.html"${o.nav === "index" ? ' aria-current="page"' : ""}>ภาพรวม</a>
     <a href="course-th.html"${o.nav === "course" ? ' aria-current="page"' : ""}>หลักสูตร</a>
-    <a href="m12-evals.html"${o.nav === "m12" ? ' aria-current="page"' : ""}>M12 Evals</a>
+    <span id="nav-progress" class="nav-progress" hidden></span>
     <button id="theme" type="button" aria-label="สลับธีมสว่าง/มืด">THEME</button>
   </nav>
 </header>
 ${o.body}
 </div>
+<script src="assets/course-data.js" defer></script>
+<script src="assets/progress.js" defer></script>
 <script>
 document.getElementById("theme").addEventListener("click",function(){
   var d=document.documentElement;
@@ -77,46 +84,58 @@ document.getElementById("theme").addEventListener("click",function(){
 </html>`;
 }
 
-function videoBlock(id: string): string {
+/** Click-to-load facade: 49 autoloaded iframes would make every page crawl. */
+function videoBlock(id: string, collect?: string[]): string {
   const vs = videos[id] ?? [];
-  if (!vs.length) {
-    return `<div class="m-vids"><b>วิดีโอประกอบ</b><span class="empty">ยังไม่มี — เพิ่มได้ที่ content/videos.yaml แล้วรัน bun run build:site</span></div>`;
-  }
-  const items = vs
-    .map((v) => {
-      const when = v.when ? `<span class="when ${esc(v.when)}">${esc(v.when)}</span>` : "";
-      const note = v.note ? `<span class="note">${esc(v.note)}</span>` : "";
-      const ch = v.channel ? ` · ${esc(v.channel)}${v.lang === "en" ? " (EN)" : ""}` : "";
-      return `<li>${when}<a href="${esc(v.url)}" target="_blank" rel="noopener noreferrer">${esc(v.title)}</a>${ch}${note}</li>`;
-    })
-    .join("\n");
-  return `<div class="m-vids"><b>วิดีโอประกอบ · ${vs.length} คลิป</b><ul>${items}</ul></div>`;
+  if (!vs.length) return "";
+  const items = vs.map((v) => {
+    const vid = ytId(v.url);
+    if (vid && collect) collect.push(vid);
+    const when = v.when ? `<span class="when ${esc(v.when)}">${esc(v.when)}</span>` : "";
+    const ch = v.channel ? `<span class="vid-ch">${esc(v.channel)}${v.lang === "en" ? " · EN" : ""}</span>` : "";
+    const note = v.note ? `<span class="note">${esc(v.note)}</span>` : "";
+    const thumb = vid
+      ? `<button class="vid-play" type="button" data-yt="${vid}" data-title="${esc(v.title)}" aria-label="เล่นวิดีโอ ${esc(v.title)}">
+           <img src="https://i.ytimg.com/vi/${vid}/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>`
+      : "";
+    const check = vid
+      ? `<label class="vid-done"><input type="checkbox" data-video="${vid}"> ดูแล้ว</label>`
+      : "";
+    return `<li class="vid">
+  ${thumb}
+  <div class="vid-meta">
+    <p class="vid-title">${when}<a href="${esc(v.url)}" target="_blank" rel="noopener noreferrer">${esc(v.title)}</a></p>
+    ${ch}${note}${check}
+  </div>
+</li>`;
+  }).join("\n");
+  return `<div class="m-vids"><b>วิดีโอประกอบ · ${vs.length} คลิป</b><ul class="vid-list">${items}</ul></div>`;
 }
 
 function moduleBlock(m: Module, opts: { lessons: boolean }): string {
   const flagged = m.status !== "core";
   const tag = STATUS_TAG[m.status];
-  const title = m.written
-    ? `<a href="${esc(m.href ?? m.id + ".html")}">${esc(m.title_th)}</a>`
-    : esc(m.title_th);
+  const href = pageOf(m);
   const lessons = opts.lessons
-    ? `<ol class="lessons">${m.lessons
-        .map((l) => {
-          const lab = isLab(l);
-          const text = lab ? l.replace(/^LAB\s*([AB])?:?\s*/, "") : l;
-          const chip = lab ? `<span class="chip">LAB${/^LAB\s*([AB])/.exec(l)?.[1] ? " " + /^LAB\s*([AB])/.exec(l)![1] : ""}</span>` : "";
-          return `<li${lab ? ' class="lab"' : ""}>${chip}${esc(text)}</li>`;
-        })
-        .join("")}</ol>`
+    ? `<ol class="lessons">${m.lessons.map((l) => {
+        const lab = isLab(l);
+        const text = lab ? l.replace(/^LAB\s*([AB])?:?\s*/, "") : l;
+        const suffix = /^LAB\s*([AB])/.exec(l)?.[1];
+        const chip = lab ? `<span class="chip">LAB${suffix ? " " + suffix : ""}</span>` : "";
+        return `<li${lab ? ' class="lab"' : ""}>${chip}${esc(text)}</li>`;
+      }).join("")}</ol>`
     : "";
-  return `<div class="module${flagged ? " flagged" : ""}" id="${m.id}">
+  return `<div class="module${flagged ? " flagged" : ""}" id="${m.id}" data-module="${m.id}">
   <div class="m-rail">
     <span class="m-code">${m.code}</span>
     <span class="m-stat">${m.lessons.length} บท<br>${m.hours} ชม.</span>
     ${tag ? `<span class="m-tag">${tag}${m.gap ? " " + m.gap : ""}</span>` : ""}
   </div>
   <div class="m-body">
-    <h3>${title}</h3>
+    <h3><a href="${esc(href)}">${esc(m.title_th)}</a></h3>
+    <div class="bar" data-bar="${m.id}"><span></span></div>
     <p class="m-goal">${esc(m.goal_th)}</p>
     ${lessons}
     <div class="m-out"><b>ผลลัพธ์</b>${esc(m.outcome_th)}</div>
@@ -126,12 +145,11 @@ function moduleBlock(m: Module, opts: { lessons: boolean }): string {
 }
 
 function phases(opts: { lessons: boolean }): string {
-  return cur.phases
-    .map((p) => {
-      const ms = p.modules.map((id) => byId.get(id)!).filter(Boolean);
-      const lc = ms.reduce((a, m) => a + m.lessons.length, 0);
-      const hr = ms.reduce((a, m) => a + m.hours, 0);
-      return `<div class="phase">
+  return cur.phases.map((p) => {
+    const ms = p.modules.map((id) => byId.get(id)!).filter(Boolean);
+    const lc = ms.reduce((a, m) => a + m.lessons.length, 0);
+    const hr = ms.reduce((a, m) => a + m.hours, 0);
+    return `<div class="phase">
   <div class="phase-bar">
     <span class="p-num">PHASE ${p.num}</span>
     <span class="p-name">${esc(p.name_th)}</span>
@@ -139,42 +157,89 @@ function phases(opts: { lessons: boolean }): string {
   </div>
   ${ms.map((m) => moduleBlock(m, opts)).join("\n")}
 </div>`;
-    })
-    .join("\n");
+  }).join("\n");
 }
 
+// ── module pages: inject per-lesson completion + video embeds ────────────
+mkdirSync(OUT, { recursive: true });
+let writtenCount = 0;
+for (const m of cur.modules) {
+  const href = pageOf(m);
+  const src = join(ROOT, "content/modules", href);
+  if (!existsSync(src)) continue;
+
+  let raw = readFileSync(src, "utf8");
+  const lessonIds: string[] = [];
+  const videoIds: string[] = [];
+
+  // regular lessons — the .lnum span already carries a stable id like "02.05"
+  raw = raw.replace(/<span class="lnum">([\d.]+)<\/span>(<h2>.*?<\/h2>)/g, (_x, num: string, h2: string) => {
+    lessonIds.push(num);
+    return `<span class="lnum">${num}</span>${h2}<label class="done"><input type="checkbox" data-lesson="${num}"><span>เรียนจบ</span></label>`;
+  });
+  // the lab block carries its number in the header strip
+  raw = raw.replace(/<div class="lab-head">([\d.]+)([^<]*)<\/div>/g, (_x, num: string, rest: string) => {
+    lessonIds.push(num);
+    return `<div class="lab-head">${num}${rest}<label class="done"><input type="checkbox" data-lesson="${num}"><span>ทำแล็บแล้ว</span></label></div>`;
+  });
+
+  const inner = raw.replace(/^<div class="wrap">\n?/, "").replace(/<\/div>\s*$/, "");
+  const vids = videoBlock(m.id, videoIds);
+  const body = inner.replace(
+    /(<div class="meta">[\s\S]*?<\/div>)/,
+    `$1<div class="m-progress"><div class="bar" data-bar="${m.id}"><span></span></div><span class="bar-label" data-label="${m.id}"></span></div>`,
+  ) + (vids ? `<section class="lesson"><div class="lhead"><span class="lnum">วิดีโอ</span><h2>วิดีโอประกอบโมดูลนี้</h2></div>${vids}</section>` : "");
+
+  writeFileSync(join(OUT, href), page({ title: `${m.code} · ${m.title_th}`, nav: m.id, body }));
+  courseData[m.id] = { code: m.code, title: m.title_th, href, lessons: lessonIds, videos: videoIds };
+  writtenCount++;
+}
+
+// ── index ───────────────────────────────────────────────────────────────
 const specRow = `<dl class="specrow">
   <div class="spec"><dt>โมดูล</dt><dd>${cur.modules.length}</dd></div>
   <div class="spec"><dt>บทเรียน</dt><dd>${totalLessons}</dd></div>
   <div class="spec"><dt>ชั่วโมง</dt><dd>~${Math.round(totalHours)}</dd></div>
-  <div class="spec"><dt>เฟส</dt><dd>${cur.phases.length}</dd></div>
   <div class="spec"><dt>แล็บ</dt><dd>${totalLabs}</dd></div>
+  <div class="spec"><dt>วิดีโอ</dt><dd>${videoCount}</dd></div>
   <div class="spec"><dt>ระดับ</dt><dd><small>${esc(String(cur.course.level_th))}</small></dd></div>
 </dl>`;
 
-// ── index.html ───────────────────────────────────────────
-const gapRows = cur.gaps
-  .map((g) => {
-    const m = byId.get(g.module)!;
-    return `<div class="gap">
+const gapRows = cur.gaps.map((g) => {
+  const m = byId.get(g.module)!;
+  return `<div class="gap">
   <div class="gap-id">${g.id}</div>
-  <div class="gap-what"><h3>${esc(g.title_th)}</h3><a href="course-th.html#${m.id}">${m.code} · ${m.lessons.length} บท →</a></div>
+  <div class="gap-what"><h3>${esc(g.title_th)}</h3><a href="${esc(pageOf(m))}">${m.code} · ${m.lessons.length} บท →</a></div>
   <div class="gap-why">${esc(g.why_th)}</div>
 </div>`;
-  })
-  .join("\n");
+}).join("\n");
 
-writeFileSync(
-  join(OUT, "index.html"),
-  page({
-    title: `${cur.course.title_th} — ภาพรวมหลักสูตร`,
-    nav: "index",
-    body: `<header class="masthead">
+writeFileSync(join(OUT, "index.html"), page({
+  title: `${cur.course.title_th} — ภาพรวมหลักสูตร`,
+  nav: "index",
+  body: `<header class="masthead">
   <span class="eyebrow">หลักสูตรฉบับลงลึก</span>
   <h1>${esc(String(cur.course.title_th))}</h1>
-  <p class="deck">${esc(String(cur.course.subtitle_th))} — <strong>${cur.modules.length} โมดูล ${totalLessons} บท</strong> เน้นกลไก การวัดผล และการใช้จริงในทีม มากกว่าการสาธิตเครื่องมือ</p>
+  <p class="deck">${esc(String(cur.course.subtitle_th))} — <strong>${cur.modules.length} โมดูล ${totalLessons} บท</strong> เรียนเองได้ตามจังหวะ ดูวิดีโอในหน้าเว็บได้เลย และระบบจำไว้ว่าคุณเรียนถึงไหน</p>
   ${specRow}
 </header>
+
+<section id="progress-panel" class="panel" hidden>
+  <div class="sechead"><span class="num">§00</span><h2>ความคืบหน้าของคุณ</h2></div>
+  <div class="prog-top">
+    <div class="ring" id="prog-ring"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="ring-bg" cx="60" cy="60" r="52"></circle><circle class="ring-fg" cx="60" cy="60" r="52"></circle></svg><span id="prog-pct">0%</span></div>
+    <div class="prog-stats">
+      <p id="prog-summary" class="prog-summary"></p>
+      <p id="prog-next" class="prog-next"></p>
+      <div class="prog-actions">
+        <a id="prog-resume" class="btn" href="m01.html">เริ่มเรียน</a>
+        <button id="prog-reset" class="btn ghost" type="button">ล้างความคืบหน้า</button>
+      </div>
+      <p class="prog-note">บันทึกไว้ในเบราว์เซอร์นี้เท่านั้น — เปลี่ยนเครื่องหรือล้างข้อมูลเว็บแล้วจะหาย</p>
+    </div>
+  </div>
+  <div class="prog-grid" id="prog-grid"></div>
+</section>
 
 <section>
   <div class="sechead"><span class="num">§01</span><h2>ช่องว่าง ${cur.gaps.length} จุดที่เติมเข้าไป</h2></div>
@@ -188,48 +253,36 @@ writeFileSync(
   ${phases({ lessons: false })}
 </section>
 
-<p class="note"><b>สถานะ</b> — เนื้อหาเต็มเขียนแล้ว ${cur.modules.filter((m) => m.written).length} โมดูล จาก ${cur.modules.length}
-· วิดีโอประกอบใส่แล้ว ${videoCount} คลิป
-· หน้าเว็บทั้งหมดถูก generate จาก <code>content/curriculum.yaml</code> และ <code>content/videos.yaml</code> อย่าแก้ HTML ตรง ๆ</p>`,
-  }),
-);
+<p class="note"><b>วิธีใช้</b> — กด <em>เรียนจบ</em> ท้ายหัวข้อแต่ละบทเพื่อบันทึกความคืบหน้า วิดีโอกดเล่นได้ในหน้าเลยและติ๊ก <em>ดูแล้ว</em> ได้
+· หน้าเว็บทั้งหมด generate จาก <code>content/curriculum.yaml</code> และ <code>content/videos.yaml</code></p>`,
+}));
 
-// ── course-th.html ───────────────────────────────────────
-writeFileSync(
-  join(OUT, "course-th.html"),
-  page({
-    title: `${cur.course.title_th} — หลักสูตรเต็ม`,
-    nav: "course",
-    body: `<header class="masthead">
+// ── full course listing ─────────────────────────────────────────────────
+writeFileSync(join(OUT, "course-th.html"), page({
+  title: `${cur.course.title_th} — หลักสูตรเต็ม`,
+  nav: "course",
+  body: `<header class="masthead">
   <span class="eyebrow">รายบทเรียนทั้งหมด</span>
   <h1>หลักสูตรเต็ม</h1>
-  <p class="deck">${cur.modules.length} โมดูล · ${totalLessons} บท · ${totalLabs} แล็บ · ~${Math.round(totalHours)} ชั่วโมง โมดูลที่มีแถบสีคือส่วนที่เติมเข้ามาหรือขยายจากโครงคอร์สทั่วไปอย่างมีนัยสำคัญ</p>
+  <p class="deck">${cur.modules.length} โมดูล · ${totalLessons} บท · ${totalLabs} แล็บ · ${videoCount} วิดีโอ · ~${Math.round(totalHours)} ชั่วโมง แถบใต้ชื่อโมดูลคือความคืบหน้าของคุณ</p>
   ${specRow}
 </header>
 <section style="padding-top:44px">${phases({ lessons: true })}</section>
-<p class="note"><b>วิดีโอประกอบ</b> — ช่องใต้แต่ละโมดูลรับลิงก์จาก <code>content/videos.yaml</code>
-เราอ้างอิงคลิปเป็นสื่อเสริมพร้อมลิงก์ไปต้นทางเท่านั้น ไม่ถอดเนื้อหาคลิปมาเป็นบทเรียน — เนื้อหาบทเรียนเขียนขึ้นเอง</p>`,
-  }),
-);
+<p class="note"><b>วิดีโอประกอบ</b> — อ้างอิงคลิปพร้อมลิงก์ไปต้นทางและเล่นผ่านโปรแกรมเล่นของ YouTube เอง เนื้อหาบทเรียนเขียนขึ้นเองทั้งหมด</p>`,
+}));
 
-// ── module pages ─────────────────────────────────────────
-let writtenCount = 0;
-for (const m of cur.modules) {
-  const href = m.href ?? `${m.id}.html`;
-  const src = join(ROOT, "content/modules", href);
-  if (!existsSync(src)) continue;
-  const raw = readFileSync(src, "utf8");
-  const inner = raw.replace(/^<div class="wrap">\n?/, "").replace(/<\/div>\s*$/, "");
-  writeFileSync(join(OUT, href), page({ title: `${m.code} · ${m.title_th}`, nav: m.id, body: inner }));
-  writtenCount++;
-}
+writeFileSync(join(OUT, "404.html"), page({
+  title: "ไม่พบหน้านี้", nav: "",
+  body: `<header class="masthead"><span class="eyebrow">404</span><h1>ไม่พบหน้านี้</h1><p class="deck">กลับไปที่ <a href="index.html">ภาพรวมหลักสูตร</a> หรือ <a href="course-th.html">หลักสูตรเต็ม</a></p></header>`,
+}));
 
+writeFileSync(join(OUT, "assets/course-data.js"),
+  `window.COURSE=${JSON.stringify({ order: cur.modules.map((m) => m.id), modules: courseData })};\n`);
 writeFileSync(join(OUT, ".nojekyll"), "");
-writeFileSync(
-  join(OUT, "404.html"),
-  page({ title: "ไม่พบหน้านี้", nav: "", body: `<header class="masthead"><span class="eyebrow">404</span><h1>ไม่พบหน้านี้</h1><p class="deck">กลับไปที่ <a href="index.html">ภาพรวมหลักสูตร</a> หรือ <a href="course-th.html">หลักสูตรเต็ม</a></p></header>` }),
-);
 
+const trackedLessons = Object.values(courseData).reduce((a, m) => a + m.lessons.length, 0);
+const trackedVideos = Object.values(courseData).reduce((a, m) => a + m.videos.length, 0);
 console.log(`built → docs/`);
 console.log(`  ${cur.modules.length} modules · ${totalLessons} lessons · ${totalLabs} labs · ${Math.round(totalHours)}h`);
-console.log(`  ${writtenCount} module page(s) written · ${videoCount} video link(s)`);
+console.log(`  ${writtenCount} module page(s) · ${videoCount} video link(s)`);
+console.log(`  trackable: ${trackedLessons} lesson checkpoints · ${trackedVideos} videos`);

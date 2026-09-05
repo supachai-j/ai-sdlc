@@ -9,7 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/style.css">
-
 </head>
 <body>
 <div class="wrap">
@@ -18,7 +17,7 @@
   <nav>
     <a href="index.html">ภาพรวม</a>
     <a href="course-th.html">หลักสูตร</a>
-    <a href="m12-evals.html" aria-current="page">M12 Evals</a>
+    <span id="nav-progress" class="nav-progress" hidden></span>
     <button id="theme" type="button" aria-label="สลับธีมสว่าง/มืด">THEME</button>
   </nav>
 </header>
@@ -36,7 +35,7 @@
     <span><b>3</b> ชั่วโมง</span>
     <span><b>1</b> แล็บ</span>
     <span>ต้องผ่าน <b>M01</b> · <b>M03</b> · <b>M11</b> ก่อน</span>
-  </div>
+  </div><div class="m-progress"><div class="bar" data-bar="m12"><span></span></div><span class="bar-label" data-label="m12"></span></div>
 </header>
 
 <div class="thesis">
@@ -47,7 +46,7 @@
 
 <!-- ─── L01 ─── -->
 <section class="lesson">
-  <div class="lhead"><span class="lnum">12.01</span><h2>ทำไม “รู้สึกว่าดีขึ้น” ถึงเชื่อไม่ได้</h2></div>
+  <div class="lhead"><span class="lnum">12.01</span><h2>ทำไม “รู้สึกว่าดีขึ้น” ถึงเชื่อไม่ได้</h2><label class="done"><input type="checkbox" data-lesson="12.01"><span>เรียนจบ</span></label></div>
 
   <p>
     งาน agent หนึ่งงานไม่ได้เดินเส้นทางเดียวทุกครั้ง ลูปแตกต่างกันได้จากลำดับการเรียก tool
@@ -81,7 +80,7 @@
 
 <!-- ─── L02 ─── -->
 <section class="lesson">
-  <div class="lhead"><span class="lnum">12.02</span><h2>Golden Task Set — สร้างชุดงานมาตรฐาน</h2></div>
+  <div class="lhead"><span class="lnum">12.02</span><h2>Golden Task Set — สร้างชุดงานมาตรฐาน</h2><label class="done"><input type="checkbox" data-lesson="12.02"><span>เรียนจบ</span></label></div>
 
   <p>
     หัวใจของ eval คือชุดงานที่<strong>คงที่</strong> และ<strong>เป็นตัวแทนงานจริง</strong>
@@ -133,7 +132,7 @@
 
 <!-- ─── L03 ─── -->
 <section class="lesson">
-  <div class="lhead"><span class="lnum">12.03</span><h2>เกณฑ์ deterministic มาก่อนเสมอ</h2></div>
+  <div class="lhead"><span class="lnum">12.03</span><h2>เกณฑ์ deterministic มาก่อนเสมอ</h2><label class="done"><input type="checkbox" data-lesson="12.03"><span>เรียนจบ</span></label></div>
 
   <p>
     ความผิดพลาดที่พบบ่อยที่สุดตอนเริ่มทำ eval คือกระโดดไปใช้ LLM ตัดสินทันที
@@ -184,7 +183,7 @@ criteria:
 
 <!-- ─── L04 ─── -->
 <section class="lesson">
-  <div class="lhead"><span class="lnum">12.04</span><h2>LLM-as-Judge ที่ใช้ได้จริง</h2></div>
+  <div class="lhead"><span class="lnum">12.04</span><h2>LLM-as-Judge ที่ใช้ได้จริง</h2><label class="done"><input type="checkbox" data-lesson="12.04"><span>เรียนจบ</span></label></div>
 
   <p>
     เมื่อเหลือแต่สิ่งที่วัดเชิงกลไม่ได้ — คุณภาพของคำอธิบาย ความสมเหตุสมผลของสถาปัตยกรรม
@@ -232,7 +231,7 @@ criteria:
 
 <!-- ─── L05 ─── -->
 <section class="lesson">
-  <div class="lhead"><span class="lnum">12.05</span><h2>Regression Suite สำหรับ prompt, skill และ CLAUDE.md</h2></div>
+  <div class="lhead"><span class="lnum">12.05</span><h2>Regression Suite สำหรับ prompt, skill และ CLAUDE.md</h2><label class="done"><input type="checkbox" data-lesson="12.05"><span>เรียนจบ</span></label></div>
 
   <p>
     เมื่อมีชุดงานและเกณฑ์แล้ว สิ่งที่เปลี่ยนไปคือสถานะของ prompt —
@@ -274,7 +273,7 @@ criteria:
 
 <!-- ─── L06 ─── -->
 <section class="lesson">
-  <div class="lhead"><span class="lnum">12.06</span><h2>วัดสี่มิติพร้อมกัน</h2></div>
+  <div class="lhead"><span class="lnum">12.06</span><h2>วัดสี่มิติพร้อมกัน</h2><label class="done"><input type="checkbox" data-lesson="12.06"><span>เรียนจบ</span></label></div>
 
   <p>
     การวัดแค่ “ผ่านกี่เปอร์เซ็นต์” นำไปสู่การตัดสินใจที่ผิด เพราะเวิร์กโฟลว์ที่ผ่าน 95%
@@ -308,7 +307,7 @@ criteria:
 
 <!-- ─── L07 ─── -->
 <section class="lesson">
-  <div class="lhead"><span class="lnum">12.07</span><h2>A/B การเปลี่ยนเวิร์กโฟลว์</h2></div>
+  <div class="lhead"><span class="lnum">12.07</span><h2>A/B การเปลี่ยนเวิร์กโฟลว์</h2><label class="done"><input type="checkbox" data-lesson="12.07"><span>เรียนจบ</span></label></div>
 
   <p>
     เมื่อมีเครื่องวัดแล้ว คำถามอย่าง “sub-agent ช่วยจริงไหม” หรือ “effort สูงคุ้มไหม”
@@ -346,7 +345,7 @@ criteria:
 
 <!-- ─── L08 ─── -->
 <section class="lesson">
-  <div class="lhead"><span class="lnum">12.08</span><h2>Drift — เมื่อของเดิมแย่ลงโดยไม่มีใครแตะ</h2></div>
+  <div class="lhead"><span class="lnum">12.08</span><h2>Drift — เมื่อของเดิมแย่ลงโดยไม่มีใครแตะ</h2><label class="done"><input type="checkbox" data-lesson="12.08"><span>เรียนจบ</span></label></div>
 
   <p>
     เวิร์กโฟลว์ที่ปรับจนดีกับโมเดลหนึ่ง ไม่ได้แปลว่าจะดีกับโมเดลถัดไป
@@ -377,7 +376,7 @@ criteria:
 
 <!-- ─── L09 / LAB ─── -->
 <div class="lab">
-  <div class="lab-head">12.09 · แล็บประจำโมดูล</div>
+  <div class="lab-head">12.09 · แล็บประจำโมดูล<label class="done"><input type="checkbox" data-lesson="12.09"><span>ทำแล็บแล้ว</span></label></div>
   <div class="lab-body">
     <h2>สร้าง eval harness 20 งาน แล้วใช้มันยุติข้อถกเถียงจริงหนึ่งข้อ</h2>
     <p>
@@ -424,8 +423,39 @@ criteria:
   และ M14 เอาชุด smoke ไปแขวนไว้บนสายพาน CI เป็น quality gate
 </p>
 
-
+<section class="lesson"><div class="lhead"><span class="lnum">วิดีโอ</span><h2>วิดีโอประกอบโมดูลนี้</h2></div><div class="m-vids"><b>วิดีโอประกอบ · 3 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="a3SMraZWNNs" data-title="How to Systematically Setup LLM Evals (Metrics, Unit Tests, LLM-as-a-Judge)" aria-label="เล่นวิดีโอ How to Systematically Setup LLM Evals (Metrics, Unit Tests, LLM-as-a-Judge)">
+           <img src="https://i.ytimg.com/vi/a3SMraZWNNs/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=a3SMraZWNNs" target="_blank" rel="noopener noreferrer">How to Systematically Setup LLM Evals (Metrics, Unit Tests, LLM-as-a-Judge)</a></p>
+    <span class="vid-ch">Dave Ebbelaar · EN</span><span class="note">ตัวที่ลงลึกที่สุดที่หาได้ ครอบคลุมทั้ง metric, unit test และ judge</span><label class="vid-done"><input type="checkbox" data-video="a3SMraZWNNs"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="TL527yTpxlk" data-title="Complete Beginner's Course on AI Evaluations in 50 Minutes (2025)" aria-label="เล่นวิดีโอ Complete Beginner's Course on AI Evaluations in 50 Minutes (2025)">
+           <img src="https://i.ytimg.com/vi/TL527yTpxlk/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=TL527yTpxlk" target="_blank" rel="noopener noreferrer">Complete Beginner's Course on AI Evaluations in 50 Minutes (2025)</a></p>
+    <span class="vid-ch">Peter Yang · EN</span><span class="note">ปูพื้น evals ตั้งแต่ศูนย์ สำหรับคนที่ยังไม่เคยทำชุดวัดมาก่อน</span><label class="vid-done"><input type="checkbox" data-video="TL527yTpxlk"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="trfUBIDeI1Y" data-title="LLM as a Judge: Scaling AI Evaluation Strategies" aria-label="เล่นวิดีโอ LLM as a Judge: Scaling AI Evaluation Strategies">
+           <img src="https://i.ytimg.com/vi/trfUBIDeI1Y/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=trfUBIDeI1Y" target="_blank" rel="noopener noreferrer">LLM as a Judge: Scaling AI Evaluation Strategies</a></p>
+    <span class="vid-ch">IBM Technology · EN</span><span class="note">สรุป judge แบบ 6 นาที ดูก่อนบทที่ 4 ที่ลงรายละเอียดอคติสี่แบบ</span><label class="vid-done"><input type="checkbox" data-video="trfUBIDeI1Y"> ดูแล้ว</label>
+  </div>
+</li></ul></div></section>
 </div>
+<script src="assets/course-data.js" defer></script>
+<script src="assets/progress.js" defer></script>
 <script>
 document.getElementById("theme").addEventListener("click",function(){
   var d=document.documentElement;

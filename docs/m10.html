@@ -9,7 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/style.css">
-
 </head>
 <body>
 <div class="wrap">
@@ -18,7 +17,7 @@
   <nav>
     <a href="index.html">ภาพรวม</a>
     <a href="course-th.html">หลักสูตร</a>
-    <a href="m12-evals.html">M12 Evals</a>
+    <span id="nav-progress" class="nav-progress" hidden></span>
     <button id="theme" type="button" aria-label="สลับธีมสว่าง/มืด">THEME</button>
   </nav>
 </header>
@@ -26,7 +25,7 @@
   <span class="crumb">AI Coding Agent SDLC · Phase 03 · Module 10</span>
   <h1>Multi-Agent Orchestration</h1>
   <p class="deck">Multi-agent เป็น<strong>สถาปัตยกรรม ไม่ใช่ฟีเจอร์</strong> มันมีแพตเทิร์น มีสัญญาการส่งต่อ และมีโหมดล้มเหลวเฉพาะตัว บทที่สำคัญที่สุดคือบทที่บอกว่าเมื่อไหร่มันแพ้ agent เดียว ซึ่งบ่อยกว่าที่คนคิดมาก</p>
-  <div class="meta"><span><b>8</b> บทเรียน</span><span><b>3</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ต้องผ่าน <b>M02</b> · <b>M03</b> · <b>M12</b> ก่อน</span></div>
+  <div class="meta"><span><b>8</b> บทเรียน</span><span><b>3</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ต้องผ่าน <b>M02</b> · <b>M03</b> · <b>M12</b> ก่อน</span></div><div class="m-progress"><div class="bar" data-bar="m10"><span></span></div><span class="bar-label" data-label="m10"></span></div>
 </header>
 
 <div class="thesis">
@@ -35,7 +34,7 @@
 </div>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">10.01</span><h2>เหตุผลที่ถูกต้องเพียงสองข้อ</h2></div>
+  <div class="lhead"><span class="lnum">10.01</span><h2>เหตุผลที่ถูกต้องเพียงสองข้อ</h2><label class="done"><input type="checkbox" data-lesson="10.01"><span>เรียนจบ</span></label></div>
   <div class="tw"><table>
     <thead><tr><th>เหตุผล</th><th>ได้อะไร</th><th>วัดยังไง</th></tr></thead>
     <tbody>
@@ -54,7 +53,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">10.02</span><h2>Pattern 1 — Orchestrator / Worker</h2></div>
+  <div class="lhead"><span class="lnum">10.02</span><h2>Pattern 1 — Orchestrator / Worker</h2><label class="done"><input type="checkbox" data-lesson="10.02"><span>เรียนจบ</span></label></div>
   <p>ตัวกลางถือแผนและบริบทรวม ตัวลูกได้รับงานที่นิยามชัดพร้อมบริบทเท่าที่จำเป็น แล้วส่งผลสรุปกลับ</p>
   <div class="box rule">
     <span class="k">กฎที่ทำให้แพตเทิร์นนี้ได้ผล</span>
@@ -67,7 +66,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">10.03</span><h2>Pattern 2 — Pipeline</h2></div>
+  <div class="lhead"><span class="lnum">10.03</span><h2>Pattern 2 — Pipeline</h2><label class="done"><input type="checkbox" data-lesson="10.03"><span>เรียนจบ</span></label></div>
   <p>แต่ละสเตจรับ input ที่นิยามไว้ ทำงานหนึ่งอย่าง แล้วส่ง output ที่นิยามไว้ต่อ จุดแข็งคือ<strong>ตรวจได้ทีละสเตจ</strong> ซึ่งทำให้ debug ได้จริง ต่างจากแพตเทิร์นอื่นที่พังแล้วไม่รู้ว่าพังตรงไหน</p>
   <pre><code><span class="c">// สัญญาระหว่างสเตจต้องเป็นโครงสร้าง ไม่ใช่ข้อความอิสระ</span>
 review  → { findings: [{ file, line, claim, severity }] }
@@ -80,7 +79,7 @@ report  → { confirmed: [...], summary }</code></pre>
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">10.04</span><h2>Pattern 3 — Fan-out / Fan-in</h2></div>
+  <div class="lhead"><span class="lnum">10.04</span><h2>Pattern 3 — Fan-out / Fan-in</h2><label class="done"><input type="checkbox" data-lesson="10.04"><span>เรียนจบ</span></label></div>
   <p>แตกงานที่ไม่ขึ้นต่อกันออกไปทำพร้อมกัน แล้วรวมผล เหมาะกับงานอย่างตรวจไฟล์ 40 ไฟล์ด้วยเกณฑ์เดียวกัน</p>
   <div class="box trap">
     <span class="k">จุดที่ระเบิด — การรวมผล</span>
@@ -93,7 +92,7 @@ report  → { confirmed: [...], summary }</code></pre>
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">10.05</span><h2>Pattern 4 — Judge / Critic</h2></div>
+  <div class="lhead"><span class="lnum">10.05</span><h2>Pattern 4 — Judge / Critic</h2><label class="done"><input type="checkbox" data-lesson="10.05"><span>เรียนจบ</span></label></div>
   <p>แพตเทิร์นที่ให้ผลชัดที่สุดในบรรดาสี่แบบ และเป็นแบบเดียวที่<strong>ความเป็นอิสระคือทั้งหมดของคุณค่า</strong></p>
   <div class="box rule">
     <span class="k">กฎเหล็กสามข้อ</span>
@@ -107,7 +106,7 @@ report  → { confirmed: [...], summary }</code></pre>
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">10.06</span><h2>Handoff protocol</h2></div>
+  <div class="lhead"><span class="lnum">10.06</span><h2>Handoff protocol</h2><label class="done"><input type="checkbox" data-lesson="10.06"><span>เรียนจบ</span></label></div>
   <div class="tw"><table>
     <thead><tr><th>ต้องส่งต่อ</th><th>ห้ามส่งต่อ</th></tr></thead>
     <tbody>
@@ -124,7 +123,7 @@ report  → { confirmed: [...], summary }</code></pre>
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">10.07</span><h2>เมื่อ multi-agent แพ้ single agent</h2></div>
+  <div class="lhead"><span class="lnum">10.07</span><h2>เมื่อ multi-agent แพ้ single agent</h2><label class="done"><input type="checkbox" data-lesson="10.07"><span>เรียนจบ</span></label></div>
   <p>บทที่สำคัญที่สุดในโมดูล และเป็นบทที่คนข้ามเพราะขัดกับความตื่นเต้น</p>
   <div class="tw"><table>
     <thead><tr><th>อาการ</th><th>สาเหตุ</th><th>ทำอะไร</th></tr></thead>
@@ -143,7 +142,7 @@ report  → { confirmed: [...], summary }</code></pre>
 </section>
 
 <div class="lab">
-  <div class="lab-head">10.08 · แล็บประจำโมดูล</div>
+  <div class="lab-head">10.08 · แล็บประจำโมดูล<label class="done"><input type="checkbox" data-lesson="10.08"><span>ทำแล็บแล้ว</span></label></div>
   <div class="lab-body">
     <h2>ทำ review pipeline สามขั้น แล้ววัดว่าดีกว่า agent เดียวจริงหรือแค่แพงกว่า</h2>
     <p>แล็บนี้ต้องใช้ชุดวัดจาก <a href="m12-evals.html">M12</a> เพราะทั้งประเด็นคือ<strong>การพิสูจน์</strong> ไม่ใช่การสร้าง</p>
@@ -171,8 +170,39 @@ report  → { confirmed: [...], summary }</code></pre>
 </div>
 
 <p class="note"><b>เชื่อมกับโมดูลอื่น</b> — <a href="m02.html">M02.07</a> sub-agent ในฐานะกำแพงกันบริบท · <a href="m03.html">M03</a> multi-agent เพิ่มต้นทุนแบบทวีคูณ · <a href="m11.html">M11.06</a> ออกแบบ review agent · <a href="m12-evals.html">M12</a> เครื่องมือที่ทำให้แล็บนี้เป็นการวัด ไม่ใช่การเดา</p>
-
+<section class="lesson"><div class="lhead"><span class="lnum">วิดีโอ</span><h2>วิดีโอประกอบโมดูลนี้</h2></div><div class="m-vids"><b>วิดีโอประกอบ · 3 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="oYL0QL435Ag" data-title="มาลองทำ AI Multi-agent Orchestration กันน" aria-label="เล่นวิดีโอ มาลองทำ AI Multi-agent Orchestration กันน">
+           <img src="https://i.ytimg.com/vi/oYL0QL435Ag/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=oYL0QL435Ag" target="_blank" rel="noopener noreferrer">มาลองทำ AI Multi-agent Orchestration กันน</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">เห็น orchestration ทำงานจริงก่อนเข้าสี่ pattern และก่อนบทที่ว่ามันแพ้ single agent เมื่อไหร่</span><label class="vid-done"><input type="checkbox" data-video="oYL0QL435Ag"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="DJ2ZrbIkkO8" data-title="LangGraph 101" aria-label="เล่นวิดีโอ LangGraph 101">
+           <img src="https://i.ytimg.com/vi/DJ2ZrbIkkO8/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=DJ2ZrbIkkO8" target="_blank" rel="noopener noreferrer">LangGraph 101</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">อีกวิธีประกอบ graph ของ agent เทียบกับ pattern pipeline ในบทที่ 3</span><label class="vid-done"><input type="checkbox" data-video="DJ2ZrbIkkO8"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="mH36GOYeJmw" data-title="LangChain 101" aria-label="เล่นวิดีโอ LangChain 101">
+           <img src="https://i.ytimg.com/vi/mH36GOYeJmw/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=mH36GOYeJmw" target="_blank" rel="noopener noreferrer">LangChain 101</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">พื้นฐานเฟรมเวิร์ก สำหรับคนที่ยังไม่เคยแตะ</span><label class="vid-done"><input type="checkbox" data-video="mH36GOYeJmw"> ดูแล้ว</label>
+  </div>
+</li></ul></div></section>
 </div>
+<script src="assets/course-data.js" defer></script>
+<script src="assets/progress.js" defer></script>
 <script>
 document.getElementById("theme").addEventListener("click",function(){
   var d=document.documentElement;

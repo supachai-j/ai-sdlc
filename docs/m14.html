@@ -9,7 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/style.css">
-
 </head>
 <body>
 <div class="wrap">
@@ -18,7 +17,7 @@
   <nav>
     <a href="index.html">ภาพรวม</a>
     <a href="course-th.html">หลักสูตร</a>
-    <a href="m12-evals.html">M12 Evals</a>
+    <span id="nav-progress" class="nav-progress" hidden></span>
     <button id="theme" type="button" aria-label="สลับธีมสว่าง/มืด">THEME</button>
   </nav>
 </header>
@@ -26,7 +25,7 @@
   <span class="crumb">AI Coding Agent SDLC · Phase 05 · Module 14</span>
   <h1>CI/CD และ Agent ในสายพาน</h1>
   <p class="deck">บนเครื่องคุณมีคนคอยกดอนุมัติและสังเกตความผิดปกติ บนสายพาน<strong>ไม่มีทั้งสองอย่าง</strong> โมดูลนี้ว่าด้วยการเอา agent ขึ้นสายพานโดยที่ยังมีจุดหยุดที่มนุษย์ควบคุม และบิลไม่บาน</p>
-  <div class="meta"><span><b>8</b> บทเรียน</span><span><b>2.5</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ต้องผ่าน <b>M11</b> · <b>M12</b> · <b>M13</b> ก่อน</span></div>
+  <div class="meta"><span><b>8</b> บทเรียน</span><span><b>2.5</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ต้องผ่าน <b>M11</b> · <b>M12</b> · <b>M13</b> ก่อน</span></div><div class="m-progress"><div class="bar" data-bar="m14"><span></span></div><span class="bar-label" data-label="m14"></span></div>
 </header>
 
 <div class="thesis">
@@ -35,7 +34,7 @@
 </div>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">14.01</span><h2>agent ใน CI ต่างจากบนเครื่องอย่างไร</h2></div>
+  <div class="lhead"><span class="lnum">14.01</span><h2>agent ใน CI ต่างจากบนเครื่องอย่างไร</h2><label class="done"><input type="checkbox" data-lesson="14.01"><span>เรียนจบ</span></label></div>
   <div class="tw"><table>
     <thead><tr><th></th><th>บนเครื่อง</th><th>ใน CI</th></tr></thead>
     <tbody>
@@ -53,7 +52,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">14.02</span><h2>PR automation และเส้นที่ไม่ควรข้าม</h2></div>
+  <div class="lhead"><span class="lnum">14.02</span><h2>PR automation และเส้นที่ไม่ควรข้าม</h2><label class="done"><input type="checkbox" data-lesson="14.02"><span>เรียนจบ</span></label></div>
   <div class="tw"><table>
     <thead><tr><th>งาน</th><th>ให้ agent ทำ</th><th>เหตุผล</th></tr></thead>
     <tbody>
@@ -72,7 +71,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">14.03</span><h2>Quality gate ที่บล็อกได้จริง</h2></div>
+  <div class="lhead"><span class="lnum">14.03</span><h2>Quality gate ที่บล็อกได้จริง</h2><label class="done"><input type="checkbox" data-lesson="14.03"><span>เรียนจบ</span></label></div>
   <p>Gate ที่ทำงานได้ต้องเรียงจากถูกและแน่นอนไปหาแพงและมีความเห็น ถ้าเรียงกลับกัน คุณจะจ่ายค่า LLM เพื่อตรวจโค้ดที่คอมไพล์ไม่ผ่าน</p>
   <div class="tw"><table>
     <thead><tr><th>ลำดับ</th><th>Gate</th><th>บล็อกไหม</th></tr></thead>
@@ -92,7 +91,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">14.04</span><h2>ทำ agent ให้เป็น CLI ที่เขียนสคริปต์ครอบได้</h2></div>
+  <div class="lhead"><span class="lnum">14.04</span><h2>ทำ agent ให้เป็น CLI ที่เขียนสคริปต์ครอบได้</h2><label class="done"><input type="checkbox" data-lesson="14.04"><span>เรียนจบ</span></label></div>
   <p>agent ที่ใช้ในสายพานต้องมีพฤติกรรมเหมือนเครื่องมือ unix ทั่วไป ไม่ใช่แอปที่ต้องมีคนนั่งดู</p>
   <ul>
     <li><strong>โหมดไม่โต้ตอบ</strong> — รับงานเข้า คืนผลออก ไม่ถามกลับ</li>
@@ -108,7 +107,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">14.05</span><h2>งานอัตโนมัติตามเวลา</h2></div>
+  <div class="lhead"><span class="lnum">14.05</span><h2>งานอัตโนมัติตามเวลา</h2><label class="done"><input type="checkbox" data-lesson="14.05"><span>เรียนจบ</span></label></div>
   <p>งานที่รันเองตามตารางมีประโยชน์จริง — ไล่ dependency ที่ล้าสมัย สรุป error ที่เพิ่มขึ้น เตรียมร่างแก้ให้ issue ที่ค้าง แต่ต้องมี guardrail ครบก่อนเปิด</p>
   <div class="box rule">
     <span class="k">เช็คลิสต์ก่อนเปิดงานตามเวลา</span>
@@ -127,7 +126,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">14.06</span><h2>ต้นทุน CI ที่บานเพราะ agent</h2></div>
+  <div class="lhead"><span class="lnum">14.06</span><h2>ต้นทุน CI ที่บานเพราะ agent</h2><label class="done"><input type="checkbox" data-lesson="14.06"><span>เรียนจบ</span></label></div>
   <div class="tw"><table>
     <thead><tr><th>สาเหตุ</th><th>ทำไมโตเร็ว</th><th>วิธีคุม</th></tr></thead>
     <tbody>
@@ -145,7 +144,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">14.07</span><h2>Rollback และ incident เมื่อคอมมิตมาจาก agent</h2></div>
+  <div class="lhead"><span class="lnum">14.07</span><h2>Rollback และ incident เมื่อคอมมิตมาจาก agent</h2><label class="done"><input type="checkbox" data-lesson="14.07"><span>เรียนจบ</span></label></div>
   <p>เมื่อของพังแล้วคอมมิตนั้นเขียนโดย agent คำถามเดิม ๆ ตอบยากขึ้น — ใครเข้าใจเจตนา ใครรับผิดชอบ และจะกันไม่ให้เกิดซ้ำยังไง</p>
   <div class="box rule">
     <span class="k">สิ่งที่ต้องมีในทุกคอมมิตที่ agent เขียน</span>
@@ -159,7 +158,7 @@
 </section>
 
 <div class="lab">
-  <div class="lab-head">14.08 · แล็บประจำโมดูล</div>
+  <div class="lab-head">14.08 · แล็บประจำโมดูล<label class="done"><input type="checkbox" data-lesson="14.08"><span>ทำแล็บแล้ว</span></label></div>
   <div class="lab-body">
     <h2>ตั้ง PR review bot พร้อม gate ที่บล็อกเมื่อพบ finding ระดับสูง</h2>
     <ol>
@@ -183,8 +182,29 @@
 </div>
 
 <p class="note"><b>เชื่อมกับโมดูลอื่น</b> — <a href="m03.html">M03</a> ต้นทุนที่บานใน CI · <a href="m11.html">M11</a> เครื่องมือรีวิวที่เอามาแขวนบน gate · <a href="m12-evals.html">M12</a> ชุด smoke ที่รันในสายพาน · <a href="m13.html">M13.08</a> guardrail ของงานอัตโนมัติ · <a href="m15.html">M15</a> ความรับผิดชอบและวัฒนธรรม</p>
-
+<section class="lesson"><div class="lhead"><span class="lnum">วิดีโอ</span><h2>วิดีโอประกอบโมดูลนี้</h2></div><div class="m-vids"><b>วิดีโอประกอบ · 2 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="EZ8C1rxaXH4" data-title="สร้าง AI Agent ส่วนตัวด้วย Hermes Agent ทำงานตลอด 24 ชั่วโมง คุยผ่าน Telegram ดูจบบรรลุ!" aria-label="เล่นวิดีโอ สร้าง AI Agent ส่วนตัวด้วย Hermes Agent ทำงานตลอด 24 ชั่วโมง คุยผ่าน Telegram ดูจบบรรลุ!">
+           <img src="https://i.ytimg.com/vi/EZ8C1rxaXH4/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when after">after</span><a href="https://www.youtube.com/watch?v=EZ8C1rxaXH4" target="_blank" rel="noopener noreferrer">สร้าง AI Agent ส่วนตัวด้วย Hermes Agent ทำงานตลอด 24 ชั่วโมง คุยผ่าน Telegram ดูจบบรรลุ!</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">เคส agent ที่รันเองตลอดเวลา ดูคู่กับบทที่ 5 เรื่อง guardrail ขั้นต่ำก่อนเปิด</span><label class="vid-done"><input type="checkbox" data-video="EZ8C1rxaXH4"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="ZZXqoB4NUiY" data-title="สอนติดตั้ง n8n แบบ Self-Host บน VPS เพื่อทำงาน Automation 24 ชั่วโมง!" aria-label="เล่นวิดีโอ สอนติดตั้ง n8n แบบ Self-Host บน VPS เพื่อทำงาน Automation 24 ชั่วโมง!">
+           <img src="https://i.ytimg.com/vi/ZZXqoB4NUiY/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=ZZXqoB4NUiY" target="_blank" rel="noopener noreferrer">สอนติดตั้ง n8n แบบ Self-Host บน VPS เพื่อทำงาน Automation 24 ชั่วโมง!</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">ทางเลือกรัน automation เอง สำหรับคนที่ไม่อยากผูกกับ scheduler ของเจ้าใด</span><label class="vid-done"><input type="checkbox" data-video="ZZXqoB4NUiY"> ดูแล้ว</label>
+  </div>
+</li></ul></div></section>
 </div>
+<script src="assets/course-data.js" defer></script>
+<script src="assets/progress.js" defer></script>
 <script>
 document.getElementById("theme").addEventListener("click",function(){
   var d=document.documentElement;

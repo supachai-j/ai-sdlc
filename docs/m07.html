@@ -9,7 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/style.css">
-
 </head>
 <body>
 <div class="wrap">
@@ -18,7 +17,7 @@
   <nav>
     <a href="index.html">ภาพรวม</a>
     <a href="course-th.html">หลักสูตร</a>
-    <a href="m12-evals.html">M12 Evals</a>
+    <span id="nav-progress" class="nav-progress" hidden></span>
     <button id="theme" type="button" aria-label="สลับธีมสว่าง/มืด">THEME</button>
   </nav>
 </header>
@@ -26,7 +25,7 @@
   <span class="crumb">AI Coding Agent SDLC · Phase 02 · Module 07</span>
   <h1>Backend และงานที่แตะข้อมูล</h1>
   <p class="deck">ฝั่งหลังบ้านมีงานที่<strong>ผิดแล้วย้อนไม่ได้</strong> ซึ่งเปลี่ยนกติกาทั้งหมด โมดูลนี้ว่าด้วยการวาง guardrail ก่อนปล่อยให้ agent แตะของที่แตะแล้วเสียหายถาวร</p>
-  <div class="meta"><span><b>9</b> บทเรียน</span><span><b>3</b> ชั่วโมง</span><span><b>2</b> แล็บ</span><span>ต้องผ่าน <b>M04</b> · <b>M05</b> ก่อน</span></div>
+  <div class="meta"><span><b>9</b> บทเรียน</span><span><b>3</b> ชั่วโมง</span><span><b>2</b> แล็บ</span><span>ต้องผ่าน <b>M04</b> · <b>M05</b> ก่อน</span></div><div class="m-progress"><div class="bar" data-bar="m07"><span></span></div><span class="bar-label" data-label="m07"></span></div>
 </header>
 
 <div class="thesis">
@@ -35,7 +34,7 @@
 </div>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">07.01</span><h2>Contract-first</h2></div>
+  <div class="lhead"><span class="lnum">07.01</span><h2>Contract-first</h2><label class="done"><input type="checkbox" data-lesson="07.01"><span>เรียนจบ</span></label></div>
   <p>สัญญา API ที่เขียนเป็นสคีมาให้ประโยชน์สามชั้นพร้อมกัน — เป็น spec ให้ agent เป็นเกณฑ์ตรวจอัตโนมัติ และเป็นเอกสารที่ไม่มีวันล้าสมัย เพราะถ้าล้าสมัยแล้วเทสต์จะแดง</p>
   <div class="box rule">
     <span class="k">ลำดับที่ให้ผลดีที่สุด</span>
@@ -44,7 +43,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">07.02</span><h2>Layering ที่ agent ทำงานด้วยง่าย</h2></div>
+  <div class="lhead"><span class="lnum">07.02</span><h2>Layering ที่ agent ทำงานด้วยง่าย</h2><label class="done"><input type="checkbox" data-lesson="07.02"><span>เรียนจบ</span></label></div>
   <div class="tw"><table>
     <thead><tr><th>ลักษณะ</th><th>agent ทำงานด้วยง่าย</th><th>agent หลงทาง</th></tr></thead>
     <tbody>
@@ -58,7 +57,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">07.03</span><h2>Database migration — งานอันตรายที่สุดในหลักสูตร</h2></div>
+  <div class="lhead"><span class="lnum">07.03</span><h2>Database migration — งานอันตรายที่สุดในหลักสูตร</h2><label class="done"><input type="checkbox" data-lesson="07.03"><span>เรียนจบ</span></label></div>
   <p>Migration ต่างจากงานอื่นตรงที่มัน<strong>ทำลายข้อมูลได้ถาวร</strong> และเทสต์ที่เขียวไม่ได้แปลว่าปลอดภัย เพราะเทสต์รันบนฐานข้อมูลว่างที่ไม่มีข้อมูลจริง</p>
   <div class="box trap">
     <span class="k">รูปแบบที่อันตรายที่สุดสามอย่าง</span>
@@ -80,7 +79,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">07.04</span><h2>Idempotency ขอบเขตธุรกรรม และ error taxonomy</h2></div>
+  <div class="lhead"><span class="lnum">07.04</span><h2>Idempotency ขอบเขตธุรกรรม และ error taxonomy</h2><label class="done"><input type="checkbox" data-lesson="07.04"><span>เรียนจบ</span></label></div>
   <p>สามเรื่องนี้อยู่ด้วยกันเพราะมันตอบคำถามเดียวกัน — <strong>เมื่อเกิดข้อผิดพลาดกลางทาง ระบบอยู่ในสภาพไหน</strong> ซึ่งเป็นคำถามที่ agent ตอบผิดบ่อยเพราะมันมองเห็นแค่เส้นทางที่สำเร็จ</p>
   <div class="tw"><table>
     <thead><tr><th>ชนิดข้อผิดพลาด</th><th>ควรลองใหม่ไหม</th><th>สิ่งที่ agent มักทำผิด</th></tr></thead>
@@ -95,7 +94,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">07.05</span><h2>Secret และ env — กฎที่ห้ามยืดหยุ่น</h2></div>
+  <div class="lhead"><span class="lnum">07.05</span><h2>Secret และ env — กฎที่ห้ามยืดหยุ่น</h2><label class="done"><input type="checkbox" data-lesson="07.05"><span>เรียนจบ</span></label></div>
   <ul>
     <li><strong>ห้ามให้ไฟล์ที่มีค่าจริงเข้าไปในบริบท</strong> — เมื่อเข้าไปแล้ว มันอยู่ในประวัติการสนทนาและย้อนไม่ได้</li>
     <li><strong>ใช้ไฟล์ตัวอย่างที่มีแต่ชื่อคีย์</strong> ให้ agent อ่านจากตัวนั้น</li>
@@ -109,7 +108,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">07.06</span><h2>Background job, queue และ retry</h2></div>
+  <div class="lhead"><span class="lnum">07.06</span><h2>Background job, queue และ retry</h2><label class="done"><input type="checkbox" data-lesson="07.06"><span>เรียนจบ</span></label></div>
   <p>สามอย่างนี้ agent ออกแบบผิดเป็นประจำ เพราะรูปแบบที่ดูถูกต้องในโค้ดกลับผิดในสภาพจริงที่มีความล้มเหลว</p>
   <div class="tw"><table>
     <thead><tr><th>สิ่งที่มักได้</th><th>ปัญหาจริง</th><th>สิ่งที่ควรได้</th></tr></thead>
@@ -123,7 +122,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">07.07</span><h2>Observability ตั้งแต่บรรทัดแรก</h2></div>
+  <div class="lhead"><span class="lnum">07.07</span><h2>Observability ตั้งแต่บรรทัดแรก</h2><label class="done"><input type="checkbox" data-lesson="07.07"><span>เรียนจบ</span></label></div>
   <p>เหตุผลที่เรื่องนี้อยู่ในโมดูล implementation ไม่ใช่โมดูล operations เพราะ <strong>log คือสิ่งที่ agent ใช้ debug ตัวเองในรอบหน้า</strong> การเขียน log ที่ดีจึงเป็นการลงทุนในความสามารถของ agent โดยตรง</p>
   <ul>
     <li>ทุก request มีรหัสที่ตามได้ตลอดเส้นทาง</li>
@@ -134,7 +133,7 @@
 </section>
 
 <div class="lab">
-  <div class="lab-head">07.08 · แล็บ A</div>
+  <div class="lab-head">07.08 · แล็บ A<label class="done"><input type="checkbox" data-lesson="07.08"><span>ทำแล็บแล้ว</span></label></div>
   <div class="lab-body">
     <h2>สร้าง API จากสัญญา พร้อม migration ที่มีทางย้อน</h2>
     <ol>
@@ -154,7 +153,7 @@
 </div>
 
 <div class="lab">
-  <div class="lab-head">07.09 · แล็บ B</div>
+  <div class="lab-head">07.09 · แล็บ B<label class="done"><input type="checkbox" data-lesson="07.09"><span>ทำแล็บแล้ว</span></label></div>
   <div class="lab-body">
     <h2>ให้ agent หาบั๊กจากบันทึกอย่างเดียว</h2>
     <p>ปลูกบั๊กไว้หนึ่งตัว แล้วส่งให้ agent เฉพาะ log กับ trace <strong>ห้ามบอกว่าพังตรงไหน</strong> นี่คือการทดสอบคุณภาพ observability ของคุณ ไม่ใช่ทดสอบ agent</p>
@@ -166,8 +165,29 @@
 </div>
 
 <p class="note"><b>เชื่อมกับโมดูลอื่น</b> — <a href="m04.html">M04.03</a> เกณฑ์ตัดสินว่างานไหนมอบให้ agent ได้ · <a href="m05.html">M05.03</a> error taxonomy คือ error message ที่ดีในอีกรูปแบบ · <a href="m13.html">M13.06</a> การจัดการ secret เชิงลึก · <a href="m15.html">M15.02</a> log ชุดเดียวกันนี้ใช้ตอน incident</p>
-
+<section class="lesson"><div class="lhead"><span class="lnum">วิดีโอ</span><h2>วิดีโอประกอบโมดูลนี้</h2></div><div class="m-vids"><b>วิดีโอประกอบ · 2 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="F62-v-zEkWc" data-title="จริงๆ แล้วแอปคุณอาจต้องการแค่ SQLite ก็พอ!" aria-label="เล่นวิดีโอ จริงๆ แล้วแอปคุณอาจต้องการแค่ SQLite ก็พอ!">
+           <img src="https://i.ytimg.com/vi/F62-v-zEkWc/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=F62-v-zEkWc" target="_blank" rel="noopener noreferrer">จริงๆ แล้วแอปคุณอาจต้องการแค่ SQLite ก็พอ!</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">เตือนเรื่องเลือกของให้พอดีงาน ก่อนปล่อย agent ออกแบบ data layer ให้</span><label class="vid-done"><input type="checkbox" data-video="F62-v-zEkWc"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="XOgXXAA1Ijw" data-title="มาลองทำ API คุยกับ Agent กัน" aria-label="เล่นวิดีโอ มาลองทำ API คุยกับ Agent กัน">
+           <img src="https://i.ytimg.com/vi/XOgXXAA1Ijw/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when after">after</span><a href="https://www.youtube.com/watch?v=XOgXXAA1Ijw" target="_blank" rel="noopener noreferrer">มาลองทำ API คุยกับ Agent กัน</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">ต่อ API เข้ากับ agent ดูหลังเรียน contract-first ในบทที่ 1</span><label class="vid-done"><input type="checkbox" data-video="XOgXXAA1Ijw"> ดูแล้ว</label>
+  </div>
+</li></ul></div></section>
 </div>
+<script src="assets/course-data.js" defer></script>
+<script src="assets/progress.js" defer></script>
 <script>
 document.getElementById("theme").addEventListener("click",function(){
   var d=document.documentElement;

@@ -9,7 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/style.css">
-
 </head>
 <body>
 <div class="wrap">
@@ -18,7 +17,7 @@
   <nav>
     <a href="index.html">ภาพรวม</a>
     <a href="course-th.html">หลักสูตร</a>
-    <a href="m12-evals.html">M12 Evals</a>
+    <span id="nav-progress" class="nav-progress" hidden></span>
     <button id="theme" type="button" aria-label="สลับธีมสว่าง/มืด">THEME</button>
   </nav>
 </header>
@@ -26,7 +25,7 @@
   <span class="crumb">AI Coding Agent SDLC · Phase 04 · Module 11</span>
   <h1>Testing และ QA</h1>
   <p class="deck">agent เขียนเทสต์ได้เร็วมาก ซึ่งเป็นทั้งข้อดีและปัญหา เพราะ<strong>เทสต์ที่ผ่านไม่ได้แปลว่าโค้ดถูก</strong> โมดูลนี้ว่าด้วยการได้เทสต์ที่จับบั๊กจริง ไม่ใช่เทสต์ที่ยืนยันว่าบั๊กยังอยู่</p>
-  <div class="meta"><span><b>8</b> บทเรียน</span><span><b>2.5</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ต้องผ่าน <b>M04</b> · <b>M05</b> ก่อน</span></div>
+  <div class="meta"><span><b>8</b> บทเรียน</span><span><b>2.5</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ต้องผ่าน <b>M04</b> · <b>M05</b> ก่อน</span></div><div class="m-progress"><div class="bar" data-bar="m11"><span></span></div><span class="bar-label" data-label="m11"></span></div>
 </header>
 
 <div class="thesis">
@@ -35,7 +34,7 @@
 </div>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">11.01</span><h2>กับดักของเทสต์ที่ agent เขียน</h2></div>
+  <div class="lhead"><span class="lnum">11.01</span><h2>กับดักของเทสต์ที่ agent เขียน</h2><label class="done"><input type="checkbox" data-lesson="11.01"><span>เรียนจบ</span></label></div>
   <div class="tw"><table>
     <thead><tr><th>รูปแบบ</th><th>อาการ</th><th>ทำไมอันตราย</th></tr></thead>
     <tbody>
@@ -52,7 +51,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">11.02</span><h2>Coverage โกหกอย่างไร</h2></div>
+  <div class="lhead"><span class="lnum">11.02</span><h2>Coverage โกหกอย่างไร</h2><label class="done"><input type="checkbox" data-lesson="11.02"><span>เรียนจบ</span></label></div>
   <p>ตัวเลขความครอบคลุมวัดว่าโค้ดถูก<em>รัน</em>ระหว่างเทสต์ ไม่ได้วัดว่าถูก<em>ตรวจสอบ</em> ความต่างนี้ใหญ่ขึ้นมากเมื่อ agent เป็นคนเขียน เพราะมันไล่ทำให้ตัวเลขสวยได้เร็วกว่าคน</p>
   <pre><code><span class="c">// coverage 100% แต่ไม่ได้ตรวจอะไรเลย</span>
 test("คำนวณยอดรวม", () => {
@@ -66,7 +65,7 @@ test("คำนวณยอดรวม", () => {
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">11.03</span><h2>เทสต์ในฐานะ spec</h2></div>
+  <div class="lhead"><span class="lnum">11.03</span><h2>เทสต์ในฐานะ spec</h2><label class="done"><input type="checkbox" data-lesson="11.03"><span>เรียนจบ</span></label></div>
   <p>ทางแก้ที่ตรงที่สุดสำหรับปัญหาทั้งหมดในบท 11.01 คือ<strong>สลับลำดับ</strong> — เขียนเทสต์ก่อน แล้วให้ agent ทำให้ผ่าน</p>
   <div class="tw"><table>
     <thead><tr><th></th><th>โค้ดก่อนเทสต์</th><th>เทสต์ก่อนโค้ด</th></tr></thead>
@@ -84,7 +83,7 @@ test("คำนวณยอดรวม", () => {
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">11.04</span><h2>Property-based และ fuzz</h2></div>
+  <div class="lhead"><span class="lnum">11.04</span><h2>Property-based และ fuzz</h2><label class="done"><input type="checkbox" data-lesson="11.04"><span>เรียนจบ</span></label></div>
   <p>พื้นที่ที่ agent ได้เปรียบคนชัดเจนที่สุด เพราะการคิดคุณสมบัติที่ต้องจริงเสมอ และการสร้างอินพุตแปลก ๆ จำนวนมาก เป็นงานที่มันทำได้ดีและคนขี้เกียจทำ</p>
   <pre><code><span class="c">// แทนที่จะเขียนเคสทีละอัน ให้ระบุคุณสมบัติที่ต้องจริงเสมอ</span>
 สำหรับตะกร้าใด ๆ:
@@ -99,7 +98,7 @@ test("คำนวณยอดรวม", () => {
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">11.05</span><h2>E2E ที่ไม่ flaky</h2></div>
+  <div class="lhead"><span class="lnum">11.05</span><h2>E2E ที่ไม่ flaky</h2><label class="done"><input type="checkbox" data-lesson="11.05"><span>เรียนจบ</span></label></div>
   <p>เทสต์ E2E ที่แดงบ้างเขียวบ้างแย่กว่าไม่มีเทสต์ เพราะมันสอนให้ทุกคนเพิกเฉยต่อสีแดง แล้ววันที่แดงจริงก็ไม่มีใครสนใจ</p>
   <div class="tw"><table>
     <thead><tr><th>สาเหตุความไม่แน่นอน</th><th>วิธีแก้ที่ถูก</th><th>วิธีแก้ที่ผิดแต่คนชอบทำ</th></tr></thead>
@@ -117,7 +116,7 @@ test("คำนวณยอดรวม", () => {
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">11.06</span><h2>ออกแบบ review agent ให้หาบั๊กจริง</h2></div>
+  <div class="lhead"><span class="lnum">11.06</span><h2>ออกแบบ review agent ให้หาบั๊กจริง</h2><label class="done"><input type="checkbox" data-lesson="11.06"><span>เรียนจบ</span></label></div>
   <p>review agent ที่สั่งลอย ๆ ว่า “ช่วยรีวิวโค้ดนี้” จะคืนรายการเรื่องสไตล์ยาวเหยียดที่ไม่มีใครอ่าน ต้องออกแบบให้มันหาสิ่งที่คนพลาด</p>
   <div class="tw"><table>
     <thead><tr><th>ควรให้หา</th><th>ไม่ควรให้หา</th></tr></thead>
@@ -135,7 +134,7 @@ test("คำนวณยอดรวม", () => {
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">11.07</span><h2>Verification pass</h2></div>
+  <div class="lhead"><span class="lnum">11.07</span><h2>Verification pass</h2><label class="done"><input type="checkbox" data-lesson="11.07"><span>เรียนจบ</span></label></div>
   <p>ก่อนรายงาน finding ให้คน ต้องมีขั้นยืนยันเสมอ เหตุผลเป็นเรื่องเศรษฐศาสตร์ของความสนใจ — <strong>รายงานผิดสามครั้ง แล้วคนจะเลิกอ่านรายงานที่สี่</strong> แม้ครั้งที่สี่จะถูก</p>
   <ol>
     <li>สเตจแรกหา finding ให้กว้างไว้ก่อน</li>
@@ -147,7 +146,7 @@ test("คำนวณยอดรวม", () => {
 </section>
 
 <div class="lab">
-  <div class="lab-head">11.08 · แล็บประจำโมดูล</div>
+  <div class="lab-head">11.08 · แล็บประจำโมดูล<label class="done"><input type="checkbox" data-lesson="11.08"><span>ทำแล็บแล้ว</span></label></div>
   <div class="lab-body">
     <h2>วัด precision และ recall ของ review agent กับบั๊กที่ปลูกไว้</h2>
     <p>เป้าหมายคือได้<strong>ตัวเลขจริง</strong>ว่าเครื่องมือรีวิวของคุณจับได้กี่เปอร์เซ็นต์ และเตือนผิดบ่อยแค่ไหน แทนความรู้สึกว่า “ก็ดูช่วยได้นะ”</p>
@@ -175,8 +174,29 @@ test("คำนวณยอดรวม", () => {
 </div>
 
 <p class="note"><b>เชื่อมกับโมดูลอื่น</b> — <a href="m04.html">M04.01</a> spec ที่ตรวจได้กลายเป็นเทสต์ · <a href="m05.html">M05.04</a> ถ้ารันเทสต์ไม่เร็ว agent จะไม่รัน · <a href="m10.html">M10.05</a> แพตเทิร์น judge · <a href="m12-evals.html">M12</a> วัดตัวเครื่องมือรีวิวเอง · <a href="m14.html">M14.03</a> เอาไปเป็น gate ใน CI</p>
-
+<section class="lesson"><div class="lhead"><span class="lnum">วิดีโอ</span><h2>วิดีโอประกอบโมดูลนี้</h2></div><div class="m-vids"><b>วิดีโอประกอบ · 2 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="Kx7bAwVH_1c" data-title="How I Test With Claude Code (AI TDD)" aria-label="เล่นวิดีโอ How I Test With Claude Code (AI TDD)">
+           <img src="https://i.ytimg.com/vi/Kx7bAwVH_1c/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when after">after</span><a href="https://www.youtube.com/watch?v=Kx7bAwVH_1c" target="_blank" rel="noopener noreferrer">How I Test With Claude Code (AI TDD)</a></p>
+    <span class="vid-ch">Owain Lewis · EN</span><span class="note">ท่าเขียนเทสต์ก่อนแล้วให้ agent ทำให้ผ่าน ตรงกับบทที่ 3 ของโมดูลนี้</span><label class="vid-done"><input type="checkbox" data-video="Kx7bAwVH_1c"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="mxr5IWfB9JY" data-title="How To Use Claude Code To Write Tests For Your Code - Is It Worth It?!" aria-label="เล่นวิดีโอ How To Use Claude Code To Write Tests For Your Code - Is It Worth It?!">
+           <img src="https://i.ytimg.com/vi/mxr5IWfB9JY/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=mxr5IWfB9JY" target="_blank" rel="noopener noreferrer">How To Use Claude Code To Write Tests For Your Code - Is It Worth It?!</a></p>
+    <span class="vid-ch">Dev Leader · EN</span><span class="note">มุมวิพากษ์ว่าคุ้มไหม ดูคู่กับบทที่ 1 เรื่องกับดักของเทสต์ที่ agent เขียน</span><label class="vid-done"><input type="checkbox" data-video="mxr5IWfB9JY"> ดูแล้ว</label>
+  </div>
+</li></ul></div></section>
 </div>
+<script src="assets/course-data.js" defer></script>
+<script src="assets/progress.js" defer></script>
 <script>
 document.getElementById("theme").addEventListener("click",function(){
   var d=document.documentElement;

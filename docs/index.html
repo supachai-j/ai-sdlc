@@ -9,7 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/style.css">
-
 </head>
 <body>
 <div class="wrap">
@@ -18,65 +17,82 @@
   <nav>
     <a href="index.html" aria-current="page">ภาพรวม</a>
     <a href="course-th.html">หลักสูตร</a>
-    <a href="m12-evals.html">M12 Evals</a>
+    <span id="nav-progress" class="nav-progress" hidden></span>
     <button id="theme" type="button" aria-label="สลับธีมสว่าง/มืด">THEME</button>
   </nav>
 </header>
 <header class="masthead">
   <span class="eyebrow">หลักสูตรฉบับลงลึก</span>
   <h1>AI Coding Agent SDLC</h1>
-  <p class="deck">หลักสูตรฉบับลงลึก — เติมช่องว่าง 8 จุดที่คอร์สทั่วไปข้าม — <strong>15 โมดูล 127 บท</strong> เน้นกลไก การวัดผล และการใช้จริงในทีม มากกว่าการสาธิตเครื่องมือ</p>
+  <p class="deck">หลักสูตรฉบับลงลึก — เติมช่องว่าง 8 จุดที่คอร์สทั่วไปข้าม — <strong>15 โมดูล 127 บท</strong> เรียนเองได้ตามจังหวะ ดูวิดีโอในหน้าเว็บได้เลย และระบบจำไว้ว่าคุณเรียนถึงไหน</p>
   <dl class="specrow">
   <div class="spec"><dt>โมดูล</dt><dd>15</dd></div>
   <div class="spec"><dt>บทเรียน</dt><dd>127</dd></div>
   <div class="spec"><dt>ชั่วโมง</dt><dd>~42</dd></div>
-  <div class="spec"><dt>เฟส</dt><dd>6</dd></div>
   <div class="spec"><dt>แล็บ</dt><dd>17</dd></div>
+  <div class="spec"><dt>วิดีโอ</dt><dd>49</dd></div>
   <div class="spec"><dt>ระดับ</dt><dd><small>กลาง–สูง</small></dd></div>
 </dl>
 </header>
+
+<section id="progress-panel" class="panel" hidden>
+  <div class="sechead"><span class="num">§00</span><h2>ความคืบหน้าของคุณ</h2></div>
+  <div class="prog-top">
+    <div class="ring" id="prog-ring"><svg viewBox="0 0 120 120" aria-hidden="true"><circle class="ring-bg" cx="60" cy="60" r="52"></circle><circle class="ring-fg" cx="60" cy="60" r="52"></circle></svg><span id="prog-pct">0%</span></div>
+    <div class="prog-stats">
+      <p id="prog-summary" class="prog-summary"></p>
+      <p id="prog-next" class="prog-next"></p>
+      <div class="prog-actions">
+        <a id="prog-resume" class="btn" href="m01.html">เริ่มเรียน</a>
+        <button id="prog-reset" class="btn ghost" type="button">ล้างความคืบหน้า</button>
+      </div>
+      <p class="prog-note">บันทึกไว้ในเบราว์เซอร์นี้เท่านั้น — เปลี่ยนเครื่องหรือล้างข้อมูลเว็บแล้วจะหาย</p>
+    </div>
+  </div>
+  <div class="prog-grid" id="prog-grid"></div>
+</section>
 
 <section>
   <div class="sechead"><span class="num">§01</span><h2>ช่องว่าง 8 จุดที่เติมเข้าไป</h2></div>
   <p class="lede">แต่ละจุดไม่ได้เพิ่มเพราะ “มีก็ดี” แต่เพราะ<strong>ถ้าไม่มี เวิร์กโฟลว์จะพังตอนขยายเข้าทีมหรือเข้าโปรดักชัน</strong> เรียงตามความเสียหายที่เกิดถ้าข้าม</p>
   <div class="gaps"><div class="gap">
   <div class="gap-id">G1</div>
-  <div class="gap-what"><h3>Evals — วัดผลระบบ agent ของตัวเอง</h3><a href="course-th.html#m12">M12 · 9 บท →</a></div>
+  <div class="gap-what"><h3>Evals — วัดผลระบบ agent ของตัวเอง</h3><a href="m12-evals.html">M12 · 9 บท →</a></div>
   <div class="gap-why">ถ้าวัดไม่ได้ คุณกำลังปรับ prompt ด้วยความรู้สึก LLM มี variance สูงพอที่ &quot;ลองแล้วรู้สึกว่าดีขึ้น&quot; จะเป็นสัญญาณรบกวนล้วน ๆ</div>
 </div>
 <div class="gap">
   <div class="gap-id">G2</div>
-  <div class="gap-what"><h3>Security และ Threat Model ของ agent</h3><a href="course-th.html#m13">M13 · 9 บท →</a></div>
+  <div class="gap-what"><h3>Security และ Threat Model ของ agent</h3><a href="m13.html">M13 · 9 บท →</a></div>
   <div class="gap-why">coding agent มีโมเดลภัยคุกคามที่ต่างจาก web app โดยสิ้นเชิง และ skill ที่ติดตั้งคือโค้ดที่รันด้วยสิทธิ์ของคุณ</div>
 </div>
 <div class="gap">
   <div class="gap-id">G3</div>
-  <div class="gap-what"><h3>Context Engineering</h3><a href="course-th.html#m02">M02 · 9 บท →</a></div>
+  <div class="gap-what"><h3>Context Engineering</h3><a href="m02.html">M02 · 9 บท →</a></div>
   <div class="gap-why">ทักษะที่แยกคนที่ใช้ agent เป็นกับไม่เป็นชัดที่สุด และให้ผลตอบแทนสูงกว่าการเปลี่ยนโมเดล</div>
 </div>
 <div class="gap">
   <div class="gap-id">G4</div>
-  <div class="gap-what"><h3>Brownfield และ Legacy</h3><a href="course-th.html#m08">M08 · 7 บท →</a></div>
+  <div class="gap-what"><h3>Brownfield และ Legacy</h3><a href="m08.html">M08 · 7 บท →</a></div>
   <div class="gap-why">แล็บที่เริ่มจากโฟลเดอร์ว่างสอนงานที่แทบไม่มีใครทำจริง งานจริงคือ codebase อายุ 6 ปีที่ไม่มีเทสต์</div>
 </div>
 <div class="gap">
   <div class="gap-id">G5</div>
-  <div class="gap-what"><h3>Token และ Model Economics</h3><a href="course-th.html#m03">M03 · 8 บท →</a></div>
+  <div class="gap-what"><h3>Token และ Model Economics</h3><a href="m03.html">M03 · 8 บท →</a></div>
   <div class="gap-why">ต้นทุนคือสิ่งที่ตัดสินว่าเวิร์กโฟลว์จะใช้ได้กับทีม 20 คนหรือแค่คนเดียว</div>
 </div>
 <div class="gap">
   <div class="gap-id">G6</div>
-  <div class="gap-what"><h3>Agent-Ready Codebase</h3><a href="course-th.html#m05">M05 · 8 บท →</a></div>
+  <div class="gap-what"><h3>Agent-Ready Codebase</h3><a href="m05.html">M05 · 8 บท →</a></div>
   <div class="gap-why">โครงสร้าง repo ให้ผลถาวร ส่วน prompt ที่ปรับดีขึ้นให้ผลแค่ครั้งเดียว</div>
 </div>
 <div class="gap">
   <div class="gap-id">G7</div>
-  <div class="gap-what"><h3>Multi-Agent Orchestration</h3><a href="course-th.html#m10">M10 · 8 บท →</a></div>
+  <div class="gap-what"><h3>Multi-Agent Orchestration</h3><a href="m10.html">M10 · 8 บท →</a></div>
   <div class="gap-why">multi-agent คือสถาปัตยกรรม ไม่ใช่เครื่องมือ และบทสำคัญที่สุดคือบทที่บอกว่าเมื่อไหร่มันแพ้ agent เดียว</div>
 </div>
 <div class="gap">
   <div class="gap-id">G8</div>
-  <div class="gap-what"><h3>Governance และการใช้จริงในทีม</h3><a href="course-th.html#m15">M15 · 9 บท →</a></div>
+  <div class="gap-what"><h3>Governance และการใช้จริงในทีม</h3><a href="m15.html">M15 · 9 บท →</a></div>
   <div class="gap-why">คอร์สส่วนใหญ่จบที่ &quot;คุณใช้ agent เป็นแล้ว&quot; แต่ปัญหาจริงเริ่มตอนที่ทีม 15 คนใช้พร้อมกัน</div>
 </div></div>
 </section>
@@ -90,7 +106,7 @@
     <span class="p-name">รากฐาน — เข้าใจกลไก ไม่ใช่ท่องคำสั่ง</span>
     <span class="p-meta">M01–M03 · 25 บท · 8h</span>
   </div>
-  <div class="module" id="m01">
+  <div class="module" id="m01" data-module="m01">
   <div class="m-rail">
     <span class="m-code">M01</span>
     <span class="m-stat">8 บท<br>2.5 ชม.</span>
@@ -98,18 +114,73 @@
   </div>
   <div class="m-body">
     <h3><a href="m01.html">กลไกภายในของ Agent</a></h3>
+    <div class="bar" data-bar="m01"><span></span></div>
     <p class="m-goal">เห็นว่า agent คือลูปธรรมดาที่ห่อด้วยวิศวกรรม ไม่ใช่กล่องดำ เพื่อให้ debug ได้เมื่อมันพัง</p>
     
     <div class="m-out"><b>ผลลัพธ์</b>อธิบายได้ว่าเวลา agent ทำอะไรแปลก ๆ มันเกิดที่ชั้นไหนของ harness</div>
-    <div class="m-vids"><b>วิดีโอประกอบ · 6 คลิป</b><ul><li><span class="when before">before</span><a href="https://www.youtube.com/watch?v=xIVl5X9yUWM" target="_blank" rel="noopener noreferrer">รู้จักกับ Agent Harness กัน</a> · mikelopster<span class="note">ปูคำว่า harness ก่อนลงบทที่ 2 ที่แยกกายวิภาคเป็นห้าชั้น</span></li>
-<li><span class="when before">before</span><a href="https://www.youtube.com/watch?v=qlIuFfs-7pY" target="_blank" rel="noopener noreferrer">รู้จักกับ Loop Engineering</a> · mikelopster<span class="note">เห็นภาพลูปก่อนเราไปเขียน mini-harness เองในแล็บ</span></li>
-<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=vKnbSmb5cLY" target="_blank" rel="noopener noreferrer">SDLC คืออะไร ?</a> · mikelopster<span class="note">ทบทวน SDLC แบบดั้งเดิม สำหรับคนที่อยากเทียบว่า agent เข้ามาแทรกตรงไหน</span></li>
-<li><span class="when before">before</span><a href="https://www.youtube.com/watch?v=cvrwOk2vTAk" target="_blank" rel="noopener noreferrer">ลองเล่น Claude code กัน</a> · mikelopster<span class="note">ทัวร์เครื่องมือแบบยาว สำหรับคนที่ยังไม่เคยใช้ ก่อนเราไปแกะว่าข้างในทำงานยังไง</span></li>
-<li><span class="when before">before</span><a href="https://www.youtube.com/watch?v=lXfs8JMdNiE" target="_blank" rel="noopener noreferrer">ไม่รู้ถือว่าบาป! พื้นฐานที่ต้องมี ก่อนใช้ Agentic AI เขียนโค้ด!</a> · MilerDev<span class="note">ปูพื้นสั้น ๆ สำหรับคนที่ข้ามมาจากการใช้ chat ธรรมดา</span></li>
-<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=c2M4HTHy-ow" target="_blank" rel="noopener noreferrer">เลิก Vibe Coding แล้วมารู้จัก Agentic Engineering กันเถอะ!</a> · MilerDev<span class="note">ตั้งกรอบว่าทำไมงานนี้ถึงเป็นวิศวกรรม ไม่ใช่การสั่งไปเรื่อย ๆ</span></li></ul></div>
+    <div class="m-vids"><b>วิดีโอประกอบ · 6 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="xIVl5X9yUWM" data-title="รู้จักกับ Agent Harness กัน" aria-label="เล่นวิดีโอ รู้จักกับ Agent Harness กัน">
+           <img src="https://i.ytimg.com/vi/xIVl5X9yUWM/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=xIVl5X9yUWM" target="_blank" rel="noopener noreferrer">รู้จักกับ Agent Harness กัน</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">ปูคำว่า harness ก่อนลงบทที่ 2 ที่แยกกายวิภาคเป็นห้าชั้น</span><label class="vid-done"><input type="checkbox" data-video="xIVl5X9yUWM"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="qlIuFfs-7pY" data-title="รู้จักกับ Loop Engineering" aria-label="เล่นวิดีโอ รู้จักกับ Loop Engineering">
+           <img src="https://i.ytimg.com/vi/qlIuFfs-7pY/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=qlIuFfs-7pY" target="_blank" rel="noopener noreferrer">รู้จักกับ Loop Engineering</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">เห็นภาพลูปก่อนเราไปเขียน mini-harness เองในแล็บ</span><label class="vid-done"><input type="checkbox" data-video="qlIuFfs-7pY"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="vKnbSmb5cLY" data-title="SDLC คืออะไร ?" aria-label="เล่นวิดีโอ SDLC คืออะไร ?">
+           <img src="https://i.ytimg.com/vi/vKnbSmb5cLY/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=vKnbSmb5cLY" target="_blank" rel="noopener noreferrer">SDLC คืออะไร ?</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">ทบทวน SDLC แบบดั้งเดิม สำหรับคนที่อยากเทียบว่า agent เข้ามาแทรกตรงไหน</span><label class="vid-done"><input type="checkbox" data-video="vKnbSmb5cLY"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="cvrwOk2vTAk" data-title="ลองเล่น Claude code กัน" aria-label="เล่นวิดีโอ ลองเล่น Claude code กัน">
+           <img src="https://i.ytimg.com/vi/cvrwOk2vTAk/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=cvrwOk2vTAk" target="_blank" rel="noopener noreferrer">ลองเล่น Claude code กัน</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">ทัวร์เครื่องมือแบบยาว สำหรับคนที่ยังไม่เคยใช้ ก่อนเราไปแกะว่าข้างในทำงานยังไง</span><label class="vid-done"><input type="checkbox" data-video="cvrwOk2vTAk"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="lXfs8JMdNiE" data-title="ไม่รู้ถือว่าบาป! พื้นฐานที่ต้องมี ก่อนใช้ Agentic AI เขียนโค้ด!" aria-label="เล่นวิดีโอ ไม่รู้ถือว่าบาป! พื้นฐานที่ต้องมี ก่อนใช้ Agentic AI เขียนโค้ด!">
+           <img src="https://i.ytimg.com/vi/lXfs8JMdNiE/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=lXfs8JMdNiE" target="_blank" rel="noopener noreferrer">ไม่รู้ถือว่าบาป! พื้นฐานที่ต้องมี ก่อนใช้ Agentic AI เขียนโค้ด!</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">ปูพื้นสั้น ๆ สำหรับคนที่ข้ามมาจากการใช้ chat ธรรมดา</span><label class="vid-done"><input type="checkbox" data-video="lXfs8JMdNiE"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="c2M4HTHy-ow" data-title="เลิก Vibe Coding แล้วมารู้จัก Agentic Engineering กันเถอะ!" aria-label="เล่นวิดีโอ เลิก Vibe Coding แล้วมารู้จัก Agentic Engineering กันเถอะ!">
+           <img src="https://i.ytimg.com/vi/c2M4HTHy-ow/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=c2M4HTHy-ow" target="_blank" rel="noopener noreferrer">เลิก Vibe Coding แล้วมารู้จัก Agentic Engineering กันเถอะ!</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">ตั้งกรอบว่าทำไมงานนี้ถึงเป็นวิศวกรรม ไม่ใช่การสั่งไปเรื่อย ๆ</span><label class="vid-done"><input type="checkbox" data-video="c2M4HTHy-ow"> ดูแล้ว</label>
+  </div>
+</li></ul></div>
   </div>
 </div>
-<div class="module flagged" id="m02">
+<div class="module flagged" id="m02" data-module="m02">
   <div class="m-rail">
     <span class="m-code">M02</span>
     <span class="m-stat">9 บท<br>3 ชม.</span>
@@ -117,19 +188,83 @@
   </div>
   <div class="m-body">
     <h3><a href="m02.html">Context Engineering</a></h3>
+    <div class="bar" data-bar="m02"><span></span></div>
     <p class="m-goal">มองบริบทเป็นงบประมาณที่ต้องบริหาร ไม่ใช่ถังที่เทใส่จนกว่าจะเต็ม</p>
     
     <div class="m-out"><b>ผลลัพธ์</b>ลดต้นทุนต่องานได้ 30–60% โดยคุณภาพเท่าเดิมหรือดีขึ้น</div>
-    <div class="m-vids"><b>วิดีโอประกอบ · 7 คลิป</b><ul><li><span class="when before">before</span><a href="https://www.youtube.com/watch?v=4h9mGGmCqlM" target="_blank" rel="noopener noreferrer">มารู้จักกับ RAG</a> · mikelopster<span class="note">พื้นฐาน retrieval ก่อนบทที่ 8 ที่ชั่งว่าเมื่อไหร่ควร retrieve เมื่อไหร่ควรแนบตรง ๆ</span></li>
-<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=h-9Zh4rcs7Q" target="_blank" rel="noopener noreferrer">มาลอง OpenClaw กับการสร้าง Memory ให้ AI ของเรากัน</a> · mikelopster<span class="note">ตัวอย่างการทำ memory ชั้นนอก เทียบกับลำดับชั้นหน่วยความจำในบทที่ 4</span></li>
-<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=rGE9sEEVzrQ" target="_blank" rel="noopener noreferrer">ว่าด้วย AI Agent กับการจัดการ Markdown</a> · mikelopster<span class="note">เกี่ยวกับการเรนเดอร์บริบทให้เล็ก ซึ่งเป็นกฎข้อสามในบทที่ 2</span></li>
-<li><span class="when after">after</span><a href="https://www.youtube.com/watch?v=OdsLWc5uDJA" target="_blank" rel="noopener noreferrer">/wayfinder มันดีจัง! Skill นี้ช่วยให้ AI ไม่หลงทางในโปรเจกต์ใหญ่ ไปใช้เดี๋ยวนี้!</a> · MilerDev<span class="note">ท่าแก้ปัญหา agent หลงทางในโปรเจกต์ใหญ่ ดูหลังเข้าใจว่าทำไมบริบทถึงเจือจาง</span></li>
-<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=NRWJhNgSCU4" target="_blank" rel="noopener noreferrer">โคตรอลังการ! Claude Opus 4.6 กับ Context 1 ล้าน Token มีอะไรใหม่</a> · MilerDev<span class="note">ดูคู่กับบทที่ 1 ที่เถียงว่ามี 1M token แล้วก็ยังต้องบริหารงบบริบทอยู่ดี</span></li>
-<li><span class="when before">before</span><a href="https://www.youtube.com/watch?v=Qx0fCqpkBus" target="_blank" rel="noopener noreferrer">What Is Context Engineering? Why It Matters for AI Agents</a> · IBM Technology (EN)<span class="note">ปูคำว่า context engineering แบบสั้น 10 นาที ก่อนลงกฎสี่ข้อในบทที่ 2</span></li>
-<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=vD0E3EUb8-8" target="_blank" rel="noopener noreferrer">Context Engineering vs. Prompt Engineering: Smarter AI with RAG &amp; Agents</a> · IBM Technology (EN)<span class="note">แยกสองคำที่คนใช้ปนกัน ต่อกับบทที่ 8 retrieval vs stuffing</span></li></ul></div>
+    <div class="m-vids"><b>วิดีโอประกอบ · 7 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="4h9mGGmCqlM" data-title="มารู้จักกับ RAG" aria-label="เล่นวิดีโอ มารู้จักกับ RAG">
+           <img src="https://i.ytimg.com/vi/4h9mGGmCqlM/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=4h9mGGmCqlM" target="_blank" rel="noopener noreferrer">มารู้จักกับ RAG</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">พื้นฐาน retrieval ก่อนบทที่ 8 ที่ชั่งว่าเมื่อไหร่ควร retrieve เมื่อไหร่ควรแนบตรง ๆ</span><label class="vid-done"><input type="checkbox" data-video="4h9mGGmCqlM"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="h-9Zh4rcs7Q" data-title="มาลอง OpenClaw กับการสร้าง Memory ให้ AI ของเรากัน" aria-label="เล่นวิดีโอ มาลอง OpenClaw กับการสร้าง Memory ให้ AI ของเรากัน">
+           <img src="https://i.ytimg.com/vi/h-9Zh4rcs7Q/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=h-9Zh4rcs7Q" target="_blank" rel="noopener noreferrer">มาลอง OpenClaw กับการสร้าง Memory ให้ AI ของเรากัน</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">ตัวอย่างการทำ memory ชั้นนอก เทียบกับลำดับชั้นหน่วยความจำในบทที่ 4</span><label class="vid-done"><input type="checkbox" data-video="h-9Zh4rcs7Q"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="rGE9sEEVzrQ" data-title="ว่าด้วย AI Agent กับการจัดการ Markdown" aria-label="เล่นวิดีโอ ว่าด้วย AI Agent กับการจัดการ Markdown">
+           <img src="https://i.ytimg.com/vi/rGE9sEEVzrQ/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=rGE9sEEVzrQ" target="_blank" rel="noopener noreferrer">ว่าด้วย AI Agent กับการจัดการ Markdown</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">เกี่ยวกับการเรนเดอร์บริบทให้เล็ก ซึ่งเป็นกฎข้อสามในบทที่ 2</span><label class="vid-done"><input type="checkbox" data-video="rGE9sEEVzrQ"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="OdsLWc5uDJA" data-title="/wayfinder มันดีจัง! Skill นี้ช่วยให้ AI ไม่หลงทางในโปรเจกต์ใหญ่ ไปใช้เดี๋ยวนี้!" aria-label="เล่นวิดีโอ /wayfinder มันดีจัง! Skill นี้ช่วยให้ AI ไม่หลงทางในโปรเจกต์ใหญ่ ไปใช้เดี๋ยวนี้!">
+           <img src="https://i.ytimg.com/vi/OdsLWc5uDJA/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when after">after</span><a href="https://www.youtube.com/watch?v=OdsLWc5uDJA" target="_blank" rel="noopener noreferrer">/wayfinder มันดีจัง! Skill นี้ช่วยให้ AI ไม่หลงทางในโปรเจกต์ใหญ่ ไปใช้เดี๋ยวนี้!</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">ท่าแก้ปัญหา agent หลงทางในโปรเจกต์ใหญ่ ดูหลังเข้าใจว่าทำไมบริบทถึงเจือจาง</span><label class="vid-done"><input type="checkbox" data-video="OdsLWc5uDJA"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="NRWJhNgSCU4" data-title="โคตรอลังการ! Claude Opus 4.6 กับ Context 1 ล้าน Token มีอะไรใหม่" aria-label="เล่นวิดีโอ โคตรอลังการ! Claude Opus 4.6 กับ Context 1 ล้าน Token มีอะไรใหม่">
+           <img src="https://i.ytimg.com/vi/NRWJhNgSCU4/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=NRWJhNgSCU4" target="_blank" rel="noopener noreferrer">โคตรอลังการ! Claude Opus 4.6 กับ Context 1 ล้าน Token มีอะไรใหม่</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">ดูคู่กับบทที่ 1 ที่เถียงว่ามี 1M token แล้วก็ยังต้องบริหารงบบริบทอยู่ดี</span><label class="vid-done"><input type="checkbox" data-video="NRWJhNgSCU4"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="Qx0fCqpkBus" data-title="What Is Context Engineering? Why It Matters for AI Agents" aria-label="เล่นวิดีโอ What Is Context Engineering? Why It Matters for AI Agents">
+           <img src="https://i.ytimg.com/vi/Qx0fCqpkBus/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=Qx0fCqpkBus" target="_blank" rel="noopener noreferrer">What Is Context Engineering? Why It Matters for AI Agents</a></p>
+    <span class="vid-ch">IBM Technology · EN</span><span class="note">ปูคำว่า context engineering แบบสั้น 10 นาที ก่อนลงกฎสี่ข้อในบทที่ 2</span><label class="vid-done"><input type="checkbox" data-video="Qx0fCqpkBus"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="vD0E3EUb8-8" data-title="Context Engineering vs. Prompt Engineering: Smarter AI with RAG &amp; Agents" aria-label="เล่นวิดีโอ Context Engineering vs. Prompt Engineering: Smarter AI with RAG &amp; Agents">
+           <img src="https://i.ytimg.com/vi/vD0E3EUb8-8/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=vD0E3EUb8-8" target="_blank" rel="noopener noreferrer">Context Engineering vs. Prompt Engineering: Smarter AI with RAG &amp; Agents</a></p>
+    <span class="vid-ch">IBM Technology · EN</span><span class="note">แยกสองคำที่คนใช้ปนกัน ต่อกับบทที่ 8 retrieval vs stuffing</span><label class="vid-done"><input type="checkbox" data-video="vD0E3EUb8-8"> ดูแล้ว</label>
+  </div>
+</li></ul></div>
   </div>
 </div>
-<div class="module flagged" id="m03">
+<div class="module flagged" id="m03" data-module="m03">
   <div class="m-rail">
     <span class="m-code">M03</span>
     <span class="m-stat">8 บท<br>2.5 ชม.</span>
@@ -137,10 +272,20 @@
   </div>
   <div class="m-body">
     <h3><a href="m03.html">เศรษฐศาสตร์ของ Token และโมเดล</a></h3>
+    <div class="bar" data-bar="m03"><span></span></div>
     <p class="m-goal">ตัดสินใจเรื่องต้นทุนด้วยตัวเลข ไม่ใช่ความรู้สึกว่า &quot;โมเดลนี้แพง&quot;</p>
     
     <div class="m-out"><b>ผลลัพธ์</b>ตอบได้ว่างานนี้ควรใช้โมเดลไหน effort เท่าไหร่ ด้วยข้อมูล ไม่ใช่ความเชื่อ</div>
-    <div class="m-vids"><b>วิดีโอประกอบ · 1 คลิป</b><ul><li><span class="when after">after</span><a href="https://www.youtube.com/watch?v=y6aJ_Ab60e0" target="_blank" rel="noopener noreferrer">ลดการเปลือง Token! ใช้ Codex ยังไงให้ไม่เปลือง Token และไม่มั่วโค้ด!</a> · MilerDev<span class="note">ท่าประหยัด token ระดับใช้งาน ดูหลังเข้าใจบัญชี 4 ช่องและกลไก cache แล้ว</span></li></ul></div>
+    <div class="m-vids"><b>วิดีโอประกอบ · 1 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="y6aJ_Ab60e0" data-title="ลดการเปลือง Token! ใช้ Codex ยังไงให้ไม่เปลือง Token และไม่มั่วโค้ด!" aria-label="เล่นวิดีโอ ลดการเปลือง Token! ใช้ Codex ยังไงให้ไม่เปลือง Token และไม่มั่วโค้ด!">
+           <img src="https://i.ytimg.com/vi/y6aJ_Ab60e0/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when after">after</span><a href="https://www.youtube.com/watch?v=y6aJ_Ab60e0" target="_blank" rel="noopener noreferrer">ลดการเปลือง Token! ใช้ Codex ยังไงให้ไม่เปลือง Token และไม่มั่วโค้ด!</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">ท่าประหยัด token ระดับใช้งาน ดูหลังเข้าใจบัญชี 4 ช่องและกลไก cache แล้ว</span><label class="vid-done"><input type="checkbox" data-video="y6aJ_Ab60e0"> ดูแล้ว</label>
+  </div>
+</li></ul></div>
   </div>
 </div>
 </div>
@@ -150,7 +295,7 @@
     <span class="p-name">วางแผน — จุดที่ประหยัดที่สุดในทั้ง SDLC</span>
     <span class="p-meta">M04–M05 · 16 บท · 5h</span>
   </div>
-  <div class="module" id="m04">
+  <div class="module" id="m04" data-module="m04">
   <div class="m-rail">
     <span class="m-code">M04</span>
     <span class="m-stat">8 บท<br>2.5 ชม.</span>
@@ -158,16 +303,53 @@
   </div>
   <div class="m-body">
     <h3><a href="m04.html">Requirements, Research และการย่อยงาน</a></h3>
+    <div class="bar" data-bar="m04"><span></span></div>
     <p class="m-goal">เปลี่ยนความต้องการกำกวมเป็น spec ที่ agent ทำแล้วตรวจได้</p>
     
     <div class="m-out"><b>ผลลัพธ์</b>งานที่ต้องสั่งซ้ำลดลงชัดเจน เพราะรอบแรกมี acceptance criteria อยู่แล้ว</div>
-    <div class="m-vids"><b>วิดีโอประกอบ · 4 คลิป</b><ul><li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=smq0S3cvk_U" target="_blank" rel="noopener noreferrer">มาลองให้ AI เลือก Tech Stack สำหรับทำเว็บกัน</a> · mikelopster<span class="note">เคสให้ agent ช่วยตัดสินใจ ดูคู่กับบทที่ 4 ที่แยกค้นหา/สรุป/ตัดสินใจออกจากกัน</span></li>
-<li><span class="when before">before</span><a href="https://www.youtube.com/watch?v=XuXBNCjHlOo" target="_blank" rel="noopener noreferrer">ทำไมเราควรใช้ /plan ก่อนให้ AI เขียนโค้ด?</a> · MilerDev<span class="note">ปูเหตุผลของ plan mode ก่อนบทที่ 7 ซึ่งเป็นบทที่ให้ผลตอบแทนสูงสุดในหลักสูตร</span></li>
-<li><span class="when after">after</span><a href="https://www.youtube.com/watch?v=sN-zz8clIcQ" target="_blank" rel="noopener noreferrer">สุดยอดคอมโบ! /grill-with-docs &amp; /plan ให้ AI ช่วยคิดงานและวางแผนดีขึ้น ดูจบบรรลุ!</a> · MilerDev<span class="note">ท่าวางแผนจริงแบบมีเอกสารประกอบ ดูหลังทำแล็บแปลง requirement เป็น spec</span></li>
-<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=rBl8C3P2R1Y" target="_blank" rel="noopener noreferrer">เลิกสั่ง AI ให้เขียนโค้ดมั่วๆ! แล้วมาใช้ Flow นี้ ของดีจาก AIHero ดูจบบรรลุ!</a> · MilerDev<span class="note">อีกหนึ่ง flow ให้เทียบกับ spec-first ที่เราสอนในบทที่ 1</span></li></ul></div>
+    <div class="m-vids"><b>วิดีโอประกอบ · 4 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="smq0S3cvk_U" data-title="มาลองให้ AI เลือก Tech Stack สำหรับทำเว็บกัน" aria-label="เล่นวิดีโอ มาลองให้ AI เลือก Tech Stack สำหรับทำเว็บกัน">
+           <img src="https://i.ytimg.com/vi/smq0S3cvk_U/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=smq0S3cvk_U" target="_blank" rel="noopener noreferrer">มาลองให้ AI เลือก Tech Stack สำหรับทำเว็บกัน</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">เคสให้ agent ช่วยตัดสินใจ ดูคู่กับบทที่ 4 ที่แยกค้นหา/สรุป/ตัดสินใจออกจากกัน</span><label class="vid-done"><input type="checkbox" data-video="smq0S3cvk_U"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="XuXBNCjHlOo" data-title="ทำไมเราควรใช้ /plan ก่อนให้ AI เขียนโค้ด?" aria-label="เล่นวิดีโอ ทำไมเราควรใช้ /plan ก่อนให้ AI เขียนโค้ด?">
+           <img src="https://i.ytimg.com/vi/XuXBNCjHlOo/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=XuXBNCjHlOo" target="_blank" rel="noopener noreferrer">ทำไมเราควรใช้ /plan ก่อนให้ AI เขียนโค้ด?</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">ปูเหตุผลของ plan mode ก่อนบทที่ 7 ซึ่งเป็นบทที่ให้ผลตอบแทนสูงสุดในหลักสูตร</span><label class="vid-done"><input type="checkbox" data-video="XuXBNCjHlOo"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="sN-zz8clIcQ" data-title="สุดยอดคอมโบ! /grill-with-docs &amp; /plan ให้ AI ช่วยคิดงานและวางแผนดีขึ้น ดูจบบรรลุ!" aria-label="เล่นวิดีโอ สุดยอดคอมโบ! /grill-with-docs &amp; /plan ให้ AI ช่วยคิดงานและวางแผนดีขึ้น ดูจบบรรลุ!">
+           <img src="https://i.ytimg.com/vi/sN-zz8clIcQ/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when after">after</span><a href="https://www.youtube.com/watch?v=sN-zz8clIcQ" target="_blank" rel="noopener noreferrer">สุดยอดคอมโบ! /grill-with-docs &amp; /plan ให้ AI ช่วยคิดงานและวางแผนดีขึ้น ดูจบบรรลุ!</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">ท่าวางแผนจริงแบบมีเอกสารประกอบ ดูหลังทำแล็บแปลง requirement เป็น spec</span><label class="vid-done"><input type="checkbox" data-video="sN-zz8clIcQ"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="rBl8C3P2R1Y" data-title="เลิกสั่ง AI ให้เขียนโค้ดมั่วๆ! แล้วมาใช้ Flow นี้ ของดีจาก AIHero ดูจบบรรลุ!" aria-label="เล่นวิดีโอ เลิกสั่ง AI ให้เขียนโค้ดมั่วๆ! แล้วมาใช้ Flow นี้ ของดีจาก AIHero ดูจบบรรลุ!">
+           <img src="https://i.ytimg.com/vi/rBl8C3P2R1Y/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=rBl8C3P2R1Y" target="_blank" rel="noopener noreferrer">เลิกสั่ง AI ให้เขียนโค้ดมั่วๆ! แล้วมาใช้ Flow นี้ ของดีจาก AIHero ดูจบบรรลุ!</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">อีกหนึ่ง flow ให้เทียบกับ spec-first ที่เราสอนในบทที่ 1</span><label class="vid-done"><input type="checkbox" data-video="rBl8C3P2R1Y"> ดูแล้ว</label>
+  </div>
+</li></ul></div>
   </div>
 </div>
-<div class="module flagged" id="m05">
+<div class="module flagged" id="m05" data-module="m05">
   <div class="m-rail">
     <span class="m-code">M05</span>
     <span class="m-stat">8 บท<br>2.5 ชม.</span>
@@ -175,10 +357,20 @@
   </div>
   <div class="m-body">
     <h3><a href="m05.html">ออกแบบ Codebase ให้ Agent ทำงานได้</a></h3>
+    <div class="bar" data-bar="m05"><span></span></div>
     <p class="m-goal">ลงทุนในโครงสร้าง repo ซึ่งให้ผลถาวร แทนการปรับ prompt ซึ่งให้ผลครั้งเดียว</p>
     
     <div class="m-out"><b>ผลลัพธ์</b>repo ที่ agent ตัวใหม่เข้ามาทำงานได้เลยโดยไม่ต้องอธิบายซ้ำ</div>
-    <div class="m-vids"><b>วิดีโอประกอบ · 1 คลิป</b><ul><li><span class="when before">before</span><a href="https://www.youtube.com/watch?v=YXljvRV6bak" target="_blank" rel="noopener noreferrer">มารู้จักกับ DESIGN.md กัน</a> · mikelopster<span class="note">เอกสารในฐานะบริบทถาวรของ repo ตรงกับบทที่ 6 docs-as-context</span></li></ul></div>
+    <div class="m-vids"><b>วิดีโอประกอบ · 1 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="YXljvRV6bak" data-title="มารู้จักกับ DESIGN.md กัน" aria-label="เล่นวิดีโอ มารู้จักกับ DESIGN.md กัน">
+           <img src="https://i.ytimg.com/vi/YXljvRV6bak/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=YXljvRV6bak" target="_blank" rel="noopener noreferrer">มารู้จักกับ DESIGN.md กัน</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">เอกสารในฐานะบริบทถาวรของ repo ตรงกับบทที่ 6 docs-as-context</span><label class="vid-done"><input type="checkbox" data-video="YXljvRV6bak"> ดูแล้ว</label>
+  </div>
+</li></ul></div>
   </div>
 </div>
 </div>
@@ -188,7 +380,7 @@
     <span class="p-name">สร้าง — ทั้ง greenfield และของจริงที่มีอยู่แล้ว</span>
     <span class="p-meta">M06–M08 · 25 บท · 8.5h</span>
   </div>
-  <div class="module" id="m06">
+  <div class="module" id="m06" data-module="m06">
   <div class="m-rail">
     <span class="m-code">M06</span>
     <span class="m-stat">9 บท<br>3 ชม.</span>
@@ -196,16 +388,53 @@
   </div>
   <div class="m-body">
     <h3><a href="m06.html">Frontend Implementation</a></h3>
+    <div class="bar" data-bar="m06"><span></span></div>
     <p class="m-goal">ให้ agent สร้าง UI ที่ถูกจริง ไม่ใช่แค่ดูเหมือนถูกในสกรีนช็อต</p>
     
     <div class="m-out"><b>ผลลัพธ์</b>ลูป FE ที่ agent ตรวจงานตัวเองได้ก่อนส่งให้คนดู</div>
-    <div class="m-vids"><b>วิดีโอประกอบ · 4 คลิป</b><ul><li><span class="when before">before</span><a href="https://www.youtube.com/watch?v=pa73gNh0woM" target="_blank" rel="noopener noreferrer">Openclaw และ การทำงานร่วมกับ Browser</a> · mikelopster<span class="note">เห็นกลไก browser automation ก่อนทำ visual verification loop ในบทที่ 5</span></li>
-<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=NYfzprHoAUY" target="_blank" rel="noopener noreferrer">ลองเล่น Open Design กัน</a> · mikelopster<span class="note">มุมการส่ง design เข้าไปเป็นบริบท เทียบกับบทที่ 2 ของโมดูลนี้</span></li>
-<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=tLGywAHqLzs" target="_blank" rel="noopener noreferrer">ออกแบบเว็บอย่างเทพด้วย /design ฟีเจอร์ใหม่จาก Claude Code ครบจบที่เดียว!</a> · MilerDev<span class="note">ท่าส่ง design เข้าเป็นบริบท ต่อกับบทที่ 2 เรื่อง design system เป็น input</span></li>
-<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=Xl8UeIZRj_c" target="_blank" rel="noopener noreferrer">ประสิทธิภาพดีขึ้น 10 เท่า! Agent Skills ที่ช่วยปรับโค้ด ReactJS &amp; NextJS ให้เร็วขึ้นมากๆ</a> · MilerDev<span class="note">ตัวอย่าง skill เฉพาะทางฝั่ง FE ต่อกับ M09 เรื่องแพ็กเกจเวิร์กโฟลว์ให้ทีม</span></li></ul></div>
+    <div class="m-vids"><b>วิดีโอประกอบ · 4 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="pa73gNh0woM" data-title="Openclaw และ การทำงานร่วมกับ Browser" aria-label="เล่นวิดีโอ Openclaw และ การทำงานร่วมกับ Browser">
+           <img src="https://i.ytimg.com/vi/pa73gNh0woM/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=pa73gNh0woM" target="_blank" rel="noopener noreferrer">Openclaw และ การทำงานร่วมกับ Browser</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">เห็นกลไก browser automation ก่อนทำ visual verification loop ในบทที่ 5</span><label class="vid-done"><input type="checkbox" data-video="pa73gNh0woM"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="NYfzprHoAUY" data-title="ลองเล่น Open Design กัน" aria-label="เล่นวิดีโอ ลองเล่น Open Design กัน">
+           <img src="https://i.ytimg.com/vi/NYfzprHoAUY/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=NYfzprHoAUY" target="_blank" rel="noopener noreferrer">ลองเล่น Open Design กัน</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">มุมการส่ง design เข้าไปเป็นบริบท เทียบกับบทที่ 2 ของโมดูลนี้</span><label class="vid-done"><input type="checkbox" data-video="NYfzprHoAUY"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="tLGywAHqLzs" data-title="ออกแบบเว็บอย่างเทพด้วย /design ฟีเจอร์ใหม่จาก Claude Code ครบจบที่เดียว!" aria-label="เล่นวิดีโอ ออกแบบเว็บอย่างเทพด้วย /design ฟีเจอร์ใหม่จาก Claude Code ครบจบที่เดียว!">
+           <img src="https://i.ytimg.com/vi/tLGywAHqLzs/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=tLGywAHqLzs" target="_blank" rel="noopener noreferrer">ออกแบบเว็บอย่างเทพด้วย /design ฟีเจอร์ใหม่จาก Claude Code ครบจบที่เดียว!</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">ท่าส่ง design เข้าเป็นบริบท ต่อกับบทที่ 2 เรื่อง design system เป็น input</span><label class="vid-done"><input type="checkbox" data-video="tLGywAHqLzs"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="Xl8UeIZRj_c" data-title="ประสิทธิภาพดีขึ้น 10 เท่า! Agent Skills ที่ช่วยปรับโค้ด ReactJS &amp; NextJS ให้เร็วขึ้นมากๆ" aria-label="เล่นวิดีโอ ประสิทธิภาพดีขึ้น 10 เท่า! Agent Skills ที่ช่วยปรับโค้ด ReactJS &amp; NextJS ให้เร็วขึ้นมากๆ">
+           <img src="https://i.ytimg.com/vi/Xl8UeIZRj_c/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=Xl8UeIZRj_c" target="_blank" rel="noopener noreferrer">ประสิทธิภาพดีขึ้น 10 เท่า! Agent Skills ที่ช่วยปรับโค้ด ReactJS &amp; NextJS ให้เร็วขึ้นมากๆ</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">ตัวอย่าง skill เฉพาะทางฝั่ง FE ต่อกับ M09 เรื่องแพ็กเกจเวิร์กโฟลว์ให้ทีม</span><label class="vid-done"><input type="checkbox" data-video="Xl8UeIZRj_c"> ดูแล้ว</label>
+  </div>
+</li></ul></div>
   </div>
 </div>
-<div class="module" id="m07">
+<div class="module" id="m07" data-module="m07">
   <div class="m-rail">
     <span class="m-code">M07</span>
     <span class="m-stat">9 บท<br>3 ชม.</span>
@@ -213,14 +442,33 @@
   </div>
   <div class="m-body">
     <h3><a href="m07.html">Backend และงานที่แตะข้อมูล</a></h3>
+    <div class="bar" data-bar="m07"><span></span></div>
     <p class="m-goal">ทำงาน backend กับ agent โดยที่ migration และ data operation ไม่กลายเป็นอุบัติเหตุ</p>
     
     <div class="m-out"><b>ผลลัพธ์</b>ชุด guardrail สำหรับงาน data ที่เอาไปใช้กับ repo ตัวเองได้เลย</div>
-    <div class="m-vids"><b>วิดีโอประกอบ · 2 คลิป</b><ul><li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=F62-v-zEkWc" target="_blank" rel="noopener noreferrer">จริงๆ แล้วแอปคุณอาจต้องการแค่ SQLite ก็พอ!</a> · MilerDev<span class="note">เตือนเรื่องเลือกของให้พอดีงาน ก่อนปล่อย agent ออกแบบ data layer ให้</span></li>
-<li><span class="when after">after</span><a href="https://www.youtube.com/watch?v=XOgXXAA1Ijw" target="_blank" rel="noopener noreferrer">มาลองทำ API คุยกับ Agent กัน</a> · mikelopster<span class="note">ต่อ API เข้ากับ agent ดูหลังเรียน contract-first ในบทที่ 1</span></li></ul></div>
+    <div class="m-vids"><b>วิดีโอประกอบ · 2 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="F62-v-zEkWc" data-title="จริงๆ แล้วแอปคุณอาจต้องการแค่ SQLite ก็พอ!" aria-label="เล่นวิดีโอ จริงๆ แล้วแอปคุณอาจต้องการแค่ SQLite ก็พอ!">
+           <img src="https://i.ytimg.com/vi/F62-v-zEkWc/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=F62-v-zEkWc" target="_blank" rel="noopener noreferrer">จริงๆ แล้วแอปคุณอาจต้องการแค่ SQLite ก็พอ!</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">เตือนเรื่องเลือกของให้พอดีงาน ก่อนปล่อย agent ออกแบบ data layer ให้</span><label class="vid-done"><input type="checkbox" data-video="F62-v-zEkWc"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="XOgXXAA1Ijw" data-title="มาลองทำ API คุยกับ Agent กัน" aria-label="เล่นวิดีโอ มาลองทำ API คุยกับ Agent กัน">
+           <img src="https://i.ytimg.com/vi/XOgXXAA1Ijw/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when after">after</span><a href="https://www.youtube.com/watch?v=XOgXXAA1Ijw" target="_blank" rel="noopener noreferrer">มาลองทำ API คุยกับ Agent กัน</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">ต่อ API เข้ากับ agent ดูหลังเรียน contract-first ในบทที่ 1</span><label class="vid-done"><input type="checkbox" data-video="XOgXXAA1Ijw"> ดูแล้ว</label>
+  </div>
+</li></ul></div>
   </div>
 </div>
-<div class="module flagged" id="m08">
+<div class="module flagged" id="m08" data-module="m08">
   <div class="m-rail">
     <span class="m-code">M08</span>
     <span class="m-stat">7 บท<br>2.5 ชม.</span>
@@ -228,11 +476,30 @@
   </div>
   <div class="m-body">
     <h3><a href="m08.html">Brownfield และ Legacy Code</a></h3>
+    <div class="bar" data-bar="m08"><span></span></div>
     <p class="m-goal">งานจริงไม่ได้เริ่มจากโฟลเดอร์ว่าง โมดูลนี้คือส่วนที่ใช้จริงมากที่สุด</p>
     
     <div class="m-out"><b>ผลลัพธ์</b>วิธีทำงานที่ใช้ได้กับโค้ดที่คุณไม่ได้เขียนและไม่มีใครอธิบายให้ฟัง</div>
-    <div class="m-vids"><b>วิดีโอประกอบ · 2 คลิป</b><ul><li><span class="when after">after</span><a href="https://www.youtube.com/watch?v=ZfI5TE2kjho" target="_blank" rel="noopener noreferrer">มารู้จักกับ Bun ผ่านเรื่องเล่า Migration Bun ด้วย AI กัน</a> · mikelopster<span class="note">เคส migration ของจริง ดูหลังเรียน strangler pattern เพื่อเทียบกับที่เราวางไว้</span></li>
-<li><span class="when before">before</span><a href="https://www.youtube.com/watch?v=Jx7NoytkMq8" target="_blank" rel="noopener noreferrer">ผมจะสอนคุณ Contribute Open Source ครั้งแรกในชีวิต ดูจบบรรลุ!</a> · MilerDev<span class="note">ปูขั้นตอนเข้า codebase ที่ไม่เคยเห็น ตรงกับแล็บของโมดูลนี้พอดี</span></li></ul></div>
+    <div class="m-vids"><b>วิดีโอประกอบ · 2 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="ZfI5TE2kjho" data-title="มารู้จักกับ Bun ผ่านเรื่องเล่า Migration Bun ด้วย AI กัน" aria-label="เล่นวิดีโอ มารู้จักกับ Bun ผ่านเรื่องเล่า Migration Bun ด้วย AI กัน">
+           <img src="https://i.ytimg.com/vi/ZfI5TE2kjho/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when after">after</span><a href="https://www.youtube.com/watch?v=ZfI5TE2kjho" target="_blank" rel="noopener noreferrer">มารู้จักกับ Bun ผ่านเรื่องเล่า Migration Bun ด้วย AI กัน</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">เคส migration ของจริง ดูหลังเรียน strangler pattern เพื่อเทียบกับที่เราวางไว้</span><label class="vid-done"><input type="checkbox" data-video="ZfI5TE2kjho"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="Jx7NoytkMq8" data-title="ผมจะสอนคุณ Contribute Open Source ครั้งแรกในชีวิต ดูจบบรรลุ!" aria-label="เล่นวิดีโอ ผมจะสอนคุณ Contribute Open Source ครั้งแรกในชีวิต ดูจบบรรลุ!">
+           <img src="https://i.ytimg.com/vi/Jx7NoytkMq8/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=Jx7NoytkMq8" target="_blank" rel="noopener noreferrer">ผมจะสอนคุณ Contribute Open Source ครั้งแรกในชีวิต ดูจบบรรลุ!</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">ปูขั้นตอนเข้า codebase ที่ไม่เคยเห็น ตรงกับแล็บของโมดูลนี้พอดี</span><label class="vid-done"><input type="checkbox" data-video="Jx7NoytkMq8"> ดูแล้ว</label>
+  </div>
+</li></ul></div>
   </div>
 </div>
 </div>
@@ -242,7 +509,7 @@
     <span class="p-name">ขยายความสามารถ — จากผู้ใช้เป็นผู้สร้างเครื่องมือ</span>
     <span class="p-meta">M09–M10 · 18 บท · 6.5h</span>
   </div>
-  <div class="module flagged" id="m09">
+  <div class="module flagged" id="m09" data-module="m09">
   <div class="m-rail">
     <span class="m-code">M09</span>
     <span class="m-stat">10 บท<br>3.5 ชม.</span>
@@ -250,17 +517,63 @@
   </div>
   <div class="m-body">
     <h3><a href="m09.html">Tooling — MCP, Skills, Hooks, Plugins</a></h3>
+    <div class="bar" data-bar="m09"><span></span></div>
     <p class="m-goal">สร้างเครื่องมือที่ agent ใช้ถูก และรู้ว่าเมื่อไหร่ไม่ควรสร้าง</p>
     
     <div class="m-out"><b>ผลลัพธ์</b>ชุดเครื่องมือของทีมที่ติดตั้งแล้วทุกคนได้พฤติกรรมเดียวกัน</div>
-    <div class="m-vids"><b>วิดีโอประกอบ · 5 คลิป</b><ul><li><span class="when before">before</span><a href="https://www.youtube.com/watch?v=QGk0xrk8074" target="_blank" rel="noopener noreferrer">มารู้จักกับ Agent Hooks กัน</a> · mikelopster<span class="note">ปู hook ก่อนบทที่ 7 ที่ใช้ hook บังคับนโยบายที่ prompt บังคับไม่ได้</span></li>
-<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=GCn7EgjzanA" target="_blank" rel="noopener noreferrer">ใช้ AI สร้าง AI ได้ยังไงบ้าง ?</a> · mikelopster<span class="note">มุมการประกอบเครื่องมือขึ้นเอง ต่อกับแล็บสร้าง MCP server + skill + hook</span></li>
-<li><span class="when before">before</span><a href="https://www.youtube.com/watch?v=4hLCFUJV1sM" target="_blank" rel="noopener noreferrer">มารู้จักกับ Agent Skill กัน</a> · mikelopster<span class="note">ปู skill ก่อนบทที่ 5–6 ที่ลงรายละเอียดว่า description คือสิ่งที่ตัดสินการ trigger</span></li>
-<li><span class="when after">after</span><a href="https://www.youtube.com/watch?v=9-N6M3VjoRg" target="_blank" rel="noopener noreferrer">เลิกสั่ง AI ซ้ำซาก! มาใช้ Agent Skills ให้ AI รู้ใจเราตลอดไป</a> · MilerDev<span class="note">ท่าใช้จริงแบบสั้น ดูหลังเขียน SKILL.md เองในแล็บ</span></li>
-<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=qu06gun_vpc" target="_blank" rel="noopener noreferrer">ลองเล่น OpenCode (และ OpenRouter) ฉบับสายฟรี AI Agent</a> · mikelopster<span class="note">harness ทางเลือก ช่วยให้เห็นว่าอะไรเป็นมาตรฐานร่วม อะไรเป็นของเฉพาะเจ้า</span></li></ul></div>
+    <div class="m-vids"><b>วิดีโอประกอบ · 5 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="QGk0xrk8074" data-title="มารู้จักกับ Agent Hooks กัน" aria-label="เล่นวิดีโอ มารู้จักกับ Agent Hooks กัน">
+           <img src="https://i.ytimg.com/vi/QGk0xrk8074/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=QGk0xrk8074" target="_blank" rel="noopener noreferrer">มารู้จักกับ Agent Hooks กัน</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">ปู hook ก่อนบทที่ 7 ที่ใช้ hook บังคับนโยบายที่ prompt บังคับไม่ได้</span><label class="vid-done"><input type="checkbox" data-video="QGk0xrk8074"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="GCn7EgjzanA" data-title="ใช้ AI สร้าง AI ได้ยังไงบ้าง ?" aria-label="เล่นวิดีโอ ใช้ AI สร้าง AI ได้ยังไงบ้าง ?">
+           <img src="https://i.ytimg.com/vi/GCn7EgjzanA/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=GCn7EgjzanA" target="_blank" rel="noopener noreferrer">ใช้ AI สร้าง AI ได้ยังไงบ้าง ?</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">มุมการประกอบเครื่องมือขึ้นเอง ต่อกับแล็บสร้าง MCP server + skill + hook</span><label class="vid-done"><input type="checkbox" data-video="GCn7EgjzanA"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="4hLCFUJV1sM" data-title="มารู้จักกับ Agent Skill กัน" aria-label="เล่นวิดีโอ มารู้จักกับ Agent Skill กัน">
+           <img src="https://i.ytimg.com/vi/4hLCFUJV1sM/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=4hLCFUJV1sM" target="_blank" rel="noopener noreferrer">มารู้จักกับ Agent Skill กัน</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">ปู skill ก่อนบทที่ 5–6 ที่ลงรายละเอียดว่า description คือสิ่งที่ตัดสินการ trigger</span><label class="vid-done"><input type="checkbox" data-video="4hLCFUJV1sM"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="9-N6M3VjoRg" data-title="เลิกสั่ง AI ซ้ำซาก! มาใช้ Agent Skills ให้ AI รู้ใจเราตลอดไป" aria-label="เล่นวิดีโอ เลิกสั่ง AI ซ้ำซาก! มาใช้ Agent Skills ให้ AI รู้ใจเราตลอดไป">
+           <img src="https://i.ytimg.com/vi/9-N6M3VjoRg/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when after">after</span><a href="https://www.youtube.com/watch?v=9-N6M3VjoRg" target="_blank" rel="noopener noreferrer">เลิกสั่ง AI ซ้ำซาก! มาใช้ Agent Skills ให้ AI รู้ใจเราตลอดไป</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">ท่าใช้จริงแบบสั้น ดูหลังเขียน SKILL.md เองในแล็บ</span><label class="vid-done"><input type="checkbox" data-video="9-N6M3VjoRg"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="qu06gun_vpc" data-title="ลองเล่น OpenCode (และ OpenRouter) ฉบับสายฟรี AI Agent" aria-label="เล่นวิดีโอ ลองเล่น OpenCode (และ OpenRouter) ฉบับสายฟรี AI Agent">
+           <img src="https://i.ytimg.com/vi/qu06gun_vpc/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=qu06gun_vpc" target="_blank" rel="noopener noreferrer">ลองเล่น OpenCode (และ OpenRouter) ฉบับสายฟรี AI Agent</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">harness ทางเลือก ช่วยให้เห็นว่าอะไรเป็นมาตรฐานร่วม อะไรเป็นของเฉพาะเจ้า</span><label class="vid-done"><input type="checkbox" data-video="qu06gun_vpc"> ดูแล้ว</label>
+  </div>
+</li></ul></div>
   </div>
 </div>
-<div class="module flagged" id="m10">
+<div class="module flagged" id="m10" data-module="m10">
   <div class="m-rail">
     <span class="m-code">M10</span>
     <span class="m-stat">8 บท<br>3 ชม.</span>
@@ -268,12 +581,40 @@
   </div>
   <div class="m-body">
     <h3><a href="m10.html">Multi-Agent Orchestration</a></h3>
+    <div class="bar" data-bar="m10"><span></span></div>
     <p class="m-goal">ใช้หลาย agent เมื่อมันชนะจริง และรู้ว่าเมื่อไหร่มันแพ้ agent เดียว</p>
     
     <div class="m-out"><b>ผลลัพธ์</b>เกณฑ์ตัดสินของตัวเองว่างานแบบไหนคุ้มที่จะแตกเป็นหลาย agent</div>
-    <div class="m-vids"><b>วิดีโอประกอบ · 3 คลิป</b><ul><li><span class="when before">before</span><a href="https://www.youtube.com/watch?v=oYL0QL435Ag" target="_blank" rel="noopener noreferrer">มาลองทำ AI Multi-agent Orchestration กันน</a> · mikelopster<span class="note">เห็น orchestration ทำงานจริงก่อนเข้าสี่ pattern และก่อนบทที่ว่ามันแพ้ single agent เมื่อไหร่</span></li>
-<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=DJ2ZrbIkkO8" target="_blank" rel="noopener noreferrer">LangGraph 101</a> · mikelopster<span class="note">อีกวิธีประกอบ graph ของ agent เทียบกับ pattern pipeline ในบทที่ 3</span></li>
-<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=mH36GOYeJmw" target="_blank" rel="noopener noreferrer">LangChain 101</a> · mikelopster<span class="note">พื้นฐานเฟรมเวิร์ก สำหรับคนที่ยังไม่เคยแตะ</span></li></ul></div>
+    <div class="m-vids"><b>วิดีโอประกอบ · 3 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="oYL0QL435Ag" data-title="มาลองทำ AI Multi-agent Orchestration กันน" aria-label="เล่นวิดีโอ มาลองทำ AI Multi-agent Orchestration กันน">
+           <img src="https://i.ytimg.com/vi/oYL0QL435Ag/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=oYL0QL435Ag" target="_blank" rel="noopener noreferrer">มาลองทำ AI Multi-agent Orchestration กันน</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">เห็น orchestration ทำงานจริงก่อนเข้าสี่ pattern และก่อนบทที่ว่ามันแพ้ single agent เมื่อไหร่</span><label class="vid-done"><input type="checkbox" data-video="oYL0QL435Ag"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="DJ2ZrbIkkO8" data-title="LangGraph 101" aria-label="เล่นวิดีโอ LangGraph 101">
+           <img src="https://i.ytimg.com/vi/DJ2ZrbIkkO8/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=DJ2ZrbIkkO8" target="_blank" rel="noopener noreferrer">LangGraph 101</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">อีกวิธีประกอบ graph ของ agent เทียบกับ pattern pipeline ในบทที่ 3</span><label class="vid-done"><input type="checkbox" data-video="DJ2ZrbIkkO8"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="mH36GOYeJmw" data-title="LangChain 101" aria-label="เล่นวิดีโอ LangChain 101">
+           <img src="https://i.ytimg.com/vi/mH36GOYeJmw/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=mH36GOYeJmw" target="_blank" rel="noopener noreferrer">LangChain 101</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">พื้นฐานเฟรมเวิร์ก สำหรับคนที่ยังไม่เคยแตะ</span><label class="vid-done"><input type="checkbox" data-video="mH36GOYeJmw"> ดูแล้ว</label>
+  </div>
+</li></ul></div>
   </div>
 </div>
 </div>
@@ -283,7 +624,7 @@
     <span class="p-name">ตรวจสอบ — ส่วนที่แยกของเล่นออกจากของใช้จริง</span>
     <span class="p-meta">M11–M13 · 26 บท · 8.5h</span>
   </div>
-  <div class="module" id="m11">
+  <div class="module" id="m11" data-module="m11">
   <div class="m-rail">
     <span class="m-code">M11</span>
     <span class="m-stat">8 บท<br>2.5 ชม.</span>
@@ -291,14 +632,33 @@
   </div>
   <div class="m-body">
     <h3><a href="m11.html">Testing และ QA</a></h3>
+    <div class="bar" data-bar="m11"><span></span></div>
     <p class="m-goal">ได้เทสต์ที่จับบั๊กจริง ไม่ใช่เทสต์ที่ยืนยันว่าบั๊กยังอยู่</p>
     
     <div class="m-out"><b>ผลลัพธ์</b>ตัวเลขว่า review agent ของคุณจับได้กี่เปอร์เซ็นต์ และเตือนผิดกี่ครั้ง</div>
-    <div class="m-vids"><b>วิดีโอประกอบ · 2 คลิป</b><ul><li><span class="when after">after</span><a href="https://www.youtube.com/watch?v=Kx7bAwVH_1c" target="_blank" rel="noopener noreferrer">How I Test With Claude Code (AI TDD)</a> · Owain Lewis (EN)<span class="note">ท่าเขียนเทสต์ก่อนแล้วให้ agent ทำให้ผ่าน ตรงกับบทที่ 3 ของโมดูลนี้</span></li>
-<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=mxr5IWfB9JY" target="_blank" rel="noopener noreferrer">How To Use Claude Code To Write Tests For Your Code - Is It Worth It?!</a> · Dev Leader (EN)<span class="note">มุมวิพากษ์ว่าคุ้มไหม ดูคู่กับบทที่ 1 เรื่องกับดักของเทสต์ที่ agent เขียน</span></li></ul></div>
+    <div class="m-vids"><b>วิดีโอประกอบ · 2 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="Kx7bAwVH_1c" data-title="How I Test With Claude Code (AI TDD)" aria-label="เล่นวิดีโอ How I Test With Claude Code (AI TDD)">
+           <img src="https://i.ytimg.com/vi/Kx7bAwVH_1c/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when after">after</span><a href="https://www.youtube.com/watch?v=Kx7bAwVH_1c" target="_blank" rel="noopener noreferrer">How I Test With Claude Code (AI TDD)</a></p>
+    <span class="vid-ch">Owain Lewis · EN</span><span class="note">ท่าเขียนเทสต์ก่อนแล้วให้ agent ทำให้ผ่าน ตรงกับบทที่ 3 ของโมดูลนี้</span><label class="vid-done"><input type="checkbox" data-video="Kx7bAwVH_1c"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="mxr5IWfB9JY" data-title="How To Use Claude Code To Write Tests For Your Code - Is It Worth It?!" aria-label="เล่นวิดีโอ How To Use Claude Code To Write Tests For Your Code - Is It Worth It?!">
+           <img src="https://i.ytimg.com/vi/mxr5IWfB9JY/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=mxr5IWfB9JY" target="_blank" rel="noopener noreferrer">How To Use Claude Code To Write Tests For Your Code - Is It Worth It?!</a></p>
+    <span class="vid-ch">Dev Leader · EN</span><span class="note">มุมวิพากษ์ว่าคุ้มไหม ดูคู่กับบทที่ 1 เรื่องกับดักของเทสต์ที่ agent เขียน</span><label class="vid-done"><input type="checkbox" data-video="mxr5IWfB9JY"> ดูแล้ว</label>
+  </div>
+</li></ul></div>
   </div>
 </div>
-<div class="module flagged" id="m12">
+<div class="module flagged" id="m12" data-module="m12">
   <div class="m-rail">
     <span class="m-code">M12</span>
     <span class="m-stat">9 บท<br>3 ชม.</span>
@@ -306,15 +666,43 @@
   </div>
   <div class="m-body">
     <h3><a href="m12-evals.html">Evals — วัดผลระบบ agent ของคุณเอง</a></h3>
+    <div class="bar" data-bar="m12"><span></span></div>
     <p class="m-goal">โมดูลที่คอร์สอื่นไม่มี ถ้าวัดไม่ได้ คุณกำลังปรับ prompt ด้วยความรู้สึก</p>
     
     <div class="m-out"><b>ผลลัพธ์</b>เครื่องมือที่ทำให้ทุกการอ้างว่า &quot;แบบนี้ดีกว่า&quot; มีตัวเลขรองรับ</div>
-    <div class="m-vids"><b>วิดีโอประกอบ · 3 คลิป</b><ul><li><span class="when before">before</span><a href="https://www.youtube.com/watch?v=a3SMraZWNNs" target="_blank" rel="noopener noreferrer">How to Systematically Setup LLM Evals (Metrics, Unit Tests, LLM-as-a-Judge)</a> · Dave Ebbelaar (EN)<span class="note">ตัวที่ลงลึกที่สุดที่หาได้ ครอบคลุมทั้ง metric, unit test และ judge</span></li>
-<li><span class="when before">before</span><a href="https://www.youtube.com/watch?v=TL527yTpxlk" target="_blank" rel="noopener noreferrer">Complete Beginner's Course on AI Evaluations in 50 Minutes (2025)</a> · Peter Yang (EN)<span class="note">ปูพื้น evals ตั้งแต่ศูนย์ สำหรับคนที่ยังไม่เคยทำชุดวัดมาก่อน</span></li>
-<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=trfUBIDeI1Y" target="_blank" rel="noopener noreferrer">LLM as a Judge: Scaling AI Evaluation Strategies</a> · IBM Technology (EN)<span class="note">สรุป judge แบบ 6 นาที ดูก่อนบทที่ 4 ที่ลงรายละเอียดอคติสี่แบบ</span></li></ul></div>
+    <div class="m-vids"><b>วิดีโอประกอบ · 3 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="a3SMraZWNNs" data-title="How to Systematically Setup LLM Evals (Metrics, Unit Tests, LLM-as-a-Judge)" aria-label="เล่นวิดีโอ How to Systematically Setup LLM Evals (Metrics, Unit Tests, LLM-as-a-Judge)">
+           <img src="https://i.ytimg.com/vi/a3SMraZWNNs/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=a3SMraZWNNs" target="_blank" rel="noopener noreferrer">How to Systematically Setup LLM Evals (Metrics, Unit Tests, LLM-as-a-Judge)</a></p>
+    <span class="vid-ch">Dave Ebbelaar · EN</span><span class="note">ตัวที่ลงลึกที่สุดที่หาได้ ครอบคลุมทั้ง metric, unit test และ judge</span><label class="vid-done"><input type="checkbox" data-video="a3SMraZWNNs"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="TL527yTpxlk" data-title="Complete Beginner's Course on AI Evaluations in 50 Minutes (2025)" aria-label="เล่นวิดีโอ Complete Beginner's Course on AI Evaluations in 50 Minutes (2025)">
+           <img src="https://i.ytimg.com/vi/TL527yTpxlk/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=TL527yTpxlk" target="_blank" rel="noopener noreferrer">Complete Beginner's Course on AI Evaluations in 50 Minutes (2025)</a></p>
+    <span class="vid-ch">Peter Yang · EN</span><span class="note">ปูพื้น evals ตั้งแต่ศูนย์ สำหรับคนที่ยังไม่เคยทำชุดวัดมาก่อน</span><label class="vid-done"><input type="checkbox" data-video="TL527yTpxlk"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="trfUBIDeI1Y" data-title="LLM as a Judge: Scaling AI Evaluation Strategies" aria-label="เล่นวิดีโอ LLM as a Judge: Scaling AI Evaluation Strategies">
+           <img src="https://i.ytimg.com/vi/trfUBIDeI1Y/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=trfUBIDeI1Y" target="_blank" rel="noopener noreferrer">LLM as a Judge: Scaling AI Evaluation Strategies</a></p>
+    <span class="vid-ch">IBM Technology · EN</span><span class="note">สรุป judge แบบ 6 นาที ดูก่อนบทที่ 4 ที่ลงรายละเอียดอคติสี่แบบ</span><label class="vid-done"><input type="checkbox" data-video="trfUBIDeI1Y"> ดูแล้ว</label>
+  </div>
+</li></ul></div>
   </div>
 </div>
-<div class="module flagged" id="m13">
+<div class="module flagged" id="m13" data-module="m13">
   <div class="m-rail">
     <span class="m-code">M13</span>
     <span class="m-stat">9 บท<br>3 ชม.</span>
@@ -322,13 +710,50 @@
   </div>
   <div class="m-body">
     <h3><a href="m13.html">ความปลอดภัยและโมเดลภัยคุกคาม</a></h3>
+    <div class="bar" data-bar="m13"><span></span></div>
     <p class="m-goal">agent ที่อ่านอินเทอร์เน็ตได้และรันคำสั่งได้ คือ attack surface ชนิดใหม่</p>
     
     <div class="m-out"><b>ผลลัพธ์</b>รายการช่องโหว่จริงในเซ็ตอัปของคุณเอง พร้อมสิ่งที่แก้ไปแล้ว</div>
-    <div class="m-vids"><b>วิดีโอประกอบ · 4 คลิป</b><ul><li><span class="when before">before</span><a href="https://www.youtube.com/watch?v=0IGRhY9c-lc" target="_blank" rel="noopener noreferrer">OpenClaw &amp; Security</a> · mikelopster<span class="note">ปูประเด็นความปลอดภัยของ agent ก่อนลงโมเดลภัยคุกคามเต็มรูปแบบ</span></li>
-<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=bL6_vTPwhKI" target="_blank" rel="noopener noreferrer">พื้นฐานความรู้ Cybersecurity การโจมตีในรูปแบบต่างๆ</a> · MilerDev<span class="note">พื้นฐาน attack pattern ทั่วไป สำหรับคนที่ไม่ได้มาสายความปลอดภัย ก่อนเข้าภัยเฉพาะของ agent</span></li>
-<li><span class="when before">before</span><a href="https://www.youtube.com/watch?v=5ZA1lTxTH3c" target="_blank" rel="noopener noreferrer">Securing AI Agents: How to Prevent Hidden Prompt Injection Attacks</a> · IBM Technology (EN)<span class="note">ปู prompt injection ที่ซ่อนอยู่ในเนื้อหา ก่อนบทที่ 2 ที่ไล่ช่องทางทั้งหมด</span></li>
-<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=kf3QBweeDdo" target="_blank" rel="noopener noreferrer">Prompt Injection Explained: How Hackers Manipulate AI With Words</a> · Pentest Diaries (EN)<span class="note">มุมผู้โจมตี ดูก่อนทำแล็บ red-team จะได้รู้ว่าจะฝังอะไรบ้าง</span></li></ul></div>
+    <div class="m-vids"><b>วิดีโอประกอบ · 4 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="0IGRhY9c-lc" data-title="OpenClaw &amp; Security" aria-label="เล่นวิดีโอ OpenClaw &amp; Security">
+           <img src="https://i.ytimg.com/vi/0IGRhY9c-lc/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=0IGRhY9c-lc" target="_blank" rel="noopener noreferrer">OpenClaw &amp; Security</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">ปูประเด็นความปลอดภัยของ agent ก่อนลงโมเดลภัยคุกคามเต็มรูปแบบ</span><label class="vid-done"><input type="checkbox" data-video="0IGRhY9c-lc"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="bL6_vTPwhKI" data-title="พื้นฐานความรู้ Cybersecurity การโจมตีในรูปแบบต่างๆ" aria-label="เล่นวิดีโอ พื้นฐานความรู้ Cybersecurity การโจมตีในรูปแบบต่างๆ">
+           <img src="https://i.ytimg.com/vi/bL6_vTPwhKI/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=bL6_vTPwhKI" target="_blank" rel="noopener noreferrer">พื้นฐานความรู้ Cybersecurity การโจมตีในรูปแบบต่างๆ</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">พื้นฐาน attack pattern ทั่วไป สำหรับคนที่ไม่ได้มาสายความปลอดภัย ก่อนเข้าภัยเฉพาะของ agent</span><label class="vid-done"><input type="checkbox" data-video="bL6_vTPwhKI"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="5ZA1lTxTH3c" data-title="Securing AI Agents: How to Prevent Hidden Prompt Injection Attacks" aria-label="เล่นวิดีโอ Securing AI Agents: How to Prevent Hidden Prompt Injection Attacks">
+           <img src="https://i.ytimg.com/vi/5ZA1lTxTH3c/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=5ZA1lTxTH3c" target="_blank" rel="noopener noreferrer">Securing AI Agents: How to Prevent Hidden Prompt Injection Attacks</a></p>
+    <span class="vid-ch">IBM Technology · EN</span><span class="note">ปู prompt injection ที่ซ่อนอยู่ในเนื้อหา ก่อนบทที่ 2 ที่ไล่ช่องทางทั้งหมด</span><label class="vid-done"><input type="checkbox" data-video="5ZA1lTxTH3c"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="kf3QBweeDdo" data-title="Prompt Injection Explained: How Hackers Manipulate AI With Words" aria-label="เล่นวิดีโอ Prompt Injection Explained: How Hackers Manipulate AI With Words">
+           <img src="https://i.ytimg.com/vi/kf3QBweeDdo/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=kf3QBweeDdo" target="_blank" rel="noopener noreferrer">Prompt Injection Explained: How Hackers Manipulate AI With Words</a></p>
+    <span class="vid-ch">Pentest Diaries · EN</span><span class="note">มุมผู้โจมตี ดูก่อนทำแล็บ red-team จะได้รู้ว่าจะฝังอะไรบ้าง</span><label class="vid-done"><input type="checkbox" data-video="kf3QBweeDdo"> ดูแล้ว</label>
+  </div>
+</li></ul></div>
   </div>
 </div>
 </div>
@@ -338,7 +763,7 @@
     <span class="p-name">ส่งมอบและดำเนินการ — จากเครื่องตัวเองสู่ทั้งทีม</span>
     <span class="p-meta">M14–M15 · 17 บท · 5h</span>
   </div>
-  <div class="module" id="m14">
+  <div class="module" id="m14" data-module="m14">
   <div class="m-rail">
     <span class="m-code">M14</span>
     <span class="m-stat">8 บท<br>2.5 ชม.</span>
@@ -346,14 +771,33 @@
   </div>
   <div class="m-body">
     <h3><a href="m14.html">CI/CD และ Agent ในสายพาน</a></h3>
+    <div class="bar" data-bar="m14"><span></span></div>
     <p class="m-goal">เอา agent ขึ้นสายพานโดยไม่มีคนคอยกดอนุมัติ และไม่ให้บิลบาน</p>
     
     <div class="m-out"><b>ผลลัพธ์</b>สายพานที่ agent ทำงานได้เองโดยยังมีจุดหยุดที่มนุษย์ควบคุม</div>
-    <div class="m-vids"><b>วิดีโอประกอบ · 2 คลิป</b><ul><li><span class="when after">after</span><a href="https://www.youtube.com/watch?v=EZ8C1rxaXH4" target="_blank" rel="noopener noreferrer">สร้าง AI Agent ส่วนตัวด้วย Hermes Agent ทำงานตลอด 24 ชั่วโมง คุยผ่าน Telegram ดูจบบรรลุ!</a> · MilerDev<span class="note">เคส agent ที่รันเองตลอดเวลา ดูคู่กับบทที่ 5 เรื่อง guardrail ขั้นต่ำก่อนเปิด</span></li>
-<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=ZZXqoB4NUiY" target="_blank" rel="noopener noreferrer">สอนติดตั้ง n8n แบบ Self-Host บน VPS เพื่อทำงาน Automation 24 ชั่วโมง!</a> · MilerDev<span class="note">ทางเลือกรัน automation เอง สำหรับคนที่ไม่อยากผูกกับ scheduler ของเจ้าใด</span></li></ul></div>
+    <div class="m-vids"><b>วิดีโอประกอบ · 2 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="EZ8C1rxaXH4" data-title="สร้าง AI Agent ส่วนตัวด้วย Hermes Agent ทำงานตลอด 24 ชั่วโมง คุยผ่าน Telegram ดูจบบรรลุ!" aria-label="เล่นวิดีโอ สร้าง AI Agent ส่วนตัวด้วย Hermes Agent ทำงานตลอด 24 ชั่วโมง คุยผ่าน Telegram ดูจบบรรลุ!">
+           <img src="https://i.ytimg.com/vi/EZ8C1rxaXH4/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when after">after</span><a href="https://www.youtube.com/watch?v=EZ8C1rxaXH4" target="_blank" rel="noopener noreferrer">สร้าง AI Agent ส่วนตัวด้วย Hermes Agent ทำงานตลอด 24 ชั่วโมง คุยผ่าน Telegram ดูจบบรรลุ!</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">เคส agent ที่รันเองตลอดเวลา ดูคู่กับบทที่ 5 เรื่อง guardrail ขั้นต่ำก่อนเปิด</span><label class="vid-done"><input type="checkbox" data-video="EZ8C1rxaXH4"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="ZZXqoB4NUiY" data-title="สอนติดตั้ง n8n แบบ Self-Host บน VPS เพื่อทำงาน Automation 24 ชั่วโมง!" aria-label="เล่นวิดีโอ สอนติดตั้ง n8n แบบ Self-Host บน VPS เพื่อทำงาน Automation 24 ชั่วโมง!">
+           <img src="https://i.ytimg.com/vi/ZZXqoB4NUiY/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=ZZXqoB4NUiY" target="_blank" rel="noopener noreferrer">สอนติดตั้ง n8n แบบ Self-Host บน VPS เพื่อทำงาน Automation 24 ชั่วโมง!</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">ทางเลือกรัน automation เอง สำหรับคนที่ไม่อยากผูกกับ scheduler ของเจ้าใด</span><label class="vid-done"><input type="checkbox" data-video="ZZXqoB4NUiY"> ดูแล้ว</label>
+  </div>
+</li></ul></div>
   </div>
 </div>
-<div class="module flagged" id="m15">
+<div class="module flagged" id="m15" data-module="m15">
   <div class="m-rail">
     <span class="m-code">M15</span>
     <span class="m-stat">9 บท<br>2.5 ชม.</span>
@@ -361,21 +805,50 @@
   </div>
   <div class="m-body">
     <h3><a href="m15.html">Operations, Governance และการใช้จริงในทีม</a></h3>
+    <div class="bar" data-bar="m15"><span></span></div>
     <p class="m-goal">ปัญหาจริงเริ่มตอนที่ทีมทั้งทีมใช้พร้อมกัน ไม่ใช่ตอนคุณใช้คนเดียว</p>
     
     <div class="m-out"><b>ผลลัพธ์</b>เอกสารนโยบายและแผน rollout ที่เอาไปเสนอหัวหน้าได้ทันที</div>
-    <div class="m-vids"><b>วิดีโอประกอบ · 3 คลิป</b><ul><li><span class="when after">after</span><a href="https://www.youtube.com/watch?v=UreF8tC7QC4" target="_blank" rel="noopener noreferrer">Software Engineer in AI Era (จาก Google I/O 2026)</a> · mikelopster<span class="note">มุมภาพใหญ่เรื่องบทบาทที่เปลี่ยนไป ดูคู่กับบท skill atrophy และแผน rollout</span></li>
-<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=WAxk3LZbBA8" target="_blank" rel="noopener noreferrer">Vibe Coding ? จะเกิดอะไรเมื่อมนุษย์ปล่อยใจให้ AI เป็นคน Code แทน</a> · mikelopster<span class="note">ตั้งคำถามเรื่องความไว้ใจ ต่อกับบท trust calibration</span></li>
-<li><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=SwTe4s17eBE" target="_blank" rel="noopener noreferrer">4 ทักษะที่จะทำให้ Dev มีมูลค่ามากขึ้นในยุค AI</a> · MilerDev<span class="note">มุมทักษะที่ต้องรักษาไว้ ต่อกับบท skill atrophy</span></li></ul></div>
+    <div class="m-vids"><b>วิดีโอประกอบ · 3 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="UreF8tC7QC4" data-title="Software Engineer in AI Era (จาก Google I/O 2026)" aria-label="เล่นวิดีโอ Software Engineer in AI Era (จาก Google I/O 2026)">
+           <img src="https://i.ytimg.com/vi/UreF8tC7QC4/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when after">after</span><a href="https://www.youtube.com/watch?v=UreF8tC7QC4" target="_blank" rel="noopener noreferrer">Software Engineer in AI Era (จาก Google I/O 2026)</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">มุมภาพใหญ่เรื่องบทบาทที่เปลี่ยนไป ดูคู่กับบท skill atrophy และแผน rollout</span><label class="vid-done"><input type="checkbox" data-video="UreF8tC7QC4"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="WAxk3LZbBA8" data-title="Vibe Coding ? จะเกิดอะไรเมื่อมนุษย์ปล่อยใจให้ AI เป็นคน Code แทน" aria-label="เล่นวิดีโอ Vibe Coding ? จะเกิดอะไรเมื่อมนุษย์ปล่อยใจให้ AI เป็นคน Code แทน">
+           <img src="https://i.ytimg.com/vi/WAxk3LZbBA8/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=WAxk3LZbBA8" target="_blank" rel="noopener noreferrer">Vibe Coding ? จะเกิดอะไรเมื่อมนุษย์ปล่อยใจให้ AI เป็นคน Code แทน</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">ตั้งคำถามเรื่องความไว้ใจ ต่อกับบท trust calibration</span><label class="vid-done"><input type="checkbox" data-video="WAxk3LZbBA8"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="SwTe4s17eBE" data-title="4 ทักษะที่จะทำให้ Dev มีมูลค่ามากขึ้นในยุค AI" aria-label="เล่นวิดีโอ 4 ทักษะที่จะทำให้ Dev มีมูลค่ามากขึ้นในยุค AI">
+           <img src="https://i.ytimg.com/vi/SwTe4s17eBE/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=SwTe4s17eBE" target="_blank" rel="noopener noreferrer">4 ทักษะที่จะทำให้ Dev มีมูลค่ามากขึ้นในยุค AI</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">มุมทักษะที่ต้องรักษาไว้ ต่อกับบท skill atrophy</span><label class="vid-done"><input type="checkbox" data-video="SwTe4s17eBE"> ดูแล้ว</label>
+  </div>
+</li></ul></div>
   </div>
 </div>
 </div>
 </section>
 
-<p class="note"><b>สถานะ</b> — เนื้อหาเต็มเขียนแล้ว 15 โมดูล จาก 15
-· วิดีโอประกอบใส่แล้ว 49 คลิป
-· หน้าเว็บทั้งหมดถูก generate จาก <code>content/curriculum.yaml</code> และ <code>content/videos.yaml</code> อย่าแก้ HTML ตรง ๆ</p>
+<p class="note"><b>วิธีใช้</b> — กด <em>เรียนจบ</em> ท้ายหัวข้อแต่ละบทเพื่อบันทึกความคืบหน้า วิดีโอกดเล่นได้ในหน้าเลยและติ๊ก <em>ดูแล้ว</em> ได้
+· หน้าเว็บทั้งหมด generate จาก <code>content/curriculum.yaml</code> และ <code>content/videos.yaml</code></p>
 </div>
+<script src="assets/course-data.js" defer></script>
+<script src="assets/progress.js" defer></script>
 <script>
 document.getElementById("theme").addEventListener("click",function(){
   var d=document.documentElement;

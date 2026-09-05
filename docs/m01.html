@@ -9,7 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/style.css">
-
 </head>
 <body>
 <div class="wrap">
@@ -18,7 +17,7 @@
   <nav>
     <a href="index.html">ภาพรวม</a>
     <a href="course-th.html">หลักสูตร</a>
-    <a href="m12-evals.html">M12 Evals</a>
+    <span id="nav-progress" class="nav-progress" hidden></span>
     <button id="theme" type="button" aria-label="สลับธีมสว่าง/มืด">THEME</button>
   </nav>
 </header>
@@ -26,7 +25,7 @@
   <span class="crumb">AI Coding Agent SDLC · Phase 00 · Module 01</span>
   <h1>กลไกภายในของ Agent</h1>
   <p class="deck">Agent ไม่ใช่กล่องดำ มันคือ<strong>ลูป <code>while</code> ธรรมดา</strong>ที่ห่อด้วยวิศวกรรมหลายชั้น โมดูลนี้แกะทีละชั้นเพื่อให้เวลามันทำอะไรแปลก ๆ คุณชี้ได้ว่าเกิดที่ชั้นไหน</p>
-  <div class="meta"><span><b>8</b> บทเรียน</span><span><b>2.5</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ไม่มีข้อกำหนดก่อนหน้า</span></div>
+  <div class="meta"><span><b>8</b> บทเรียน</span><span><b>2.5</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ไม่มีข้อกำหนดก่อนหน้า</span></div><div class="m-progress"><div class="bar" data-bar="m01"><span></span></div><span class="bar-label" data-label="m01"></span></div>
 </header>
 
 <div class="thesis">
@@ -35,7 +34,7 @@
 </div>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">01.01</span><h2>Agentic loop จริง ๆ คืออะไร</h2></div>
+  <div class="lhead"><span class="lnum">01.01</span><h2>Agentic loop จริง ๆ คืออะไร</h2><label class="done"><input type="checkbox" data-lesson="01.01"><span>เรียนจบ</span></label></div>
   <p>ตัดทุกอย่างออกจนเหลือแก่น agent คือลูปเดียว โมเดลตอบกลับมาพร้อมคำขอใช้เครื่องมือ โปรแกรมรันเครื่องมือนั้น ส่งผลกลับเข้าไป แล้ววนใหม่จนกว่าโมเดลจะบอกว่าจบ</p>
   <pre><code>messages = [user_request]
 while True:
@@ -53,7 +52,7 @@ while True:
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">01.02</span><h2>กายวิภาคของ harness</h2></div>
+  <div class="lhead"><span class="lnum">01.02</span><h2>กายวิภาคของ harness</h2><label class="done"><input type="checkbox" data-lesson="01.02"><span>เรียนจบ</span></label></div>
   <p>สิ่งที่คุณใช้จริงไม่ใช่ลูปเปล่า แต่เป็น harness ที่ห่อลูปนั้นไว้ห้าชั้น การรู้ชั้นทั้งห้าคือเครื่องมือ debug ที่ดีที่สุดในโมดูลนี้</p>
   <div class="tw"><table>
     <thead><tr><th>ชั้น</th><th>หน้าที่</th><th>อาการเมื่อชั้นนี้มีปัญหา</th></tr></thead>
@@ -72,7 +71,7 @@ while True:
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">01.03</span><h2>Tool-use protocol และกฎที่ห้ามผิด</h2></div>
+  <div class="lhead"><span class="lnum">01.03</span><h2>Tool-use protocol และกฎที่ห้ามผิด</h2><label class="done"><input type="checkbox" data-lesson="01.03"><span>เรียนจบ</span></label></div>
   <p>โมเดลไม่ได้ “เรียกฟังก์ชัน” มันผลิตบล็อกข้อมูลที่บอกว่าอยากเรียกอะไรด้วย argument อะไร แล้วโปรแกรมของคุณเป็นคนรัน ผลลัพธ์ถูกส่งกลับเป็นบล็อกคู่กันที่อ้าง id เดิม</p>
   <ul>
     <li><strong>หนึ่งคำตอบมีหลาย tool call ได้</strong> — โมเดลขอหลายอย่างพร้อมกันเมื่อมันไม่ขึ้นต่อกัน ให้รันขนานแล้วรวมผล</li>
@@ -86,7 +85,7 @@ while True:
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">01.04</span><h2>stop_reason ทุกค่า และการจัดการแต่ละแบบ</h2></div>
+  <div class="lhead"><span class="lnum">01.04</span><h2>stop_reason ทุกค่า และการจัดการแต่ละแบบ</h2><label class="done"><input type="checkbox" data-lesson="01.04"><span>เรียนจบ</span></label></div>
   <p>ค่าที่บอกว่าทำไมโมเดลหยุดพูด เป็นข้อมูล debug ที่ดีที่สุดชิ้นเดียว และเป็นสิ่งที่โค้ดต้องแยกกรณีให้ครบ</p>
   <div class="tw"><table>
     <thead><tr><th>ค่า</th><th>แปลว่า</th><th>ต้องทำอะไร</th></tr></thead>
@@ -105,7 +104,7 @@ while True:
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">01.05</span><h2>Thinking และ effort</h2></div>
+  <div class="lhead"><span class="lnum">01.05</span><h2>Thinking และ effort</h2><label class="done"><input type="checkbox" data-lesson="01.05"><span>เรียนจบ</span></label></div>
   <p>โมเดลรุ่นใหม่คิดก่อนตอบได้ และคุมความลึกได้ผ่านระดับ effort ผลของมันไม่ใช่แค่ “ฉลาดขึ้น” แต่เปลี่ยน<strong>รูปแบบการทำงาน</strong>ด้วย</p>
   <ul>
     <li><strong>effort ต่ำ</strong> — tool call น้อยลงและรวบมากขึ้น คำพูดนำสั้นลง เหมาะกับงานซ้ำ ๆ ที่รู้ขั้นตอนแล้ว และเหมาะกับ sub-agent</li>
@@ -119,7 +118,7 @@ while True:
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">01.06</span><h2>Permission model</h2></div>
+  <div class="lhead"><span class="lnum">01.06</span><h2>Permission model</h2><label class="done"><input type="checkbox" data-lesson="01.06"><span>เรียนจบ</span></label></div>
   <p>ชั้นสิทธิ์คือสิ่งเดียวที่กั้นระหว่าง “ผู้ช่วยที่มีประโยชน์” กับ “โปรแกรมที่รันคำสั่งอะไรก็ได้บนเครื่องคุณ” มันไม่ใช่ความรำคาญที่ต้องปิด แต่เป็นส่วนหนึ่งของการออกแบบ</p>
   <div class="tw"><table>
     <thead><tr><th>โหมด</th><th>ใช้เมื่อ</th><th>ความเสี่ยง</th></tr></thead>
@@ -137,7 +136,7 @@ while True:
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">01.07</span><h2>เจ็ดโหมดที่ agent ล้มเหลว</h2></div>
+  <div class="lhead"><span class="lnum">01.07</span><h2>เจ็ดโหมดที่ agent ล้มเหลว</h2><label class="done"><input type="checkbox" data-lesson="01.07"><span>เรียนจบ</span></label></div>
   <p>เกือบทุกความล้มเหลวที่เจอในงานจริงตกอยู่ในเจ็ดแบบนี้ จำให้ได้แล้วเวลาเจอปัญหาจะวินิจฉัยได้เร็วขึ้นมาก</p>
   <div class="tw"><table>
     <thead><tr><th>โหมด</th><th>อาการที่เห็น</th><th>ชั้นที่ต้องแก้</th></tr></thead>
@@ -154,7 +153,7 @@ while True:
 </section>
 
 <div class="lab">
-  <div class="lab-head">01.08 · แล็บประจำโมดูล</div>
+  <div class="lab-head">01.08 · แล็บประจำโมดูล<label class="done"><input type="checkbox" data-lesson="01.08"><span>ทำแล็บแล้ว</span></label></div>
   <div class="lab-body">
     <h2>เขียน mini-harness ~150 บรรทัด</h2>
     <p>เป้าหมายไม่ใช่ได้เครื่องมือใช้งาน แต่คือ<strong>ทำลายความรู้สึกว่ามันเป็นเวทมนตร์</strong> เมื่อคุณเขียนลูปเองแล้ว ทุกอาการแปลก ๆ หลังจากนี้จะมีที่ทางให้ชี้</p>
@@ -178,8 +177,69 @@ while True:
 </div>
 
 <p class="note"><b>เชื่อมกับโมดูลอื่น</b> — <a href="m02.html">M02</a> ลงลึกที่ชั้น context assembler · <a href="m03.html">M03</a> เอาตัวนับ token จากแล็บนี้ไปทำบัญชีจริง · <a href="m05.html">M05</a> แก้สองในเจ็ดโหมดล้มเหลวด้วยการปรับ repo · <a href="m13.html">M13</a> ต่อยอดชั้น permission เป็นโมเดลภัยคุกคามเต็มรูปแบบ</p>
-
+<section class="lesson"><div class="lhead"><span class="lnum">วิดีโอ</span><h2>วิดีโอประกอบโมดูลนี้</h2></div><div class="m-vids"><b>วิดีโอประกอบ · 6 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="xIVl5X9yUWM" data-title="รู้จักกับ Agent Harness กัน" aria-label="เล่นวิดีโอ รู้จักกับ Agent Harness กัน">
+           <img src="https://i.ytimg.com/vi/xIVl5X9yUWM/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=xIVl5X9yUWM" target="_blank" rel="noopener noreferrer">รู้จักกับ Agent Harness กัน</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">ปูคำว่า harness ก่อนลงบทที่ 2 ที่แยกกายวิภาคเป็นห้าชั้น</span><label class="vid-done"><input type="checkbox" data-video="xIVl5X9yUWM"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="qlIuFfs-7pY" data-title="รู้จักกับ Loop Engineering" aria-label="เล่นวิดีโอ รู้จักกับ Loop Engineering">
+           <img src="https://i.ytimg.com/vi/qlIuFfs-7pY/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=qlIuFfs-7pY" target="_blank" rel="noopener noreferrer">รู้จักกับ Loop Engineering</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">เห็นภาพลูปก่อนเราไปเขียน mini-harness เองในแล็บ</span><label class="vid-done"><input type="checkbox" data-video="qlIuFfs-7pY"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="vKnbSmb5cLY" data-title="SDLC คืออะไร ?" aria-label="เล่นวิดีโอ SDLC คืออะไร ?">
+           <img src="https://i.ytimg.com/vi/vKnbSmb5cLY/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=vKnbSmb5cLY" target="_blank" rel="noopener noreferrer">SDLC คืออะไร ?</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">ทบทวน SDLC แบบดั้งเดิม สำหรับคนที่อยากเทียบว่า agent เข้ามาแทรกตรงไหน</span><label class="vid-done"><input type="checkbox" data-video="vKnbSmb5cLY"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="cvrwOk2vTAk" data-title="ลองเล่น Claude code กัน" aria-label="เล่นวิดีโอ ลองเล่น Claude code กัน">
+           <img src="https://i.ytimg.com/vi/cvrwOk2vTAk/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=cvrwOk2vTAk" target="_blank" rel="noopener noreferrer">ลองเล่น Claude code กัน</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">ทัวร์เครื่องมือแบบยาว สำหรับคนที่ยังไม่เคยใช้ ก่อนเราไปแกะว่าข้างในทำงานยังไง</span><label class="vid-done"><input type="checkbox" data-video="cvrwOk2vTAk"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="lXfs8JMdNiE" data-title="ไม่รู้ถือว่าบาป! พื้นฐานที่ต้องมี ก่อนใช้ Agentic AI เขียนโค้ด!" aria-label="เล่นวิดีโอ ไม่รู้ถือว่าบาป! พื้นฐานที่ต้องมี ก่อนใช้ Agentic AI เขียนโค้ด!">
+           <img src="https://i.ytimg.com/vi/lXfs8JMdNiE/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=lXfs8JMdNiE" target="_blank" rel="noopener noreferrer">ไม่รู้ถือว่าบาป! พื้นฐานที่ต้องมี ก่อนใช้ Agentic AI เขียนโค้ด!</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">ปูพื้นสั้น ๆ สำหรับคนที่ข้ามมาจากการใช้ chat ธรรมดา</span><label class="vid-done"><input type="checkbox" data-video="lXfs8JMdNiE"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="c2M4HTHy-ow" data-title="เลิก Vibe Coding แล้วมารู้จัก Agentic Engineering กันเถอะ!" aria-label="เล่นวิดีโอ เลิก Vibe Coding แล้วมารู้จัก Agentic Engineering กันเถอะ!">
+           <img src="https://i.ytimg.com/vi/c2M4HTHy-ow/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=c2M4HTHy-ow" target="_blank" rel="noopener noreferrer">เลิก Vibe Coding แล้วมารู้จัก Agentic Engineering กันเถอะ!</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">ตั้งกรอบว่าทำไมงานนี้ถึงเป็นวิศวกรรม ไม่ใช่การสั่งไปเรื่อย ๆ</span><label class="vid-done"><input type="checkbox" data-video="c2M4HTHy-ow"> ดูแล้ว</label>
+  </div>
+</li></ul></div></section>
 </div>
+<script src="assets/course-data.js" defer></script>
+<script src="assets/progress.js" defer></script>
 <script>
 document.getElementById("theme").addEventListener("click",function(){
   var d=document.documentElement;

@@ -9,7 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/style.css">
-
 </head>
 <body>
 <div class="wrap">
@@ -18,7 +17,7 @@
   <nav>
     <a href="index.html">ภาพรวม</a>
     <a href="course-th.html">หลักสูตร</a>
-    <a href="m12-evals.html">M12 Evals</a>
+    <span id="nav-progress" class="nav-progress" hidden></span>
     <button id="theme" type="button" aria-label="สลับธีมสว่าง/มืด">THEME</button>
   </nav>
 </header>
@@ -26,7 +25,7 @@
   <span class="crumb">AI Coding Agent SDLC · Phase 02 · Module 06</span>
   <h1>Frontend Implementation</h1>
   <p class="deck">ฝั่งหน้าบ้านมีปัญหาเฉพาะตัวที่ฝั่งหลังบ้านไม่มี — <strong>โค้ดที่ผิดอาจดูถูกในสกรีนช็อต</strong> โมดูลนี้ว่าด้วยการปิดช่องนั้นด้วยลูปตรวจที่ agent ทำเองได้</p>
-  <div class="meta"><span><b>9</b> บทเรียน</span><span><b>3</b> ชั่วโมง</span><span><b>2</b> แล็บ</span><span>ต้องผ่าน <b>M04</b> · <b>M05</b> ก่อน</span></div>
+  <div class="meta"><span><b>9</b> บทเรียน</span><span><b>3</b> ชั่วโมง</span><span><b>2</b> แล็บ</span><span>ต้องผ่าน <b>M04</b> · <b>M05</b> ก่อน</span></div><div class="m-progress"><div class="bar" data-bar="m06"><span></span></div><span class="bar-label" data-label="m06"></span></div>
 </header>
 
 <div class="thesis">
@@ -35,7 +34,7 @@
 </div>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">06.01</span><h2>ลำดับที่ข้ามไม่ได้</h2></div>
+  <div class="lhead"><span class="lnum">06.01</span><h2>ลำดับที่ข้ามไม่ได้</h2><label class="done"><input type="checkbox" data-lesson="06.01"><span>เรียนจบ</span></label></div>
   <p>token → component → page → flow ลำดับนี้ไม่ใช่เรื่องความเป็นระเบียบ แต่เป็นเรื่องของการที่แต่ละขั้นให้<em>คำศัพท์</em>กับขั้นถัดไป</p>
   <div class="tw"><table>
     <thead><tr><th>ขั้น</th><th>ให้อะไรกับขั้นถัดไป</th><th>ถ้าข้าม</th></tr></thead>
@@ -49,7 +48,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">06.02</span><h2>Design system ในฐานะบริบท</h2></div>
+  <div class="lhead"><span class="lnum">06.02</span><h2>Design system ในฐานะบริบท</h2><label class="done"><input type="checkbox" data-lesson="06.02"><span>เรียนจบ</span></label></div>
   <p>การส่งภาพอย่างเดียวทำให้ agent ต้องเดาค่าจากพิกเซล ผลคือค่าที่ใกล้เคียงแต่ไม่ตรง และกระจายไปทั่วจนเก็บกวาดยาก</p>
   <pre><code><span class="c">// สิ่งที่ควรอยู่ในบริบท — ชื่อที่อ้างอิงได้</span>
 --space-1..6, --color-surface/ink/accent, --radius-none
@@ -65,7 +64,7 @@ screenshot.png       <span class="c">// ใช้เทียบผลได้ 
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">06.03</span><h2>เส้นแบ่ง server/client ที่พลาดบ่อยที่สุด</h2></div>
+  <div class="lhead"><span class="lnum">06.03</span><h2>เส้นแบ่ง server/client ที่พลาดบ่อยที่สุด</h2><label class="done"><input type="checkbox" data-lesson="06.03"><span>เรียนจบ</span></label></div>
   <p>เฟรมเวิร์กสมัยใหม่แยกโค้ดที่รันบนเซิร์ฟเวอร์กับบนเบราว์เซอร์ และเส้นนี้คือจุดที่ agent พลาดมากที่สุดในงาน FE ทั้งหมด</p>
   <ul>
     <li><strong>เอา state หรือ event handler ไปไว้ฝั่งเซิร์ฟเวอร์</strong> — พังตอน build ไม่ใช่ตอนเขียน</li>
@@ -80,7 +79,29 @@ screenshot.png       <span class="c">// ใช้เทียบผลได้ 
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">06.04</span><h2>Visual verification loop</h2></div>
+  <div class="lhead"><span class="lnum">06.04</span><h2>State และ data fetching</h2><label class="done"><input type="checkbox" data-lesson="06.04"><span>เรียนจบ</span></label></div>
+  <p>สองเรื่องนี้อยู่ด้วยกันเพราะความผิดพลาดส่วนใหญ่เกิดที่รอยต่อของมัน — ข้อมูลถูกดึงผิดที่ แล้ว state ก็เลยอยู่ผิดที่ตามไปด้วย</p>
+  <div class="tw"><table>
+    <thead><tr><th>แพตเทิร์น</th><th>agent ทำถูก</th><th>agent ชอบทำผิด</th></tr></thead>
+    <tbody>
+      <tr><td>ดึงข้อมูลใกล้จุดที่ใช้</td><td>ใช่ ถ้าบอกโครงไว้ชัด</td><td>ยกไปไว้ชั้นบนสุดแล้วส่งผ่านหลายชั้น</td></tr>
+      <tr><td>แยก server state กับ UI state</td><td>ทำได้เมื่อมีตัวอย่างในโปรเจกต์</td><td>ยัดทุกอย่างลง state ก้อนเดียว</td></tr>
+      <tr><td>จัดการสถานะกำลังโหลดและผิดพลาด</td><td>เขียนได้ครบถ้าอยู่ใน spec</td><td>ทำแต่ทางที่สำเร็จถ้าไม่ได้สั่ง</td></tr>
+      <tr><td>ทำให้ข้อมูลสดหลังแก้ไข</td><td>ทำได้</td><td>รีเฟรชทั้งหน้าแทนที่จะอัปเดตเฉพาะจุด</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box trap">
+    <span class="k">อาการที่ไม่มี error แต่ช้าลงเรื่อย ๆ</span>
+    <p>เมื่อ agent วางการดึงข้อมูลเป็นลำดับที่ต้องรอกันไปเรื่อย ๆ หน้าจะทำงานถูกทุกอย่างแต่ช้าขึ้นทุกครั้งที่เพิ่มของ ไม่มีอะไรแดง ไม่มีเทสต์แตก และไม่มีใครสังเกตจนกว่าจะมีคนบ่น ให้ใส่เพดานเวลาโหลดเป็นเกณฑ์ในเทสต์ ตามหลักเดียวกับ budget ใน <a href="m03.html">M03</a></p>
+  </div>
+  <div class="box good">
+    <span class="k">สิ่งที่ควรใส่ใน project memory</span>
+    <p>ระบุให้ชัดว่าโปรเจกต์นี้ใช้อะไรจัดการ server state และห้ามเพิ่มตัวใหม่โดยไม่ถาม — ไม่งั้น agent จะเลือกวิธีที่มันคุ้นเคยที่สุด ซึ่งอาจเป็นคนละตัวกับที่ทีมใช้อยู่ แล้วคุณจะได้สองระบบในโปรเจกต์เดียว</p>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">06.05</span><h2>Visual verification loop</h2><label class="done"><input type="checkbox" data-lesson="06.05"><span>เรียนจบ</span></label></div>
   <p>นี่คือสิ่งที่ทำให้งาน FE กับ agent เปลี่ยนจาก “ส่งไปแล้วลุ้น” เป็นลูปปิดที่มันตรวจงานตัวเองได้ก่อนถึงมือคุณ</p>
   <ol>
     <li>agent เขียนโค้ด</li>
@@ -100,7 +121,7 @@ screenshot.png       <span class="c">// ใช้เทียบผลได้ 
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">06.05</span><h2>Accessibility เป็นเกณฑ์ที่ตรวจอัตโนมัติได้</h2></div>
+  <div class="lhead"><span class="lnum">06.06</span><h2>Accessibility เป็นเกณฑ์ที่ตรวจอัตโนมัติได้</h2><label class="done"><input type="checkbox" data-lesson="06.06"><span>เรียนจบ</span></label></div>
   <p>ข้อดีของการวางเรื่องนี้เป็น acceptance criteria คือมันเป็นหนึ่งในไม่กี่เรื่องคุณภาพ UI ที่<strong>เครื่องตัดสินได้จริง</strong> จึงเอาไปเป็นเกณฑ์ในชุดวัดได้ตรง ๆ</p>
   <ul>
     <li>ทุก control ที่กดได้ต้องเข้าถึงด้วยคีย์บอร์ดและมี focus ที่มองเห็น</li>
@@ -112,7 +133,7 @@ screenshot.png       <span class="c">// ใช้เทียบผลได้ 
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">06.06</span><h2>UI ที่ผ่านสายตาแต่พังจริง</h2></div>
+  <div class="lhead"><span class="lnum">06.07</span><h2>UI ที่ผ่านสายตาแต่พังจริง</h2><label class="done"><input type="checkbox" data-lesson="06.07"><span>เรียนจบ</span></label></div>
   <div class="tw"><table>
     <thead><tr><th>อาการ</th><th>ทำไมสกรีนช็อตจับไม่ได้</th><th>วิธีจับ</th></tr></thead>
     <tbody>
@@ -130,7 +151,7 @@ screenshot.png       <span class="c">// ใช้เทียบผลได้ 
 </section>
 
 <div class="lab">
-  <div class="lab-head">06.07 · แล็บ A</div>
+  <div class="lab-head">06.08 · แล็บ A<label class="done"><input type="checkbox" data-lesson="06.08"><span>ทำแล็บแล้ว</span></label></div>
   <div class="lab-body">
     <h2>สร้าง component library จาก design token</h2>
     <ol>
@@ -147,7 +168,7 @@ screenshot.png       <span class="c">// ใช้เทียบผลได้ 
 </div>
 
 <div class="lab">
-  <div class="lab-head">06.08 · แล็บ B</div>
+  <div class="lab-head">06.09 · แล็บ B<label class="done"><input type="checkbox" data-lesson="06.09"><span>ทำแล็บแล้ว</span></label></div>
   <div class="lab-body">
     <h2>สร้าง flow สามหน้าพร้อมรอบ visual verification</h2>
     <ol>
@@ -164,8 +185,49 @@ screenshot.png       <span class="c">// ใช้เทียบผลได้ 
 </div>
 
 <p class="note"><b>เชื่อมกับโมดูลอื่น</b> — <a href="m05.html">M05</a> design token คือรูปแบบหนึ่งของ docs-as-context · <a href="m11.html">M11</a> ขยาย visual verification เป็น E2E ที่ไม่ flaky · <a href="m12-evals.html">M12.03</a> เกณฑ์ grep และ a11y คือตัวอย่างที่ดีของเกณฑ์เชิงกล</p>
-
+<section class="lesson"><div class="lhead"><span class="lnum">วิดีโอ</span><h2>วิดีโอประกอบโมดูลนี้</h2></div><div class="m-vids"><b>วิดีโอประกอบ · 4 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="pa73gNh0woM" data-title="Openclaw และ การทำงานร่วมกับ Browser" aria-label="เล่นวิดีโอ Openclaw และ การทำงานร่วมกับ Browser">
+           <img src="https://i.ytimg.com/vi/pa73gNh0woM/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=pa73gNh0woM" target="_blank" rel="noopener noreferrer">Openclaw และ การทำงานร่วมกับ Browser</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">เห็นกลไก browser automation ก่อนทำ visual verification loop ในบทที่ 5</span><label class="vid-done"><input type="checkbox" data-video="pa73gNh0woM"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="NYfzprHoAUY" data-title="ลองเล่น Open Design กัน" aria-label="เล่นวิดีโอ ลองเล่น Open Design กัน">
+           <img src="https://i.ytimg.com/vi/NYfzprHoAUY/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=NYfzprHoAUY" target="_blank" rel="noopener noreferrer">ลองเล่น Open Design กัน</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">มุมการส่ง design เข้าไปเป็นบริบท เทียบกับบทที่ 2 ของโมดูลนี้</span><label class="vid-done"><input type="checkbox" data-video="NYfzprHoAUY"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="tLGywAHqLzs" data-title="ออกแบบเว็บอย่างเทพด้วย /design ฟีเจอร์ใหม่จาก Claude Code ครบจบที่เดียว!" aria-label="เล่นวิดีโอ ออกแบบเว็บอย่างเทพด้วย /design ฟีเจอร์ใหม่จาก Claude Code ครบจบที่เดียว!">
+           <img src="https://i.ytimg.com/vi/tLGywAHqLzs/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=tLGywAHqLzs" target="_blank" rel="noopener noreferrer">ออกแบบเว็บอย่างเทพด้วย /design ฟีเจอร์ใหม่จาก Claude Code ครบจบที่เดียว!</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">ท่าส่ง design เข้าเป็นบริบท ต่อกับบทที่ 2 เรื่อง design system เป็น input</span><label class="vid-done"><input type="checkbox" data-video="tLGywAHqLzs"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="Xl8UeIZRj_c" data-title="ประสิทธิภาพดีขึ้น 10 เท่า! Agent Skills ที่ช่วยปรับโค้ด ReactJS &amp; NextJS ให้เร็วขึ้นมากๆ" aria-label="เล่นวิดีโอ ประสิทธิภาพดีขึ้น 10 เท่า! Agent Skills ที่ช่วยปรับโค้ด ReactJS &amp; NextJS ให้เร็วขึ้นมากๆ">
+           <img src="https://i.ytimg.com/vi/Xl8UeIZRj_c/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=Xl8UeIZRj_c" target="_blank" rel="noopener noreferrer">ประสิทธิภาพดีขึ้น 10 เท่า! Agent Skills ที่ช่วยปรับโค้ด ReactJS &amp; NextJS ให้เร็วขึ้นมากๆ</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">ตัวอย่าง skill เฉพาะทางฝั่ง FE ต่อกับ M09 เรื่องแพ็กเกจเวิร์กโฟลว์ให้ทีม</span><label class="vid-done"><input type="checkbox" data-video="Xl8UeIZRj_c"> ดูแล้ว</label>
+  </div>
+</li></ul></div></section>
 </div>
+<script src="assets/course-data.js" defer></script>
+<script src="assets/progress.js" defer></script>
 <script>
 document.getElementById("theme").addEventListener("click",function(){
   var d=document.documentElement;

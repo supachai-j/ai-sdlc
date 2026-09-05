@@ -9,7 +9,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap">
 <link rel="stylesheet" href="assets/style.css">
-
 </head>
 <body>
 <div class="wrap">
@@ -18,7 +17,7 @@
   <nav>
     <a href="index.html">ภาพรวม</a>
     <a href="course-th.html">หลักสูตร</a>
-    <a href="m12-evals.html">M12 Evals</a>
+    <span id="nav-progress" class="nav-progress" hidden></span>
     <button id="theme" type="button" aria-label="สลับธีมสว่าง/มืด">THEME</button>
   </nav>
 </header>
@@ -26,7 +25,7 @@
   <span class="crumb">AI Coding Agent SDLC · Phase 00 · Module 02</span>
   <h1>Context Engineering</h1>
   <p class="deck">ทักษะที่แยกคนใช้ agent เป็นกับไม่เป็นได้ชัดที่สุด และเป็นทักษะเดียวที่<strong>ให้ผลตอบแทนสูงกว่าการเปลี่ยนโมเดล</strong> การมี context window ใหญ่ไม่ได้ยกเลิกวินัยข้อนี้ มันแค่ทำให้ค่าเสียหายมาช้าลง</p>
-  <div class="meta"><span><b>9</b> บทเรียน</span><span><b>3</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ต้องผ่าน <b>M01</b> ก่อน</span></div>
+  <div class="meta"><span><b>9</b> บทเรียน</span><span><b>3</b> ชั่วโมง</span><span><b>1</b> แล็บ</span><span>ต้องผ่าน <b>M01</b> ก่อน</span></div><div class="m-progress"><div class="bar" data-bar="m02"><span></span></div><span class="bar-label" data-label="m02"></span></div>
 </header>
 
 <div class="thesis">
@@ -35,7 +34,7 @@
 </div>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">02.01</span><h2>Context window คืองบ ไม่ใช่พื้นที่เก็บของ</h2></div>
+  <div class="lhead"><span class="lnum">02.01</span><h2>Context window คืองบ ไม่ใช่พื้นที่เก็บของ</h2><label class="done"><input type="checkbox" data-lesson="02.01"><span>เรียนจบ</span></label></div>
   <p>เมื่อ window ขยายจากหลักแสนเป็นหลักล้าน คนจำนวนมากสรุปว่าปัญหาบริบทจบแล้ว ยัดทุกอย่างเข้าไปได้เลย ข้อสรุปนี้ผิดด้วยเหตุผลสามข้อที่ไม่เกี่ยวกับขนาด window</p>
   <ol>
     <li><strong>คุณจ่ายทุกรอบ</strong> — บริบทถูกส่งซ้ำทุกครั้งที่วนลูป งานที่วน 30 รอบกับบริบท 200K คือการส่ง 6 ล้าน token</li>
@@ -49,7 +48,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">02.02</span><h2>กฎสี่ข้อของสิ่งที่ควรอยู่ในบริบท</h2></div>
+  <div class="lhead"><span class="lnum">02.02</span><h2>กฎสี่ข้อของสิ่งที่ควรอยู่ในบริบท</h2><label class="done"><input type="checkbox" data-lesson="02.02"><span>เรียนจบ</span></label></div>
   <div class="tw"><table>
     <thead><tr><th>กฎ</th><th>หมายความว่า</th><th>ตัวอย่างที่ละเมิด</th></tr></thead>
     <tbody>
@@ -63,7 +62,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">02.03</span><h2>Attention dilution</h2></div>
+  <div class="lhead"><span class="lnum">02.03</span><h2>Attention dilution</h2><label class="done"><input type="checkbox" data-lesson="02.03"><span>เรียนจบ</span></label></div>
   <p>ปรากฏการณ์ที่คุณภาพตกลงเมื่อบริบทยาวขึ้น ทั้งที่ยังไม่เต็ม window เกิดเพราะคำสั่งสำคัญของคุณต้องแข่งความสนใจกับข้อมูลรอบข้างที่ไม่เกี่ยว</p>
   <div class="box trap">
     <span class="k">อาการที่คนตีความผิด</span>
@@ -76,7 +75,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">02.04</span><h2>ลำดับชั้นหน่วยความจำ</h2></div>
+  <div class="lhead"><span class="lnum">02.04</span><h2>ลำดับชั้นหน่วยความจำ</h2><label class="done"><input type="checkbox" data-lesson="02.04"><span>เรียนจบ</span></label></div>
   <p>ข้อมูลแต่ละประเภทควรอยู่คนละชั้น การวางผิดชั้นคือสาเหตุของทั้งความสิ้นเปลืองและการลืม</p>
   <div class="tw"><table>
     <thead><tr><th>ชั้น</th><th>อายุ</th><th>ควรใส่อะไร</th><th>ต้นทุน</th></tr></thead>
@@ -95,7 +94,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">02.05</span><h2>เขียน CLAUDE.md ให้ทำงานจริง</h2></div>
+  <div class="lhead"><span class="lnum">02.05</span><h2>เขียน CLAUDE.md ให้ทำงานจริง</h2><label class="done"><input type="checkbox" data-lesson="02.05"><span>เรียนจบ</span></label></div>
   <p>ไฟล์บริบทประจำโปรเจกต์ถูกส่งเข้าโมเดลทุกรอบ มันจึงเป็นของที่แพงที่สุดต่อบรรทัดในระบบ และควรถูกปฏิบัติแบบนั้น</p>
   <div class="tw"><table>
     <thead><tr><th>ควรมี</th><th>ไม่ควรมี</th></tr></thead>
@@ -113,7 +112,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">02.06</span><h2>สามกลไกที่คนสับสน</h2></div>
+  <div class="lhead"><span class="lnum">02.06</span><h2>สามกลไกที่คนสับสน</h2><label class="done"><input type="checkbox" data-lesson="02.06"><span>เรียนจบ</span></label></div>
   <p>เมื่อบริบทเริ่มยาว มีสามทางเลือกที่ทำงานคนละแบบ และคนมักใช้ผิดตัว</p>
   <div class="tw"><table>
     <thead><tr><th>กลไก</th><th>ทำอะไร</th><th>เหมาะเมื่อ</th><th>เสียอะไร</th></tr></thead>
@@ -130,7 +129,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">02.07</span><h2>Sub-agent ในฐานะเครื่องมือกันบริบท</h2></div>
+  <div class="lhead"><span class="lnum">02.07</span><h2>Sub-agent ในฐานะเครื่องมือกันบริบท</h2><label class="done"><input type="checkbox" data-lesson="02.07"><span>เรียนจบ</span></label></div>
   <p>คนส่วนใหญ่มอง sub-agent เป็นเรื่องความเร็ว แต่ประโยชน์ที่แน่นอนกว่าคือมันมีบริบทของตัวเอง งานที่ต้องอ่านเยอะแต่สรุปสั้น เหมาะกับ sub-agent มากที่สุด เพราะบริบทหลักได้รับแค่ข้อสรุป ไม่ใช่กองข้อมูลดิบ</p>
   <div class="box rule">
     <span class="k">เกณฑ์ตัดสิน</span>
@@ -139,7 +138,7 @@
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">02.08</span><h2>Retrieval หรือ stuffing</h2></div>
+  <div class="lhead"><span class="lnum">02.08</span><h2>Retrieval หรือ stuffing</h2><label class="done"><input type="checkbox" data-lesson="02.08"><span>เรียนจบ</span></label></div>
   <p>ทางเลือกระหว่าง “แนบไปเลย” กับ “ให้มันหาเอง” ตัดสินด้วยสามตัวแปร ไม่ใช่ความรู้สึก</p>
   <div class="tw"><table>
     <thead><tr><th>ตัวแปร</th><th>เอียงไปทาง stuffing</th><th>เอียงไปทาง retrieval</th></tr></thead>
@@ -153,7 +152,7 @@
 </section>
 
 <div class="lab">
-  <div class="lab-head">02.09 · แล็บประจำโมดูล</div>
+  <div class="lab-head">02.09 · แล็บประจำโมดูล<label class="done"><input type="checkbox" data-lesson="02.09"><span>ทำแล็บแล้ว</span></label></div>
   <div class="lab-body">
     <h2>ตัดบริบท 40% แล้ววัดว่าคุณภาพเปลี่ยนไหม</h2>
     <p>แล็บนี้ออกแบบมาให้<strong>ผลลัพธ์ขัดกับสัญชาตญาณ</strong> คนส่วนใหญ่คาดว่าตัดแล้วแย่ลง แต่บ่อยครั้งผลออกมาเท่าเดิมหรือดีขึ้น พร้อมกับต้นทุนที่ลดลงชัดเจน</p>
@@ -181,8 +180,79 @@
 </div>
 
 <p class="note"><b>เชื่อมกับโมดูลอื่น</b> — <a href="m03.html">M03</a> เปลี่ยนการตัดบริบทเป็นตัวเลขเงิน · <a href="m05.html">M05</a> ทำให้ retrieval ถูกลงอย่างถาวร · <a href="m10.html">M10</a> ใช้ sub-agent เป็นกำแพงกันบริบทเต็มรูปแบบ · <a href="m12-evals.html">M12</a> คือเครื่องมือที่ทำให้แล็บนี้เชื่อถือได้</p>
-
+<section class="lesson"><div class="lhead"><span class="lnum">วิดีโอ</span><h2>วิดีโอประกอบโมดูลนี้</h2></div><div class="m-vids"><b>วิดีโอประกอบ · 7 คลิป</b><ul class="vid-list"><li class="vid">
+  <button class="vid-play" type="button" data-yt="4h9mGGmCqlM" data-title="มารู้จักกับ RAG" aria-label="เล่นวิดีโอ มารู้จักกับ RAG">
+           <img src="https://i.ytimg.com/vi/4h9mGGmCqlM/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=4h9mGGmCqlM" target="_blank" rel="noopener noreferrer">มารู้จักกับ RAG</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">พื้นฐาน retrieval ก่อนบทที่ 8 ที่ชั่งว่าเมื่อไหร่ควร retrieve เมื่อไหร่ควรแนบตรง ๆ</span><label class="vid-done"><input type="checkbox" data-video="4h9mGGmCqlM"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="h-9Zh4rcs7Q" data-title="มาลอง OpenClaw กับการสร้าง Memory ให้ AI ของเรากัน" aria-label="เล่นวิดีโอ มาลอง OpenClaw กับการสร้าง Memory ให้ AI ของเรากัน">
+           <img src="https://i.ytimg.com/vi/h-9Zh4rcs7Q/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=h-9Zh4rcs7Q" target="_blank" rel="noopener noreferrer">มาลอง OpenClaw กับการสร้าง Memory ให้ AI ของเรากัน</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">ตัวอย่างการทำ memory ชั้นนอก เทียบกับลำดับชั้นหน่วยความจำในบทที่ 4</span><label class="vid-done"><input type="checkbox" data-video="h-9Zh4rcs7Q"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="rGE9sEEVzrQ" data-title="ว่าด้วย AI Agent กับการจัดการ Markdown" aria-label="เล่นวิดีโอ ว่าด้วย AI Agent กับการจัดการ Markdown">
+           <img src="https://i.ytimg.com/vi/rGE9sEEVzrQ/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=rGE9sEEVzrQ" target="_blank" rel="noopener noreferrer">ว่าด้วย AI Agent กับการจัดการ Markdown</a></p>
+    <span class="vid-ch">mikelopster</span><span class="note">เกี่ยวกับการเรนเดอร์บริบทให้เล็ก ซึ่งเป็นกฎข้อสามในบทที่ 2</span><label class="vid-done"><input type="checkbox" data-video="rGE9sEEVzrQ"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="OdsLWc5uDJA" data-title="/wayfinder มันดีจัง! Skill นี้ช่วยให้ AI ไม่หลงทางในโปรเจกต์ใหญ่ ไปใช้เดี๋ยวนี้!" aria-label="เล่นวิดีโอ /wayfinder มันดีจัง! Skill นี้ช่วยให้ AI ไม่หลงทางในโปรเจกต์ใหญ่ ไปใช้เดี๋ยวนี้!">
+           <img src="https://i.ytimg.com/vi/OdsLWc5uDJA/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when after">after</span><a href="https://www.youtube.com/watch?v=OdsLWc5uDJA" target="_blank" rel="noopener noreferrer">/wayfinder มันดีจัง! Skill นี้ช่วยให้ AI ไม่หลงทางในโปรเจกต์ใหญ่ ไปใช้เดี๋ยวนี้!</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">ท่าแก้ปัญหา agent หลงทางในโปรเจกต์ใหญ่ ดูหลังเข้าใจว่าทำไมบริบทถึงเจือจาง</span><label class="vid-done"><input type="checkbox" data-video="OdsLWc5uDJA"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="NRWJhNgSCU4" data-title="โคตรอลังการ! Claude Opus 4.6 กับ Context 1 ล้าน Token มีอะไรใหม่" aria-label="เล่นวิดีโอ โคตรอลังการ! Claude Opus 4.6 กับ Context 1 ล้าน Token มีอะไรใหม่">
+           <img src="https://i.ytimg.com/vi/NRWJhNgSCU4/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=NRWJhNgSCU4" target="_blank" rel="noopener noreferrer">โคตรอลังการ! Claude Opus 4.6 กับ Context 1 ล้าน Token มีอะไรใหม่</a></p>
+    <span class="vid-ch">MilerDev</span><span class="note">ดูคู่กับบทที่ 1 ที่เถียงว่ามี 1M token แล้วก็ยังต้องบริหารงบบริบทอยู่ดี</span><label class="vid-done"><input type="checkbox" data-video="NRWJhNgSCU4"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="Qx0fCqpkBus" data-title="What Is Context Engineering? Why It Matters for AI Agents" aria-label="เล่นวิดีโอ What Is Context Engineering? Why It Matters for AI Agents">
+           <img src="https://i.ytimg.com/vi/Qx0fCqpkBus/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when before">before</span><a href="https://www.youtube.com/watch?v=Qx0fCqpkBus" target="_blank" rel="noopener noreferrer">What Is Context Engineering? Why It Matters for AI Agents</a></p>
+    <span class="vid-ch">IBM Technology · EN</span><span class="note">ปูคำว่า context engineering แบบสั้น 10 นาที ก่อนลงกฎสี่ข้อในบทที่ 2</span><label class="vid-done"><input type="checkbox" data-video="Qx0fCqpkBus"> ดูแล้ว</label>
+  </div>
+</li>
+<li class="vid">
+  <button class="vid-play" type="button" data-yt="vD0E3EUb8-8" data-title="Context Engineering vs. Prompt Engineering: Smarter AI with RAG &amp; Agents" aria-label="เล่นวิดีโอ Context Engineering vs. Prompt Engineering: Smarter AI with RAG &amp; Agents">
+           <img src="https://i.ytimg.com/vi/vD0E3EUb8-8/hqdefault.jpg" alt="" loading="lazy" decoding="async">
+           <span class="vid-icon" aria-hidden="true"></span>
+         </button>
+  <div class="vid-meta">
+    <p class="vid-title"><span class="when optional">optional</span><a href="https://www.youtube.com/watch?v=vD0E3EUb8-8" target="_blank" rel="noopener noreferrer">Context Engineering vs. Prompt Engineering: Smarter AI with RAG &amp; Agents</a></p>
+    <span class="vid-ch">IBM Technology · EN</span><span class="note">แยกสองคำที่คนใช้ปนกัน ต่อกับบทที่ 8 retrieval vs stuffing</span><label class="vid-done"><input type="checkbox" data-video="vD0E3EUb8-8"> ดูแล้ว</label>
+  </div>
+</li></ul></div></section>
 </div>
+<script src="assets/course-data.js" defer></script>
+<script src="assets/progress.js" defer></script>
 <script>
 document.getElementById("theme").addEventListener("click",function(){
   var d=document.documentElement;
