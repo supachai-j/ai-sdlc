@@ -91,6 +91,42 @@
     ถ้ากองนี้ว่างเปล่าทุกครั้งที่คุณย่อยงาน แสดงว่าคุณไม่ได้กำลังพบความกำกวม
     คุณกำลังกลบมันไว้
   </p>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 238" role="img" aria-label="An instruction says what to do; a spec says what must be true when it is done">
+      <text class="d-label-mono" x="8" y="16">คำสั่ง — บอกว่าให้ทำอะไร</text>
+      <rect class="d-box" x="8" y="26" width="624" height="40" stroke-dasharray="3 3"/>
+      <text class="d-label-sm" x="22" y="50">"เพิ่มระบบ login"</text>
+      <text class="d-label-sm" x="240" y="50" opacity=".7">→ agent เดาส่วนที่เหลือทั้งหมด แล้วคุณเพิ่งรู้ตอนอ่าน diff</text>
+
+      <text class="d-label-mono" x="8" y="92">ข้อกำหนด — บอกว่าเสร็จแล้วอะไรต้องจริง</text>
+      <rect class="d-box-accent" x="8" y="102" width="624" height="96"/>
+      <text class="d-label-sm" x="22" y="124">รหัสผิด 5 ครั้งใน 15 นาที → ล็อก 30 นาที</text>
+      <text class="d-label-sm" x="22" y="146">session อายุ 24 ชม. · refresh token 30 วัน</text>
+      <text class="d-label-sm" x="22" y="168">อีเมลซ้ำ → 409 ไม่ใช่ 500</text>
+      <text class="d-label-sm" x="22" y="190" opacity=".7">ทุกบรรทัดเขียนเป็นเทสต์ได้ตรง ๆ</text>
+
+      <rect class="d-box-ink" x="8" y="208" width="624" height="26"/>
+      <text class="d-label-inv" x="22" y="226">เส้นแบ่ง — ถ้าเขียนเป็นเทสต์ไม่ได้ มันยังเป็นความหวัง ไม่ใช่ข้อกำหนด</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 1</b> · เวลาที่ใช้เขียนสามบรรทัดนั้น ถูกกว่าการอ่าน diff แล้วพบว่ามันเดาผิด</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://www.anthropic.com/engineering/claude-code-best-practices" target="_blank" rel="noopener noreferrer">Claude Code best practices</a>
+        — การให้บริบทและเกณฑ์ก่อนสั่งงาน
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/common-workflows" target="_blank" rel="noopener noreferrer">Claude Code — Common workflows</a>
+        — รูปแบบการสั่งงานที่ให้ผลต่างกันในงานจริง
+        <span class="src">docs.claude.com</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <section class="lesson">
@@ -104,6 +140,58 @@
   <div class="box trap">
     <span class="k">อาการของงานที่ใหญ่เกิน</span>
     <p>agent เริ่มถูกทาง ทำได้ดีสามสี่ขั้น แล้วค่อย ๆ เบี่ยงไปทำอย่างอื่นที่ดูเกี่ยวข้อง สุดท้ายได้ diff ใหญ่ที่ทำหลายอย่างพร้อมกันและรีวิวไม่ได้ นี่ไม่ใช่ความผิดของโมเดล แต่คือสัญญาณว่างานไม่ได้ถูกย่อย</p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 236" role="img" aria-label="Task size versus the chance of a clean result, with the failure mode at each end">
+      <text class="d-label-mono" x="8" y="16">ขนาดงาน</text>
+      <text class="d-label-mono" x="230" y="16">โอกาสได้ผลที่ใช้ได้เลย</text>
+      <text class="d-label-mono" x="452" y="16">พังแบบไหน</text>
+
+      <rect class="d-box" x="8" y="26" width="210" height="36"/>
+      <text class="d-label-sm" x="20" y="49">เล็กมาก · เปลี่ยนชื่อตัวแปร</text>
+      <rect class="d-bar" x="230" y="26" width="146" height="36"/>
+      <rect class="d-box" x="452" y="26" width="180" height="36"/>
+      <text class="d-label-sm" x="464" y="49">คุมเองเร็วกว่า</text>
+
+      <rect class="d-box-accent" x="8" y="66" width="210" height="36"/>
+      <text class="d-label-sm" x="20" y="89">พอดี · 1 ฟีเจอร์ 1 ชั้น</text>
+      <rect class="d-bar" x="230" y="66" width="204" height="36"/>
+      <rect class="d-box-accent" x="452" y="66" width="180" height="36"/>
+      <text class="d-label-sm" x="464" y="89">รีวิวไหวใน 15 นาที</text>
+
+      <rect class="d-box" x="8" y="106" width="210" height="36"/>
+      <text class="d-label-sm" x="20" y="129">ใหญ่ · ข้าม 3 ชั้น</text>
+      <rect class="d-bar-new" x="230" y="106" width="96" height="36"/>
+      <rect class="d-box" x="452" y="106" width="180" height="36"/>
+      <text class="d-label-sm" x="464" y="129">ถูก 80% ที่ต้องรื้อ</text>
+
+      <rect class="d-box" x="8" y="146" width="210" height="36"/>
+      <text class="d-label-sm" x="20" y="169">ใหญ่มาก · "ทำทั้งระบบ"</text>
+      <rect class="d-bar-new" x="230" y="146" width="40" height="36"/>
+      <rect class="d-box" x="452" y="146" width="180" height="36"/>
+      <text class="d-label-sm" x="464" y="169">ดูดีจนอ่านละเอียด</text>
+
+      <rect class="d-box-ink" x="8" y="192" width="624" height="38"/>
+      <text class="d-label-inv" x="22" y="215">ตัววัดที่ใช้ได้จริง — "ผมรีวิวงานชิ้นนี้จบใน 15 นาทีไหม" ถ้าไม่ ให้ซอยก่อน</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 2</b> · งานใหญ่ไม่ได้ล้มเหลวชัด ๆ — มันคืนของที่ถูก 80% ซึ่งแพงกว่าของที่ผิดทั้งหมด</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://www.anthropic.com/engineering/claude-code-best-practices" target="_blank" rel="noopener noreferrer">Claude Code best practices</a>
+        — การซอยงานให้ตรวจสอบได้ก่อนมอบให้ agent
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+      <li>
+        <a href="https://martinfowler.com/articles/exploring-gen-ai.html" target="_blank" rel="noopener noreferrer">Exploring Generative AI</a>
+        — ขนาดงานกับคุณภาพผลลัพธ์จากการใช้จริงในทีม
+        <span class="src">martinfowler.com</span>
+      </li>
+    </ol>
   </div>
 </section>
 
@@ -120,6 +208,51 @@
     </tbody>
   </table></div>
   <p>เกณฑ์ที่สี่คือเกณฑ์ที่คนมองข้ามบ่อยที่สุด งาน migration ฐานข้อมูลตกเกณฑ์นี้เกือบทุกครั้ง ซึ่งเป็นเหตุผลว่าทำไม <a href="m07.html">M07</a> ถึงมีบทเฉพาะเรื่องนี้</p>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 244" role="img" aria-label="Four questions that decide whether to delegate a task to an agent">
+      <text class="d-label-mono" x="8" y="16">ตอบก่อนสั่ง — ถ้าตอบไม่ได้ อย่าเพิ่งสั่ง</text>
+
+      <rect class="d-box-accent" x="8" y="28" width="306" height="52"/>
+      <text class="d-label-sm" x="20" y="50">1 · รู้ไหมว่า "เสร็จ" หน้าตายังไง</text>
+      <text class="d-label-sm" x="20" y="70" opacity=".7">ตอบไม่ได้ = ต้องไปทำ 04.01 ก่อน</text>
+
+      <rect class="d-box-accent" x="326" y="28" width="306" height="52"/>
+      <text class="d-label-sm" x="338" y="50">2 · ตรวจผลได้ด้วยอะไร</text>
+      <text class="d-label-sm" x="338" y="70" opacity=".7">เทสต์ · การรันจริง · ไม่ใช่ "อ่านแล้วดูดี"</text>
+
+      <rect class="d-box-accent" x="8" y="88" width="306" height="52"/>
+      <text class="d-label-sm" x="20" y="110">3 · ผิดแล้วเสียหายแค่ไหน</text>
+      <text class="d-label-sm" x="20" y="130" opacity=".7">ตัดสิน autonomy ที่ให้ได้ ตาม M13.08</text>
+
+      <rect class="d-box-accent" x="326" y="88" width="306" height="52"/>
+      <text class="d-label-sm" x="338" y="110">4 · เราต้องเข้าใจโค้ดนี้เองไหม</text>
+      <text class="d-label-sm" x="338" y="130" opacity=".7">ถ้าใช่ การมอบให้ทำอาจแพงกว่าในระยะยาว</text>
+
+      <rect class="d-box-ink" x="8" y="156" width="624" height="80"/>
+      <text class="d-label-inv" x="22" y="178">คำถามที่ 4 คือข้อที่คนข้ามบ่อยที่สุด</text>
+      <text class="d-label-inv" x="22" y="198" opacity=".85">โค้ดที่คุณจะต้องดูแลไปอีกสองปี ต่างจากสคริปต์ที่ใช้ครั้งเดียวแล้วทิ้ง</text>
+      <text class="d-label-inv" x="22" y="216" opacity=".85">อย่างแรกคุ้มที่จะเขียนเองหรืออ่านให้เข้าใจทุกบรรทัด อย่างหลังไม่ต้อง</text>
+      <text class="d-label-inv" x="22" y="232" opacity=".6">ต่อกับ M15.07 เรื่องทักษะที่ต้องรักษาไว้</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 3</b> · สามข้อแรกเป็นเรื่องเทคนิค ข้อสี่เป็นเรื่องกลยุทธ์ และมักสำคัญกว่า</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener noreferrer">Building effective agents</a>
+        — เกณฑ์ตัดสินว่างานแบบไหนควรใช้ agent
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+      <li>
+        <a href="https://martinfowler.com/bliki/Yagni.html" target="_blank" rel="noopener noreferrer">Yagni</a>
+        — การไม่สร้างสิ่งที่ยังไม่จำเป็น — ใช้กับการตัดสินใจมอบงานได้เช่นกัน
+        <span class="src">martinfowler.com</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <section class="lesson">
@@ -136,6 +269,53 @@
   <div class="box good">
     <span class="k">ทำไมการแยกถึงคุ้ม</span>
     <p>เมื่อผลของขั้นสองมีที่มาต่อข้อ คุณตรวจได้ว่าข้อไหนมีหลักฐานจริง ข้อไหนเป็นการเติมเต็มของโมเดล การรวบสามขั้นทำให้สองอย่างนี้ปนกันจนแยกไม่ออก และคุณจะเชื่อทั้งก้อนหรือทิ้งทั้งก้อน</p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 232" role="img" aria-label="Research, decide, and implement collapsed into one step versus kept as three with a checkpoint">
+      <text class="d-label-mono" x="8" y="16">รวมสามขั้นเป็นก้อนเดียว</text>
+      <rect class="d-bar-new" x="8" y="26" width="500" height="40"/>
+      <text class="d-label-sm" x="20" y="51">หาข้อมูล → ตัดสินใจ → เขียนโค้ด · ทั้งหมดในคำสั่งเดียว</text>
+      <line class="d-line d-arrow" x1="512" y1="46" x2="544" y2="46"/>
+      <rect class="d-box" x="548" y="26" width="84" height="40"/>
+      <text class="d-label-sm" x="560" y="51">diff 600 บรรทัด</text>
+      <text class="d-label-sm" x="20" y="86" opacity=".7">คุณเห็นแค่ผลลัพธ์ ไม่เห็นว่ามันเลือกทางนี้เพราะอะไร</text>
+
+      <line class="d-line" x1="8" y1="100" x2="632" y2="100" stroke-dasharray="3 3"/>
+
+      <text class="d-label-mono" x="8" y="122">แยกสามขั้น มีจุดหยุดระหว่างกลาง</text>
+      <rect class="d-box-accent" x="8" y="132" width="180" height="44"/>
+      <text class="d-label-sm" x="20" y="152">1 · RESEARCH</text>
+      <text class="d-label-sm" x="20" y="169" opacity=".7">คืนตัวเลือก + หลักฐาน</text>
+      <line class="d-line d-arrow d-line-accent" x1="192" y1="154" x2="224" y2="154"/>
+      <rect class="d-box-accent" x="228" y="132" width="180" height="44"/>
+      <text class="d-label-sm" x="240" y="152">2 · DECIDE</text>
+      <text class="d-label-sm" x="240" y="169" opacity=".7">คนเลือก · บันทึกเป็น ADR</text>
+      <line class="d-line d-arrow d-line-accent" x1="412" y1="154" x2="444" y2="154"/>
+      <rect class="d-box-accent" x="448" y="132" width="184" height="44"/>
+      <text class="d-label-sm" x="460" y="152">3 · IMPLEMENT</text>
+      <text class="d-label-sm" x="460" y="169" opacity=".7">ทำตามที่ตัดสินไปแล้ว</text>
+
+      <rect class="d-box-ink" x="8" y="190" width="624" height="38"/>
+      <text class="d-label-inv" x="22" y="213">ขั้นที่ 2 ราคาถูกที่สุดและถูกข้ามบ่อยที่สุด — มันคือจุดเดียวที่คุณยังเปลี่ยนทิศได้ฟรี</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 4</b> · agent เก่งขั้น 1 และ 3 มาก — ขั้น 2 ยังเป็นงานของคน</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/common-workflows" target="_blank" rel="noopener noreferrer">Claude Code — Common workflows</a>
+        — การแยกขั้นสำรวจออกจากขั้นลงมือในงานจริง
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener noreferrer">Building effective agents</a>
+        — การออกแบบเวิร์กโฟลว์ที่มีจุดตรวจระหว่างขั้น
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+    </ol>
   </div>
 </section>
 
@@ -154,6 +334,53 @@
     <span class="k">กฎที่ควรใส่ใน project memory</span>
     <p>ทุกข้ออ้างเกี่ยวกับ codebase ต้องมี <code>ไฟล์:บรรทัด</code> ทุกข้ออ้างเกี่ยวกับโลกภายนอกต้องมี URL และวันที่ที่ดึงมา ข้อไหนไม่มีหลักฐาน ให้เขียนกำกับว่าเป็นการอนุมาน กฎข้อนี้เปลี่ยนคุณภาพงาน research มากกว่ากฎอื่นใด</p>
   </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 234" role="img" aria-label="Claims ranked by whether they carry checkable evidence">
+      <text class="d-label-mono" x="8" y="16">รูปแบบคำตอบ</text>
+      <text class="d-label-mono" x="392" y="16">ตรวจได้ไหม</text>
+
+      <rect class="d-bar-new" x="8" y="26" width="372" height="36"/>
+      <text class="d-label-sm" x="20" y="49">"ไลบรารีนี้รองรับอยู่แล้ว"</text>
+      <rect class="d-box" x="392" y="26" width="240" height="36"/>
+      <text class="d-label-sm" x="404" y="49">ไม่ได้ — ต้องไปหาเอง</text>
+
+      <rect class="d-bar-new" x="8" y="66" width="372" height="36"/>
+      <text class="d-label-sm" x="20" y="89">"เอกสารบอกว่ารองรับ"</text>
+      <rect class="d-box" x="392" y="66" width="240" height="36"/>
+      <text class="d-label-sm" x="404" y="89">ไม่ได้ — เอกสารไหน หน้าไหน</text>
+
+      <rect class="d-box-accent" x="8" y="106" width="372" height="36"/>
+      <text class="d-label-sm" x="20" y="129">"ตาม docs vX.Y หัวข้อ Z &lt;url&gt;"</text>
+      <rect class="d-box-accent" x="392" y="106" width="240" height="36"/>
+      <text class="d-label-sm" x="404" y="129">ได้ — เปิดดูได้ใน 10 วินาที</text>
+
+      <rect class="d-box-accent" x="8" y="146" width="372" height="36"/>
+      <text class="d-label-sm" x="20" y="169">"รันแล้วได้ผลตามนี้ &lt;output&gt;"</text>
+      <rect class="d-box-accent" x="392" y="146" width="240" height="36"/>
+      <text class="d-label-sm" x="404" y="169">ได้ — รันซ้ำเองได้</text>
+
+      <rect class="d-box-ink" x="8" y="194" width="624" height="36"/>
+      <text class="d-label-inv" x="22" y="216">ใส่ไว้ใน CLAUDE.md — "ทุกข้ออ้างต้องมีที่มาที่เปิดดูได้ ถ้าไม่มี ให้บอกว่ายังไม่รู้"</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 5</b> · สองแถวบนไม่ได้ผิดเสมอไป — ปัญหาคือคุณแยกไม่ออกว่ารอบไหนผิด</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://www.anthropic.com/engineering/claude-code-best-practices" target="_blank" rel="noopener noreferrer">Claude Code best practices</a>
+        — การตั้งกติกาในไฟล์บริบทให้ agent ทำตามทุกรอบ
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+      <li>
+        <a href="https://martinfowler.com/articles/exploring-gen-ai.html" target="_blank" rel="noopener noreferrer">Exploring Generative AI</a>
+        — การจัดการกับข้ออ้างที่ฟังดูน่าเชื่อแต่ยังไม่ได้ตรวจ
+        <span class="src">martinfowler.com</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <section class="lesson">
@@ -169,6 +396,47 @@
   <div class="box good">
     <span class="k">ส่วนที่ห้าสำคัญเพราะอะไร</span>
     <p>ถ้าไม่เขียนไว้ว่า “ถ้าจำนวนผู้ใช้เกินหนึ่งแสนให้กลับมาทบทวน” การตัดสินใจนี้จะกลายเป็นกฎถาวรที่ไม่มีใครกล้าแตะ ทั้งที่เหตุผลเดิมหมดอายุไปแล้ว</p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 240" role="img" aria-label="An ADR carries the rejected options and the trigger to revisit, which code comments cannot">
+      <text class="d-label-mono" x="8" y="16">สิ่งที่โค้ดบอกได้</text>
+      <rect class="d-box" x="8" y="26" width="302" height="52" stroke-dasharray="3 3"/>
+      <text class="d-label-sm" x="20" y="48">เราเลือกอะไร</text>
+      <text class="d-label-sm" x="20" y="68" opacity=".7">อ่าน import ก็รู้</text>
+
+      <text class="d-label-mono" x="330" y="16">สิ่งที่ต้องมี ADR ถึงจะรู้</text>
+      <rect class="d-box-accent" x="330" y="26" width="302" height="52"/>
+      <text class="d-label-sm" x="342" y="48">เราไม่เลือกอะไร และเพราะอะไร</text>
+      <text class="d-label-sm" x="342" y="68" opacity=".7">ข้อมูลที่หายไปกับคนที่ลาออก</text>
+
+      <rect class="d-box" x="8" y="94" width="624" height="86"/>
+      <text class="d-label-mono" x="22" y="114">โครงที่ agent ตัวถัดไปใช้ต่อได้</text>
+      <text class="d-label-sm" x="22" y="136">Context — ตอนนั้นข้อจำกัดคืออะไร</text>
+      <text class="d-label-sm" x="22" y="154">Options — พิจารณาอะไรบ้าง และตัดออกเพราะอะไร</text>
+      <text class="d-label-sm" x="22" y="172">Revisit when — เงื่อนไขที่ทำให้ควรกลับมาคิดใหม่</text>
+
+      <rect class="d-box-ink" x="8" y="192" width="624" height="42"/>
+      <text class="d-label-inv" x="22" y="212">บรรทัด Revisit when คือบรรทัดที่ทำให้ ADR ไม่กลายเป็นเอกสารตาย</text>
+      <text class="d-label-inv" x="22" y="230" opacity=".6">ไม่มีบรรทัดนี้ ไม่มีใครรู้ว่าเมื่อไรควรเลิกทำตามมัน</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 6</b> · agent อ่าน ADR แล้วหยุดเสนอสิ่งที่ทีมเคยตัดออกไปแล้ว — นั่นคือประโยชน์ที่วัดได้ทันที</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://cognitect.com/blog/2011/11/15/documenting-architecture-decisions" target="_blank" rel="noopener noreferrer">Documenting Architecture Decisions</a>
+        — รูปแบบ ADR ดั้งเดิมและเหตุผลที่ต้องบันทึกตัวเลือกที่ถูกตัดออก
+        <span class="src">cognitect.com · 2011</span>
+      </li>
+      <li>
+        <a href="https://adr.github.io/" target="_blank" rel="noopener noreferrer">Architecture Decision Records</a>
+        — รวมรูปแบบ ADR และเครื่องมือที่ใช้กันในปัจจุบัน
+        <span class="src">adr.github.io</span>
+      </li>
+    </ol>
   </div>
 </section>
 
@@ -237,6 +505,52 @@
       เส้นแบ่งที่ใช้ได้คือ <strong>“ถ้ามันเข้าใจผิด ผมจะรู้ตอนไหน”</strong>
       ถ้ารู้ทันทีจาก diff สั้น ๆ ก็ข้ามได้ ถ้าต้องรอเทสต์หรือรอคนอื่นบอก ให้ขอแผนก่อน
     </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 236" role="img" aria-label="Reviewing a plan costs minutes; reviewing the diff that came from a wrong plan costs hours">
+      <text class="d-label-mono" x="8" y="16">รีวิวแผนก่อน</text>
+      <rect class="d-box-accent" x="8" y="26" width="120" height="38"/>
+      <text class="d-label-sm" x="20" y="50">อ่านแผน</text>
+      <line class="d-line d-arrow d-line-accent" x1="132" y1="45" x2="164" y2="45"/>
+      <rect class="d-box-accent" x="168" y="26" width="160" height="38"/>
+      <text class="d-label-sm" x="180" y="50">แก้ทิศทาง 1 บรรทัด</text>
+      <line class="d-line d-arrow d-line-accent" x1="332" y1="45" x2="364" y2="45"/>
+      <rect class="d-box-accent" x="368" y="26" width="264" height="38"/>
+      <text class="d-label-sm" x="380" y="50">ลงมือ · ราคารวม ~5 นาที</text>
+
+      <text class="d-label-mono" x="8" y="92">ปล่อยให้ทำเลย</text>
+      <rect class="d-box" x="8" y="102" width="120" height="38"/>
+      <text class="d-label-sm" x="20" y="126">ลงมือทันที</text>
+      <line class="d-line d-arrow" x1="132" y1="121" x2="164" y2="121"/>
+      <rect class="d-bar-new" x="168" y="102" width="160" height="38"/>
+      <text class="d-label-sm" x="180" y="126">diff 400 บรรทัด</text>
+      <line class="d-line d-arrow" x1="332" y1="121" x2="364" y2="121"/>
+      <rect class="d-bar-new" x="368" y="102" width="264" height="38"/>
+      <text class="d-label-sm" x="380" y="126">อ่าน · พบว่าทิศผิด · สั่งใหม่ ~50 นาที</text>
+
+      <rect class="d-box-ink" x="8" y="160" width="624" height="70"/>
+      <text class="d-label-inv" x="22" y="182">อ่านแผนให้เป็น — สามข้อที่ต้องมองหา</text>
+      <text class="d-label-inv" x="22" y="202" opacity=".85">มันจะแตะไฟล์ไหนบ้าง · มันสมมติอะไรที่คุณยังไม่ได้ยืนยัน · มันวางแผนตรวจผลยังไง</text>
+      <text class="d-label-inv" x="22" y="222" opacity=".6">ข้อกลางคือข้อที่จับทิศผิดได้บ่อยที่สุด</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 7</b> · ส่วนต่างสิบเท่านี้เกิดทุกครั้งที่แผนผิด และแผนผิดบ่อยกว่าที่คนคาด</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/common-workflows" target="_blank" rel="noopener noreferrer">Claude Code — Common workflows</a>
+        — การใช้โหมดวางแผนก่อนลงมือแก้ไฟล์
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://www.anthropic.com/engineering/claude-code-best-practices" target="_blank" rel="noopener noreferrer">Claude Code best practices</a>
+        — จังหวะที่ควรหยุดตรวจก่อนปล่อยให้ agent เขียนโค้ด
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+    </ol>
   </div>
 </section>
 
@@ -334,7 +648,7 @@
       <text class="d-label-inv" x="22" y="260">จุดสำคัญ — ทั้งสามไฟล์อยู่ใน repo และ commit ได้</text>
       <text class="d-label-inv" x="22" y="280" opacity=".72">แปลว่ามันถูก review ได้ ถูก diff ได้ และไม่หายไปกับ session</text>
     </svg>
-    <p class="fig-cap"><b>Figure 5</b> · โครง spec ของ Kiro · สังเกตว่า tasks.md ไม่ใช่แค่ checklist แต่มี dependency graph ที่จัดเป็น wave</p>
+    <p class="fig-cap"><b>Figure 8</b> · โครง spec ของ Kiro · สังเกตว่า tasks.md ไม่ใช่แค่ checklist แต่มี dependency graph ที่จัดเป็น wave</p>
   </div>
 
   <h3><span class="k">มีสองแบบ</span>Feature spec กับ Bugfix spec</h3>

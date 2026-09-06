@@ -39,6 +39,29 @@ function checkSvg(file: string, fig: string, vbW: number, vbH: number, body: str
     if (x! < -0.5 || y! < -0.5 || x! + w! > vbW + 0.5 || y! + h! > vbH + 0.5)
       add(`rect out of viewBox: x=${x} y=${y} w=${w} h=${h} → right=${x! + w!} bottom=${y! + h!} (box ${vbW}×${vbH})`);
   }
+  // Partial overlap between two boxes is almost always a layout slip: one box grew
+  // and ate its neighbour. Full containment is deliberate (grouping frames), so only
+  // flag pairs that intersect without either containing the other. Caught m15 Figure 6.
+  {
+    type Box = { x: number; y: number; w: number; h: number };
+    const boxes: Box[] = [];
+    for (const m of body.matchAll(/<rect[^>]*?x="([\d.-]+)"[^>]*?y="([\d.-]+)"[^>]*?width="([\d.]+)"[^>]*?height="([\d.]+)"/g)) {
+      const [x, y, w, h] = m.slice(1).map(Number) as number[];
+      boxes.push({ x: x!, y: y!, w: w!, h: h! });
+    }
+    const contains = (a: Box, b: Box) =>
+      a.x <= b.x + 0.5 && a.y <= b.y + 0.5 && a.x + a.w >= b.x + b.w - 0.5 && a.y + a.h >= b.y + b.h - 0.5;
+    for (let i = 0; i < boxes.length; i++) {
+      for (let j = i + 1; j < boxes.length; j++) {
+        const a = boxes[i]!, b = boxes[j]!;
+        const ox = Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x);
+        const oy = Math.min(a.y + a.h, b.y + b.h) - Math.max(a.y, b.y);
+        if (ox > 0.5 && oy > 0.5 && !contains(a, b) && !contains(b, a))
+          add(`boxes overlap by ${ox.toFixed(0)}×${oy.toFixed(0)}px: (${a.x},${a.y} ${a.w}×${a.h}) vs (${b.x},${b.y} ${b.w}×${b.h})`);
+      }
+    }
+  }
+
   for (const m of body.matchAll(/<circle[^>]*?cx="([\d.-]+)"[^>]*?cy="([\d.-]+)"[^>]*?r="([\d.]+)"/g)) {
     const [cx, cy, r] = m.slice(1).map(Number);
     if (cx! - r! < -0.5 || cy! - r! < -0.5 || cx! + r! > vbW + 0.5 || cy! + r! > vbH + 0.5)
@@ -82,6 +105,15 @@ for (const f of readdirSync(DIR).filter((n) => n.endsWith(".html")).sort()) {
 
   const hard = [...src.matchAll(/(fill|stroke)="(#[0-9a-fA-F]{3,8})"/g)];
   for (const h of hard) errors.push({ file: f, fig: "-", msg: `hardcoded colour ${h[2]} — figures must take colour from theme tokens` });
+
+  // A stray character in the <svg …> open tag (a typo'd ")" after aria-label, say)
+  // renders fine in some browsers and silently breaks the tag in others. Nothing else
+  // here reads that tag, so check it structurally: strip every attr="value" pair and
+  // the tag name, and anything left over is malformed. Caught two of my own typos.
+  for (const t of src.matchAll(/<svg\s([^>]*)>/g)) {
+    const residue = t[1]!.replace(/[\w:-]+\s*=\s*"[^"]*"/g, "").trim();
+    if (residue) errors.push({ file: f, fig: "-", msg: `malformed <svg> tag — unexpected ${JSON.stringify(residue)} in the open tag` });
+  }
 
   const figs = [...src.matchAll(/<div class="fig">([\s\S]*?)<\/div>\s*(?=<\/section>|<section|<h3|<p |<div class="box|<div class="tw|<div class="refs)/g)];
   const caps = [...src.matchAll(/<b>Figure (\d+)<\/b>/g)].map((m) => Number(m[1]));

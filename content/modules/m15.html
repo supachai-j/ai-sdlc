@@ -26,6 +26,47 @@
     <span class="k">ผลข้างเคียงที่คุ้มค่าที่สุด</span>
     <p>Runbook ที่เขียนให้ agent อ่านได้ กลายเป็น runbook ที่<strong>dev ใหม่ใช้ได้ทันที</strong>ด้วย เพราะทั้งคู่ขาดบริบทที่คนเก่ามีเหมือนกัน หลายทีมพบว่าประโยชน์กับคนมากกว่าประโยชน์กับ agent เสียอีก</p>
   </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 236" role="img" aria-label="A runbook written for humans leaves out the judgment steps an agent cannot supply">
+      <text class="d-label-mono" x="8" y="16">runbook สำหรับคน</text>
+      <rect class="d-box" x="8" y="26" width="302" height="106" stroke-dasharray="3 3"/>
+      <text class="d-label-sm" x="20" y="48">"เช็คว่า service ปกติดีไหม"</text>
+      <text class="d-label-sm" x="20" y="70">"ถ้าดูผิดปกติ ให้ restart"</text>
+      <text class="d-label-sm" x="20" y="92">"แจ้งทีมที่เกี่ยวข้อง"</text>
+      <text class="d-label-sm" x="20" y="120" opacity=".7">คนเติมช่องว่างเองจากประสบการณ์</text>
+
+      <text class="d-label-mono" x="330" y="16">runbook สำหรับ agent</text>
+      <rect class="d-box-accent" x="330" y="26" width="302" height="106"/>
+      <text class="d-label-sm" x="342" y="48">คำสั่งที่รันจริง พร้อม flag ครบ</text>
+      <text class="d-label-sm" x="342" y="70">เกณฑ์ตัดสินเป็นตัวเลข — p99 &gt; 800ms</text>
+      <text class="d-label-sm" x="342" y="92">ระบุว่าหยุดเมื่อไร และไปบอกใคร</text>
+      <text class="d-label-sm" x="342" y="120" opacity=".7">ไม่มีช่องว่างให้เติม</text>
+
+      <rect class="d-box-ink" x="8" y="152" width="624" height="76"/>
+      <text class="d-label-inv" x="22" y="174">ผลพลอยได้ที่คุ้มกว่าตัว automation เอง</text>
+      <text class="d-label-inv" x="22" y="194" opacity=".85">การเขียน runbook ให้ agent ทำได้ บังคับให้คุณเขียนความรู้ที่ค้างอยู่ในหัวคนออกมา</text>
+      <text class="d-label-inv" x="22" y="212" opacity=".85">"ดูผิดปกติ" แปลว่าอะไรกันแน่ — คำถามนี้ทีมส่วนใหญ่ไม่เคยตอบเป็นลายลักษณ์อักษร</text>
+      <text class="d-label-inv" x="22" y="228" opacity=".6">แม้สุดท้ายไม่ให้ agent รัน เอกสารที่ได้ก็มีค่าอยู่ดี</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 1</b> · runbook ที่ agent ทำตามได้ คือ runbook ที่พนักงานใหม่ทำตามได้เหมือนกัน</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/memory" target="_blank" rel="noopener noreferrer">Claude Code — Memory</a>
+        — การเขียนบริบทถาวรให้ agent ใช้ซ้ำได้
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://www.anthropic.com/engineering/claude-code-best-practices" target="_blank" rel="noopener noreferrer">Claude Code best practices</a>
+        — การให้ขั้นตอนที่ตรวจสอบได้แทนคำสั่งกว้าง ๆ
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <section class="lesson">
@@ -42,6 +83,47 @@
   <div class="box trap">
     <span class="k">ความเสี่ยงเฉพาะของ incident</span>
     <p>ตอนเกิดเหตุ คนอยู่ภายใต้ความกดดันและอยากได้คำตอบเร็ว ซึ่งเป็นสภาวะที่<strong>เชื่อคำตอบที่ฟังดูมั่นใจโดยไม่ตรวจ</strong> ง่ายที่สุด ให้บังคับกฎเดิมจาก <a href="m04.html">M04.05</a> — ทุกข้อสรุปต้องมีหลักฐานชี้ได้ ไม่งั้นถือเป็นสมมติฐาน</p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 232" role="img" aria-label="During an incident an agent can gather and correlate, but decisions stay with people">
+      <text class="d-label-mono" x="8" y="16">มอบให้ agent ได้ — งานรวบรวม</text>
+      <rect class="d-box-accent" x="8" y="26" width="302" height="102"/>
+      <text class="d-label-sm" x="20" y="48">ดึง log หลายแหล่งมาเรียงตามเวลา</text>
+      <text class="d-label-sm" x="20" y="70">หา deploy หรือ config ที่เปลี่ยนก่อนเกิด</text>
+      <text class="d-label-sm" x="20" y="92">สรุป error ที่ซ้ำและนับความถี่</text>
+      <text class="d-label-sm" x="20" y="116" opacity=".7">งานที่คนทำช้าและพลาดง่ายตอนตี 3</text>
+
+      <text class="d-label-mono" x="330" y="16">ห้ามมอบ — งานตัดสินใจ</text>
+      <rect class="d-bar-new" x="330" y="26" width="302" height="102"/>
+      <text class="d-label-sm" x="342" y="48">ประกาศว่า incident จบแล้ว</text>
+      <text class="d-label-sm" x="342" y="70">rollback production</text>
+      <text class="d-label-sm" x="342" y="92">สื่อสารกับลูกค้า</text>
+      <text class="d-label-sm" x="342" y="116" opacity=".75">งานที่ผิดแล้วขยายความเสียหาย</text>
+
+      <rect class="d-box-ink" x="8" y="150" width="624" height="74"/>
+      <text class="d-label-inv" x="22" y="172">กับดักที่อันตรายที่สุดตอน incident</text>
+      <text class="d-label-inv" x="22" y="192" opacity=".85">agent เสนอสาเหตุที่ฟังขึ้นมาก แล้วทีมไล่ตามทางนั้นไป 40 นาที</text>
+      <text class="d-label-inv" x="22" y="210" opacity=".85">ก่อนพบว่าเป็นคนละเรื่อง — ความมั่นใจของมันไม่ได้แปรผันตามความถูกต้อง</text>
+      <text class="d-label-inv" x="22" y="226" opacity=".6">ให้มันเสนอสมมติฐานหลายข้อพร้อมหลักฐาน ไม่ใช่คำตอบเดียว</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 2</b> · เส้นแบ่งคือ "รวบรวมข้อเท็จจริง" กับ "ตัดสินใจแทนทีม"</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://dora.dev/guides/dora-metrics-four-keys/" target="_blank" rel="noopener noreferrer">DORA — The four keys</a>
+        — time to restore และผลของกระบวนการ incident ต่อผลลัพธ์ทีม
+        <span class="src">dora.dev</span>
+      </li>
+      <li>
+        <a href="https://martinfowler.com/articles/exploring-gen-ai.html" target="_blank" rel="noopener noreferrer">Exploring Generative AI</a>
+        — ประสบการณ์การใช้ AI ช่วยงาน operation ในทีมจริง
+        <span class="src">martinfowler.com</span>
+      </li>
+    </ol>
   </div>
 </section>
 
@@ -62,6 +144,53 @@
     <span class="k">กฎเดียว</span>
     <p>เอกสารที่สร้างอัตโนมัติต้อง<strong>พังได้เมื่อผิด</strong> ถ้าไม่มีกลไกทำให้มันพัง มันจะค่อย ๆ เพี้ยนจนไม่มีใครเชื่อ แล้วก็ไม่มีใครอ่าน แต่ยังอยู่ในโปรเจกต์เพื่อหลอก agent ตัวถัดไป</p>
   </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 228" role="img" aria-label="Documentation generated from a source of truth stays correct; documentation generated once decays">
+      <text class="d-label-mono" x="8" y="16">generate ครั้งเดียวแล้วปล่อย</text>
+      <rect class="d-box" x="8" y="26" width="140" height="36"/>
+      <text class="d-label-sm" x="20" y="49">โค้ดวันนี้</text>
+      <line class="d-line d-arrow" x1="152" y1="44" x2="186" y2="44"/>
+      <rect class="d-box" x="190" y="26" width="140" height="36"/>
+      <text class="d-label-sm" x="202" y="49">เอกสารสวยมาก</text>
+      <line class="d-line d-arrow" x1="334" y1="44" x2="368" y2="44"/>
+      <rect class="d-bar-new" x="372" y="26" width="260" height="36"/>
+      <text class="d-label-sm" x="384" y="49">สองเดือนถัดมา = ข้อมูลผิดที่ดูน่าเชื่อ</text>
+
+      <line class="d-line" x1="8" y1="80" x2="632" y2="80" stroke-dasharray="3 3"/>
+
+      <text class="d-label-mono" x="8" y="102">ผูกกับแหล่งความจริง แล้ว regenerate</text>
+      <rect class="d-box-accent" x="8" y="112" width="140" height="36"/>
+      <text class="d-label-sm" x="20" y="135">schema · route · type</text>
+      <line class="d-line d-arrow d-line-accent" x1="152" y1="130" x2="186" y2="130"/>
+      <rect class="d-box-accent" x="190" y="112" width="140" height="36"/>
+      <text class="d-label-sm" x="202" y="135">สร้างใหม่ทุก build</text>
+      <line class="d-line d-arrow d-line-accent" x1="334" y1="130" x2="368" y2="130"/>
+      <rect class="d-box-accent" x="372" y="112" width="260" height="36"/>
+      <text class="d-label-sm" x="384" y="135">ผิดเมื่อไร = build แดง ไม่ใช่เอกสารเน่า</text>
+
+      <rect class="d-box-ink" x="8" y="166" width="624" height="56"/>
+      <text class="d-label-inv" x="22" y="188">เอกสารผิดแย่กว่าไม่มีเอกสาร</text>
+      <text class="d-label-inv" x="22" y="208" opacity=".85">ไม่มีเอกสาร คนไปอ่านโค้ด · มีเอกสารผิด คนเชื่อแล้วเขียนโค้ดผิดตาม</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 3</b> · ถ้าเอกสารไม่ได้ผูกกับสิ่งที่ build ตรวจได้ มันจะเน่าตามกำหนดเวลาเสมอ</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/memory" target="_blank" rel="noopener noreferrer">Claude Code — Memory</a>
+        — การแยกสิ่งที่ควรเขียนไว้ถาวรออกจากสิ่งที่ควร generate ใหม่
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://martinfowler.com/articles/exploring-gen-ai.html" target="_blank" rel="noopener noreferrer">Exploring Generative AI</a>
+        — รูปแบบการใช้ AI กับเอกสารที่ได้ผลและไม่ได้ผล
+        <span class="src">martinfowler.com</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <section class="lesson">
@@ -79,6 +208,59 @@
   <div class="box good">
     <span class="k">สิ่งที่ทำให้การเลื่อนระดับไม่ใช่การเดา</span>
     <p>ชุดวัดจาก <a href="m12-evals.html">M12</a> คือหลักฐานที่ทำให้บทสนทนาเรื่องนี้เปลี่ยนจาก “ผมว่ามันเชื่อได้แล้วนะ” เป็น “งานประเภทนี้ผ่าน 47 จาก 50 ในสามเดือน และสามที่ไม่ผ่านถูก gate จับได้ทั้งหมด”</p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 242" role="img" aria-label="Trust should follow verifiability and blast radius, not how confident the output sounds">
+      <text class="d-label-mono" x="8" y="16">ประเภทงาน</text>
+      <text class="d-label-mono" x="280" y="16">ตรวจง่ายแค่ไหน</text>
+      <text class="d-label-mono" x="452" y="16">ระดับที่ควรเชื่อ</text>
+
+      <rect class="d-box" x="8" y="26" width="262" height="32"/>
+      <text class="d-label-sm" x="20" y="46">refactor ที่มีเทสต์คุม</text>
+      <rect class="d-bar" x="280" y="26" width="150" height="32"/>
+      <rect class="d-box-accent" x="452" y="26" width="180" height="32"/>
+      <text class="d-label-sm" x="464" y="46">อ่านผ่าน ๆ พอ</text>
+
+      <rect class="d-box" x="8" y="62" width="262" height="32"/>
+      <text class="d-label-sm" x="20" y="82">โค้ดใหม่ในโดเมนที่คุณรู้ดี</text>
+      <rect class="d-bar" x="280" y="62" width="112" height="32"/>
+      <rect class="d-box-accent" x="452" y="62" width="180" height="32"/>
+      <text class="d-label-sm" x="464" y="82">อ่านตรรกะหลัก</text>
+
+      <rect class="d-box" x="8" y="98" width="262" height="32"/>
+      <text class="d-label-sm" x="20" y="118">โค้ดในโดเมนที่คุณไม่รู้</text>
+      <rect class="d-bar-new" x="280" y="98" width="66" height="32"/>
+      <rect class="d-box-accent" x="452" y="98" width="180" height="32"/>
+      <text class="d-label-sm" x="464" y="118">ตรวจทุกบรรทัด</text>
+
+      <rect class="d-box" x="8" y="134" width="262" height="32"/>
+      <text class="d-label-sm" x="20" y="154">อ้างข้อเท็จจริง · API · ตัวเลข</text>
+      <rect class="d-bar-new" x="280" y="134" width="34" height="32"/>
+      <rect class="d-box-accent" x="452" y="134" width="180" height="32"/>
+      <text class="d-label-sm" x="464" y="154">ยืนยันกับต้นทางเสมอ</text>
+
+      <rect class="d-box-ink" x="8" y="180" width="624" height="56"/>
+      <text class="d-label-inv" x="22" y="202">สัญญาณที่ห้ามใช้ตัดสินใจเลย</text>
+      <text class="d-label-inv" x="22" y="222" opacity=".85">น้ำเสียงมั่นใจ · คำอธิบายที่ฟังดูดี · ความยาวของคำตอบ — ทั้งสามไม่สัมพันธ์กับความถูกต้อง</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 4</b> · แถวล่างสุดคือแถวที่คนพลาดบ่อยที่สุด เพราะข้อเท็จจริงผิดอ่านแล้วดูเหมือนถูก</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://martinfowler.com/articles/exploring-gen-ai.html" target="_blank" rel="noopener noreferrer">Exploring Generative AI</a>
+        — การประเมินว่าเมื่อไรควรเชื่อผลลัพธ์และเมื่อไรต้องตรวจ
+        <span class="src">martinfowler.com</span>
+      </li>
+      <li>
+        <a href="https://www.anthropic.com/engineering/claude-code-best-practices" target="_blank" rel="noopener noreferrer">Claude Code best practices</a>
+        — การตั้งจุดตรวจตามความเสี่ยงของงาน
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+    </ol>
   </div>
 </section>
 
@@ -98,6 +280,45 @@
     </table></div>
   </div>
   <p>คอลัมน์ขวาคือสิ่งที่เครื่องทำแทนไม่ได้ และเป็นสิ่งที่คุณค่าเพิ่มขึ้นเมื่อ agent เขียนโค้ดเยอะขึ้น การรีวิวจึงไม่ได้หายไป แต่<em>เปลี่ยนเป้า</em></p>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 234" role="img" aria-label="When diff volume grows tenfold, review effort must shift from reading lines to checking properties">
+      <text class="d-label-mono" x="8" y="16">ปริมาณ diff ต่อสัปดาห์</text>
+      <rect class="d-bar" x="8" y="26" width="70" height="22"/>
+      <text class="d-label-sm" x="88" y="42">เมื่อก่อน</text>
+      <rect class="d-bar-new" x="8" y="54" width="560" height="22"/>
+      <text class="d-label-sm" x="8" y="94">ตอนนี้ — เวลารีวิวเท่าเดิม</text>
+
+      <line class="d-line" x1="8" y1="106" x2="632" y2="106" stroke-dasharray="3 3"/>
+
+      <text class="d-label-mono" x="8" y="128">สิ่งที่ต้องเปลี่ยน</text>
+      <rect class="d-box" x="8" y="138" width="302" height="34" stroke-dasharray="3 3"/>
+      <text class="d-label-sm" x="20" y="159">เลิก · ไล่อ่านทุกบรรทัดให้ครบ</text>
+      <rect class="d-box-accent" x="330" y="138" width="302" height="34"/>
+      <text class="d-label-sm" x="342" y="159">ทำแทน · ตรวจคุณสมบัติที่ต้องจริง</text>
+
+      <rect class="d-box-ink" x="8" y="182" width="624" height="46"/>
+      <text class="d-label-inv" x="22" y="204">คุณสมบัติที่ตรวจแทนได้ — แตะไฟล์นอกขอบเขตไหม · เทสต์ล็อกพฤติกรรมผิดไหม ·</text>
+      <text class="d-label-inv" x="22" y="222">error path ทำอะไร · dependency ใหม่มาจากไหน</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 5</b> · ทางแก้จริงอยู่ต้นทาง — PR เล็กลง ไม่ใช่รีวิวเร็วขึ้น</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://martinfowler.com/articles/exploring-gen-ai.html" target="_blank" rel="noopener noreferrer">Exploring Generative AI</a>
+        — ผลของปริมาณโค้ดที่เพิ่มขึ้นต่อภาระรีวิวของทีม
+        <span class="src">martinfowler.com</span>
+      </li>
+      <li>
+        <a href="https://dora.dev/guides/dora-metrics-four-keys/" target="_blank" rel="noopener noreferrer">DORA — The four keys</a>
+        — ขนาดของ batch กับผลต่อ throughput และ change failure rate
+        <span class="src">dora.dev</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <section class="lesson">
@@ -112,6 +333,43 @@
     </ul>
   </div>
   <p>เรื่องเหล่านี้ต่างกันไปตามเขตอำนาจและตามสัญญาที่องค์กรคุณมีอยู่ หลักสูตรนี้ให้<strong>เช็คลิสต์ที่ต้องเอาไปคุยกับฝ่ายกฎหมาย</strong> ไม่ใช่คำแนะนำทางกฎหมาย และความต่างข้อนี้สำคัญ</p>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 262" role="img" aria-label="Three legal questions to settle in policy before they arrive as incidents">
+      <rect class="d-box" x="8" y="26" width="624" height="52"/>
+      <text class="d-label-mono" x="22" y="46">1 · ลิขสิทธิ์ของโค้ดที่ AI สร้าง</text>
+      <text class="d-label-sm" x="22" y="68">สถานะยังไม่นิ่งและต่างกันตามเขตอำนาจ — สำนักลิขสิทธิ์สหรัฐฯ เผยแพร่แนวทางเป็นระยะ</text>
+
+      <rect class="d-box" x="8" y="86" width="624" height="52"/>
+      <text class="d-label-mono" x="22" y="106">2 · dependency ที่ agent เพิ่มเอง</text>
+      <text class="d-label-sm" x="22" y="128">มันไม่รู้ว่าองค์กรคุณห้าม copyleft — ต้องมี license scanner ใน CI ไม่ใช่ความจำคน</text>
+
+      <rect class="d-box" x="8" y="146" width="624" height="52"/>
+      <text class="d-label-mono" x="22" y="166">3 · โค้ดลูกค้าที่ไหลออกไป</text>
+      <text class="d-label-sm" x="22" y="188">สัญญาบางฉบับห้ามส่งโค้ดออกนอกระบบที่ระบุไว้ — ต้องตรวจก่อนเปิดใช้ ไม่ใช่หลัง</text>
+
+      <rect class="d-box-ink" x="8" y="208" width="624" height="46"/>
+      <text class="d-label-inv" x="22" y="230">ทั้งสามข้อควรจบในนโยบายก่อน ไม่ใช่จบใน incident</text>
+      <text class="d-label-inv" x="22" y="248" opacity=".6">และควรถามฝ่ายกฎหมายขององค์กรจริง ๆ — นี่เป็นรายการคำถาม ไม่ใช่คำตอบ</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 6</b> · ข้อ 2 เป็นข้อเดียวที่แก้ได้ด้วยเครื่องมือล้วน ๆ จึงควรทำก่อน</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://www.copyright.gov/ai/" target="_blank" rel="noopener noreferrer">U.S. Copyright Office — Copyright and Artificial Intelligence</a>
+        — แนวทางที่เผยแพร่เรื่องลิขสิทธิ์กับงานที่สร้างด้วย AI
+        <span class="src">copyright.gov</span>
+      </li>
+      <li>
+        <a href="https://spdx.org/licenses/" target="_blank" rel="noopener noreferrer">SPDX License List</a>
+        — รายการ license มาตรฐานสำหรับใช้กับ scanner ใน CI
+        <span class="src">spdx.org</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <section class="lesson">
@@ -134,6 +392,47 @@
     <span class="k">วิธีรักษาที่ได้ผลจริง</span>
     <p>ให้คนในทีมผลัดกัน<strong>ทำงานหนึ่งชิ้นต่อสัปดาห์โดยไม่ใช้ agent เลย</strong> ไม่ใช่เพื่อประสิทธิภาพ แต่เพื่อรักษาความสามารถในการบอกว่าอะไรดีอะไรแย่ — ซึ่งเป็นสิ่งเดียวที่ทำให้การใช้ agent ปลอดภัย</p>
   </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 236" role="img" aria-label="Skills that atrophy when delegated versus skills that grow more important">
+      <text class="d-label-mono" x="8" y="16">ฝ่อลงถ้าไม่ได้ใช้</text>
+      <rect class="d-bar-new" x="8" y="26" width="302" height="102"/>
+      <text class="d-label-sm" x="20" y="48">debug จากศูนย์โดยไม่มีตัวช่วย</text>
+      <text class="d-label-sm" x="20" y="70">อ่านโค้ดที่ไม่คุ้นให้เข้าใจจริง</text>
+      <text class="d-label-sm" x="20" y="92">จำ API และ idiom ของภาษาได้</text>
+      <text class="d-label-sm" x="20" y="116" opacity=".75">ทักษะที่ต้องใช้ตอน agent ช่วยไม่ได้</text>
+
+      <text class="d-label-mono" x="330" y="16">สำคัญขึ้นกว่าเดิม</text>
+      <rect class="d-box-accent" x="330" y="26" width="302" height="102"/>
+      <text class="d-label-sm" x="342" y="48">ตัดสินว่าอะไรถูกและอะไรดูเหมือนถูก</text>
+      <text class="d-label-sm" x="342" y="70">แตกปัญหาใหญ่ให้เป็นงานที่ตรวจได้</text>
+      <text class="d-label-sm" x="342" y="92">ออกแบบระบบและตัดสินใจเชิงสถาปัตยกรรม</text>
+      <text class="d-label-sm" x="342" y="116" opacity=".7">ทักษะที่มอบให้ agent ไม่ได้เลย</text>
+
+      <rect class="d-box-ink" x="8" y="150" width="624" height="78"/>
+      <text class="d-label-inv" x="22" y="172">ปัญหาที่แท้จริงอยู่ที่คนที่เพิ่งเริ่ม</text>
+      <text class="d-label-inv" x="22" y="192" opacity=".85">คอลัมน์ขวาสร้างจากการทำคอลัมน์ซ้ายมาหลายปี — junior ที่ข้ามซ้ายไปเลย</text>
+      <text class="d-label-inv" x="22" y="210" opacity=".85">จะไม่มีฐานให้ตัดสินว่าผลลัพธ์ของ agent ถูกหรือผิด</text>
+      <text class="d-label-inv" x="22" y="228" opacity=".6">ทางปฏิบัติ — กันงานบางประเภทไว้ให้ทำเองโดยตั้งใจ ไม่ใช่ห้ามใช้เครื่องมือ</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 7</b> · นี่เป็นเรื่องการออกแบบเส้นทางเติบโตของทีม มากกว่าเรื่องเครื่องมือ</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://martinfowler.com/articles/exploring-gen-ai.html" target="_blank" rel="noopener noreferrer">Exploring Generative AI</a>
+        — ผลระยะยาวต่อทักษะทีมเมื่อมอบงานให้เครื่องมือ AI
+        <span class="src">martinfowler.com</span>
+      </li>
+      <li>
+        <a href="https://www.anthropic.com/engineering/claude-code-best-practices" target="_blank" rel="noopener noreferrer">Claude Code best practices</a>
+        — การแบ่งงานระหว่างคนกับ agent ในทีมจริง
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <section class="lesson">
@@ -149,6 +448,59 @@
   <div class="box rule">
     <span class="k">ลำดับที่ห้ามสลับ</span>
     <p>องค์กรจำนวนมากเริ่มที่ Policy เพราะเป็นขั้นที่เขียนได้เร็วที่สุด ผลคือได้กฎที่อิงจากความกลัวและข่าว ไม่ใช่จากข้อมูล <strong>Pilot ต้องมาก่อนเสมอ</strong> เพราะมันเป็นสิ่งเดียวที่บอกได้ว่ากฎข้อไหนจำเป็นจริง</p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 244" role="img" aria-label="Three rollout stages, each with the trap that stalls it">
+      <rect class="d-box-accent" x="8" y="26" width="196" height="44"/>
+      <text class="d-label-sm" x="20" y="46">1 · PILOT</text>
+      <text class="d-label-sm" x="20" y="63" opacity=".7">ทีมเดียว · วัดผลจริง</text>
+      <line class="d-line d-arrow d-line-accent" x1="208" y1="48" x2="240" y2="48"/>
+      <rect class="d-box-accent" x="244" y="26" width="196" height="44"/>
+      <text class="d-label-sm" x="256" y="46">2 · POLICY</text>
+      <text class="d-label-sm" x="256" y="63" opacity=".7">กติกาที่บังคับใช้ได้</text>
+      <line class="d-line d-arrow d-line-accent" x1="444" y1="48" x2="476" y2="48"/>
+      <rect class="d-box-accent" x="480" y="26" width="152" height="44"/>
+      <text class="d-label-sm" x="492" y="46">3 · PLATFORM</text>
+      <text class="d-label-sm" x="492" y="63" opacity=".7">ของกลางที่ดูแลจริง</text>
+
+      <rect class="d-bar-new" x="8" y="84" width="196" height="62"/>
+      <text class="d-label-sm" x="20" y="104">กับดัก</text>
+      <text class="d-label-sm" x="20" y="122" opacity=".8">เลือกทีมที่เก่งที่สุด</text>
+      <text class="d-label-sm" x="20" y="140" opacity=".8">ผลที่ได้จึงไม่ทั่วไป</text>
+
+      <rect class="d-bar-new" x="244" y="84" width="196" height="62"/>
+      <text class="d-label-sm" x="256" y="104">กับดัก</text>
+      <text class="d-label-sm" x="256" y="122" opacity=".8">เขียนสวยแต่ไม่มีใครบังคับ</text>
+      <text class="d-label-sm" x="256" y="140" opacity=".8">กลายเป็นเอกสารตาย</text>
+
+      <rect class="d-bar-new" x="480" y="84" width="152" height="62"/>
+      <text class="d-label-sm" x="492" y="104">กับดัก</text>
+      <text class="d-label-sm" x="492" y="122" opacity=".8">สร้างแล้วไม่มีเจ้าของ</text>
+      <text class="d-label-sm" x="492" y="140" opacity=".8">พังเงียบ ๆ ใน 6 เดือน</text>
+
+      <rect class="d-box-ink" x="8" y="164" width="624" height="72"/>
+      <text class="d-label-inv" x="22" y="186">ข้ามขั้นแล้วเจ็บที่สุดคือข้าม 1 ไป 3</text>
+      <text class="d-label-inv" x="22" y="206" opacity=".85">ซื้อ platform ให้ทั้งองค์กรก่อนรู้ว่าอะไรได้ผล = จ่ายเงินก้อนใหญ่ให้กับสมมติฐาน</text>
+      <text class="d-label-inv" x="22" y="226" opacity=".6">pilot ที่ดีต้องมีตัวเลขจาก M12 ติดมาด้วย ไม่ใช่แค่ "ทีมชอบ"</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 8</b> · แต่ละขั้นตอบคำถามคนละข้อ — pilot ตอบ "ได้ผลไหม" · policy ตอบ "ปลอดภัยไหม" · platform ตอบ "ขยายได้ไหม"</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://dora.dev/guides/dora-metrics-four-keys/" target="_blank" rel="noopener noreferrer">DORA — The four keys</a>
+        — การวัดผลการเปลี่ยนแปลงระดับองค์กรด้วยตัวชี้วัดที่เทียบได้
+        <span class="src">dora.dev</span>
+      </li>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/security" target="_blank" rel="noopener noreferrer">Claude Code — Security</a>
+        — ข้อกำหนดด้านความปลอดภัยที่ต้องพร้อมก่อนขยายการใช้งาน
+        <span class="src">docs.claude.com</span>
+      </li>
+    </ol>
   </div>
 </section>
 

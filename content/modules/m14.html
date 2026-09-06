@@ -27,6 +27,55 @@
     <span class="k">กฎข้อแรกของ agent ใน CI</span>
     <p><strong>ไม่แน่ใจต้องล้ม ไม่ใช่เดา</strong> — ให้ออกด้วยรหัสที่บอกว่าต้องมีคนดู ดีกว่าปล่อยให้มันเดาแล้วสร้าง PR ที่ดูดีแต่ผิด เพราะอย่างหลังกินเวลาคนมากกว่าและกัดกร่อนความเชื่อถือ</p>
   </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 240" role="img" aria-label="On a developer machine a stuck agent asks a question; in CI the same moment becomes a silent timeout">
+      <text class="d-label-mono" x="8" y="16">บนเครื่อง dev</text>
+      <rect class="d-box" x="8" y="26" width="150" height="38"/>
+      <text class="d-label-sm" x="20" y="50">agent ติด</text>
+      <line class="d-line d-arrow" x1="162" y1="45" x2="196" y2="45"/>
+      <rect class="d-box" x="200" y="26" width="180" height="38"/>
+      <text class="d-label-sm" x="212" y="50">ถามคำถาม</text>
+      <line class="d-line d-arrow" x1="384" y1="45" x2="418" y2="45"/>
+      <rect class="d-box-accent" x="422" y="26" width="210" height="38"/>
+      <text class="d-label-sm" x="434" y="50">คุณตอบ แล้วไปต่อได้</text>
+
+      <line class="d-line" x1="8" y1="84" x2="632" y2="84" stroke-dasharray="3 3"/>
+
+      <text class="d-label-mono" x="8" y="106">ใน CI</text>
+      <rect class="d-box" x="8" y="116" width="150" height="38"/>
+      <text class="d-label-sm" x="20" y="140">agent ติด</text>
+      <line class="d-line d-arrow" x1="162" y1="135" x2="196" y2="135"/>
+      <rect class="d-box" x="200" y="116" width="180" height="38"/>
+      <text class="d-label-sm" x="212" y="140">ถามคำถาม</text>
+      <line class="d-line d-arrow" x1="384" y1="135" x2="418" y2="135"/>
+      <rect class="d-bar-new" x="422" y="116" width="210" height="38"/>
+      <text class="d-label-sm" x="434" y="132">ไม่มีใครอยู่</text>
+      <text class="d-label-sm" x="434" y="148" opacity=".75">timeout 30 นาที · เผาเงินฟรี</text>
+
+      <rect class="d-box-ink" x="8" y="174" width="624" height="60"/>
+      <text class="d-label-inv" x="22" y="196">กฎสำหรับ agent ที่รันใน CI</text>
+      <text class="d-label-inv" x="22" y="216" opacity=".85">ห้ามมีจุดที่รอคำตอบ — ตัดสินใจเองไม่ได้เมื่อไร ให้<tspan font-weight="600">ล้มทันทีพร้อมบอกเหตุ</tspan></text>
+      <text class="d-label-inv" x="22" y="232" opacity=".6">ล้มเร็วและชัด มีค่ามากกว่าพยายามเดาต่อไปเสมอ</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 1</b> · ความต่างข้อเดียวนี้เปลี่ยนวิธีเขียน prompt ทั้งหมดสำหรับงานบนสายพาน</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/github-actions" target="_blank" rel="noopener noreferrer">Claude Code — GitHub Actions</a>
+        — การรัน Claude Code ใน workflow และข้อจำกัดของสภาพแวดล้อมแบบไม่มีคน
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/headless" target="_blank" rel="noopener noreferrer">Claude Code — Headless mode</a>
+        — โหมดที่ออกแบบมาให้สคริปต์ครอบได้ ไม่มี interactive prompt
+        <span class="src">docs.claude.com</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <section class="lesson">
@@ -45,6 +94,48 @@
   <div class="box trap">
     <span class="k">เส้นที่มักถูกข้ามทีละนิด</span>
     <p>เริ่มจาก “ให้ merge เฉพาะ PR ที่แก้ typo” แล้วขยายเป็น “เฉพาะที่เทสต์ผ่าน” แล้วกลายเป็น merge เกือบทุกอย่าง ให้ตั้งเส้นเป็นกฎที่บังคับด้วยการตั้งค่า ไม่ใช่ข้อตกลงที่พูดกันไว้</p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 234" role="img" aria-label="Automation levels for pull requests, split by whether the action is reversible">
+      <text class="d-label-mono" x="8" y="16">ให้ agent ทำได้ — ย้อนกลับง่าย</text>
+      <rect class="d-box-accent" x="8" y="26" width="302" height="110"/>
+      <text class="d-label-sm" x="20" y="48">เขียนคำอธิบาย PR จาก diff</text>
+      <text class="d-label-sm" x="20" y="70">คอมเมนต์ finding พร้อมตำแหน่ง</text>
+      <text class="d-label-sm" x="20" y="92">ติด label · ตอบคำถามเรื่องโค้ด</text>
+      <text class="d-label-sm" x="20" y="114">เสนอ patch เป็น suggestion</text>
+      <text class="d-label-sm" x="20" y="132" opacity=".7">ผิดแล้วแค่ลบคอมเมนต์ทิ้ง</text>
+
+      <text class="d-label-mono" x="330" y="16">เส้นที่ไม่ควรข้าม</text>
+      <rect class="d-bar-new" x="330" y="26" width="302" height="110"/>
+      <text class="d-label-sm" x="342" y="48">กด approve</text>
+      <text class="d-label-sm" x="342" y="70">merge เข้า main</text>
+      <text class="d-label-sm" x="342" y="92">deploy ขึ้น production</text>
+      <text class="d-label-sm" x="342" y="114">แก้ branch protection</text>
+      <text class="d-label-sm" x="342" y="132" opacity=".75">ผิดแล้วมีคนต้องตื่นมาแก้</text>
+
+      <rect class="d-box-ink" x="8" y="156" width="624" height="70"/>
+      <text class="d-label-inv" x="22" y="178">เส้นแบ่งไม่ได้อยู่ที่ "ยากแค่ไหน" แต่อยู่ที่ "ย้อนกลับยังไง"</text>
+      <text class="d-label-inv" x="22" y="198" opacity=".85">agent เขียน PR description ได้ดีกว่าคนส่วนใหญ่ — แต่มันไม่รู้ว่าสัปดาห์นี้มี freeze</text>
+      <text class="d-label-inv" x="22" y="218" opacity=".6">approve คือการรับผิดชอบ ซึ่งเป็นสิ่งที่ agent มอบให้ไม่ได้</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 2</b> · คอลัมน์ซ้ายประหยัดเวลาได้จริงทุกวัน — คอลัมน์ขวาประหยัดได้ครั้งเดียวแล้วเสียใจยาว</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/github-actions" target="_blank" rel="noopener noreferrer">Claude Code — GitHub Actions</a>
+        — รูปแบบการใช้งานบน PR ที่ทีมใช้จริง
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://www.anthropic.com/engineering/claude-code-best-practices" target="_blank" rel="noopener noreferrer">Claude Code best practices</a>
+        — ขอบเขตงานที่มอบให้ agent ได้อย่างปลอดภัย
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+    </ol>
   </div>
 </section>
 
@@ -66,6 +157,59 @@
     <span class="k">กฎที่ทำให้ gate อยู่รอด</span>
     <p>Gate ที่บล็อกต้องมี <strong>อัตราเตือนผิดต่ำมาก</strong> ถ้ามันบล็อกผิดสัปดาห์ละครั้ง คนจะหาทางข้าม และภายในเดือนเดียวมันจะกลายเป็นของประดับ ให้เริ่มจากโหมดเตือนอย่างเดียว วัด precision ตามวิธีใน <a href="m11.html">M11.08</a> แล้วค่อยเปลี่ยนเป็นบล็อกเมื่อตัวเลขดีพอ</p>
   </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 236" role="img" aria-label="Deterministic gates run first and cheaply; the LLM judge only sees what survived">
+      <text class="d-label-mono" x="8" y="16">ลำดับที่ถูก — ถูกและแน่นอนก่อน</text>
+
+      <rect class="d-box-accent" x="8" y="30" width="118" height="44"/>
+      <text class="d-label-sm" x="20" y="50">lint</text>
+      <text class="d-label-sm" x="20" y="66" opacity=".7">3 วินาที</text>
+      <line class="d-line d-arrow d-line-accent" x1="130" y1="52" x2="158" y2="52"/>
+      <rect class="d-box-accent" x="162" y="30" width="118" height="44"/>
+      <text class="d-label-sm" x="174" y="50">type + test</text>
+      <text class="d-label-sm" x="174" y="66" opacity=".7">2 นาที</text>
+      <line class="d-line d-arrow d-line-accent" x1="284" y1="52" x2="312" y2="52"/>
+      <rect class="d-box-accent" x="316" y="30" width="118" height="44"/>
+      <text class="d-label-sm" x="328" y="50">coverage floor</text>
+      <text class="d-label-sm" x="328" y="66" opacity=".7">รวมอยู่แล้ว</text>
+      <line class="d-line d-arrow" x1="438" y1="52" x2="466" y2="52"/>
+      <rect class="d-box" x="470" y="30" width="162" height="44"/>
+      <text class="d-label-sm" x="482" y="50">LLM review</text>
+      <text class="d-label-sm" x="482" y="66" opacity=".7">แพงสุด · รันท้ายสุด</text>
+
+      <rect class="d-box-ink" x="8" y="92" width="624" height="46"/>
+      <text class="d-label-inv" x="22" y="112">80% ของ PR ที่จะโดนบล็อก ตายตั้งแต่สองด่านแรก</text>
+      <text class="d-label-inv" x="22" y="130" opacity=".7">ซึ่งแปลว่าไม่ต้องจ่ายค่า LLM ให้ PR เหล่านั้นเลย</text>
+
+      <line class="d-line" x1="8" y1="152" x2="632" y2="152" stroke-dasharray="3 3"/>
+
+      <text class="d-label-mono" x="8" y="174">เกณฑ์ของด่าน LLM ต้องเป็นอย่างไร</text>
+      <rect class="d-bar-new" x="8" y="184" width="302" height="44"/>
+      <text class="d-label-sm" x="20" y="204">"โค้ดนี้ดีไหม" → บล็อกไม่ได้</text>
+      <text class="d-label-sm" x="20" y="222" opacity=".75">ไม่มีเกณฑ์ ไม่มีใครเถียงได้</text>
+      <rect class="d-box-accent" x="330" y="184" width="302" height="44"/>
+      <text class="d-label-sm" x="342" y="204">"มี finding ระดับสูงกี่ข้อ" → บล็อกได้</text>
+      <text class="d-label-sm" x="342" y="222" opacity=".7">นับได้ อุทธรณ์ได้ ปรับ threshold ได้</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 3</b> · gate ที่บล็อกได้จริงต้องให้คำตอบที่<b>นับเป็นตัวเลข</b>ได้ ไม่ใช่ความเห็น</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://martinfowler.com/bliki/ContinuousDelivery.html" target="_blank" rel="noopener noreferrer">Continuous Delivery</a>
+        — deployment pipeline และการเรียงด่านตามต้นทุนกับความเร็ว
+        <span class="src">martinfowler.com</span>
+      </li>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/github-actions" target="_blank" rel="noopener noreferrer">Claude Code — GitHub Actions</a>
+        — การผูกผลลัพธ์ของ agent เข้ากับสถานะของ check
+        <span class="src">docs.claude.com</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <section class="lesson">
@@ -81,6 +225,50 @@
   <div class="box good">
     <span class="k">การทดสอบง่าย ๆ</span>
     <p>ถ้าคุณเขียนสคริปต์ครอบมันแล้วตัดสินใจอัตโนมัติจากผลได้ แปลว่าพร้อมขึ้นสายพาน ถ้ายังต้องมีคนอ่านผลก่อนถึงจะรู้ว่าเกิดอะไรขึ้น แปลว่ายังไม่พร้อม</p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 230" role="img" aria-label="Headless invocation returning structured JSON that a wrapper script can branch on">
+      <text class="d-label-mono" x="8" y="16">agent ที่เขียนสคริปต์ครอบได้ ต้องมีสามอย่างนี้</text>
+
+      <rect class="d-box-accent" x="8" y="26" width="200" height="52"/>
+      <text class="d-label-sm" x="20" y="48">1 · exit code ที่หมายถึงอะไรจริง</text>
+      <text class="d-label-sm" x="20" y="68" opacity=".7">0 = สำเร็จ · ไม่ใช่ 0 = ล้ม</text>
+
+      <rect class="d-box-accent" x="220" y="26" width="200" height="52"/>
+      <text class="d-label-sm" x="232" y="48">2 · output เป็น JSON</text>
+      <text class="d-label-sm" x="232" y="68" opacity=".7">ไม่ใช่ข้อความให้คนอ่าน</text>
+
+      <rect class="d-box-accent" x="432" y="26" width="200" height="52"/>
+      <text class="d-label-sm" x="444" y="48">3 · ไม่มีจุดรอ input</text>
+      <text class="d-label-sm" x="444" y="68" opacity=".7">stdin ปิดได้โดยไม่ค้าง</text>
+
+      <rect class="d-box" x="8" y="94" width="624" height="76"/>
+      <text class="d-label-mono" x="22" y="114">ฟิลด์ที่สคริปต์ควรอ่าน</text>
+      <text class="d-label-sm" x="22" y="134">total_cost_usd → เทียบกับวงเงินต่อรอบ แล้วหยุดถ้าเกิน</text>
+      <text class="d-label-sm" x="22" y="152">permission_denials → มีค่า = สิทธิ์ตั้งผิด ไม่ใช่ agent โง่</text>
+      <text class="d-label-sm" x="22" y="166" opacity=".8">stop_reason → แยก "ทำเสร็จ" ออกจาก "ชนเพดาน" ซึ่งต่างกันคนละเรื่อง</text>
+
+      <rect class="d-box-ink" x="8" y="186" width="624" height="38"/>
+      <text class="d-label-inv" x="22" y="208">ถ้าไม่แยก stop_reason สคริปต์จะนับงานที่ถูกตัดกลางคันว่าสำเร็จ</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 4</b> · eval harness ในคอร์สนี้อ่านสามฟิลด์นี้ตรง ๆ — เป็นสัญญาระหว่างสคริปต์กับ agent</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/headless" target="_blank" rel="noopener noreferrer">Claude Code — Headless mode</a>
+        — โครงสร้าง output แบบ JSON และการใช้ในสคริปต์
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/github-actions" target="_blank" rel="noopener noreferrer">Claude Code — GitHub Actions</a>
+        — การประกอบ agent เข้ากับขั้นตอนอื่นใน workflow
+        <span class="src">docs.claude.com</span>
+      </li>
+    </ol>
   </div>
 </section>
 
@@ -101,6 +289,49 @@
     <span class="k">ความเสี่ยงที่มากับความสม่ำเสมอ</span>
     <p>งานที่รันทุกคืนได้ผลดี 60 คืนติด จะไม่มีใครอ่านผลของคืนที่ 61 นี่คือกลไกเดียวกับที่ทำให้ระบบเตือนภัยที่แม่นมาก ๆ กลายเป็นเสียงพื้นหลัง ทางแก้คือให้มันเงียบเมื่อไม่มีอะไร และส่งเสียงเฉพาะเมื่อมีของจริง</p>
   </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 232" role="img" aria-label="Minimum guardrails required before turning on a scheduled unattended agent">
+      <text class="d-label-mono" x="8" y="16">งานที่รันเองตามเวลา = ไม่มีใครดูตอนมันทำงาน</text>
+
+      <rect class="d-box-accent" x="8" y="28" width="306" height="34"/>
+      <text class="d-label-sm" x="20" y="49">วงเงินต่อรอบ — เกินแล้วตัดทันที</text>
+      <rect class="d-box-accent" x="326" y="28" width="306" height="34"/>
+      <text class="d-label-sm" x="338" y="49">เพดานเวลา — ค้างแล้วฆ่าทิ้ง</text>
+
+      <rect class="d-box-accent" x="8" y="66" width="306" height="34"/>
+      <text class="d-label-sm" x="20" y="87">ขอบเขตงานที่แคบและระบุชัด</text>
+      <rect class="d-box-accent" x="326" y="66" width="306" height="34"/>
+      <text class="d-label-sm" x="338" y="87">ผลลัพธ์เป็น PR เท่านั้น ไม่ push ตรง</text>
+
+      <rect class="d-box-accent" x="8" y="104" width="306" height="34"/>
+      <text class="d-label-sm" x="20" y="125">kill switch ที่ปิดได้จากที่เดียว</text>
+      <rect class="d-box-accent" x="326" y="104" width="306" height="34"/>
+      <text class="d-label-sm" x="338" y="125">alert เมื่อล้มติดกันหลายรอบ</text>
+
+      <rect class="d-box-ink" x="8" y="156" width="624" height="68"/>
+      <text class="d-label-inv" x="22" y="178">โหมดล้มที่พบบ่อยที่สุด ไม่ใช่ agent ทำพัง</text>
+      <text class="d-label-inv" x="22" y="198" opacity=".85">แต่คือมันสร้าง PR วันละใบเป็นเดือน โดยไม่มีใครอ่านสักใบ</text>
+      <text class="d-label-inv" x="22" y="218" opacity=".6">ถ้าไม่มีคนรับผิดชอบอ่านผลลัพธ์ อย่าเพิ่งเปิด — นั่นคือ guardrail ข้อแรกจริง ๆ</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 5</b> · หกข้อบนตั้งได้ในไม่กี่ชั่วโมง — ข้อที่ยากคือหาคนที่ยอมเป็นเจ้าของผลลัพธ์</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/security" target="_blank" rel="noopener noreferrer">Claude Code — Security</a>
+        — ขอบเขตและการควบคุมสำหรับงานที่รันโดยไม่มีคนเฝ้า
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener noreferrer">Building effective agents</a>
+        — เงื่อนไขที่ควรมีก่อนปล่อยให้ agent ทำงานเป็นวงจรปิด
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <section class="lesson">
@@ -119,6 +350,49 @@
     <span class="k">ตัวเลขที่ควรติดแดชบอร์ด</span>
     <p><strong>ดอลลาร์ต่อ PR ที่ merge</strong> — ตัวเดียวจับได้ทั้งห้าสาเหตุ และเป็นตัวที่อธิบายให้ผู้บริหารเข้าใจได้ในประโยคเดียว</p>
   </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 238" role="img" aria-label="Cost drivers in CI ranked by how much waste each typically produces">
+      <text class="d-label-mono" x="8" y="16">ตัวการที่ทำให้บิล CI บาน</text>
+
+      <text class="d-label-sm" x="8" y="46">รันทุก push แทนทุก PR</text>
+      <rect class="d-bar-new" x="250" y="32" width="330" height="20"/>
+      <text class="d-label-sm" x="590" y="46" opacity=".7">สูงสุด</text>
+
+      <text class="d-label-sm" x="8" y="78">โยน repo ทั้งก้อนเข้า context</text>
+      <rect class="d-bar-new" x="250" y="64" width="268" height="20"/>
+
+      <text class="d-label-sm" x="8" y="110">ไม่มีเพดานเวลา งานค้างรันยาว</text>
+      <rect class="d-bar-new" x="250" y="96" width="196" height="20"/>
+
+      <text class="d-label-sm" x="8" y="142">retry อัตโนมัติเมื่อ agent ล้ม</text>
+      <rect class="d-bar-new" x="250" y="128" width="140" height="20"/>
+
+      <text class="d-label-sm" x="8" y="174">รันบน draft PR ด้วย</text>
+      <rect class="d-bar" x="250" y="160" width="72" height="20"/>
+
+      <rect class="d-box-ink" x="8" y="190" width="624" height="42"/>
+      <text class="d-label-inv" x="22" y="210">สองอันบนแก้ได้ด้วยการตั้งค่าไม่กี่บรรทัด และมักคิดเป็นเงินส่วนใหญ่ของบิล</text>
+      <text class="d-label-inv" x="22" y="228" opacity=".6">retry อันตรายเป็นพิเศษ — มันคูณต้นทุนของงานที่กำลังจะล้มอยู่แล้ว</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 6</b> · ก่อนปรับอะไร ให้ log <code>total_cost_usd</code> ต่อรอบไว้ก่อน แล้วค่อยดูว่าเงินไปไหน</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/headless" target="_blank" rel="noopener noreferrer">Claude Code — Headless mode</a>
+        — การอ่านต้นทุนต่อรอบจาก output เพื่อคุมงบ
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://martinfowler.com/bliki/ContinuousDelivery.html" target="_blank" rel="noopener noreferrer">Continuous Delivery</a>
+        — หลักการทำให้ pipeline เร็วและถูกโดยไม่ลดคุณภาพ
+        <span class="src">martinfowler.com</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <section class="lesson">
@@ -133,6 +407,45 @@
     </ul>
   </div>
   <p>เรื่องความรับผิดชอบไม่ใช่เรื่องเทคนิค — <strong>คนที่อนุมัติคือคนที่รับผิดชอบ</strong> เสมอ และการทำให้ข้อนี้ชัดตั้งแต่ต้นสำคัญกว่าเครื่องมือใด ๆ ในโมดูลนี้ รายละเอียดเชิงองค์กรอยู่ใน <a href="m15.html">M15</a></p>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 240" role="img" aria-label="Provenance fields that make an agent-authored commit traceable during an incident">
+      <text class="d-label-mono" x="8" y="16">ตอนตี 3 คนที่ถูกเรียกต้องตอบสามคำถามนี้ให้ได้</text>
+
+      <rect class="d-box" x="8" y="28" width="200" height="44"/>
+      <text class="d-label-sm" x="20" y="52">commit นี้มาจากไหน</text>
+      <rect class="d-box" x="220" y="28" width="200" height="44"/>
+      <text class="d-label-sm" x="232" y="52">ใครอนุมัติให้เข้า</text>
+      <rect class="d-box" x="432" y="28" width="200" height="44"/>
+      <text class="d-label-sm" x="444" y="52">ย้อนกลับปลอดภัยไหม</text>
+
+      <text class="d-label-mono" x="8" y="98">สิ่งที่ต้องฝังไว้ตั้งแต่ตอนสร้าง commit</text>
+      <rect class="d-box-accent" x="8" y="108" width="624" height="76"/>
+      <text class="d-label-sm" x="22" y="130">trailer ที่บอกว่า agent เป็นคนเขียน + prompt/issue ต้นทาง</text>
+      <text class="d-label-sm" x="22" y="150">ชื่อคนที่กด approve — ความรับผิดชอบต้องมีชื่อคนเสมอ</text>
+      <text class="d-label-sm" x="22" y="170">link ไป run ของ CI ที่ผลิตมัน เพื่อย้อนดู log ได้</text>
+
+      <rect class="d-box-ink" x="8" y="196" width="624" height="38"/>
+      <text class="d-label-inv" x="22" y="219">ความรับผิดชอบไม่เคยย้ายไปที่ agent — มันอยู่กับคนที่ปล่อยให้มันเข้า main</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 7</b> · ตอน incident ไม่มีใครมีเวลาไล่สืบ — ข้อมูลนี้ต้องอยู่ใน commit ตั้งแต่วันที่สร้าง</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://dora.dev/guides/dora-metrics-four-keys/" target="_blank" rel="noopener noreferrer">DORA — The four keys</a>
+        — change failure rate และ time to restore ในฐานะตัวชี้วัดที่ต้องไม่แย่ลง
+        <span class="src">dora.dev</span>
+      </li>
+      <li>
+        <a href="https://martinfowler.com/bliki/ContinuousDelivery.html" target="_blank" rel="noopener noreferrer">Continuous Delivery</a>
+        — การออกแบบให้ย้อนกลับได้เป็นคุณสมบัติของ pipeline ไม่ใช่ของทีม
+        <span class="src">martinfowler.com</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <div class="lab">

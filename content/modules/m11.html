@@ -13,114 +13,427 @@
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">11.01</span><h2>กับดักของเทสต์ที่ agent เขียน</h2></div>
-  <div class="tw"><table>
-    <thead><tr><th>รูปแบบ</th><th>อาการ</th><th>ทำไมอันตราย</th></tr></thead>
-    <tbody>
-      <tr><td><strong>ล็อกพฤติกรรมผิดไว้</strong></td><td>รันโค้ด ดูผล เขียนเทสต์ยืนยันผลนั้น</td><td>เทสต์เขียวตลอด บั๊กอยู่ถาวรและถูกปกป้อง</td></tr>
-      <tr><td><strong>mock จนไม่เหลืออะไร</strong></td><td>ทุก dependency ถูกแทน</td><td>ทดสอบว่า mock ทำงาน ไม่ได้ทดสอบโค้ด</td></tr>
-      <tr><td><strong>ยืนยันสิ่งที่ไม่มีความหมาย</strong></td><td>เช็คว่าฟังก์ชันถูกเรียก</td><td>รีแฟกเตอร์แล้วแดงทั้งที่พฤติกรรมเหมือนเดิม</td></tr>
-      <tr><td><strong>ทดสอบแต่ทางที่สำเร็จ</strong></td><td>ไม่มีเคสว่าง เคสพัง เคสขอบ</td><td>บั๊กจริงเกือบทั้งหมดอยู่ในทางที่ไม่ได้ทดสอบ</td></tr>
-    </tbody>
-  </table></div>
-  <div class="box trap">
-    <span class="k">รูปแบบแรกคืออันตรายที่สุด</span>
-    <p>มันสร้างเทสต์ที่<strong>ปกป้องบั๊ก</strong> ครั้งหน้าที่มีคนแก้บั๊กนั้นถูกต้อง เทสต์จะแดง แล้วคนจะคิดว่าตัวเองแก้ผิด แล้วย้อนกลับ นี่คือวิธีที่บั๊กกลายเป็นสเปคโดยไม่มีใครตั้งใจ</p>
+
+  <div class="chat">
+    <p>
+      agent เขียนเทสต์ได้เร็วมาก ซึ่งเป็นทั้งข้อดีและปัญหา เพราะ<b>เทสต์ที่ผ่านไม่ได้แปลว่าโค้ดถูก</b>
+    </p>
+    <p>
+      ความต่างอยู่ตรงนี้ — เวลา<b>คน</b>เขียนโค้ดแล้วเขียนเทสต์ เทสต์สะท้อน<i>ความเข้าใจ</i>ของคนคนนั้น
+      แต่เวลา <b>agent</b> เขียนทั้งคู่ เทสต์สะท้อน<i>สิ่งที่โค้ดทำ</i> ไม่ใช่สิ่งที่โค้ดควรทำ
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 250" role="img" aria-label="Four ways agent-written tests pass while proving nothing">
+      <text class="d-label-mono" x="8" y="16">รูปแบบ</text>
+      <text class="d-label-mono" x="250" y="16">อาการ</text>
+      <text class="d-label-mono" x="440" y="16">ทำไมอันตราย</text>
+
+      <rect class="d-bar-new" x="8" y="26" width="232" height="40"/>
+      <text class="d-label-sm" x="20" y="43">ล็อกพฤติกรรมผิดไว้</text>
+      <text class="d-label-sm" x="20" y="59" opacity=".7">← อันตรายสุด</text>
+      <rect class="d-box" x="250" y="26" width="180" height="40"/>
+      <text class="d-label-sm" x="260" y="50">รันโค้ด ดูผล เขียนยืนยันผลนั้น</text>
+      <rect class="d-box" x="440" y="26" width="192" height="40"/>
+      <text class="d-label-sm" x="450" y="43">เทสต์เขียวตลอด</text>
+      <text class="d-label-sm" x="450" y="59">บั๊กถูกปกป้องถาวร</text>
+
+      <rect class="d-box" x="8" y="70" width="232" height="40"/>
+      <text class="d-label-sm" x="20" y="94">mock จนไม่เหลืออะไร</text>
+      <rect class="d-box" x="250" y="70" width="180" height="40"/>
+      <text class="d-label-sm" x="260" y="94">ทุก dependency ถูกแทน</text>
+      <rect class="d-box" x="440" y="70" width="192" height="40"/>
+      <text class="d-label-sm" x="450" y="94">ทดสอบว่า mock ทำงาน</text>
+
+      <rect class="d-box" x="8" y="114" width="232" height="40"/>
+      <text class="d-label-sm" x="20" y="138">ยืนยันสิ่งที่ไม่มีความหมาย</text>
+      <rect class="d-box" x="250" y="114" width="180" height="40"/>
+      <text class="d-label-sm" x="260" y="138">เช็คว่าฟังก์ชันถูกเรียก</text>
+      <rect class="d-box" x="440" y="114" width="192" height="40"/>
+      <text class="d-label-sm" x="450" y="138">refactor แล้วแดงทั้งที่ถูก</text>
+
+      <rect class="d-box" x="8" y="158" width="232" height="40"/>
+      <text class="d-label-sm" x="20" y="182">ทดสอบแต่ happy path</text>
+      <rect class="d-box" x="250" y="158" width="180" height="40"/>
+      <text class="d-label-sm" x="260" y="182">ไม่มีเคสว่าง เคสพัง</text>
+      <rect class="d-box" x="440" y="158" width="192" height="40"/>
+      <text class="d-label-sm" x="450" y="182">บั๊กจริงอยู่ในทางที่ไม่ได้ทดสอบ</text>
+
+      <rect class="d-box-ink" x="8" y="206" width="624" height="40"/>
+      <text class="d-label-inv" x="22" y="228">แบบแรกสร้างเทสต์ที่ <tspan font-weight="600">ปกป้องบั๊ก</tspan> — ครั้งหน้าใครแก้ให้ถูก เทสต์จะแดง แล้วเขาจะย้อนกลับ</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 1</b> · นี่คือวิธีที่บั๊กกลายเป็นสเปคโดยไม่มีใครตั้งใจ</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://martinfowler.com/articles/exploring-gen-ai.html" target="_blank" rel="noopener noreferrer">Exploring Generative AI</a>
+        — บันทึกภาคสนามเรื่องคุณภาพเทสต์ที่ AI เขียน
+        <span class="src">martinfowler.com</span>
+      </li>
+      <li>
+        <a href="https://martinfowler.com/bliki/TestPyramid.html" target="_blank" rel="noopener noreferrer">Test Pyramid</a>
+        — เทสต์ชั้นไหนควรมีเท่าไร และทำไม mock มากเกินถึงทำลายคุณค่า
+        <span class="src">martinfowler.com</span>
+      </li>
+    </ol>
   </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">11.02</span><h2>Coverage โกหกอย่างไร</h2></div>
-  <p>ตัวเลขความครอบคลุมวัดว่าโค้ดถูก<em>รัน</em>ระหว่างเทสต์ ไม่ได้วัดว่าถูก<em>ตรวจสอบ</em> ความต่างนี้ใหญ่ขึ้นมากเมื่อ agent เป็นคนเขียน เพราะมันไล่ทำให้ตัวเลขสวยได้เร็วกว่าคน</p>
-  <pre><code><span class="c">// coverage 100% แต่ไม่ได้ตรวจอะไรเลย</span>
-test("คำนวณยอดรวม", () => {
-  const r = calculateTotal(items);
-  expect(r).toBeDefined();          <span class="c">// ผ่านแม้ผลจะผิดทุกกรณี</span>
-});</code></pre>
-  <div class="box good">
-    <span class="k">ตัววัดที่ดีกว่า</span>
-    <p><strong>Mutation testing</strong> — แก้โค้ดให้ผิดโดยตั้งใจ แล้วดูว่าเทสต์จับได้กี่จุด ตัวเลขนี้โกหกยากกว่ามาก ถ้าแก้โค้ดให้ผิดแล้วเทสต์ยังเขียว แปลว่าเทสต์ชุดนั้นไม่ได้ทำงาน ไม่ว่า coverage จะเท่าไร</p>
+
+  <div class="chat">
+    <p>
+      Coverage วัดว่าโค้ดถูก <b>รัน</b> ระหว่างเทสต์ ไม่ได้วัดว่าถูก <b>ตรวจสอบ</b>
+      ความต่างนี้ใหญ่ขึ้นมากเมื่อ agent เป็นคนเขียน เพราะมันไล่ทำให้ตัวเลขสวยได้เร็วกว่าคน
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 240" role="img" aria-label="Coverage counts lines executed; mutation testing counts defects actually caught">
+      <text class="d-label-mono" x="8" y="16">COVERAGE · นับบรรทัดที่ถูกรัน</text>
+      <rect class="d-bar" x="8" y="26" width="600" height="20"/>
+      <text class="d-label-sm" x="8" y="64">100% — แต่ไม่ได้แปลว่าตรวจอะไรเลย</text>
+
+      <rect class="d-box" x="8" y="76" width="624" height="52"/>
+      <text class="d-label-sm" x="22" y="98">const r = calculateTotal(items)</text>
+      <text class="d-label-sm" x="22" y="118">expect(r).toBeDefined()   ← ผ่านแม้ผลจะผิดทุกกรณี</text>
+
+      <line class="d-line" x1="8" y1="144" x2="632" y2="144" stroke-dasharray="3 3"/>
+
+      <text class="d-label-mono" x="8" y="166">MUTATION · แก้โค้ดให้ผิด แล้วนับว่าเทสต์จับได้กี่จุด</text>
+      <rect class="d-bar-new" x="8" y="176" width="140" height="20"/>
+      <rect class="d-box" x="152" y="176" width="456" height="20" stroke-dasharray="3 3"/>
+      <text class="d-label-sm" x="8" y="214">จับได้ 23% — ตัวเลขนี้โกหกยากกว่ามาก</text>
+      <text class="d-label-sm" x="8" y="232" opacity=".7">แก้โค้ดให้ผิดแล้วเทสต์ยังเขียว = เทสต์ชุดนั้นไม่ได้ทำงาน ไม่ว่า coverage จะเท่าไร</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 2</b> · ตัวเลขทั้งสองมาจากโค้ดชุดเดียวกัน — อันบนบอกว่าสมบูรณ์ อันล่างบอกความจริง</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://en.wikipedia.org/wiki/Mutation_testing" target="_blank" rel="noopener noreferrer">Mutation testing</a>
+        — แนวคิดและข้อจำกัดของการวัดด้วยการทำให้โค้ดผิด
+        <span class="src">wikipedia.org</span>
+      </li>
+      <li>
+        <a href="https://stryker-mutator.io/docs/" target="_blank" rel="noopener noreferrer">Stryker Mutator — Docs</a>
+        — เครื่องมือที่ใช้ได้จริงกับ JS/TS, C#, Scala
+        <span class="src">stryker-mutator.io</span>
+      </li>
+    </ol>
   </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">11.03</span><h2>เทสต์ในฐานะ spec</h2></div>
-  <p>ทางแก้ที่ตรงที่สุดสำหรับปัญหาทั้งหมดในบท 11.01 คือ<strong>สลับลำดับ</strong> — เขียนเทสต์ก่อน แล้วให้ agent ทำให้ผ่าน</p>
-  <div class="tw"><table>
-    <thead><tr><th></th><th>โค้ดก่อนเทสต์</th><th>เทสต์ก่อนโค้ด</th></tr></thead>
-    <tbody>
-      <tr><td>เทสต์สะท้อนอะไร</td><td>สิ่งที่โค้ดทำ</td><td><strong>สิ่งที่ควรทำ</strong></td></tr>
-      <tr><td>บั๊กที่ถูกล็อกไว้</td><td>เกิดบ่อย</td><td>เกิดไม่ได้</td></tr>
-      <tr><td>เกณฑ์เสร็จ</td><td>กำกวม</td><td>ชัดเจน — เทสต์เขียว</td></tr>
-      <tr><td>เอาไปใช้ในชุดวัดได้ไหม</td><td>ไม่ได้</td><td><strong>ได้ทันที</strong></td></tr>
-    </tbody>
-  </table></div>
-  <div class="box rule">
-    <span class="k">ผลพลอยได้ที่มีค่าที่สุด</span>
-    <p>เทสต์ที่เขียนก่อนคือ <strong>เกณฑ์ red→green</strong> ของ <a href="m12-evals.html">M12.03</a> พอดี ทุกงานที่คุณทำแบบนี้ กลายเป็นงานในชุดวัดได้ฟรีโดยไม่ต้องทำงานเพิ่ม</p>
+
+  <p>
+    ทางแก้ที่ตรงที่สุดสำหรับปัญหาทั้งหมดในบท 11.01 คือ<strong>สลับลำดับ</strong> —
+    เขียนเทสต์ก่อน แล้วให้ agent ทำให้ผ่าน
+  </p>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 230" role="img" aria-label="Writing tests first changes what the test reflects and makes the task measurable">
+      <text class="d-label-mono" x="230" y="16">โค้ดก่อนเทสต์</text>
+      <text class="d-label-mono" x="450" y="16">เทสต์ก่อนโค้ด</text>
+
+      <text class="d-label" x="8" y="48">เทสต์สะท้อนอะไร</text>
+      <rect class="d-box" x="200" y="30" width="216" height="28"/>
+      <text class="d-label-sm" x="212" y="49">สิ่งที่โค้ดทำ</text>
+      <rect class="d-box-accent" x="424" y="30" width="208" height="28"/>
+      <text class="d-label-sm" x="436" y="49">สิ่งที่ควรทำ</text>
+
+      <text class="d-label" x="8" y="88">บั๊กที่ถูกล็อก</text>
+      <rect class="d-bar-new" x="200" y="70" width="216" height="28"/>
+      <text class="d-label-sm" x="212" y="89">เกิดบ่อย</text>
+      <rect class="d-box-accent" x="424" y="70" width="208" height="28"/>
+      <text class="d-label-sm" x="436" y="89">เกิดไม่ได้</text>
+
+      <text class="d-label" x="8" y="128">เกณฑ์เสร็จ</text>
+      <rect class="d-box" x="200" y="110" width="216" height="28"/>
+      <text class="d-label-sm" x="212" y="129">กำกวม</text>
+      <rect class="d-box-accent" x="424" y="110" width="208" height="28"/>
+      <text class="d-label-sm" x="436" y="129">ชัดเจน — เทสต์เขียว</text>
+
+      <text class="d-label" x="8" y="168">ใส่ชุดวัดได้ไหม</text>
+      <rect class="d-box" x="200" y="150" width="216" height="28"/>
+      <text class="d-label-sm" x="212" y="169">ไม่ได้</text>
+      <rect class="d-box-accent" x="424" y="150" width="208" height="28"/>
+      <text class="d-label-sm" x="436" y="169">ได้ทันที</text>
+
+      <rect class="d-box-ink" x="8" y="190" width="624" height="34"/>
+      <text class="d-label-inv" x="22" y="211">เทสต์ที่เขียนก่อน = เกณฑ์ red→green ของ M12.03 พอดี — ได้ของสองอย่างจากงานเดียว</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 3</b> · ทุกงานที่ทำแบบนี้ กลายเป็นงานในชุดวัดได้ฟรีโดยไม่ต้องทำงานเพิ่ม</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://martinfowler.com/bliki/TestPyramid.html" target="_blank" rel="noopener noreferrer">Test Pyramid</a>
+        — โครงเทสต์ที่ทำให้ feedback เร็วพอจะใช้เป็น spec
+        <span class="src">martinfowler.com</span>
+      </li>
+      <li>
+        <a href="https://www.anthropic.com/engineering/claude-code-best-practices" target="_blank" rel="noopener noreferrer">Claude Code best practices</a>
+        — การให้เกณฑ์ที่ตรวจได้ก่อนสั่งงาน
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+    </ol>
   </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">11.04</span><h2>Property-based และ fuzz</h2></div>
-  <p>พื้นที่ที่ agent ได้เปรียบคนชัดเจนที่สุด เพราะการคิดคุณสมบัติที่ต้องจริงเสมอ และการสร้างอินพุตแปลก ๆ จำนวนมาก เป็นงานที่มันทำได้ดีและคนขี้เกียจทำ</p>
-  <pre><code><span class="c">// แทนที่จะเขียนเคสทีละอัน ให้ระบุคุณสมบัติที่ต้องจริงเสมอ</span>
-สำหรับตะกร้าใด ๆ:
-  ยอดรวม >= 0
-  ลบสินค้าแล้วเพิ่มกลับ → ยอดรวมเท่าเดิม
-  ลำดับการเพิ่มสินค้าไม่มีผลต่อยอดรวม
-  ส่วนลดไม่ทำให้ยอดติดลบ</code></pre>
-  <div class="box good">
-    <span class="k">วิธีสั่งที่ได้ผล</span>
-    <p>อย่าสั่งว่า “เขียนเทสต์เพิ่ม” ให้สั่งว่า <strong>“บอกคุณสมบัติที่ต้องจริงเสมอสำหรับฟังก์ชันนี้มา 10 ข้อ แล้วเขียนเทสต์ที่ตรวจแต่ละข้อ”</strong> คำสั่งแบบหลังได้เทสต์ที่จับบั๊กจริง คำสั่งแบบแรกได้เทสต์ที่เพิ่มตัวเลข coverage</p>
+
+  <div class="chat">
+    <p>
+      พื้นที่ที่ agent ได้เปรียบคนชัดเจนที่สุด เพราะการคิด<b>คุณสมบัติที่ต้องจริงเสมอ</b>
+      และการสร้าง input แปลก ๆ จำนวนมาก เป็นงานที่มันทำได้ดีและคนขี้เกียจทำ
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 220" role="img" aria-label="Example-based tests cover chosen points; property-based tests cover a rule across the space">
+      <text class="d-label-mono" x="8" y="16">EXAMPLE-BASED · เขียนเคสทีละอัน</text>
+      <rect class="d-box" x="8" y="26" width="290" height="80"/>
+      <circle class="d-bar" cx="50" cy="52" r="5"/>
+      <circle class="d-bar" cx="110" cy="80" r="5"/>
+      <circle class="d-bar" cx="190" cy="46" r="5"/>
+      <circle class="d-bar" cx="250" cy="88" r="5"/>
+      <text class="d-label-sm" x="20" y="126">ครอบเฉพาะจุดที่เรานึกออก</text>
+
+      <text class="d-label-mono" x="330" y="16">PROPERTY-BASED · ระบุกฎ ให้มันสุ่มเอง</text>
+      <rect class="d-box-accent" x="330" y="26" width="302" height="80"/>
+      <circle class="d-bar-new" cx="356" cy="44" r="4"/><circle class="d-bar-new" cx="392" cy="72" r="4"/>
+      <circle class="d-bar-new" cx="428" cy="38" r="4"/><circle class="d-bar-new" cx="464" cy="88" r="4"/>
+      <circle class="d-bar-new" cx="500" cy="56" r="4"/><circle class="d-bar-new" cx="536" cy="80" r="4"/>
+      <circle class="d-bar-new" cx="572" cy="46" r="4"/><circle class="d-bar-new" cx="608" cy="66" r="4"/>
+      <circle class="d-bar-new" cx="374" cy="94" r="4"/><circle class="d-bar-new" cx="482" cy="34" r="4"/>
+      <text class="d-label-sm" x="342" y="126">ครอบทั่วทั้งช่วง รวมจุดที่เราไม่ได้นึกถึง</text>
+
+      <rect class="d-box-ink" x="8" y="146" width="624" height="66"/>
+      <text class="d-label-inv" x="22" y="170">วิธีสั่งที่ได้ผล</text>
+      <text class="d-label-inv" x="22" y="192" opacity=".85">อย่าสั่ง "เขียนเทสต์เพิ่ม" — สั่งว่า "บอกคุณสมบัติที่ต้องจริงเสมอ 10 ข้อ แล้วเขียนเทสต์ตรวจทีละข้อ"</text>
+      <text class="d-label-inv" x="22" y="208" opacity=".6">คำสั่งแรกได้เทสต์ที่เพิ่มตัวเลข coverage · คำสั่งหลังได้เทสต์ที่จับบั๊กจริง</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 4</b> · ตัวอย่างคุณสมบัติ — ยอดรวม ≥ 0 · ลบแล้วเพิ่มกลับได้ยอดเดิม · ลำดับการเพิ่มไม่มีผล · ส่วนลดไม่ทำให้ติดลบ</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://martinfowler.com/articles/exploring-gen-ai.html" target="_blank" rel="noopener noreferrer">Exploring Generative AI</a>
+        — งานประเภทไหนที่มอบให้ AI แล้วได้ผลจริง
+        <span class="src">martinfowler.com</span>
+      </li>
+      <li>
+        <a href="https://en.wikipedia.org/wiki/Mutation_testing" target="_blank" rel="noopener noreferrer">Mutation testing</a>
+        — วิธีวัดว่าเทสต์ชุดใหม่จับได้จริงหรือแค่เพิ่มจำนวน
+        <span class="src">wikipedia.org</span>
+      </li>
+    </ol>
   </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">11.05</span><h2>E2E ที่ไม่ flaky</h2></div>
-  <p>เทสต์ E2E ที่แดงบ้างเขียวบ้างแย่กว่าไม่มีเทสต์ เพราะมันสอนให้ทุกคนเพิกเฉยต่อสีแดง แล้ววันที่แดงจริงก็ไม่มีใครสนใจ</p>
-  <div class="tw"><table>
-    <thead><tr><th>สาเหตุความไม่แน่นอน</th><th>วิธีแก้ที่ถูก</th><th>วิธีแก้ที่ผิดแต่คนชอบทำ</th></tr></thead>
-    <tbody>
-      <tr><td>รอเวลาแทนรอสภาวะ</td><td>รอจนกว่าองค์ประกอบจะพร้อม</td><td>เพิ่มเวลา sleep</td></tr>
-      <tr><td>ข้อมูลค้างจากรอบก่อน</td><td>เตรียมข้อมูลใหม่ทุกรอบ</td><td>สั่งให้รันเรียงลำดับ</td></tr>
-      <tr><td>พึ่งบริการภายนอกจริง</td><td>บันทึกไว้แล้วเล่นซ้ำ</td><td>ลองใหม่สามครั้ง</td></tr>
-      <tr><td>อิงตำแหน่งหรือคลาส CSS</td><td>อิงบทบาทและข้อความที่ผู้ใช้เห็น</td><td>อัปเดตตัวเลือกทุกครั้งที่ UI ขยับ</td></tr>
-    </tbody>
-  </table></div>
-  <div class="box trap">
-    <span class="k">รูปแบบร่วมของคอลัมน์ขวา</span>
-    <p>ทุกวิธีแก้ที่ผิดคือการ<strong>ซ่อนอาการ</strong>แทนที่จะแก้เหตุ และ agent จะเสนอวิธีเหล่านี้เป็นอันดับแรกเสมอเพราะมันทำให้เทสต์เขียวได้เร็วที่สุด คุณต้องบอกไว้ล่วงหน้าว่าห้ามใช้</p>
+
+  <div class="chat">
+    <p>
+      เทสต์ E2E ที่แดงบ้างเขียวบ้างแย่กว่าไม่มีเทสต์ เพราะมัน<b>สอนให้ทุกคนเพิกเฉยต่อสีแดง</b>
+      แล้ววันที่แดงจริงก็ไม่มีใครสนใจ
+    </p>
+    <p>
+      ที่ต้องระวังเป็นพิเศษกับ agent คือ ทุกวิธีแก้ผิดในคอลัมน์ขวาข้างล่างนี้
+      <b>agent จะเสนอเป็นอันดับแรกเสมอ</b> เพราะมันทำให้เทสต์เขียวได้เร็วที่สุด
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 250" role="img" aria-label="Root causes of flaky E2E tests, the correct fix, and the tempting wrong fix">
+      <text class="d-label-mono" x="8" y="16">สาเหตุ</text>
+      <text class="d-label-mono" x="196" y="16">แก้ที่เหตุ</text>
+      <text class="d-label-mono" x="424" y="16">ซ่อนอาการ — agent เสนออันนี้ก่อน</text>
+
+      <rect class="d-box" x="8" y="26" width="180" height="36"/>
+      <text class="d-label-sm" x="20" y="49">รอเวลาแทนรอสภาวะ</text>
+      <rect class="d-box-accent" x="196" y="26" width="220" height="36"/>
+      <text class="d-label-sm" x="208" y="49">รอจน element พร้อมจริง</text>
+      <rect class="d-bar-new" x="424" y="26" width="208" height="36"/>
+      <text class="d-label-sm" x="436" y="49">เพิ่ม sleep อีกหน่อย</text>
+
+      <rect class="d-box" x="8" y="66" width="180" height="36"/>
+      <text class="d-label-sm" x="20" y="89">ข้อมูลค้างจากรอบก่อน</text>
+      <rect class="d-box-accent" x="196" y="66" width="220" height="36"/>
+      <text class="d-label-sm" x="208" y="89">สร้างข้อมูลใหม่ทุกรอบ</text>
+      <rect class="d-bar-new" x="424" y="66" width="208" height="36"/>
+      <text class="d-label-sm" x="436" y="89">บังคับให้รันเรียงลำดับ</text>
+
+      <rect class="d-box" x="8" y="106" width="180" height="36"/>
+      <text class="d-label-sm" x="20" y="129">เรียก service ภายนอกจริง</text>
+      <rect class="d-box-accent" x="196" y="106" width="220" height="36"/>
+      <text class="d-label-sm" x="208" y="129">บันทึกไว้แล้วเล่นซ้ำ</text>
+      <rect class="d-bar-new" x="424" y="106" width="208" height="36"/>
+      <text class="d-label-sm" x="436" y="129">retry สามครั้ง</text>
+
+      <rect class="d-box" x="8" y="146" width="180" height="36"/>
+      <text class="d-label-sm" x="20" y="169">ผูกกับ CSS หรือตำแหน่ง</text>
+      <rect class="d-box-accent" x="196" y="146" width="220" height="36"/>
+      <text class="d-label-sm" x="208" y="169">ผูกกับ role และข้อความจริง</text>
+      <rect class="d-bar-new" x="424" y="146" width="208" height="36"/>
+      <text class="d-label-sm" x="436" y="169">ไล่แก้ selector ทุกครั้ง</text>
+
+      <rect class="d-box-ink" x="8" y="194" width="624" height="50"/>
+      <text class="d-label-inv" x="22" y="215">วิธีสั่งที่ได้ผล</text>
+      <text class="d-label-inv" x="22" y="235" opacity=".85">แนบ trace + video + log ของรอบที่แดง แล้วสั่งว่า "หาสาเหตุ" — ไม่ใช่ "ทำให้ผ่าน"</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 5</b> · คอลัมน์ขวาทั้งคอลัมน์คือการซ่อนอาการ ต้องบอกห้ามไว้ล่วงหน้าใน CLAUDE.md</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://playwright.dev/docs/best-practices" target="_blank" rel="noopener noreferrer">Playwright — Best Practices</a>
+        — auto-waiting, user-visible locators, test isolation
+        <span class="src">playwright.dev</span>
+      </li>
+      <li>
+        <a href="https://martinfowler.com/bliki/TestPyramid.html" target="_blank" rel="noopener noreferrer">Test Pyramid</a>
+        — ทำไม E2E จำนวนมากถึงแพงและเปราะ
+        <span class="src">martinfowler.com</span>
+      </li>
+    </ol>
   </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">11.06</span><h2>ออกแบบ review agent ให้หาบั๊กจริง</h2></div>
-  <p>review agent ที่สั่งลอย ๆ ว่า “ช่วยรีวิวโค้ดนี้” จะคืนรายการเรื่องสไตล์ยาวเหยียดที่ไม่มีใครอ่าน ต้องออกแบบให้มันหาสิ่งที่คนพลาด</p>
-  <div class="tw"><table>
-    <thead><tr><th>ควรให้หา</th><th>ไม่ควรให้หา</th></tr></thead>
-    <tbody>
-      <tr><td>เงื่อนไขที่ทำให้พังจริง พร้อมอินพุตตัวอย่าง</td><td>ชื่อตัวแปร การจัดรูปแบบ</td></tr>
-      <tr><td>เคสขอบที่ไม่ได้จัดการ</td><td>สิ่งที่ linter จับได้อยู่แล้ว</td></tr>
-      <tr><td>สมมติฐานที่ไม่ได้เขียนไว้</td><td>ความชอบส่วนตัวเรื่องโครงสร้าง</td></tr>
-      <tr><td>ผลข้างเคียงที่มองไม่เห็น</td><td>“น่าจะเพิ่มคอมเมนต์”</td></tr>
-    </tbody>
-  </table></div>
-  <div class="box rule">
-    <span class="k">ข้อบังคับที่เปลี่ยนคุณภาพมากที่สุด</span>
-    <p>บังคับว่าทุก finding ต้องมี <strong>สถานการณ์ที่ทำให้พังจริง</strong> — อินพุตอะไร แล้วได้ผลผิดยังไง ข้อบังคับข้อเดียวนี้ตัด finding ประเภทเดาไปได้เกือบหมด เพราะถ้าเขียนสถานการณ์ไม่ได้ แปลว่ายังไม่รู้ว่ามันพังจริงไหม</p>
+
+  <p>
+    review agent ที่สั่งลอย ๆ ว่า "ช่วยรีวิวโค้ดนี้" จะคืนรายการเรื่องสไตล์ยาวเหยียดที่ไม่มีใครอ่าน
+    ต้องออกแบบให้มัน<strong>หาสิ่งที่คนพลาด</strong> ไม่ใช่สิ่งที่ linter จับได้อยู่แล้ว
+  </p>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 244" role="img" aria-label="What a review agent should hunt versus what wastes attention, and the one rule that filters guesses">
+      <text class="d-label-mono" x="8" y="16">ให้หาสิ่งนี้ — คนพลาดบ่อย</text>
+      <text class="d-label-mono" x="330" y="16">ห้ามรายงาน — มีเครื่องมืออื่นทำแล้ว</text>
+
+      <rect class="d-box-accent" x="8" y="26" width="302" height="30"/>
+      <text class="d-label-sm" x="20" y="46">เงื่อนไขที่พังจริง พร้อม input ตัวอย่าง</text>
+      <rect class="d-box" x="330" y="26" width="302" height="30" stroke-dasharray="3 3"/>
+      <text class="d-label-sm" x="342" y="46">ชื่อตัวแปร · การจัดรูปแบบ</text>
+
+      <rect class="d-box-accent" x="8" y="60" width="302" height="30"/>
+      <text class="d-label-sm" x="20" y="80">เคสขอบที่ไม่ได้จัดการ</text>
+      <rect class="d-box" x="330" y="60" width="302" height="30" stroke-dasharray="3 3"/>
+      <text class="d-label-sm" x="342" y="80">สิ่งที่ linter จับได้อยู่แล้ว</text>
+
+      <rect class="d-box-accent" x="8" y="94" width="302" height="30"/>
+      <text class="d-label-sm" x="20" y="114">สมมติฐานที่ไม่ได้เขียนไว้</text>
+      <rect class="d-box" x="330" y="94" width="302" height="30" stroke-dasharray="3 3"/>
+      <text class="d-label-sm" x="342" y="114">ความชอบส่วนตัวเรื่องโครงสร้าง</text>
+
+      <rect class="d-box-accent" x="8" y="128" width="302" height="30"/>
+      <text class="d-label-sm" x="20" y="148">ผลข้างเคียงที่มองไม่เห็นจาก diff</text>
+      <rect class="d-box" x="330" y="128" width="302" height="30" stroke-dasharray="3 3"/>
+      <text class="d-label-sm" x="342" y="148">"น่าจะเพิ่มคอมเมนต์"</text>
+
+      <rect class="d-box-ink" x="8" y="170" width="624" height="66"/>
+      <text class="d-label-inv" x="22" y="192">ข้อบังคับข้อเดียวที่เปลี่ยนคุณภาพมากที่สุด</text>
+      <text class="d-label-inv" x="22" y="212" opacity=".85">ทุก finding ต้องแนบ failure scenario — input อะไร แล้วได้ผลผิดยังไง</text>
+      <text class="d-label-inv" x="22" y="230" opacity=".6">เขียน scenario ไม่ได้ = ยังไม่รู้ว่าพังจริงไหม → ตัด finding ประเภทเดาไปได้เกือบหมด</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 6</b> · การบังคับ failure scenario ทำงานเพราะมันเปลี่ยนคำถามจาก "ดูน่าสงสัยไหม" เป็น "พังยังไง"</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://www.anthropic.com/engineering/claude-code-best-practices" target="_blank" rel="noopener noreferrer">Claude Code best practices</a>
+        — การให้เกณฑ์ที่ตรวจได้แทนคำสั่งกว้าง ๆ
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+      <li>
+        <a href="https://martinfowler.com/articles/exploring-gen-ai.html" target="_blank" rel="noopener noreferrer">Exploring Generative AI</a>
+        — ภาระรีวิวที่เพิ่มขึ้นเมื่อโค้ดถูกผลิตเร็วขึ้น
+        <span class="src">martinfowler.com</span>
+      </li>
+    </ol>
   </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">11.07</span><h2>Verification pass</h2></div>
-  <p>ก่อนรายงาน finding ให้คน ต้องมีขั้นยืนยันเสมอ เหตุผลเป็นเรื่องเศรษฐศาสตร์ของความสนใจ — <strong>รายงานผิดสามครั้ง แล้วคนจะเลิกอ่านรายงานที่สี่</strong> แม้ครั้งที่สี่จะถูก</p>
-  <ol>
-    <li>สเตจแรกหา finding ให้กว้างไว้ก่อน</li>
-    <li>สเตจสองรับ finding ทีละข้อ <strong>โดยไม่เห็นเหตุผลของสเตจแรก</strong></li>
-    <li>สเตจสองพยายามยืนยันจากโค้ดจริง แล้วตัดสินว่ายืนยันได้หรือเป็นการเตือนผิด</li>
-    <li>รายงานเฉพาะที่ยืนยันได้ พร้อมหลักฐาน</li>
-  </ol>
-  <p>ข้อ 2 คือหัวใจ ถ้าสเตจสองเห็นเหตุผลของสเตจแรก มันจะเห็นด้วยตาม — เหตุผลเดียวกับกฎความเป็นอิสระใน <a href="m10.html">M10.05</a></p>
+
+  <div class="chat">
+    <p>
+      ก่อนรายงาน finding ให้คน ต้องมีขั้นยืนยันเสมอ เหตุผลไม่ใช่เรื่องเทคนิค แต่เป็น<b>เศรษฐศาสตร์ของความสนใจ</b>
+    </p>
+    <p>
+      รายงานผิดสามครั้ง คนจะเลิกอ่านรายงานที่สี่ — <b>แม้ครั้งที่สี่จะถูก</b>
+      เครื่องมือรีวิวส่วนใหญ่ตายด้วยวิธีนี้ ไม่ใช่เพราะจับบั๊กไม่ได้
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 250" role="img" aria-label="Two-stage review pipeline where the verifier never sees stage one's reasoning">
+      <text class="d-label-mono" x="8" y="16">STAGE 1 · หากว้างไว้ก่อน</text>
+      <rect class="d-box" x="8" y="26" width="180" height="40"/>
+      <text class="d-label-sm" x="20" y="43">scan diff</text>
+      <text class="d-label-sm" x="20" y="59" opacity=".7">recall สูงไว้ก่อน</text>
+      <line class="d-line d-arrow" x1="192" y1="46" x2="228" y2="46"/>
+      <rect class="d-box" x="232" y="26" width="150" height="40"/>
+      <text class="d-label-sm" x="244" y="51">finding ดิบ 14 ข้อ</text>
+
+      <rect class="d-bar-new" x="400" y="26" width="232" height="40"/>
+      <text class="d-label-sm" x="412" y="43">ถ้าส่งตรงถึงคนตรงนี้</text>
+      <text class="d-label-sm" x="412" y="59" opacity=".7">precision ต่ำ → คนเลิกอ่าน</text>
+
+      <text class="d-label-mono" x="8" y="98">STAGE 2 · ยืนยันทีละข้อ</text>
+      <rect class="d-box-accent" x="8" y="108" width="374" height="56"/>
+      <text class="d-label-sm" x="20" y="128">รับ finding ทีละข้อ โดย<tspan font-weight="600">ไม่เห็นเหตุผลของ stage 1</tspan></text>
+      <text class="d-label-sm" x="20" y="146">แล้วพยายามยืนยันจากโค้ดจริง → CONFIRMED หรือ FALSE ALARM</text>
+      <line class="d-line d-arrow d-line-accent" x1="386" y1="136" x2="422" y2="136"/>
+      <rect class="d-box-accent" x="426" y="108" width="206" height="56"/>
+      <text class="d-label-sm" x="438" y="133">เหลือ 5 ข้อ พร้อมหลักฐาน</text>
+      <text class="d-label-sm" x="438" y="151" opacity=".7">precision สูงพอให้คนเชื่อ</text>
+
+      <rect class="d-box-ink" x="8" y="178" width="624" height="66"/>
+      <text class="d-label-inv" x="22" y="200">ทำไมข้อ "ไม่เห็นเหตุผลของ stage 1" ถึงเป็นหัวใจ</text>
+      <text class="d-label-inv" x="22" y="220" opacity=".85">ถ้า stage 2 เห็นเหตุผลของ stage 1 มันจะเห็นด้วยตาม แล้วได้ rubber stamp ที่แพงขึ้น</text>
+      <text class="d-label-inv" x="22" y="238" opacity=".6">เหตุผลเดียวกับกฎความเป็นอิสระใน M10.05 — verifier ที่แชร์ context ไม่ใช่ verifier</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 7</b> · เป้าหมายของ stage 2 ไม่ใช่หาบั๊กเพิ่ม แต่คือ<b>ทิ้ง</b>สิ่งที่ยืนยันไม่ได้</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener noreferrer">Building effective agents</a>
+        — evaluator-optimizer และเงื่อนไขที่ทำให้มันได้ผล
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+      <li>
+        <a href="https://www.anthropic.com/engineering/multi-agent-research-system" target="_blank" rel="noopener noreferrer">Multi-agent research system</a>
+        — การแยก context ระหว่างผู้ทำกับผู้ตรวจ
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <div class="lab">

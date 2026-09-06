@@ -78,6 +78,56 @@
     <p>“ผมเพิ่มบรรทัดนี้ใน <code>CLAUDE.md</code> แล้วมันฉลาดขึ้นเยอะ” — เกือบทุกครั้งที่ตรวจสอบด้วยชุดวัดจริง
     บรรทัดพวกนี้ให้ผลใกล้ศูนย์ และบางบรรทัดให้ผล<em>ติดลบ</em> เพราะไปกิน attention จากสิ่งที่สำคัญกว่า</p>
   </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 236" role="img" aria-label="Overlapping result ranges mean a single run cannot tell the two versions apart">
+      <text class="d-label-mono" x="8" y="16">รันงานเดิม 8 ครั้ง · แต่ละจุดคือหนึ่งรอบ</text>
+
+      <text class="d-label-sm" x="8" y="52">prompt A</text>
+      <line class="d-line" x1="96" y1="47" x2="608" y2="47"/>
+      <circle class="d-bar" cx="150" cy="47" r="5"/><circle class="d-bar" cx="196" cy="47" r="5"/>
+      <circle class="d-bar" cx="238" cy="47" r="5"/><circle class="d-bar" cx="262" cy="47" r="5"/>
+      <circle class="d-bar" cx="310" cy="47" r="5"/><circle class="d-bar" cx="356" cy="47" r="5"/>
+      <circle class="d-bar" cx="404" cy="47" r="5"/><circle class="d-bar" cx="470" cy="47" r="5"/>
+
+      <text class="d-label-sm" x="8" y="92">prompt B</text>
+      <line class="d-line" x1="96" y1="87" x2="608" y2="87"/>
+      <circle class="d-bar-new" cx="186" cy="87" r="5"/><circle class="d-bar-new" cx="228" cy="87" r="5"/>
+      <circle class="d-bar-new" cx="276" cy="87" r="5"/><circle class="d-bar-new" cx="322" cy="87" r="5"/>
+      <circle class="d-bar-new" cx="368" cy="87" r="5"/><circle class="d-bar-new" cx="416" cy="87" r="5"/>
+      <circle class="d-bar-new" cx="462" cy="87" r="5"/><circle class="d-bar-new" cx="524" cy="87" r="5"/>
+
+      <rect class="d-box" x="150" y="30" width="320" height="72" stroke-dasharray="4 3"/>
+      <text class="d-label-sm" x="160" y="120" opacity=".7">ช่วงผลทับกันเกือบทั้งหมด</text>
+
+      <line class="d-line d-arrow" x1="196" y1="140" x2="196" y2="60"/>
+      <text class="d-label-sm" x="150" y="156">รอบที่คุณลอง A</text>
+      <line class="d-line d-arrow d-line-accent" x1="524" y1="140" x2="524" y2="100"/>
+      <text class="d-label-sm" x="430" y="156">รอบที่คุณลอง B</text>
+
+      <rect class="d-box-ink" x="8" y="168" width="624" height="60"/>
+      <text class="d-label-inv" x="22" y="190">คุณสุ่มหยิบมาข้างละจุด แล้วสรุปว่า B ดีกว่า</text>
+      <text class="d-label-inv" x="22" y="210" opacity=".85">แต่จากข้อมูลทั้งหมด ทั้งสองชุดแยกกันไม่ออก — สิ่งที่คุณเห็นคือ variance ล้วน ๆ</text>
+      <text class="d-label-inv" x="22" y="226" opacity=".6">n = 1 คือเกร็ดเล่าสู่กันฟัง ไม่ใช่ผลการวัด</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 1</b> · ก่อนเชื่อว่าอะไรดีขึ้น ต้องรู้ก่อนว่าเสียงรบกวนของระบบตัวเองกว้างแค่ไหน</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://docs.claude.com/en/docs/test-and-evaluate/develop-tests" target="_blank" rel="noopener noreferrer">Create strong empirical evaluations</a>
+        — ทำไม sample เดียวถึงตัดสินไม่ได้ และควรออกแบบชุดวัดอย่างไร
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://martinfowler.com/articles/exploring-gen-ai.html" target="_blank" rel="noopener noreferrer">Exploring Generative AI</a>
+        — บันทึกภาคสนามเรื่องการวัดผลเครื่องมือ AI ในทีมจริง
+        <span class="src">martinfowler.com</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <!-- ─── L02 ─── -->
@@ -163,6 +213,48 @@
     <p>ชุดงานเป็นสิ่งมีชีวิต ทุกครั้งที่เจอความล้มเหลวจริงในการทำงานประจำวัน
     ให้แปลงมันเป็นงานในชุด นั่นคือวิธีที่ชุดวัดจะแหลมขึ้นเรื่อย ๆ แทนที่จะเก่าลง</p>
   </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 232" role="img" aria-label="Tasks sampled from the real backlog versus tasks invented for the eval">
+      <text class="d-label-mono" x="8" y="16">มาจาก backlog จริง — ใช้ได้</text>
+      <rect class="d-box-accent" x="8" y="26" width="302" height="118"/>
+      <text class="d-label-sm" x="20" y="48">สุ่มจาก ticket ที่ปิดไปแล้ว 6 เดือนหลัง</text>
+      <text class="d-label-sm" x="20" y="70">มีทั้งงานง่าย งานยาก และงานที่เคยพัง</text>
+      <text class="d-label-sm" x="20" y="92">มี repo state จริง ไม่ใช่โฟลเดอร์เปล่า</text>
+      <text class="d-label-sm" x="20" y="114">รู้คำตอบที่ถูก เพราะคนทำไปแล้ว</text>
+      <text class="d-label-sm" x="20" y="136" opacity=".7">→ ผลที่วัดได้ ทำนายงานพรุ่งนี้ได้</text>
+
+      <text class="d-label-mono" x="330" y="16">แต่งขึ้นมาเอง — วัดแล้วไม่ได้อะไร</text>
+      <rect class="d-box" x="330" y="26" width="302" height="118" stroke-dasharray="3 3"/>
+      <text class="d-label-sm" x="342" y="48">"เขียนฟังก์ชัน reverse string"</text>
+      <text class="d-label-sm" x="342" y="70">งานที่เรารู้อยู่แล้วว่ามันทำได้</text>
+      <text class="d-label-sm" x="342" y="92">โฟลเดอร์ว่าง ไม่มี legacy ให้ชน</text>
+      <text class="d-label-sm" x="342" y="114">ไม่มีใครเถียงเรื่องคำตอบ</text>
+      <text class="d-label-sm" x="342" y="136" opacity=".7">→ คะแนนสูงตลอด บอกอะไรไม่ได้</text>
+
+      <rect class="d-box-ink" x="8" y="164" width="624" height="60"/>
+      <text class="d-label-inv" x="22" y="186">เกณฑ์คัดงานเข้าเซ็ต</text>
+      <text class="d-label-inv" x="22" y="206" opacity=".85">งานที่ agent ทำผ่านทุกครั้ง และงานที่พังทุกครั้ง ต่างก็ไม่มีข้อมูล — <tspan font-weight="600">เก็บงานที่ผลไม่แน่นอน</tspan></text>
+      <text class="d-label-inv" x="22" y="222" opacity=".6">งานตรงกลางนั่นแหละที่บอกได้ว่าการเปลี่ยนแปลงมีผลจริงไหม</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 2</b> · ชุดวัดที่คะแนนเต็มตลอดกับที่ศูนย์ตลอด มีค่าเท่ากันคือไม่มีค่า</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://docs.claude.com/en/docs/test-and-evaluate/develop-tests" target="_blank" rel="noopener noreferrer">Create strong empirical evaluations</a>
+        — การออกแบบ eval ให้สะท้อนงานจริงแทนงานตัวอย่าง
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://arxiv.org/abs/2107.03374" target="_blank" rel="noopener noreferrer">Evaluating Large Language Models Trained on Code</a>
+        — HumanEval — ตัวอย่างชุดงานมาตรฐานสำหรับโค้ด และข้อจำกัดที่ตามมา
+        <span class="src">arxiv.org · 2021</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <!-- ─── L03 ─── -->
@@ -214,6 +306,53 @@ criteria:
     <p>ถ้าไม่มีเกณฑ์ <code>diff.allow</code> agent อาจ “ทำให้เทสต์เขียว” ด้วยการแก้ไฟล์เทสต์
     หรือเติม <code>skip</code> เข้าไป ทุกชุด eval ที่ไม่จำกัดขอบเขต diff จะถูกโกงในที่สุด</p>
   </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 244" role="img" aria-label="Ladder of evaluation criteria ordered from cheapest and most objective to most expensive">
+      <text class="d-label-mono" x="8" y="16">ไล่จากล่างขึ้นบน — ใช้ชั้นบนเมื่อชั้นล่างตอบไม่ได้เท่านั้น</text>
+
+      <rect class="d-box" x="8" y="26" width="440" height="34" stroke-dasharray="3 3"/>
+      <text class="d-label-sm" x="20" y="47">4 · คนอ่านเอง — แพงสุด ใช้กับตัวอย่างไม่กี่ชิ้น</text>
+      <rect class="d-bar-new" x="460" y="26" width="172" height="34"/>
+      <text class="d-label-sm" x="472" y="47">แพง · ช้า · ไม่ scale</text>
+
+      <rect class="d-box" x="8" y="64" width="440" height="34"/>
+      <text class="d-label-sm" x="20" y="85">3 · LLM-as-judge — ตัดสินสิ่งที่วัดตรง ๆ ไม่ได้</text>
+      <rect class="d-bar-new" x="460" y="64" width="128" height="34"/>
+      <text class="d-label-sm" x="472" y="85">มีอคติของตัวเอง</text>
+
+      <rect class="d-box-accent" x="8" y="102" width="440" height="34"/>
+      <text class="d-label-sm" x="20" y="123">2 · assertion บน artifact — diff แตะไฟล์ที่ควรแตะไหม</text>
+      <rect class="d-bar" x="460" y="102" width="72" height="34"/>
+      <text class="d-label-sm" x="472" y="123">ถูกและตรง</text>
+
+      <rect class="d-box-accent" x="8" y="140" width="440" height="34"/>
+      <text class="d-label-sm" x="20" y="161">1 · deterministic — compile ผ่านไหม เทสต์เขียวไหม exit code</text>
+      <rect class="d-bar" x="460" y="140" width="40" height="34"/>
+      <text class="d-label-sm" x="472" y="161">ถูกสุด</text>
+
+      <rect class="d-box-ink" x="8" y="188" width="624" height="52"/>
+      <text class="d-label-inv" x="22" y="210">กฎที่ทีมส่วนใหญ่ทำกลับด้าน</text>
+      <text class="d-label-inv" x="22" y="230" opacity=".85">คนมักเริ่มที่ชั้น 3 เพราะดูฉลาดกว่า — แต่ชั้น 1–2 ตอบคำถามส่วนใหญ่ได้ในราคาเศษเสี้ยว</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 3</b> · เกณฑ์ที่ deterministic ไม่มีอคติ ไม่มีค่าใช้จ่ายต่อรอบ และไม่เถียงกับคุณ</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://docs.claude.com/en/docs/test-and-evaluate/eval-tool" target="_blank" rel="noopener noreferrer">Using the Evaluation Tool</a>
+        — การประกอบเกณฑ์วัดหลายชั้นเข้าด้วยกัน
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://docs.claude.com/en/docs/test-and-evaluate/develop-tests" target="_blank" rel="noopener noreferrer">Create strong empirical evaluations</a>
+        — ลำดับความสำคัญระหว่างเกณฑ์อัตโนมัติกับการตัดสินด้วยโมเดล
+        <span class="src">docs.claude.com</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <!-- ─── L04 ─── -->
@@ -262,6 +401,55 @@ criteria:
     ถ้าต่ำกว่า 80% แปลว่า rubric ยังกำกวม ต้องแก้ rubric ไม่ใช่แก้ judge
     และควรรายงานอัตราความสอดคล้องนี้ควบคู่ไปกับผลเสมอ เพราะมันคือความน่าเชื่อถือของเครื่องวัด</p>
   </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 250" role="img" aria-label="Three failure modes of LLM-as-judge and the mitigation for each">
+      <text class="d-label-mono" x="8" y="16">อคติที่วัดได้จริงในงานวิจัย</text>
+
+      <rect class="d-bar-new" x="8" y="26" width="200" height="40"/>
+      <text class="d-label-sm" x="20" y="43">position bias</text>
+      <text class="d-label-sm" x="20" y="59" opacity=".75">ชอบตัวเลือกที่มาก่อน</text>
+      <line class="d-line d-arrow" x1="212" y1="46" x2="248" y2="46"/>
+      <rect class="d-box-accent" x="252" y="26" width="380" height="40"/>
+      <text class="d-label-sm" x="264" y="51">สลับลำดับ A/B แล้วรันสองรอบ นับเฉพาะที่ตัดสินตรงกัน</text>
+
+      <rect class="d-bar-new" x="8" y="74" width="200" height="40"/>
+      <text class="d-label-sm" x="20" y="91">verbosity bias</text>
+      <text class="d-label-sm" x="20" y="107" opacity=".75">ยาวกว่า = ดูดีกว่า</text>
+      <line class="d-line d-arrow" x1="212" y1="94" x2="248" y2="94"/>
+      <rect class="d-box-accent" x="252" y="74" width="380" height="40"/>
+      <text class="d-label-sm" x="264" y="99">rubric ต้องระบุเกณฑ์เป็นข้อ ๆ ไม่ใช่ "อันไหนดีกว่า"</text>
+
+      <rect class="d-bar-new" x="8" y="122" width="200" height="40"/>
+      <text class="d-label-sm" x="20" y="139">self-preference</text>
+      <text class="d-label-sm" x="20" y="155" opacity=".75">เข้าข้างงานตัวเอง</text>
+      <line class="d-line d-arrow" x1="212" y1="142" x2="248" y2="142"/>
+      <rect class="d-box-accent" x="252" y="122" width="380" height="40"/>
+      <text class="d-label-sm" x="264" y="147">judge ต้องแรงกว่าหรือเท่ากับตัวที่ถูกตัดสิน</text>
+
+      <rect class="d-box-ink" x="8" y="176" width="624" height="68"/>
+      <text class="d-label-inv" x="22" y="198">ก่อนเชื่อ judge ต้องวัด judge ก่อน</text>
+      <text class="d-label-inv" x="22" y="218" opacity=".85">ให้คนตัดสิน 30 ตัวอย่างเป็นเฉลย แล้ววัดว่า judge ตรงกับคนกี่เปอร์เซ็นต์</text>
+      <text class="d-label-inv" x="22" y="236" opacity=".6">ถ้าตรงต่ำกว่าที่รับได้ ตัวเลขทุกตัวที่ judge ผลิตหลังจากนั้นก็ไม่มีความหมาย</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 4</b> · judge เป็นเครื่องมือวัดชิ้นหนึ่ง และเครื่องมือวัดทุกชิ้นต้องถูก calibrate ก่อนใช้</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://arxiv.org/abs/2306.05685" target="_blank" rel="noopener noreferrer">Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena</a>
+        — งานที่วัด position bias, verbosity bias และความสอดคล้องกับคนอย่างเป็นระบบ
+        <span class="src">arxiv.org · 2023</span>
+      </li>
+      <li>
+        <a href="https://docs.claude.com/en/docs/test-and-evaluate/eval-tool" target="_blank" rel="noopener noreferrer">Using the Evaluation Tool</a>
+        — การเขียน rubric ให้ตัดสินซ้ำได้
+        <span class="src">docs.claude.com</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <!-- ─── L05 ─── -->
@@ -304,6 +492,54 @@ criteria:
     <li>แก้ <code>CLAUDE.md</code> ทั้งระดับ global และระดับโปรเจกต์</li>
     <li>อัปเกรดเวอร์ชันของ agent harness เอง</li>
   </ul>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 228" role="img" aria-label="Prompt files treated as code and guarded by the same regression pipeline">
+      <text class="d-label-mono" x="8" y="16">ปฏิบัติกับ CLAUDE.md และ skill เหมือนโค้ด</text>
+
+      <rect class="d-box" x="8" y="28" width="128" height="40"/>
+      <text class="d-label-sm" x="20" y="53">แก้ prompt</text>
+      <line class="d-line d-arrow" x1="140" y1="48" x2="172" y2="48"/>
+      <rect class="d-box" x="176" y="28" width="128" height="40"/>
+      <text class="d-label-sm" x="188" y="53">เปิด PR</text>
+      <line class="d-line d-arrow" x1="308" y1="48" x2="340" y2="48"/>
+      <rect class="d-box-accent" x="344" y="28" width="150" height="40"/>
+      <text class="d-label-sm" x="356" y="53">รัน eval 20 งาน</text>
+      <line class="d-line d-arrow d-line-accent" x1="498" y1="48" x2="530" y2="48"/>
+      <rect class="d-box-accent" x="534" y="28" width="98" height="40"/>
+      <text class="d-label-sm" x="546" y="53">เทียบ base</text>
+
+      <rect class="d-box-accent" x="8" y="88" width="306" height="52"/>
+      <text class="d-label-sm" x="20" y="110">คะแนนไม่ตก → merge</text>
+      <text class="d-label-sm" x="20" y="130" opacity=".7">แนบตัวเลขไว้ใน PR เป็นหลักฐาน</text>
+
+      <rect class="d-bar-new" x="330" y="88" width="302" height="52"/>
+      <text class="d-label-sm" x="342" y="110">คะแนนตก → บล็อก</text>
+      <text class="d-label-sm" x="342" y="130" opacity=".75">พร้อมรายชื่องานที่เคยผ่านแล้วตอนนี้ไม่ผ่าน</text>
+
+      <rect class="d-box-ink" x="8" y="160" width="624" height="60"/>
+      <text class="d-label-inv" x="22" y="182">ทำไมถึงสำคัญกว่าที่คิด</text>
+      <text class="d-label-inv" x="22" y="202" opacity=".85">prompt ไม่มี compiler คอยจับ — บรรทัดที่เพิ่มเข้าไปแล้วทำให้แย่ลง จะไม่มีอะไรเตือนเลย</text>
+      <text class="d-label-inv" x="22" y="218" opacity=".6">eval คือ type checker ตัวเดียวที่ prompt มี</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 5</b> · ไฟล์ prompt สะสม cruft เร็วกว่าโค้ด เพราะไม่มีใครกล้าลบสิ่งที่ไม่รู้ว่ามีผลไหม</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://www.anthropic.com/engineering/claude-code-best-practices" target="_blank" rel="noopener noreferrer">Claude Code best practices</a>
+        — การดูแล CLAUDE.md และ skill ให้ไม่บวมจนเสียผล
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+      <li>
+        <a href="https://docs.claude.com/en/docs/test-and-evaluate/develop-tests" target="_blank" rel="noopener noreferrer">Create strong empirical evaluations</a>
+        — การผูก eval เข้ากับรอบพัฒนาแทนการรันครั้งเดียว
+        <span class="src">docs.claude.com</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <!-- ─── L06 ─── -->
@@ -338,6 +574,51 @@ criteria:
     ต้นทุนต้องคิดเป็น<strong>ต่องานที่เสร็จ</strong> ไม่ใช่ต่อ request — เชื่อมกับ M03 โดยตรง
     เวิร์กโฟลว์ที่ใช้โมเดลถูกกว่าแต่ต้องวนสามรอบและมีคนเข้าไปแก้สองครั้ง แพงกว่าเสมอเมื่อคิดครบ
   </p>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 240" role="img" aria-label="Four dimensions measured together because optimizing one silently damages another">
+      <text class="d-label-mono" x="8" y="16">เปลี่ยนอย่างเดียว แล้วดูทั้งสี่ช่อง</text>
+
+      <text class="d-label-sm" x="8" y="48">ความถูกต้อง</text>
+      <rect class="d-bar" x="140" y="34" width="180" height="18"/>
+      <rect class="d-bar-new" x="140" y="56" width="212" height="18"/>
+      <text class="d-label-sm" x="364" y="48">72% → 84%</text>
+      <text class="d-label-sm" x="470" y="48" opacity=".7">ดีขึ้น ✓</text>
+
+      <text class="d-label-sm" x="8" y="106">ต้นทุนต่องาน</text>
+      <rect class="d-bar" x="140" y="92" width="90" height="18"/>
+      <rect class="d-bar-new" x="140" y="114" width="300" height="18"/>
+      <text class="d-label-sm" x="452" y="106">$0.12 → $0.41</text>
+
+      <text class="d-label-sm" x="8" y="164">เวลาต่องาน</text>
+      <rect class="d-bar" x="140" y="150" width="110" height="18"/>
+      <rect class="d-bar-new" x="140" y="172" width="268" height="18"/>
+      <text class="d-label-sm" x="420" y="164">3.1 → 7.8 นาที</text>
+
+      <text class="d-label-sm" x="8" y="212">ครั้งที่คนต้องเข้าไปแก้</text>
+      <rect class="d-bar" x="140" y="198" width="160" height="18"/>
+      <rect class="d-bar-new" x="140" y="220" width="70" height="18"/>
+      <text class="d-label-sm" x="320" y="212">2.4 → 0.9 ครั้ง</text>
+      <text class="d-label-sm" x="430" y="212" opacity=".7">ดีขึ้นมาก ✓</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 6</b> · ตัวเลขชุดนี้ยังตัดสินไม่ได้ว่าคุ้มไหม จนกว่าจะรู้ว่าเวลาของคนในทีมแพงกว่า $0.29 ต่องานหรือเปล่า</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener noreferrer">Building effective agents</a>
+        — ต้นทุนและความหน่วงที่มากับความสามารถที่เพิ่มขึ้น
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+      <li>
+        <a href="https://martinfowler.com/articles/exploring-gen-ai.html" target="_blank" rel="noopener noreferrer">Exploring Generative AI</a>
+        — การประเมินผลกระทบจริงต่อทีม ไม่ใช่แค่คุณภาพผลลัพธ์
+        <span class="src">martinfowler.com</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <!-- ─── L07 ─── -->
@@ -376,6 +657,47 @@ criteria:
     ตัวเลขรวมบอกว่าเปลี่ยนไปเท่าไหร่ แต่รายการที่พลิกบอกว่า<em>เปลี่ยนอะไร</em>
     และบ่อยครั้งเผยว่าการปรับปรุงที่ดูดีในภาพรวม กำลังทำให้งานประเภทหนึ่งแย่ลงอย่างเป็นระบบ</p>
   </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 236" role="img" aria-label="Changing one variable at a time versus bundling several changes into one comparison">
+      <text class="d-label-mono" x="8" y="16">เปลี่ยนหลายอย่างพร้อมกัน</text>
+      <rect class="d-bar-new" x="8" y="26" width="302" height="86"/>
+      <text class="d-label-sm" x="20" y="48">+ แก้ prompt</text>
+      <text class="d-label-sm" x="20" y="68">+ เพิ่มไฟล์เข้า context</text>
+      <text class="d-label-sm" x="20" y="88">+ เปลี่ยนโมเดล</text>
+      <text class="d-label-sm" x="20" y="106" opacity=".75">คะแนนขึ้น 9% — เพราะอะไรก็ไม่รู้</text>
+
+      <text class="d-label-mono" x="330" y="16">เปลี่ยนทีละอย่าง</text>
+      <rect class="d-box-accent" x="330" y="26" width="302" height="86"/>
+      <text class="d-label-sm" x="342" y="48">รอบ 1 · แก้ prompt เท่านั้น → +7%</text>
+      <text class="d-label-sm" x="342" y="68">รอบ 2 · เพิ่มไฟล์เท่านั้น → +1%</text>
+      <text class="d-label-sm" x="342" y="88">รอบ 3 · เปลี่ยนโมเดลเท่านั้น → +1%</text>
+      <text class="d-label-sm" x="342" y="106" opacity=".75">รู้ว่าอันไหนคุ้ม และอันไหนทิ้งได้</text>
+
+      <rect class="d-box-ink" x="8" y="134" width="624" height="94"/>
+      <text class="d-label-inv" x="22" y="156">จำนวนรอบที่ต้องรัน</text>
+      <text class="d-label-inv" x="22" y="178" opacity=".85">ยิ่งผลต่างที่คาดว่าจะเจอเล็ก ยิ่งต้องรันเยอะ — ผลต่างระดับ 2–3% ต้องการ sample</text>
+      <text class="d-label-inv" x="22" y="196" opacity=".85">มากกว่าที่คนส่วนใหญ่ยอมรัน จนบ่อยครั้งคำตอบที่ซื่อสัตย์คือ "ยังบอกไม่ได้"</text>
+      <text class="d-label-inv" x="22" y="220" opacity=".6">"ยังบอกไม่ได้" เป็นผลลัพธ์ที่ใช้ได้ — ดีกว่าเชื่อผิดแล้วเอาไปตัดสินใจต่อ</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 7</b> · ถ้าเปลี่ยนสามอย่างแล้วดีขึ้น คุณไม่ได้เรียนรู้อะไรที่เอาไปใช้ซ้ำได้เลย</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://docs.claude.com/en/docs/test-and-evaluate/develop-tests" target="_blank" rel="noopener noreferrer">Create strong empirical evaluations</a>
+        — การออกแบบการเปรียบเทียบให้สรุปผลได้
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://arxiv.org/abs/2306.05685" target="_blank" rel="noopener noreferrer">Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena</a>
+        — การเทียบคู่และจำนวนตัวอย่างที่ต้องใช้จึงจะแยกความต่างออก
+        <span class="src">arxiv.org · 2023</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <!-- ─── L08 ─── -->
@@ -406,6 +728,49 @@ criteria:
     <span class="k">วินัยที่ต้องมี</span>
     <p>เก็บ <strong>baseline พร้อมวันที่</strong> ทุกครั้งที่รันชุดเต็ม — โมเดล เวอร์ชัน harness ชุด prompt และผลทั้งสี่มิติ
     เมื่อโมเดลใหม่มา ให้รันชุดเดิมก่อนแตะ prompt เพื่อแยกให้ออกว่าอะไรมาจากโมเดล อะไรมาจากที่คุณแก้</p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 232" role="img" aria-label="A workflow score decaying after an upstream model change goes unnoticed">
+      <text class="d-label-mono" x="8" y="16">คะแนน eval ของเวิร์กโฟลว์เดิม ที่ไม่ได้แก้อะไรเลย</text>
+
+      <line class="d-line" x1="60" y1="130" x2="620" y2="130"/>
+      <line class="d-line" x1="60" y1="34" x2="60" y2="130"/>
+      <text class="d-label-sm" x="8" y="42">90%</text>
+      <text class="d-label-sm" x="8" y="126">60%</text>
+
+      <path class="d-line d-line-accent" d="M 76 48 L 152 52 L 228 46 L 304 50 L 380 82 L 456 88 L 532 96 L 604 94" fill="none"/>
+      <circle class="d-bar" cx="76" cy="48" r="4"/><circle class="d-bar" cx="152" cy="52" r="4"/>
+      <circle class="d-bar" cx="228" cy="46" r="4"/><circle class="d-bar" cx="304" cy="50" r="4"/>
+      <circle class="d-bar-new" cx="380" cy="82" r="4"/><circle class="d-bar-new" cx="456" cy="88" r="4"/>
+      <circle class="d-bar-new" cx="532" cy="96" r="4"/><circle class="d-bar-new" cx="604" cy="94" r="4"/>
+
+      <line class="d-line" x1="342" y1="34" x2="342" y2="130" stroke-dasharray="4 3"/>
+      <text class="d-label-sm" x="350" y="32">โมเดลใหม่ออก</text>
+      <text class="d-label-sm" x="70" y="148" opacity=".7">ไม่มีใครแก้อะไร แต่คะแนนตกค้างอยู่แบบนั้น</text>
+
+      <rect class="d-box-ink" x="8" y="164" width="624" height="60"/>
+      <text class="d-label-inv" x="22" y="186">ทำไมถึงไม่มีใครรู้</text>
+      <text class="d-label-inv" x="22" y="206" opacity=".85">ไม่มี PR ไม่มี commit ไม่มี alert — ทีมรู้สึกแค่ว่า "ช่วงนี้มันงี่เง่าขึ้น"</text>
+      <text class="d-label-inv" x="22" y="222" opacity=".6">รัน eval ชุดเดิมตามเวลา แล้วเก็บกราฟไว้ นี่คือวิธีเดียวที่จะเห็นเส้นนี้</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 8</b> · drift ไม่ประกาศตัว — ถ้าไม่มีเส้นฐานที่รันเป็นประจำ คุณจะรู้ตัวก็ตอนที่มันแย่มากแล้ว</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener noreferrer">Building effective agents</a>
+        — การพึ่งพา component ที่เปลี่ยนได้โดยที่เราไม่ควบคุม
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+      <li>
+        <a href="https://www.anthropic.com/engineering/claude-code-best-practices" target="_blank" rel="noopener noreferrer">Claude Code best practices</a>
+        — การทบทวนเวิร์กโฟลว์เมื่อความสามารถของโมเดลเปลี่ยน
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+    </ol>
   </div>
 </section>
 
