@@ -36,6 +36,105 @@
 </div>
 
 <section class="lesson">
+  <div class="lhead"><span class="lnum">ที่มา</span><h2>สายพานถูกออกแบบโดยสมมติว่ามีคนตอบได้เสมอ</h2></div>
+
+  <div class="chat">
+    <p>
+      CI/CD ที่เราใช้กันทุกวันนี้ถูกประกอบขึ้นมาเกือบ 30 ปี และ<b>ทุกชั้นของมันตั้งอยู่บนสมมติฐานเดียวกัน</b>
+      — ปลายทางมีมนุษย์ที่ถามได้
+    </p>
+    <p>
+      พอเอา agent ใส่เข้าไปในสายพาน สมมติฐานนั้นหายไปเงียบ ๆ ซึ่งเป็นที่มาของกฎในบทถัดไป
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 268" role="img" aria-label="Timeline of continuous integration and delivery, ending with the assumption that breaks when an agent joins">
+      <line class="d-line" x1="112" y1="30" x2="112" y2="212"/>
+
+      <circle class="d-runner" cx="112" cy="46" r="5"/>
+      <text class="d-label-mono" x="8" y="50">1991</text>
+      <text class="d-label" x="132" y="44">Booch ตั้งชื่อ "continuous integration"</text>
+      <text class="d-label-sm" x="132" y="62">ตั้งชื่อไว้ แต่ยังไม่ได้เสนอให้รวมโค้ดวันละหลายรอบ</text>
+
+      <circle class="d-runner d-pulse-1" cx="112" cy="94" r="6"/>
+      <text class="d-label-mono" x="8" y="98">1990s ปลาย</text>
+      <text class="d-label" x="132" y="92">Extreme Programming ทำให้เป็นวินัยรายวัน</text>
+      <text class="d-label-sm" x="132" y="110">รวมบ่อย ๆ เพื่อให้ความขัดแย้งเล็กพอจะแก้ได้ทัน</text>
+
+      <circle class="d-runner d-pulse-2" cx="112" cy="142" r="5"/>
+      <text class="d-label-mono" x="8" y="146">2010</text>
+      <text class="d-label" x="132" y="140">Continuous Delivery · Humble &amp; Farley</text>
+      <text class="d-label-sm" x="132" y="158">ขยายจาก "build ผ่าน" เป็น "ปล่อยได้ตลอดเวลา"</text>
+
+      <circle class="d-runner" cx="112" cy="190" r="5"/>
+      <text class="d-label-mono" x="8" y="194">2018→</text>
+      <text class="d-label" x="132" y="188">DORA ทำให้วัดเป็นตัวเลขได้</text>
+      <text class="d-label-sm" x="132" y="206">deploy บ่อยแค่ไหน · พังกี่ % · กู้คืนเร็วแค่ไหน</text>
+
+      <rect class="d-box-ink" x="8" y="222" width="624" height="42"/>
+      <text class="d-label-inv" x="22" y="243">ทุกชั้นข้างบนสมมติว่า "ถ้าไม่ชัด เดี๋ยวถามคนที่ push ได้"</text>
+      <text class="d-label-inv" x="22" y="260" opacity=".6">agent ทำให้สมมติฐานนี้เป็นเท็จ โดยไม่มีอะไรในสายพานแจ้งเตือน</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 0</b> · สายพานยังทำงานเหมือนเดิมทุกอย่าง — สิ่งที่หายไปคือคนที่ตอบคำถามได้</p>
+  </div>
+
+  <h3><span class="k">1991–1999</span>ชื่อมาก่อน วินัยมาทีหลัง</h3>
+  <p>
+    <strong>Grady Booch</strong> ใช้คำว่า <em>continuous integration</em> ตั้งแต่ปี 1991
+    แต่ในความหมายที่ยังไม่รวมการรวมโค้ดวันละหลายรอบ ส่วนที่กลายเป็นวินัยจริงมาจาก
+    <strong>Extreme Programming</strong> ช่วงปลายทศวรรษ 1990
+  </p>
+  <p>
+    เหตุผลของ XP ตรงไปตรงมามาก — <strong>รวมบ่อยขึ้น ความขัดแย้งจะเล็กลง</strong>
+    ซึ่งเป็นตรรกะเดียวกับที่บทที่ 14.02 บอกว่าให้ agent เปิด PR เล็ก ๆ แทนที่จะสะสมงานใหญ่
+  </p>
+
+  <h3><span class="k">2010–2018</span>ขยายจาก build ไปถึง production แล้ววัดผล</h3>
+  <p>
+    หนังสือ <em>Continuous Delivery</em> (Humble และ Farley, 2010) ขยายเป้าจาก "build ผ่าน"
+    เป็น "อยู่ในสภาพที่ปล่อยได้ตลอดเวลา" พร้อมแนวคิด deployment pipeline ที่เรียงด่านตรวจตามต้นทุน —
+    ซึ่งเป็นโครงเดียวกับลำดับ gate ในบทที่ 14.03
+  </p>
+  <p>
+    จากนั้นงานของ <strong>DORA</strong> ทำให้เถียงกันด้วยตัวเลขได้ แทนที่จะเถียงด้วยความเชื่อ
+  </p>
+
+  <div class="chat">
+    <p>
+      บทเรียนที่ผมคิดว่าสำคัญที่สุดจากประวัติศาสตร์ชุดนี้ — <b>ทุกกลไกความปลอดภัยในสายพาน
+      ถูกออกแบบโดยมีคนอยู่ปลายทาง</b>
+    </p>
+    <p>
+      build แดงแล้วมีคนไปดู · คำถามใน PR แล้วมีคนตอบ · deploy พังแล้วมีคนตัดสินใจ rollback
+      พอ agent เข้ามาแทนที่บางจุด กลไกเหล่านั้นไม่ได้พังทันที <b>มันแค่เงียบ</b>
+      ซึ่งอันตรายกว่าพังเสียอีก
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://martinfowler.com/articles/continuousIntegration.html" target="_blank" rel="noopener noreferrer">Continuous Integration</a>
+        — คำอธิบายวินัย CI ที่ทำให้แนวคิดนี้แพร่หลาย
+        <span class="src">martinfowler.com</span>
+      </li>
+      <li>
+        <a href="https://en.wikipedia.org/wiki/Continuous_integration" target="_blank" rel="noopener noreferrer">Continuous integration</a>
+        — ที่มาของคำจาก Booch ปี 1991 และการรับมาใช้ผ่าน XP
+        <span class="src">wikipedia.org</span>
+      </li>
+      <li>
+        <a href="https://continuousdelivery.com/" target="_blank" rel="noopener noreferrer">Continuous Delivery</a>
+        — เว็บประกอบหนังสือของ Humble และ Farley ปี 2010
+        <span class="src">continuousdelivery.com</span>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="lesson">
   <div class="lhead"><span class="lnum">14.01</span><h2>agent ใน CI ต่างจากบนเครื่องอย่างไร</h2><label class="done"><input type="checkbox" data-lesson="14.01"><span>เรียนจบ</span></label></div>
   <div class="tw"><table>
     <thead><tr><th></th><th>บนเครื่อง</th><th>ใน CI</th></tr></thead>

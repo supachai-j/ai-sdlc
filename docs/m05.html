@@ -36,6 +36,98 @@
 </div>
 
 <section class="lesson">
+  <div class="lhead"><span class="lnum">ที่มา</span><h2>40 ปีที่เราเขียนโค้ดให้คนอ่าน แล้วจู่ ๆ ก็มีผู้อ่านคนที่สอง</h2></div>
+
+  <div class="chat">
+    <p>
+      ความคิดที่ว่า "โค้ดถูกอ่านบ่อยกว่าถูกเขียน" ไม่ใช่ของใหม่เลย มันเป็นแกนของวงการมาตั้งแต่ยุค 80
+    </p>
+    <p>
+      สิ่งที่เปลี่ยนในสองสามปีนี้คือ <b>มีผู้อ่านเพิ่มมาอีกคน</b> และเขาอ่านด้วยข้อจำกัดคนละชุดกับเรา
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 262" role="img" aria-label="Two readers of the same codebase with different constraints">
+      <text class="d-label-mono" x="8" y="16">ผู้อ่านคนที่ 1 · มนุษย์</text>
+      <rect class="d-box" x="8" y="26" width="302" height="112"/>
+      <text class="d-label-sm" x="20" y="48">กวาดสายตาข้ามส่วนที่ไม่เกี่ยวได้ฟรี</text>
+      <text class="d-label-sm" x="20" y="70">ถามคนข้าง ๆ ได้</text>
+      <text class="d-label-sm" x="20" y="92">จำสิ่งที่อ่านเมื่อวานได้</text>
+      <text class="d-label-sm" x="20" y="114">เดาเจตนาจากบริบทรอบตัวได้</text>
+      <text class="d-label-sm" x="20" y="132" opacity=".7">เราออกแบบโค้ดให้คนนี้มา 40 ปี</text>
+
+      <text class="d-label-mono" x="330" y="16">ผู้อ่านคนที่ 2 · agent</text>
+      <rect class="d-box-accent" x="330" y="26" width="302" height="112"/>
+      <text class="d-label-sm" x="342" y="48">กวาดสายตาไม่ได้ — จ่ายทุก token ที่อ่าน</text>
+      <text class="d-label-sm" x="342" y="70">ถามใครไม่ได้ระหว่างทาง</text>
+      <text class="d-label-sm" x="342" y="92">เริ่มใหม่ทุกครั้ง ไม่จำเมื่อวาน</text>
+      <text class="d-label-sm" x="342" y="114">เดาได้ แต่เดาผิดแบบมั่นใจ</text>
+      <text class="d-label-sm" x="342" y="132" opacity=".7">เพิ่งมาถึงเมื่อไม่กี่ปีนี้</text>
+
+      <rect class="d-box-ink" x="8" y="156" width="624" height="98"/>
+      <text class="d-label-inv" x="22" y="178">ข่าวดีและข่าวร้าย</text>
+      <text class="d-label-inv" x="22" y="200" opacity=".85">ข่าวดี — สิ่งที่ทำให้โค้ดอ่านง่ายสำหรับคน ส่วนใหญ่ช่วย agent ด้วย</text>
+      <text class="d-label-inv" x="22" y="220" opacity=".85">ข่าวร้าย — ไม่ใช่ทั้งหมด และบางธรรมเนียมที่คนชอบ กลับทำร้าย agent โดยตรง</text>
+      <text class="d-label-inv" x="22" y="242" opacity=".6">เช่น การซ่อนรายละเอียดไว้หลาย layer ซึ่งคนข้ามได้ แต่ agent ต้องไล่เปิดทีละชั้น</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 0</b> · โมดูลนี้ทั้งโมดูลคือการหาว่าตรงไหน "ข่าวดี" และตรงไหน "ข่าวร้าย"</p>
+  </div>
+
+  <h3><span class="k">1984</span>Literate programming — ต้นทางของความคิดนี้</h3>
+  <p>
+    <strong>Donald Knuth</strong> เสนอ <em>literate programming</em> ในปี 1984 บนหลักที่ว่า
+    โปรแกรมควรถูกเขียนเป็น<strong>คำอธิบายให้มนุษย์อ่าน</strong>เป็นอันดับแรก แล้วค่อยเป็นคำสั่งให้เครื่องทำ
+    เป็นการกลับลำดับความสำคัญที่รุนแรงมากสำหรับยุคนั้น
+  </p>
+  <p>
+    วิธีที่ Knuth เสนอไม่ได้ถูกรับมาใช้แพร่หลาย แต่<strong>ข้อสังเกตของเขาถูกรับมาเต็ม ๆ</strong> —
+    ตั้งแต่นั้นวงการก็ยอมรับกันว่าโค้ดที่อ่านรู้เรื่องมีค่ามากกว่าโค้ดที่ฉลาด
+  </p>
+
+  <h3><span class="k">ทศวรรษ 2000</span>Convention over configuration — ลดต้นทุนการค้นหา</h3>
+  <p>
+    ความคิดที่ว่า<strong>โครงสร้างที่คาดเดาได้มีค่าในตัวมันเอง</strong> แพร่หลายผ่านเฟรมเวิร์กยุค 2000
+    ถ้าทุกโปรเจกต์วางไฟล์ไว้ที่เดิม คนใหม่ก็ไม่ต้องเสียเวลาหาว่าอะไรอยู่ไหน
+  </p>
+  <p>
+    ข้อโต้แย้งนี้แรงขึ้นมากกับผู้อ่านคนที่สอง เพราะสำหรับคน การหาไฟล์ผิดที่เสียเวลาไม่กี่วินาที
+    แต่สำหรับ agent มัน<strong>เสีย token และเสียโอกาสที่จะเดาผิด</strong> — ซึ่งเป็นเหตุผลของบทที่ 05.02 ทั้งบท
+  </p>
+
+  <div class="chat">
+    <p>
+      ที่ผมอยากให้เก็บกลับไปคือ <b>คุณไม่ได้กำลังเรียนวิธีเขียนโค้ดแบบใหม่</b>
+    </p>
+    <p>
+      คุณกำลังเรียนว่าหลักเดิมข้อไหน<b>สำคัญขึ้น</b>เมื่อผู้อ่านจ่ายเงินทุก token
+      และไม่มีความทรงจำจากเมื่อวาน — ซึ่งเป็นคำถามที่ตอบได้ด้วยการวัด ไม่ใช่ด้วยรสนิยม
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://en.wikipedia.org/wiki/Literate_programming" target="_blank" rel="noopener noreferrer">Literate programming</a>
+        — ข้อเสนอของ Knuth ปี 1984 และสิ่งที่วงการรับมาใช้จริง
+        <span class="src">wikipedia.org</span>
+      </li>
+      <li>
+        <a href="https://en.wikipedia.org/wiki/Convention_over_configuration" target="_blank" rel="noopener noreferrer">Convention over configuration</a>
+        — เหตุผลว่าทำไมโครงสร้างที่คาดเดาได้ถึงมีค่า
+        <span class="src">wikipedia.org</span>
+      </li>
+      <li>
+        <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" target="_blank" rel="noopener noreferrer">Effective context engineering for AI agents</a>
+        — ข้อจำกัดของผู้อ่านคนที่สอง เขียนจากฝั่งที่สร้างมันเอง
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="lesson">
   <div class="lhead"><span class="lnum">05.01</span><h2>Legibility — อ่านรู้เรื่องสำหรับเครื่อง</h2><label class="done"><input type="checkbox" data-lesson="05.01"><span>เรียนจบ</span></label></div>
 
   <div class="chat">

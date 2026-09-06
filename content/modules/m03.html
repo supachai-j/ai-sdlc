@@ -12,6 +12,106 @@
 </div>
 
 <section class="lesson">
+  <div class="lhead"><span class="lnum">ที่มา</span><h2>เศรษฐศาสตร์ของโมดูลนี้คือของเก่าสองชิ้นที่ตีกันเอง</h2></div>
+
+  <div class="chat">
+    <p>
+      ทุกอย่างในโมดูลนี้ตั้งอยู่บนความคิดเก่าสองชิ้น — <b>cache</b> กับ <b>cascade</b>
+      ทั้งคู่ถูกคิดมานานก่อนมี LLM และทั้งคู่พิสูจน์ตัวเองมาแล้วในบริบทอื่น
+    </p>
+    <p>
+      ประเด็นที่ผมอยากให้เห็นตั้งแต่ต้นคือ <b>พอเอามาใช้กับ LLM พร้อมกัน มันขัดกันเอง</b>
+      ซึ่งเป็นเหตุผลที่บทที่ 03.04 ต้องมีกล่องเตือนเรื่อง cascade
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 268" role="img" aria-label="Caching and cascading are both old ideas that collide when applied to LLMs together">
+      <text class="d-label-mono" x="8" y="16">ความคิดที่ 1 · CACHE — ของชิ้นเดิม ราคาต่างกันตามที่มันอยู่</text>
+      <rect class="d-box" x="8" y="26" width="150" height="30"/>
+      <text class="d-label-sm" x="20" y="46">CPU cache · 1960s</text>
+      <line class="d-line d-arrow" x1="162" y1="41" x2="194" y2="41"/>
+      <rect class="d-box" x="198" y="26" width="180" height="30"/>
+      <text class="d-label-sm" x="210" y="46">อ่านซ้ำถูกกว่าอ่านครั้งแรกมาก</text>
+      <line class="d-line d-arrow" x1="382" y1="41" x2="414" y2="41"/>
+      <rect class="d-box-accent" x="418" y="26" width="214" height="30"/>
+      <text class="d-label-sm" x="430" y="46">prompt caching · ตรรกะเดียวกันเป๊ะ</text>
+
+      <text class="d-label-mono" x="8" y="80">ความคิดที่ 2 · CASCADE — กรองด้วยของถูกก่อน แล้วค่อยจ่ายแพง</text>
+      <rect class="d-box" x="8" y="90" width="150" height="30"/>
+      <text class="d-label-sm" x="20" y="110">Viola–Jones · 2001</text>
+      <line class="d-line d-arrow" x1="162" y1="105" x2="194" y2="105"/>
+      <rect class="d-box" x="198" y="90" width="180" height="30"/>
+      <text class="d-label-sm" x="210" y="110">ตัวคัดถูก ๆ ทิ้งงานส่วนใหญ่</text>
+      <line class="d-line d-arrow" x1="382" y1="105" x2="414" y2="105"/>
+      <rect class="d-box-accent" x="418" y="90" width="214" height="30"/>
+      <text class="d-label-sm" x="430" y="110">FrugalGPT · 2023 · โมเดลถูกก่อนแพง</text>
+
+      <line class="d-line" x1="8" y1="140" x2="632" y2="140" stroke-dasharray="3 3"/>
+
+      <text class="d-label-mono" x="8" y="162">เอามาใช้พร้อมกัน · แล้วมันชนกัน</text>
+      <rect class="d-bar-new" x="8" y="172" width="624" height="46"/>
+      <text class="d-label-sm" x="22" y="192">cascade บอกให้เปลี่ยนโมเดลระหว่างทาง</text>
+      <text class="d-label-sm" x="22" y="210">แต่ cache แยก namespace ตามโมเดล → เปลี่ยนโมเดลเมื่อไร cache ที่สะสมมาก็หายทั้งก้อน</text>
+
+      <rect class="d-box-ink" x="8" y="228" width="624" height="34"/>
+      <text class="d-label-inv" x="22" y="249">งานสนทนายาวจึงมักคุ้มกว่าถ้าอยู่โมเดลเดียวแล้วรักษา cache ไว้</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 0</b> · cascade เกิดในโลกที่ไม่มี cache ข้ามคำขอ — สมมติฐานนั้นไม่จริงกับ LLM</p>
+  </div>
+
+  <h3><span class="k">2001</span>Cascade — จ่ายแพงเฉพาะกับสิ่งที่รอดด่านถูกมาได้</h3>
+  <p>
+    ตัวตรวจจับใบหน้าของ <em>Viola และ Jones</em> (2001) ทำงานเร็วพอจะรันแบบเรียลไทม์บนเครื่องยุคนั้น
+    ด้วยกลไกง่าย ๆ — เรียงตัวจำแนกจากถูกไปแพง ตัวแรกทิ้งพื้นที่ภาพส่วนใหญ่ในไม่กี่คำสั่ง
+    เหลือส่วนน้อยเท่านั้นที่เดินทางไปถึงตัวจำแนกที่แพง
+  </p>
+  <p>
+    <em>FrugalGPT</em> (Chen, Zaharia, Zou · พ.ค. 2023) เอาโครงเดียวกันมาใช้กับ LLM ตรง ๆ —
+    ถามโมเดลถูกก่อน ถ้าคำตอบดูไม่น่าเชื่อค่อยเลื่อนขึ้นโมเดลแพง
+  </p>
+
+  <h3><span class="k">ทศวรรษ 1960→</span>Cache — และเหตุผลที่มันขัดกับ cascade</h3>
+  <p>
+    ลำดับชั้นหน่วยความจำตั้งอยู่บนข้อสังเกตว่า<strong>ข้อมูลชิ้นเดิมมีราคาไม่เท่ากัน</strong>
+    ขึ้นกับว่าตอนนี้มันอยู่ที่ไหน prompt caching คือความคิดเดียวกันในชั้นที่สูงขึ้น —
+    บริบทก้อนเดิมที่ส่งซ้ำ ราคาถูกกว่าครั้งแรกมาก
+  </p>
+
+  <div class="chat">
+    <p>
+      จุดที่คนพลาดบ่อยคือ <b>อ่านเจอเรื่อง cascade แล้วรีบเอามาใช้</b> เพราะฟังดูประหยัดชัดเจน
+    </p>
+    <p>
+      แต่ Viola–Jones อยู่ในโลกที่การรันตัวจำแนกแต่ละตัวไม่มีต้นทุน "อุ่นเครื่อง"
+      ส่วนโลกของ LLM มี — และมันแพงพอจะกลืนกำไรจากการเปลี่ยนไปใช้โมเดลถูกทั้งหมด
+      นี่คือที่มาของลำดับใน 03.06 ที่ให้ขยับ <b>effort ก่อนขยับโมเดล</b>
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://arxiv.org/abs/2305.05176" target="_blank" rel="noopener noreferrer">FrugalGPT: How to Use Large Language Models While Reducing Cost and Improving Performance</a>
+        — Chen, Zaharia, Zou · การทำ cascade กับ LLM อย่างเป็นระบบ
+        <span class="src">arxiv.org · 2023</span>
+      </li>
+      <li>
+        <a href="https://en.wikipedia.org/wiki/Viola%E2%80%93Jones_object_detection_framework" target="_blank" rel="noopener noreferrer">Viola–Jones object detection framework</a>
+        — ต้นแบบของ cascade ที่เรียงตัวจำแนกจากถูกไปแพง
+        <span class="src">wikipedia.org</span>
+      </li>
+      <li>
+        <a href="https://www.anthropic.com/news/prompt-caching" target="_blank" rel="noopener noreferrer">Prompt caching</a>
+        — กลไกและเงื่อนไขของ cache ที่บทที่ 03.02–03.03 อ้างถึง
+        <span class="src">anthropic.com</span>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="lesson">
   <div class="lhead"><span class="lnum">03.01</span><h2>บัญชี token สี่ช่อง</h2></div>
 
   <div class="chat">
