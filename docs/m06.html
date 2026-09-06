@@ -37,118 +37,512 @@
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">06.01</span><h2>ลำดับที่ข้ามไม่ได้</h2><label class="done"><input type="checkbox" data-lesson="06.01"><span>เรียนจบ</span></label></div>
-  <p>token → component → page → flow ลำดับนี้ไม่ใช่เรื่องความเป็นระเบียบ แต่เป็นเรื่องของการที่แต่ละขั้นให้<em>คำศัพท์</em>กับขั้นถัดไป</p>
-  <div class="tw"><table>
-    <thead><tr><th>ขั้น</th><th>ให้อะไรกับขั้นถัดไป</th><th>ถ้าข้าม</th></tr></thead>
-    <tbody>
-      <tr><td>Token</td><td>ชื่อสี ระยะ ขนาดตัวอักษร</td><td>agent ใส่ค่าดิบกระจายทั่วโปรเจกต์</td></tr>
-      <tr><td>Component</td><td>ชื่อชิ้นส่วนที่อ้างอิงได้</td><td>เขียน markup ซ้ำทุกหน้า สไตล์ไม่ตรงกัน</td></tr>
-      <tr><td>Page</td><td>โครงหน้าและสถานะ</td><td>flow ต่อไม่ติด state หาย</td></tr>
-      <tr><td>Flow</td><td>เส้นทางผู้ใช้ที่ทดสอบได้</td><td>ทุกหน้าถูกแต่ต่อกันไม่ได้</td></tr>
-    </tbody>
-  </table></div>
+
+  <div class="chat">
+    <p>
+      งาน FE มีปัญหาเฉพาะตัวที่ฝั่ง BE ไม่มี — <b>โค้ดที่ผิดอาจดูถูกในสกรีนช็อต</b>
+      แล้วเราก็ผ่านมันไป จนกว่าจะมีคนกดจริงแล้วพัง
+    </p>
+    <p>
+      ทางแก้ไม่ใช่ดูให้ละเอียดขึ้น แต่คือทำให้มัน<b>มีภาษากลางให้อ้างอิง</b>
+      แล้วตรวจด้วยเกณฑ์แทนสายตา — ลำดับ token → component → page → flow มีไว้เพื่อสร้างภาษานั้น
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 240" role="img" aria-label="Each stage supplies vocabulary the next stage refers to">
+      <rect class="d-box-accent" x="8" y="30" width="140" height="58"/>
+      <text class="d-label-mono" x="20" y="50">STAGE 1</text>
+      <text class="d-label" x="20" y="70">Token</text>
+      <path class="d-line d-flow" d="M 148 59 H 164"/>
+      <path class="d-arrow" d="M 164 54 l 8 5 l -8 5 z"/>
+
+      <rect class="d-box-accent" x="176" y="30" width="140" height="58"/>
+      <text class="d-label-mono" x="188" y="50">STAGE 2</text>
+      <text class="d-label" x="188" y="70">Component</text>
+      <path class="d-line d-flow" d="M 316 59 H 332"/>
+      <path class="d-arrow" d="M 332 54 l 8 5 l -8 5 z"/>
+
+      <rect class="d-box-accent" x="344" y="30" width="140" height="58"/>
+      <text class="d-label-mono" x="356" y="50">STAGE 3</text>
+      <text class="d-label" x="356" y="70">Page</text>
+      <path class="d-line d-flow" d="M 484 59 H 500"/>
+      <path class="d-arrow" d="M 500 54 l 8 5 l -8 5 z"/>
+
+      <rect class="d-box-accent" x="512" y="30" width="120" height="58"/>
+      <text class="d-label-mono" x="524" y="50">STAGE 4</text>
+      <text class="d-label" x="524" y="70">Flow</text>
+
+      <text class="d-label-mono" x="8" y="112">ให้คำศัพท์อะไร</text>
+      <text class="d-label-sm" x="20" y="134">ชื่อสี · ระยะ · ขนาด</text>
+      <text class="d-label-sm" x="188" y="134">ชื่อชิ้นส่วน</text>
+      <text class="d-label-sm" x="356" y="134">โครงหน้า · สถานะ</text>
+      <text class="d-label-sm" x="524" y="134">เส้นทางผู้ใช้</text>
+
+      <text class="d-label-mono" x="8" y="166">ถ้าข้าม</text>
+      <text class="d-label-sm" x="20" y="188">ใส่ค่าดิบกระจาย</text>
+      <text class="d-label-sm" x="188" y="188">เขียน markup ซ้ำ</text>
+      <text class="d-label-sm" x="356" y="188">flow ต่อไม่ติด</text>
+      <text class="d-label-sm" x="524" y="188">ทุกหน้าถูก</text>
+      <text class="d-label-sm" x="524" y="204">แต่ต่อกันไม่ได้</text>
+
+      <rect class="d-box-ink" x="8" y="212" width="624" height="24"/>
+      <text class="d-label-inv" x="22" y="229">ข้ามขั้นไหน = ขั้นถัดไปไม่มีชื่อจะอ้าง แล้ว agent จะประดิษฐ์เอง</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 1</b> · ลำดับนี้ไม่ใช่เรื่องความเป็นระเบียบ แต่แต่ละขั้นให้ <em>คำศัพท์</em> กับขั้นถัดไป</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" target="_blank" rel="noopener noreferrer">Effective context engineering</a>
+        — ทำไมชื่อที่อ้างอิงได้ถึงมีค่ากว่าคำบรรยาย
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+      <li>
+        <a href="https://www.anthropic.com/engineering/claude-code-best-practices" target="_blank" rel="noopener noreferrer">Claude Code best practices</a>
+        — การให้บริบทงาน FE แบบที่ agent ใช้ต่อได้
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">06.02</span><h2>Design system ในฐานะบริบท</h2><label class="done"><input type="checkbox" data-lesson="06.02"><span>เรียนจบ</span></label></div>
-  <p>การส่งภาพอย่างเดียวทำให้ agent ต้องเดาค่าจากพิกเซล ผลคือค่าที่ใกล้เคียงแต่ไม่ตรง และกระจายไปทั่วจนเก็บกวาดยาก</p>
-  <pre><code><span class="c">// สิ่งที่ควรอยู่ในบริบท — ชื่อที่อ้างอิงได้</span>
---space-1..6, --color-surface/ink/accent, --radius-none
-Button(variant: primary|ghost, size: sm|md)
-Card, Field, Toast   <span class="c">// ชื่อ component ที่มีอยู่แล้ว</span>
 
-<span class="c">// สิ่งที่ไม่ควรเป็นแหล่งข้อมูลเดียว</span>
-screenshot.png       <span class="c">// ใช้เทียบผลได้ แต่ห้ามใช้เป็นที่มาของค่า</span></code></pre>
-  <div class="box rule">
-    <span class="k">กฎเดียวที่ต้องจำ</span>
-    <p>ภาพใช้สำหรับ<strong>ตรวจ</strong> ไม่ใช่สำหรับ<strong>กำหนด</strong> ค่าที่กำหนดต้องมาจาก token ที่มีชื่อ เพราะชื่อคือสิ่งที่ agent อ้างถึงได้ในรอบถัดไป และคือสิ่งที่รีวิวได้</p>
+  <div class="chat">
+    <p>
+      ส่งภาพอย่างเดียวแล้วบอกว่า "ทำตามนี้" คือการบังคับให้ agent <b>เดาค่าจากพิกเซล</b>
+      ผลที่ได้คือค่าที่ใกล้เคียงแต่ไม่ตรง แล้วกระจายไปทั่วจนเก็บกวาดยาก
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 230" role="img" aria-label="Screenshots are for checking, named tokens are for deciding">
+      <rect class="d-box" x="8" y="26" width="300" height="96"/>
+      <text class="d-label-mono" x="20" y="46">ส่งภาพอย่างเดียว</text>
+      <text class="d-label-sm" x="20" y="70">agent เดาค่าจากพิกเซล</text>
+      <text class="d-label-sm" x="20" y="90">#3b82f7 · 15px · 13px · #3b82f6</text>
+      <text class="d-label-sm" x="20" y="110">→ ใกล้เคียงแต่ไม่ตรง กระจายทั่ว repo</text>
+
+      <rect class="d-box-accent" x="328" y="26" width="304" height="96"/>
+      <text class="d-label-mono" x="340" y="46">ส่ง token ที่มีชื่อ</text>
+      <text class="d-label-sm" x="340" y="70">--color-accent · --space-3</text>
+      <text class="d-label-sm" x="340" y="90">Button(variant, size) · Card · Field</text>
+      <text class="d-label-sm" x="340" y="110">→ อ้างอิงได้ในรอบถัดไป และ review ได้</text>
+
+      <line class="d-line" x1="8" y1="140" x2="632" y2="140" stroke-dasharray="3 3"/>
+      <rect class="d-box-ink" x="8" y="152" width="624" height="70"/>
+      <text class="d-label-inv" x="22" y="176">กฎเดียวที่ต้องจำ</text>
+      <text class="d-label-inv" x="22" y="198" opacity=".85">ภาพใช้สำหรับ "ตรวจ" · token ใช้สำหรับ "กำหนด"</text>
+      <text class="d-label-inv" x="22" y="216" opacity=".6">เพราะชื่อคือสิ่งที่ agent อ้างถึงได้ในรอบถัดไป ส่วนพิกเซลอ้างไม่ได้</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 2</b> · ค่าดิบที่กระจายอยู่ตรวจไม่ได้ด้วย grep — ส่วนชื่อ token ตรวจได้</p>
+  </div>
+
+  <div class="box good">
+    <span class="k">ทำให้เป็นเกณฑ์เชิงกลได้ทันที</span>
+    <p>
+      พอทุกอย่างมีชื่อ คุณเขียนเกณฑ์ตรวจได้เลยโดยไม่ต้องใช้คน —
+      <code>grep</code> หาค่าสีดิบในไฟล์ component แล้วต้องได้ศูนย์
+    </p>
+    <p>
+      อันนี้คือตัวอย่างที่ดีของเกณฑ์ deterministic ตาม <a href="m12-evals.html">M12.03</a>
+      และเป็นเหตุผลที่แล็บ A ของโมดูลนี้เอาไปใส่ชุดวัดได้ทันที
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://www.w3.org/WAI/WCAG22/quickref/" target="_blank" rel="noopener noreferrer">WCAG 2.2 Quick Reference</a>
+        — เกณฑ์คอนทราสต์ที่ token ของคุณต้องผ่าน ทั้งธีมสว่างและมืด
+        <span class="src">w3.org/WAI</span>
+      </li>
+      <li>
+        <a href="https://www.anthropic.com/engineering/writing-tools-for-agents" target="_blank" rel="noopener noreferrer">Writing tools for agents</a>
+        — หลักการเดียวกัน: ชื่อที่ชัดทำให้เลือกถูก
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+    </ol>
   </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">06.03</span><h2>เส้นแบ่ง server/client ที่พลาดบ่อยที่สุด</h2><label class="done"><input type="checkbox" data-lesson="06.03"><span>เรียนจบ</span></label></div>
-  <p>เฟรมเวิร์กสมัยใหม่แยกโค้ดที่รันบนเซิร์ฟเวอร์กับบนเบราว์เซอร์ และเส้นนี้คือจุดที่ agent พลาดมากที่สุดในงาน FE ทั้งหมด</p>
-  <ul>
-    <li><strong>เอา state หรือ event handler ไปไว้ฝั่งเซิร์ฟเวอร์</strong> — พังตอน build ไม่ใช่ตอนเขียน</li>
-    <li><strong>ลากทั้งหน้าไปเป็นฝั่ง client เพื่อให้ผ่าน</strong> — ผ่านจริง แต่เสียประโยชน์ทั้งหมดของการเรนเดอร์ฝั่งเซิร์ฟเวอร์</li>
-    <li><strong>ดึงข้อมูลผิดชั้น</strong> — ทำให้เกิด waterfall ที่ช้าแต่ไม่มี error</li>
-    <li><strong>ใช้ของที่มีเฉพาะเบราว์เซอร์ในโค้ดที่รันสองที่</strong> — พังเฉพาะบางเส้นทาง</li>
-  </ul>
+
+  <div class="chat">
+    <p>
+      เฟรมเวิร์กสมัยใหม่แยกโค้ดที่รันบนเซิร์ฟเวอร์กับบนเบราว์เซอร์
+      และเส้นนี้คือจุดที่ agent พลาดมากที่สุดในงาน FE ทั้งหมด
+    </p>
+    <p>
+      ที่แย่คือ <b>มันมักพลาดแบบที่ "แก้แล้วผ่าน" ทันที</b> — ซึ่งเป็นทางแก้ที่ผิด
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 250" role="img" aria-label="Four common server client boundary mistakes and when each surfaces">
+      <text class="d-label-mono" x="8" y="16">ผิดยังไง</text>
+      <text class="d-label-mono" x="360" y="16">รู้ตัวเมื่อไหร่</text>
+      <line class="d-line" x1="350" y1="24" x2="350" y2="196" stroke-dasharray="4 4"/>
+
+      <rect class="d-box" x="8" y="28" width="334" height="36"/>
+      <text class="d-label-sm" x="20" y="50">เอา state / event handler ไปไว้ฝั่ง server</text>
+      <rect class="d-box-accent" x="360" y="28" width="272" height="36"/>
+      <text class="d-label-sm" x="372" y="50">ตอน build — ดีที่สุด เพราะเห็นทันที</text>
+
+      <rect class="d-box" x="8" y="68" width="334" height="36"/>
+      <text class="d-label-sm" x="20" y="90">ลากทั้งหน้าไปเป็น client เพื่อให้ผ่าน</text>
+      <rect class="d-bar-new" x="360" y="68" width="272" height="36"/>
+      <text class="d-label-sm" x="372" y="90">ไม่รู้เลย — ผ่านจริง แต่เสียประโยชน์หมด</text>
+
+      <rect class="d-box" x="8" y="108" width="334" height="36"/>
+      <text class="d-label-sm" x="20" y="130">ดึงข้อมูลผิดชั้น เกิด waterfall</text>
+      <rect class="d-bar-new" x="360" y="108" width="272" height="36"/>
+      <text class="d-label-sm" x="372" y="130">ไม่รู้ — แค่ช้าลงเรื่อย ๆ ไม่มี error</text>
+
+      <rect class="d-box" x="8" y="148" width="334" height="36"/>
+      <text class="d-label-sm" x="20" y="170">ใช้ของที่มีเฉพาะ browser ในโค้ดที่รัน 2 ที่</text>
+      <rect class="d-box" x="360" y="148" width="272" height="36"/>
+      <text class="d-label-sm" x="372" y="170">พังเฉพาะบางเส้นทาง — หายาก</text>
+
+      <rect class="d-box-ink" x="8" y="200" width="624" height="44"/>
+      <text class="d-label-inv" x="22" y="222">แถบสีส้ม = ผิดแล้วไม่มีสัญญาณ</text>
+      <text class="d-label-inv" x="22" y="240" opacity=".72">สองอันนี้อันตรายกว่าอันที่ build พัง เพราะมันผ่าน review ไปได้</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 3</b> · ข้อที่ build พังคือข้อที่โชคดี · ข้อที่เงียบคือข้อที่ต้องระวัง</p>
+  </div>
+
   <div class="box good">
-    <span class="k">วิธีกันที่ได้ผลกว่าการเขียนกฎ</span>
-    <p>ใส่ไว้ใน project memory ว่า <strong>“ถ้าต้องเปลี่ยน component จาก server เป็น client ให้หยุดแล้วอธิบายเหตุผลก่อน”</strong> — เพราะการเปลี่ยนนี้มักเป็นการหลบปัญหา ไม่ใช่การแก้ปัญหา และเป็นจุดที่คนควรตัดสิน</p>
+    <span class="k">วิธีกันที่ได้ผลกว่าการเขียนกฎยาว ๆ</span>
+    <p>
+      ใส่ไว้ใน project memory สั้น ๆ ว่า <strong>"ถ้าจะเปลี่ยน component จาก server เป็น client
+      ให้หยุดแล้วอธิบายเหตุผลก่อน"</strong>
+    </p>
+    <p>
+      เพราะการเปลี่ยนนี้มักเป็นการ<em>หลบ</em>ปัญหา ไม่ใช่การ<em>แก้</em>ปัญหา
+      และเป็นจุดที่คนควรตัดสิน ไม่ใช่ปล่อยให้ agent เลือกทางที่ทำให้ build ผ่านเร็วที่สุด
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://nextjs.org/docs/app/getting-started/server-and-client-components" target="_blank" rel="noopener noreferrer">Server and Client Components</a>
+        — เส้นแบ่งจริง ๆ อยู่ตรงไหน และอะไรข้ามได้ข้ามไม่ได้
+        <span class="src">nextjs.org</span>
+      </li>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/memory" target="_blank" rel="noopener noreferrer">Memory</a>
+        — ที่สำหรับเขียนกฎ "หยุดถามก่อน" ให้ agent เห็นทุกครั้ง
+        <span class="src">docs.claude.com</span>
+      </li>
+    </ol>
   </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">06.04</span><h2>State และ data fetching</h2><label class="done"><input type="checkbox" data-lesson="06.04"><span>เรียนจบ</span></label></div>
-  <p>สองเรื่องนี้อยู่ด้วยกันเพราะความผิดพลาดส่วนใหญ่เกิดที่รอยต่อของมัน — ข้อมูลถูกดึงผิดที่ แล้ว state ก็เลยอยู่ผิดที่ตามไปด้วย</p>
+
+  <p>
+    สองเรื่องนี้อยู่ด้วยกันเพราะความผิดพลาดส่วนใหญ่เกิดที่รอยต่อของมัน —
+    ข้อมูลถูกดึงผิดที่ แล้ว state ก็เลยอยู่ผิดที่ตามไปด้วย
+  </p>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 230" role="img" aria-label="Sequential data fetching creating a waterfall versus parallel fetching">
+      <text class="d-label-mono" x="8" y="16">WATERFALL · ดึงต่อกันเป็นทอด ๆ</text>
+      <rect class="d-bar-new" x="8" y="26" width="120" height="16"/>
+      <text class="d-label-sm" x="134" y="39">user</text>
+      <rect class="d-bar-new" x="180" y="46" width="120" height="16"/>
+      <text class="d-label-sm" x="306" y="59">orders (รอ user)</text>
+      <rect class="d-bar-new" x="352" y="66" width="120" height="16"/>
+      <text class="d-label-sm" x="478" y="79">items (รอ orders)</text>
+      <path class="d-line-accent" d="M 8 92 H 472"/>
+      <text class="d-label-mono" x="486" y="96">รวม 3 ช่วง</text>
+
+      <line class="d-line" x1="8" y1="110" x2="632" y2="110" stroke-dasharray="3 3"/>
+
+      <text class="d-label-mono" x="8" y="132">PARALLEL · ดึงพร้อมกันเท่าที่ทำได้</text>
+      <rect class="d-bar" x="8" y="142" width="120" height="16"/>
+      <rect class="d-bar" x="8" y="162" width="120" height="16"/>
+      <text class="d-label-sm" x="134" y="155">user</text>
+      <text class="d-label-sm" x="134" y="175">config</text>
+      <rect class="d-bar" x="180" y="182" width="120" height="16"/>
+      <text class="d-label-sm" x="306" y="195">orders (ต้องรอ user จริง ๆ)</text>
+      <path class="d-line-accent" d="M 8 208 H 300"/>
+      <text class="d-label-mono" x="314" y="212">รวม 2 ช่วง</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 4</b> · agent มักเขียนแบบบน เพราะอ่านง่ายกว่า — และไม่มีอะไรแดงให้รู้ว่าช้า</p>
+  </div>
+
   <div class="tw"><table>
     <thead><tr><th>แพตเทิร์น</th><th>agent ทำถูก</th><th>agent ชอบทำผิด</th></tr></thead>
     <tbody>
       <tr><td>ดึงข้อมูลใกล้จุดที่ใช้</td><td>ใช่ ถ้าบอกโครงไว้ชัด</td><td>ยกไปไว้ชั้นบนสุดแล้วส่งผ่านหลายชั้น</td></tr>
-      <tr><td>แยก server state กับ UI state</td><td>ทำได้เมื่อมีตัวอย่างในโปรเจกต์</td><td>ยัดทุกอย่างลง state ก้อนเดียว</td></tr>
-      <tr><td>จัดการสถานะกำลังโหลดและผิดพลาด</td><td>เขียนได้ครบถ้าอยู่ใน spec</td><td>ทำแต่ทางที่สำเร็จถ้าไม่ได้สั่ง</td></tr>
-      <tr><td>ทำให้ข้อมูลสดหลังแก้ไข</td><td>ทำได้</td><td>รีเฟรชทั้งหน้าแทนที่จะอัปเดตเฉพาะจุด</td></tr>
+      <tr><td>แยก server state กับ UI state</td><td>ทำได้เมื่อมีตัวอย่างใน repo</td><td>ยัดทุกอย่างลง state ก้อนเดียว</td></tr>
+      <tr><td>จัดการ loading / error</td><td>เขียนครบถ้าอยู่ใน spec</td><td>ทำแต่ happy path ถ้าไม่ได้สั่ง</td></tr>
+      <tr><td>ทำข้อมูลสดหลังแก้ไข</td><td>ทำได้</td><td>รีเฟรชทั้งหน้าแทนอัปเดตเฉพาะจุด</td></tr>
     </tbody>
   </table></div>
+
   <div class="box trap">
     <span class="k">อาการที่ไม่มี error แต่ช้าลงเรื่อย ๆ</span>
-    <p>เมื่อ agent วางการดึงข้อมูลเป็นลำดับที่ต้องรอกันไปเรื่อย ๆ หน้าจะทำงานถูกทุกอย่างแต่ช้าขึ้นทุกครั้งที่เพิ่มของ ไม่มีอะไรแดง ไม่มีเทสต์แตก และไม่มีใครสังเกตจนกว่าจะมีคนบ่น ให้ใส่เพดานเวลาโหลดเป็นเกณฑ์ในเทสต์ ตามหลักเดียวกับ budget ใน <a href="m03.html">M03</a></p>
+    <p>
+      พอ agent วางการดึงข้อมูลเป็นลำดับที่ต้องรอกันไปเรื่อย ๆ หน้าจะทำงานถูกทุกอย่าง
+      แต่ช้าขึ้นทุกครั้งที่เพิ่มของ <strong>ไม่มีอะไรแดง ไม่มีเทสต์แตก</strong>
+      และไม่มีใครสังเกตจนกว่าจะมีคนบ่น
+    </p>
+    <p>
+      ทางกันคือ<strong>ใส่เพดานเวลาโหลดเป็นเกณฑ์ในเทสต์</strong> ตามหลักเดียวกับ budget ใน <a href="m03.html">M03.07</a>
+      — ถ้าไม่มีตัวเลขกำกับ ความช้าจะสะสมโดยไม่มีใครรับผิดชอบ
+    </p>
   </div>
+
   <div class="box good">
     <span class="k">สิ่งที่ควรใส่ใน project memory</span>
-    <p>ระบุให้ชัดว่าโปรเจกต์นี้ใช้อะไรจัดการ server state และห้ามเพิ่มตัวใหม่โดยไม่ถาม — ไม่งั้น agent จะเลือกวิธีที่มันคุ้นเคยที่สุด ซึ่งอาจเป็นคนละตัวกับที่ทีมใช้อยู่ แล้วคุณจะได้สองระบบในโปรเจกต์เดียว</p>
+    <p>
+      ระบุให้ชัดว่าโปรเจกต์นี้ใช้อะไรจัดการ server state และ<strong>ห้ามเพิ่มตัวใหม่โดยไม่ถาม</strong>
+    </p>
+    <p>
+      ไม่งั้น agent จะเลือกวิธีที่มันคุ้นเคยที่สุด ซึ่งอาจเป็นคนละตัวกับที่ทีมใช้อยู่
+      แล้วคุณจะได้สองระบบในโปรเจกต์เดียว โดยที่แต่ละอันก็ทำงานได้ถูกต้องของมัน
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://nextjs.org/docs/app/getting-started/server-and-client-components" target="_blank" rel="noopener noreferrer">Server and Client Components</a>
+        — ที่ทางของการดึงข้อมูลในแต่ละฝั่ง
+        <span class="src">nextjs.org</span>
+      </li>
+      <li>
+        <a href="https://web.dev/articles/lcp" target="_blank" rel="noopener noreferrer">Largest Contentful Paint</a>
+        — ตัวเลขที่เอาไปตั้งเป็นเพดานในเทสต์ได้
+        <span class="src">web.dev</span>
+      </li>
+    </ol>
   </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">06.05</span><h2>Visual verification loop</h2><label class="done"><input type="checkbox" data-lesson="06.05"><span>เรียนจบ</span></label></div>
-  <p>นี่คือสิ่งที่ทำให้งาน FE กับ agent เปลี่ยนจาก “ส่งไปแล้วลุ้น” เป็นลูปปิดที่มันตรวจงานตัวเองได้ก่อนถึงมือคุณ</p>
-  <ol>
-    <li>agent เขียนโค้ด</li>
-    <li>รันเซิร์ฟเวอร์ เปิดหน้าในเบราว์เซอร์</li>
-    <li>ถ่ายภาพหน้าจอ และอ่าน console กับ network</li>
-    <li>เทียบกับ spec แล้วบอกว่าข้อไหนไม่ตรง</li>
-    <li>แก้ แล้ววนใหม่จนผ่าน</li>
-  </ol>
-  <div class="box rule">
-    <span class="k">สิ่งที่ต้องบังคับให้ตรวจ ไม่ใช่แค่ดูภาพ</span>
-    <ul>
-      <li>console ต้องไม่มี error — ข้อนี้จับบั๊กได้มากกว่าการดูภาพ</li>
-      <li>ตรวจอย่างน้อยสองความกว้างหน้าจอ</li>
-      <li>ตรวจสถานะ empty และ error ไม่ใช่แค่สถานะที่มีข้อมูลครบ</li>
-    </ul>
+
+  <div class="chat">
+    <p>
+      อันนี้คือสิ่งที่เปลี่ยนงาน FE กับ agent จาก "ส่งไปแล้วลุ้น" เป็น<b>ลูปปิดที่มันตรวจงานตัวเองได้ก่อนถึงมือเรา</b>
+    </p>
+    <p>
+      หัวใจไม่ได้อยู่ที่การถ่ายภาพนะครับ — อยู่ที่<b>มันมี spec ให้เทียบ</b>
+      ถ้าไม่มีเกณฑ์ การให้มันดูภาพตัวเองก็แค่ทำให้มันมั่นใจขึ้น ไม่ได้ทำให้ถูกขึ้น
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 250" role="img" aria-label="Closed verification loop: build, render, capture, compare against spec, fix">
+      <rect class="d-box-accent" x="30" y="30" width="130" height="46"/>
+      <text class="d-label" x="42" y="58">1 · เขียนโค้ด</text>
+      <path class="d-line d-flow" d="M 160 53 H 214"/>
+      <path class="d-arrow" d="M 214 48 l 8 5 l -8 5 z"/>
+
+      <rect class="d-box" x="226" y="30" width="150" height="46"/>
+      <text class="d-label" x="238" y="52">2 · รัน + เปิดหน้า</text>
+      <text class="d-label-sm" x="238" y="68">ในเบราว์เซอร์จริง</text>
+      <path class="d-line d-flow" d="M 376 53 H 430"/>
+      <path class="d-arrow" d="M 430 48 l 8 5 l -8 5 z"/>
+
+      <rect class="d-box" x="442" y="30" width="168" height="46"/>
+      <text class="d-label" x="454" y="52">3 · เก็บหลักฐาน</text>
+      <text class="d-label-sm" x="454" y="68">ภาพ + console + network</text>
+
+      <path class="d-line d-flow" d="M 526 76 V 104"/>
+      <path class="d-arrow" d="M 521 104 l 5 8 l 5 -8 z"/>
+
+      <rect class="d-box-accent" x="226" y="116" width="384" height="52"/>
+      <text class="d-label" x="238" y="138">4 · เทียบกับ spec ทีละข้อ</text>
+      <text class="d-label-sm" x="238" y="158">ข้อไหนไม่ผ่าน ต้องชี้ได้ว่าหลักฐานอยู่ตรงไหน</text>
+
+      <path class="d-line-accent d-flow" d="M 226 142 H 95 V 82"/>
+      <path class="d-arrow-accent" d="M 90 82 l 5 -8 l 5 8 z"/>
+      <text class="d-label-sm" x="30" y="106">5 · แก้ แล้ววนใหม่</text>
+
+      <rect class="d-box-ink" x="8" y="184" width="624" height="58"/>
+      <text class="d-label-inv" x="22" y="208">ต้องบังคับให้ตรวจ ไม่ใช่แค่ดูภาพ</text>
+      <text class="d-label-inv" x="22" y="230" opacity=".72">console ต้องไม่มี error · อย่างน้อย 2 ความกว้างจอ · สถานะ empty และ error ไม่ใช่แค่ตอนข้อมูลครบ</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 5</b> · การอ่าน console จับบั๊กได้มากกว่าการดูภาพ — แต่คนมักสั่งแค่ให้ถ่ายภาพ</p>
+  </div>
+
+  <div class="box trap">
+    <span class="k">จุดที่ลูปนี้ล้มเสมอถ้าไม่ระวัง</span>
+    <p>
+      agent จะรายงานว่า <em>"ผ่านหมดครับ"</em> ทั้งที่ยังไม่ผ่าน ไม่ใช่เพราะโกหก
+      แต่เพราะมันสรุปจากภาพที่ดูโอเค
+    </p>
+    <p>
+      วิธีกันคือ<strong>บังคับให้แนบหลักฐานต่อข้อ</strong> — ภาพไหน บรรทัด console ไหน
+      ตามวินัยหลักฐานใน <a href="m04.html">M04.05</a> ข้อไหนไม่มีหลักฐานถือว่ายังไม่ได้ตรวจ
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://playwright.dev/docs/best-practices" target="_blank" rel="noopener noreferrer">Playwright — Best Practices</a>
+        — การขับเบราว์เซอร์แบบที่ผลไม่แกว่ง ใช้เป็นฐานของลูปนี้
+        <span class="src">playwright.dev</span>
+      </li>
+      <li>
+        <a href="https://www.anthropic.com/engineering/claude-code-best-practices" target="_blank" rel="noopener noreferrer">Claude Code best practices</a>
+        — การให้ agent ตรวจงานตัวเองก่อนส่งกลับ
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+    </ol>
   </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">06.06</span><h2>Accessibility เป็นเกณฑ์ที่ตรวจอัตโนมัติได้</h2><label class="done"><input type="checkbox" data-lesson="06.06"><span>เรียนจบ</span></label></div>
-  <p>ข้อดีของการวางเรื่องนี้เป็น acceptance criteria คือมันเป็นหนึ่งในไม่กี่เรื่องคุณภาพ UI ที่<strong>เครื่องตัดสินได้จริง</strong> จึงเอาไปเป็นเกณฑ์ในชุดวัดได้ตรง ๆ</p>
-  <ul>
-    <li>ทุก control ที่กดได้ต้องเข้าถึงด้วยคีย์บอร์ดและมี focus ที่มองเห็น</li>
-    <li>ทุกภาพมี alt ทุก input มี label ที่ผูกกัน</li>
-    <li>คอนทราสต์ผ่านเกณฑ์ทั้งธีมสว่างและมืด</li>
-    <li>ลำดับหัวข้อไม่ข้ามระดับ</li>
-  </ul>
-  <p>สี่ข้อนี้ตรวจได้ด้วยเครื่องมืออัตโนมัติ ใส่เข้า CI แล้วมันจะกลายเป็นสิ่งที่ agent ต้องทำให้ผ่าน ไม่ใช่สิ่งที่หวังว่ามันจะนึกถึง</p>
+
+  <div class="chat">
+    <p>
+      ข้อดีของการวางเรื่องนี้เป็น acceptance criteria คือมันเป็น<b>หนึ่งในไม่กี่เรื่องคุณภาพ UI
+      ที่เครื่องตัดสินได้จริง</b> — เลยเอาไปใส่ชุดวัดได้ตรง ๆ
+    </p>
+    <p>
+      แล้วมันยังเป็นข้อที่ agent ทำได้ดีถ้าสั่ง และลืมสนิทถ้าไม่สั่ง
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 220" role="img" aria-label="Four accessibility criteria a machine can check automatically">
+      <text class="d-label-mono" x="8" y="16">เกณฑ์ที่เครื่องตรวจได้ · ใส่ CI ได้เลย</text>
+
+      <rect class="d-box-accent" x="8" y="26" width="304" height="40"/>
+      <text class="d-label-sm" x="20" y="44">ทุก control ที่กดได้ เข้าถึงด้วยคีย์บอร์ด</text>
+      <text class="d-label-sm" x="20" y="60" opacity=".7">และมี focus ที่มองเห็น</text>
+
+      <rect class="d-box-accent" x="328" y="26" width="304" height="40"/>
+      <text class="d-label-sm" x="340" y="44">ทุกภาพมี alt · ทุก input มี label</text>
+      <text class="d-label-sm" x="340" y="60" opacity=".7">ที่ผูกกันจริง ไม่ใช่แค่วางใกล้กัน</text>
+
+      <rect class="d-box-accent" x="8" y="72" width="304" height="40"/>
+      <text class="d-label-sm" x="20" y="90">คอนทราสต์ผ่านเกณฑ์</text>
+      <text class="d-label-sm" x="20" y="106" opacity=".7">ทั้งธีมสว่างและมืด — คนมักลืมธีมมืด</text>
+
+      <rect class="d-box-accent" x="328" y="72" width="304" height="40"/>
+      <text class="d-label-sm" x="340" y="90">ลำดับหัวข้อไม่ข้ามระดับ</text>
+      <text class="d-label-sm" x="340" y="106" opacity=".7">h1 → h2 → h3 ไม่กระโดด</text>
+
+      <line class="d-line" x1="8" y1="126" x2="632" y2="126" stroke-dasharray="3 3"/>
+      <rect class="d-box-ink" x="8" y="140" width="624" height="72"/>
+      <text class="d-label-inv" x="22" y="164">ทำไมข้อนี้ถึงคุ้มเป็นพิเศษ</text>
+      <text class="d-label-inv" x="22" y="186" opacity=".85">มันเปลี่ยนจาก "หวังว่ามันจะนึกถึง" เป็น "มันต้องทำให้ผ่าน"</text>
+      <text class="d-label-inv" x="22" y="204" opacity=".6">และเป็นเกณฑ์ที่ไม่ต้องถกเถียงเรื่องรสนิยม</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 6</b> · สี่ข้อนี้ตรวจด้วยเครื่องมืออัตโนมัติได้ทั้งหมด · ใส่ CI แล้วมันกลายเป็นสิ่งที่ agent ต้องทำให้ผ่าน</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://www.w3.org/WAI/WCAG22/quickref/" target="_blank" rel="noopener noreferrer">WCAG 2.2 Quick Reference</a>
+        — เกณฑ์ทางการ พร้อมระดับ A / AA / AAA
+        <span class="src">w3.org/WAI</span>
+      </li>
+      <li>
+        <a href="https://playwright.dev/docs/best-practices" target="_blank" rel="noopener noreferrer">Playwright — Best Practices</a>
+        — การเลือก element ด้วย role และข้อความที่ผู้ใช้เห็น ซึ่งช่วยทั้งเทสต์และ a11y พร้อมกัน
+        <span class="src">playwright.dev</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">06.07</span><h2>UI ที่ผ่านสายตาแต่พังจริง</h2><label class="done"><input type="checkbox" data-lesson="06.07"><span>เรียนจบ</span></label></div>
-  <div class="tw"><table>
-    <thead><tr><th>อาการ</th><th>ทำไมสกรีนช็อตจับไม่ได้</th><th>วิธีจับ</th></tr></thead>
-    <tbody>
-      <tr><td>Hydration ไม่ตรง</td><td>ภาพนิ่งดูปกติ พังตอนโต้ตอบ</td><td>อ่าน console</td></tr>
-      <tr><td>Layout ขยับตอนโหลด</td><td>ถ่ายหลังโหลดเสร็จเลยไม่เห็น</td><td>วัด layout shift</td></tr>
-      <tr><td>State ค้างข้ามหน้า</td><td>เห็นทีละหน้าเลยไม่รู้</td><td>เทสต์ที่เดินหลายหน้า</td></tr>
-      <tr><td>สถานะไม่มีข้อมูล</td><td>ตอนทดสอบมีข้อมูลเสมอ</td><td>บังคับ fixture ว่าง</td></tr>
-      <tr><td>ข้อความยาวจนล้น</td><td>ข้อความทดสอบสั้นเสมอ</td><td>fixture ที่มีข้อความยาว</td></tr>
-    </tbody>
-  </table></div>
-  <div class="box trap">
+
+  <div class="fig">
+    <svg viewBox="0 0 640 250" role="img" aria-label="Five UI defects a screenshot cannot catch and how to catch each">
+      <text class="d-label-mono" x="8" y="16">อาการ</text>
+      <text class="d-label-mono" x="290" y="16">ทำไมภาพจับไม่ได้</text>
+      <text class="d-label-mono" x="500" y="16">จับยังไง</text>
+
+      <rect class="d-box" x="8" y="26" width="272" height="34"/>
+      <text class="d-label-sm" x="20" y="47">Hydration ไม่ตรง</text>
+      <rect class="d-box" x="288" y="26" width="204" height="34"/>
+      <text class="d-label-sm" x="298" y="47">ภาพนิ่งดูปกติ</text>
+      <rect class="d-box-accent" x="500" y="26" width="132" height="34"/>
+      <text class="d-label-sm" x="510" y="47">อ่าน console</text>
+
+      <rect class="d-box" x="8" y="64" width="272" height="34"/>
+      <text class="d-label-sm" x="20" y="85">Layout ขยับตอนโหลด</text>
+      <rect class="d-box" x="288" y="64" width="204" height="34"/>
+      <text class="d-label-sm" x="298" y="85">ถ่ายหลังโหลดเสร็จ</text>
+      <rect class="d-box-accent" x="500" y="64" width="132" height="34"/>
+      <text class="d-label-sm" x="510" y="85">วัด layout shift</text>
+
+      <rect class="d-box" x="8" y="102" width="272" height="34"/>
+      <text class="d-label-sm" x="20" y="123">State ค้างข้ามหน้า</text>
+      <rect class="d-box" x="288" y="102" width="204" height="34"/>
+      <text class="d-label-sm" x="298" y="123">เห็นทีละหน้า</text>
+      <rect class="d-box-accent" x="500" y="102" width="132" height="34"/>
+      <text class="d-label-sm" x="510" y="123">เทสต์เดินหลายหน้า</text>
+
+      <rect class="d-box" x="8" y="140" width="272" height="34"/>
+      <text class="d-label-sm" x="20" y="161">สถานะไม่มีข้อมูล</text>
+      <rect class="d-bar-new" x="288" y="140" width="204" height="34"/>
+      <text class="d-label-sm" x="298" y="161">ตอนทดสอบมีข้อมูลเสมอ</text>
+      <rect class="d-box-accent" x="500" y="140" width="132" height="34"/>
+      <text class="d-label-sm" x="510" y="161">fixture ว่าง</text>
+
+      <rect class="d-box" x="8" y="178" width="272" height="34"/>
+      <text class="d-label-sm" x="20" y="199">ข้อความยาวจนล้น</text>
+      <rect class="d-bar-new" x="288" y="178" width="204" height="34"/>
+      <text class="d-label-sm" x="298" y="199">ข้อความทดสอบสั้นเสมอ</text>
+      <rect class="d-box-accent" x="500" y="178" width="132" height="34"/>
+      <text class="d-label-sm" x="510" y="199">fixture ข้อความยาว</text>
+
+      <rect class="d-box-ink" x="8" y="220" width="624" height="26"/>
+      <text class="d-label-inv" x="22" y="238">แถบส้ม 2 แถวมีสาเหตุเดียวกัน — ข้อมูลทดสอบสวยเกินจริง</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 7</b> · สองในห้าข้อแก้ได้ด้วยการเตรียม fixture ให้เหมือนของจริงมากขึ้น ไม่ต้องเขียนกฎเพิ่มเลย</p>
+  </div>
+
+  <div class="box good">
     <span class="k">รูปแบบที่เจอซ้ำ</span>
-    <p>สี่ในห้าข้อข้างบนมีสาเหตุเดียวกัน — <strong>ข้อมูลทดสอบสวยเกินจริง</strong> การเตรียม fixture ที่มีเคสว่าง เคสยาว และเคสพัง ให้ผลมากกว่าการเขียนกฎเพิ่มใน prompt</p>
+    <p>
+      สาเหตุร่วมของหลายข้อคือ <strong>ข้อมูลทดสอบสวยเกินจริง</strong> — ชื่อสั้น รูปมีครบ ไม่มีเคสว่าง
+    </p>
+    <p>
+      การเตรียม fixture ที่มีเคสว่าง เคสข้อความยาว และเคสพัง <strong>ให้ผลมากกว่าการเขียนกฎเพิ่มใน prompt</strong>
+      เพราะมันเปลี่ยนสิ่งที่ agent เห็น ไม่ใช่แค่สิ่งที่เราขอ
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://web.dev/articles/cls" target="_blank" rel="noopener noreferrer">Cumulative Layout Shift</a>
+        — ตัววัด layout shift ที่เอาไปตั้งเป็นเกณฑ์ได้
+        <span class="src">web.dev</span>
+      </li>
+      <li>
+        <a href="https://playwright.dev/docs/best-practices" target="_blank" rel="noopener noreferrer">Playwright — Best Practices</a>
+        — การเตรียมข้อมูลทดสอบใหม่ทุกรอบ ไม่ให้ state ค้างข้ามเทสต์
+        <span class="src">playwright.dev</span>
+      </li>
+    </ol>
   </div>
 </section>
 
