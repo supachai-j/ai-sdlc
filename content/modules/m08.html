@@ -13,95 +13,424 @@
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">08.01</span><h2>สร้างแผนที่ก่อน อย่าเพิ่งแก้</h2></div>
-  <p>สัญชาตญาณแรกคือส่งงานให้ agent เลย แต่ใน codebase ที่ไม่มีใครเข้าใจ สิ่งที่ควรสั่งเป็นอย่างแรกคือ <strong>ให้มันอธิบายกลับมา</strong></p>
-  <ol>
-    <li><strong>แผนที่ระดับบน</strong> — โมดูลหลักมีอะไรบ้าง อะไรเรียกอะไร ทางเข้าอยู่ตรงไหน</li>
-    <li><strong>เส้นทางของฟีเจอร์ที่จะแตะ</strong> — จาก request จนถึงฐานข้อมูล ทีละไฟล์ทีละบรรทัด</li>
-    <li><strong>รายการสิ่งที่ดูแปลก</strong> — โค้ดที่ดูเหมือนตายแล้ว ชื่อที่ขัดกัน ของที่ซ้ำกันสองที่</li>
-  </ol>
-  <div class="box good">
-    <span class="k">ทำไมข้อสามถึงมีค่าที่สุด</span>
-    <p>agent ไม่มีความคุ้นเคยมาบดบัง มันจึงชี้ของแปลกที่คนในทีมมองข้ามมาสามปีเพราะชินแล้ว รายการนี้มักมีของที่คุ้มจะแก้ซ่อนอยู่ และเป็นผลพลอยได้ที่คนไม่คาดคิด</p>
+
+  <div class="chat">
+    <p>
+      โมดูลนี้ผมว่าคุณจะใช้บ่อยที่สุดในหลักสูตร เพราะ<b>งานจริงไม่ได้เริ่มจากโฟลเดอร์ว่าง</b>
+      มันเริ่มจาก repo อายุหกปี ไม่มีเทสต์ ไม่มี type คนเขียนลาออกไปแล้ว
+    </p>
+    <p>
+      และกติกาจะ<b>กลับด้าน</b>จาก greenfield — ตรงนั้นความเสี่ยงคือทำไม่เสร็จ
+      ตรงนี้ความเสี่ยงคือ<b>ทำของที่เคยใช้ได้ให้พัง</b>
+    </p>
   </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 250" role="img" aria-label="Three mapping outputs to produce before touching any code">
+      <rect class="d-box-ink" x="180" y="22" width="280" height="40"/>
+      <text class="d-label-inv" x="196" y="47">สั่งให้มันอธิบายกลับมา ก่อนสั่งให้แก้</text>
+
+      <path class="d-line d-flow" d="M 250 62 V 84 H 120 V 100"/>
+      <path class="d-arrow" d="M 115 100 l 5 8 l 5 -8 z"/>
+      <path class="d-line d-flow" d="M 320 62 V 100"/>
+      <path class="d-arrow" d="M 315 100 l 5 8 l 5 -8 z"/>
+      <path class="d-line d-flow" d="M 390 62 V 84 H 520 V 100"/>
+      <path class="d-arrow" d="M 515 100 l 5 8 l 5 -8 z"/>
+
+      <rect class="d-box" x="8" y="108" width="200" height="76"/>
+      <text class="d-label-mono" x="20" y="128">OUTPUT 1</text>
+      <text class="d-label" x="20" y="148">แผนที่ระดับบน</text>
+      <text class="d-label-sm" x="20" y="168">โมดูลหลัก · อะไรเรียกอะไร</text>
+
+      <rect class="d-box" x="220" y="108" width="200" height="76"/>
+      <text class="d-label-mono" x="232" y="128">OUTPUT 2</text>
+      <text class="d-label" x="232" y="148">เส้นทางของฟีเจอร์</text>
+      <text class="d-label-sm" x="232" y="168">request → DB ทีละไฟล์</text>
+
+      <rect class="d-box-accent" x="432" y="108" width="200" height="76"/>
+      <text class="d-label-mono" x="444" y="128">OUTPUT 3</text>
+      <text class="d-label" x="444" y="148">รายการของที่ดูแปลก</text>
+      <text class="d-label-sm" x="444" y="168">โค้ดตายแล้ว · ชื่อขัดกัน · ของซ้ำ</text>
+
+      <rect class="d-box-accent" x="8" y="196" width="624" height="46"/>
+      <text class="d-label" x="22" y="218">ข้อ 3 มีค่าที่สุด และเป็นข้อที่คนไม่คาดคิด</text>
+      <text class="d-label-sm" x="22" y="236">agent ไม่มีความคุ้นเคยมาบดบัง มันเลยชี้ของแปลกที่ทีมมองข้ามมาสามปีเพราะชินแล้ว</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 1</b> · แผนที่ที่ได้ให้เขียนลงไฟล์ในโปรเจกต์ — มันจะกลายเป็นบริบทถาวรตาม <a href="m05.html">M05.06</a></p>
+  </div>
+
   <div class="box rule">
-    <span class="k">เก็บผลลัพธ์ไว้ อย่าทิ้ง</span>
-    <p>แผนที่ที่ได้ให้เขียนลงไฟล์ในโปรเจกต์ มันจะกลายเป็นบริบทถาวรตามหลัก <a href="m05.html">M05.06</a> และทำให้ครั้งหน้าไม่ต้องเสียเงินสำรวจซ้ำ</p>
+    <span class="k">อย่าทิ้งผลลัพธ์</span>
+    <p>
+      คนส่วนใหญ่ให้ agent สำรวจ อ่านคำตอบ แล้วปิด session ไป — <strong>ครั้งหน้าก็เสียเงินสำรวจซ้ำ</strong>
+    </p>
+    <p>
+      เขียนลงไฟล์แล้ว commit ทันที มันเป็นเอกสารที่ทั้งคนใหม่และ agent ตัวถัดไปใช้ต่อได้
+      และเป็นตัวอย่างที่ตรงที่สุดของ docs-as-context
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://understandlegacycode.com/blog/key-points-of-working-effectively-with-legacy-code/" target="_blank" rel="noopener noreferrer">Key points of Working Effectively with Legacy Code</a>
+        — สรุปแนวคิดหลักของการเข้าหาโค้ดเก่าอย่างเป็นระบบ
+        <span class="src">understandlegacycode.com</span>
+      </li>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/common-workflows" target="_blank" rel="noopener noreferrer">Common workflows</a>
+        — วิธีสั่งให้ agent สำรวจ codebase อย่างมีโครง
+        <span class="src">docs.claude.com</span>
+      </li>
+    </ol>
   </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">08.02</span><h2>Characterization test</h2></div>
-  <p>เทสต์ชนิดนี้ไม่ได้ยืนยันว่าโค้ด<em>ถูก</em> แต่ยืนยันว่าโค้ด<em>ทำเหมือนเดิม</em> ซึ่งเป็นสิ่งที่คุณต้องการจริง ๆ ก่อนแตะของที่ไม่เข้าใจ</p>
-  <pre><code><span class="c">// ขั้นตอน — และใช่ ข้อ 3 คือการล็อกพฤติกรรมที่รู้ว่าผิดไว้ โดยตั้งใจ</span>
-1. เรียกโค้ดเดิมด้วยอินพุตหลากหลาย
-2. บันทึกผลที่ได้จริง ไม่ใช่ผลที่ควรจะเป็น
-3. เขียนเทสต์ที่ยืนยันผลนั้น พร้อมคอมเมนต์ว่ายังไม่ได้ตรวจว่าถูกไหม
-4. ทีนี้ค่อยแก้ — ถ้าเทสต์แดง แปลว่าคุณเปลี่ยนพฤติกรรม ซึ่งอาจตั้งใจหรือไม่ก็ได้</code></pre>
-  <div class="box trap">
-    <span class="k">ข้อควรระวัง</span>
-    <p>อย่าลืมคอมเมนต์ในข้อ 3 ไม่งั้นอีกหกเดือนจะมีคนเห็นเทสต์นี้แล้วคิดว่าพฤติกรรมนี้คือสิ่งที่ตั้งใจ แล้วสร้างของทับลงไป เทสต์ที่ล็อกบั๊กไว้โดยไม่มีป้ายบอก คือกับดักที่คุณวางให้ตัวเองในอนาคต</p>
+
+  <div class="chat">
+    <p>
+      เทสต์ชนิดนี้แปลกตรงที่<b>มันไม่ได้ยืนยันว่าโค้ดถูก แต่ยืนยันว่าโค้ดทำเหมือนเดิม</b>
+    </p>
+    <p>
+      ฟังดูไร้สาระ แต่มันคือสิ่งที่เราต้องการจริง ๆ ก่อนแตะของที่ไม่เข้าใจ —
+      เพราะเราไม่รู้ว่าพฤติกรรมไหนตั้งใจ พฤติกรรมไหนเป็นบั๊กที่มีคนพึ่งพาอยู่แล้ว
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 250" role="img" aria-label="Four steps to pin existing behaviour before changing anything">
+      <rect class="d-box" x="8" y="26" width="150" height="70"/>
+      <text class="d-label-mono" x="20" y="46">STEP 1</text>
+      <text class="d-label-sm" x="20" y="66">เรียกโค้ดเดิม</text>
+      <text class="d-label-sm" x="20" y="84">ด้วย input หลากหลาย</text>
+      <path class="d-line d-flow" d="M 158 61 H 172"/>
+      <path class="d-arrow" d="M 172 56 l 8 5 l -8 5 z"/>
+
+      <rect class="d-box" x="184" y="26" width="150" height="70"/>
+      <text class="d-label-mono" x="196" y="46">STEP 2</text>
+      <text class="d-label-sm" x="196" y="66">บันทึกผลที่ได้จริง</text>
+      <text class="d-label-sm" x="196" y="84">ไม่ใช่ผลที่ควรจะเป็น</text>
+      <path class="d-line d-flow" d="M 334 61 H 348"/>
+      <path class="d-arrow" d="M 348 56 l 8 5 l -8 5 z"/>
+
+      <rect class="d-box-accent" x="360" y="26" width="150" height="70"/>
+      <text class="d-label-mono" x="372" y="46">STEP 3</text>
+      <text class="d-label-sm" x="372" y="66">เขียนเทสต์ยืนยันผลนั้น</text>
+      <text class="d-label-sm" x="372" y="84">+ คอมเมนต์ว่ายังไม่ตรวจ</text>
+      <path class="d-line d-flow" d="M 510 61 H 524"/>
+      <path class="d-arrow" d="M 524 56 l 8 5 l -8 5 z"/>
+
+      <rect class="d-box" x="536" y="26" width="96" height="70"/>
+      <text class="d-label-mono" x="548" y="46">STEP 4</text>
+      <text class="d-label-sm" x="548" y="66">ค่อยแก้</text>
+
+      <rect class="d-box-accent" x="8" y="112" width="624" height="52"/>
+      <text class="d-label" x="22" y="134">ทีนี้เทสต์แดง = คุณเปลี่ยนพฤติกรรม</text>
+      <text class="d-label-sm" x="22" y="154">ซึ่งอาจตั้งใจหรือไม่ก็ได้ — แต่อย่างน้อยคุณ<tspan font-weight="600">รู้</tspan>ว่ามันเปลี่ยน แทนที่จะรู้ตอนลูกค้าโทรมา</text>
+
+      <rect class="d-bar-new" x="8" y="176" width="624" height="66"/>
+      <text class="d-label" x="22" y="200">อย่าลืมคอมเมนต์ใน STEP 3</text>
+      <text class="d-label-sm" x="22" y="220">ไม่งั้นอีกหกเดือนจะมีคนเห็นเทสต์นี้แล้วคิดว่าพฤติกรรมนี้คือสิ่งที่ตั้งใจ แล้วสร้างของทับลงไป</text>
+      <text class="d-label-sm" x="22" y="238">เทสต์ที่ล็อกบั๊กไว้โดยไม่มีป้ายบอก = กับดักที่คุณวางให้ตัวเองในอนาคต</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 2</b> · STEP 2 คือจุดที่คนมักทำผิด — บันทึกผลที่ <em>ได้จริง</em> ไม่ใช่ผลที่ <em>ควรจะเป็น</em></p>
+  </div>
+
+  <div class="box good">
+    <span class="k">โยงกับ M04.09</span>
+    <p>
+      Kiro บังคับให้ bugfix spec ระบุช่อง <strong>"อะไรห้ามเปลี่ยน"</strong> เขียนเป็นเงื่อนไข
+      <em>เมื่อ X ระบบต้องยังคง Y</em>
+    </p>
+    <p>
+      นั่นคือ characterization test ในรูปแบบเอกสาร — <strong>แปลงช่องนั้นเป็นเทสต์ตรง ๆ ได้เลย</strong>
+      และถ้าคุณไม่ได้ใช้ Kiro ก็เพิ่มหัวข้อนี้ในเทมเพลตของตัวเองได้
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://martinfowler.com/bliki/LegacySeam.html" target="_blank" rel="noopener noreferrer">Legacy Seam</a>
+        — จุดที่แทรกเข้าไปทดสอบได้โดยไม่ต้องรื้อโครง
+        <span class="src">martinfowler.com</span>
+      </li>
+      <li>
+        <a href="https://understandlegacycode.com/blog/key-points-of-working-effectively-with-legacy-code/" target="_blank" rel="noopener noreferrer">Key points of Working Effectively with Legacy Code</a>
+        — ที่มาของแนวคิด characterization test
+        <span class="src">understandlegacycode.com</span>
+      </li>
+    </ol>
   </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">08.03</span><h2>Strangler pattern ร่วมกับ agent</h2></div>
-  <p>แทนที่จะเขียนใหม่ทั้งก้อนแล้วสลับทีเดียว ให้สร้างของใหม่ข้าง ๆ ของเก่า แล้วย้ายทราฟฟิกทีละส่วน วิธีนี้เข้ากับ agent ได้ดีเป็นพิเศษเพราะแต่ละก้าวเล็กพอที่จะตรวจได้</p>
-  <div class="tw"><table>
-    <thead><tr><th>ขั้น</th><th>agent ทำได้แค่ไหน</th><th>คนต้องทำอะไร</th></tr></thead>
-    <tbody>
-      <tr><td>สร้างชั้นห่อของเก่า</td><td>ทำได้เอง</td><td>ตรวจว่าครอบคลุมทุกทางเข้า</td></tr>
-      <tr><td>เขียน implementation ใหม่</td><td>ทำได้เอง</td><td>รีวิวตามปกติ</td></tr>
-      <tr><td>รันคู่กันแล้วเทียบผล</td><td>ทำได้เอง</td><td>ตัดสินว่าผลต่างที่เจอรับได้ไหม</td></tr>
-      <tr><td>ย้ายทราฟฟิก</td><td><strong>ไม่ควร</strong></td><td>ตัดสินใจและกดเอง</td></tr>
-      <tr><td>ลบของเก่า</td><td>ทำได้เมื่อไม่มีทราฟฟิกแล้ว</td><td>ยืนยันว่าเงียบจริง</td></tr>
-    </tbody>
-  </table></div>
+
+  <p>
+    แทนที่จะเขียนใหม่ทั้งก้อนแล้วสลับทีเดียว ให้สร้างของใหม่ข้าง ๆ ของเก่า แล้วย้ายทราฟฟิกทีละส่วน
+    วิธีนี้เข้ากับ agent ได้ดีเป็นพิเศษ เพราะ<strong>แต่ละก้าวเล็กพอที่จะตรวจได้</strong>
+  </p>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 260" role="img" aria-label="Strangler pattern stages and which of them an agent should drive">
+      <text class="d-label-mono" x="8" y="16">ขั้นตอน</text>
+      <text class="d-label-mono" x="330" y="16">agent ทำได้แค่ไหน</text>
+      <text class="d-label-mono" x="480" y="16">คนต้องทำอะไร</text>
+
+      <rect class="d-box" x="8" y="26" width="312" height="34"/>
+      <text class="d-label-sm" x="20" y="47">สร้างชั้นห่อของเก่า</text>
+      <rect class="d-box-accent" x="330" y="26" width="140" height="34"/>
+      <text class="d-label-sm" x="342" y="47">ทำได้เอง</text>
+      <rect class="d-box" x="480" y="26" width="152" height="34"/>
+      <text class="d-label-sm" x="490" y="47">ตรวจว่าครอบทุกทางเข้า</text>
+
+      <rect class="d-box" x="8" y="64" width="312" height="34"/>
+      <text class="d-label-sm" x="20" y="85">เขียน implementation ใหม่</text>
+      <rect class="d-box-accent" x="330" y="64" width="140" height="34"/>
+      <text class="d-label-sm" x="342" y="85">ทำได้เอง</text>
+      <rect class="d-box" x="480" y="64" width="152" height="34"/>
+      <text class="d-label-sm" x="490" y="85">review ตามปกติ</text>
+
+      <rect class="d-box" x="8" y="102" width="312" height="34"/>
+      <text class="d-label-sm" x="20" y="123">รันคู่กันแล้วเทียบผล</text>
+      <rect class="d-box-accent" x="330" y="102" width="140" height="34"/>
+      <text class="d-label-sm" x="342" y="123">ทำได้เอง</text>
+      <rect class="d-box" x="480" y="102" width="152" height="34"/>
+      <text class="d-label-sm" x="490" y="123">ตัดสินว่าผลต่างรับได้ไหม</text>
+
+      <rect class="d-bar-new" x="8" y="140" width="312" height="34"/>
+      <text class="d-label-sm" x="20" y="161">ย้ายทราฟฟิก</text>
+      <rect class="d-bar-new" x="330" y="140" width="140" height="34"/>
+      <text class="d-label-sm" x="342" y="161">ไม่ควร</text>
+      <rect class="d-bar-new" x="480" y="140" width="152" height="34"/>
+      <text class="d-label-sm" x="490" y="161">ตัดสินใจและกดเอง</text>
+
+      <rect class="d-box" x="8" y="178" width="312" height="34"/>
+      <text class="d-label-sm" x="20" y="199">ลบของเก่า</text>
+      <rect class="d-box-accent" x="330" y="178" width="140" height="34"/>
+      <text class="d-label-sm" x="342" y="199">ได้ เมื่อไม่มีทราฟฟิกแล้ว</text>
+      <rect class="d-box" x="480" y="178" width="152" height="34"/>
+      <text class="d-label-sm" x="490" y="199">ยืนยันว่าเงียบจริง</text>
+
+      <rect class="d-box-ink" x="8" y="220" width="624" height="34"/>
+      <text class="d-label-inv" x="22" y="241">ขั้นเดียวที่เป็นสีส้มคือขั้นที่ย้อนยาก — และนั่นคือเกณฑ์ตัดสินว่าใครกด</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 3</b> · agent ทำได้ 4 จาก 5 ขั้น · ขั้นที่เหลือคือขั้นที่ผิดแล้วผู้ใช้เจอทันที</p>
+  </div>
+
+  <div class="box good">
+    <span class="k">ขั้นที่ 3 คือของฟรีที่คนมักข้าม</span>
+    <p>
+      การ<strong>รันของเก่ากับของใหม่คู่กันแล้วเทียบผล</strong> เป็นงานที่ agent ทำได้ดีมาก
+      เพราะมันเป็นงานกลไกล้วน ๆ — ยิง input เดียวกันเข้าสองทาง แล้วรายงานว่าต่างตรงไหน
+    </p>
+    <p>
+      และมันให้ข้อมูลที่หาจากที่อื่นไม่ได้ — <strong>พฤติกรรมจริงของระบบเก่าที่ไม่มีใครเขียนไว้</strong>
+      หลายทีมพบว่าผลต่างที่เจอคือบั๊กของ<em>ของเก่า</em> ที่ไม่มีใครรู้มาก่อน
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://martinfowler.com/bliki/StranglerFigApplication.html" target="_blank" rel="noopener noreferrer">Strangler Fig Application</a>
+        — ต้นฉบับของรูปแบบนี้ พร้อมเหตุผลว่าทำไมการเขียนใหม่ทีเดียวถึงล้มเหลวบ่อย
+        <span class="src">martinfowler.com</span>
+      </li>
+      <li>
+        <a href="https://martinfowler.com/bliki/FeatureToggle.html" target="_blank" rel="noopener noreferrer">Feature Toggle</a>
+        — กลไกย้ายทราฟฟิกทีละส่วนและย้อนกลับได้ทันที
+        <span class="src">martinfowler.com</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">08.04</span><h2>ทำงานกับโค้ดที่ไม่มีเทสต์และไม่มี type</h2></div>
-  <p>ลำดับสร้างตาข่ายที่ให้ผลเร็วที่สุดต่อความพยายาม — ทำตามลำดับ อย่ากระโดด</p>
-  <ol>
-    <li><strong>ทำให้รันได้ก่อน</strong> — ถ้ายังตั้งโปรเจกต์ขึ้นไม่ได้ ทุกอย่างหลังจากนี้ไม่มีความหมาย</li>
-    <li><strong>เทสต์ที่ครอบเส้นทางหลักหนึ่งเส้น</strong> — ไม่ต้องครบ ขอให้มีสัญญาณ</li>
-    <li><strong>เปิดการตรวจ type แบบหลวมก่อน</strong> แล้วค่อยเข้มขึ้นเป็นโฟลเดอร์ ๆ</li>
-    <li><strong>characterization test เฉพาะบริเวณที่จะแตะ</strong></li>
-    <li><strong>ค่อยเริ่มแก้</strong></li>
-  </ol>
-  <div class="box rule">
-    <span class="k">ข้อผิดพลาดที่พบบ่อย</span>
-    <p>พยายามเปิด type เข้มทั้งโปรเจกต์ในครั้งเดียว ได้ error หลายพันข้อ แล้วเลิก ให้เปิดเป็นโฟลเดอร์และเฉพาะที่กำลังจะแตะ — agent ทำงานได้ดีกับขอบเขตแบบนี้ และคุณเห็นความคืบหน้าจริง</p>
+
+  <div class="chat">
+    <p>
+      สถานการณ์คลาสสิก — อยากเพิ่มเทสต์ แต่โค้ดเทสต์ไม่ได้ อยากเปิด type แต่ได้ error สี่พันข้อ
+      แล้วก็เลยไม่ได้ทำอะไรเลย
+    </p>
+    <p>
+      ทางออกคือ<b>ลำดับ</b> ไม่ใช่ความพยายาม — ทำผิดลำดับแล้วจะติดตั้งแต่ก้าวแรก
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 250" role="img" aria-label="Five ordered steps to build a safety net in code with no tests or types">
+      <line class="d-line" x1="42" y1="26" x2="42" y2="196"/>
+
+      <circle class="d-runner" cx="42" cy="40" r="6"/>
+      <text class="d-label" x="66" y="38">1 · ทำให้รันได้ก่อน</text>
+      <text class="d-label-sm" x="66" y="56">ถ้ายังตั้งโปรเจกต์ขึ้นไม่ได้ ทุกอย่างหลังจากนี้ไม่มีความหมาย</text>
+
+      <circle class="d-runner d-pulse-1" cx="42" cy="80" r="6"/>
+      <text class="d-label" x="66" y="78">2 · เทสต์เส้นทางหลัก 1 เส้น</text>
+      <text class="d-label-sm" x="66" y="96">ไม่ต้องครบ ขอให้มีสัญญาณว่าของยังทำงาน</text>
+
+      <circle class="d-runner d-pulse-2" cx="42" cy="120" r="6"/>
+      <text class="d-label" x="66" y="118">3 · เปิด type แบบหลวมก่อน</text>
+      <text class="d-label-sm" x="66" y="136">แล้วค่อยเข้มขึ้นทีละโฟลเดอร์ ไม่ใช่ทั้ง repo พร้อมกัน</text>
+
+      <circle class="d-runner d-pulse-3" cx="42" cy="160" r="6"/>
+      <text class="d-label" x="66" y="158">4 · characterization test เฉพาะที่จะแตะ</text>
+      <text class="d-label-sm" x="66" y="176">ล็อกพฤติกรรมรอบบริเวณนั้น</text>
+
+      <circle class="d-runner" cx="42" cy="196" r="6"/>
+      <text class="d-label" x="66" y="194">5 · ค่อยเริ่มแก้</text>
+
+      <rect class="d-bar-new" x="8" y="212" width="624" height="34"/>
+      <text class="d-label-sm" x="22" y="234">ข้อผิดพลาดที่พบบ่อย — เปิด type เข้มทั้ง repo ในครั้งเดียว ได้ error หลายพันข้อ แล้วเลิก</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 4</b> · ลำดับนี้ให้ผลเร็วที่สุดต่อความพยายาม · agent ทำงานได้ดีกับขอบเขตแบบทีละโฟลเดอร์</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://martinfowler.com/bliki/LegacySeam.html" target="_blank" rel="noopener noreferrer">Legacy Seam</a>
+        — หาจุดแทรกเพื่อทดสอบโดยไม่ต้องรื้อทั้งก้อน
+        <span class="src">martinfowler.com</span>
+      </li>
+      <li>
+        <a href="https://martinfowler.com/bliki/TestPyramid.html" target="_blank" rel="noopener noreferrer">Test Pyramid</a>
+        — เลือกว่าจะลงทุนเทสต์ชั้นไหนก่อนเมื่อมีเวลาจำกัด
+        <span class="src">martinfowler.com</span>
+      </li>
+    </ol>
   </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">08.05</span><h2>อ่านประวัติเป็นบริบท</h2></div>
-  <p>ใน codebase ที่ไม่มีเอกสาร ประวัติการเปลี่ยนแปลงคือเอกสารที่ดีที่สุดที่มี และเป็นแหล่งที่ agent เข้าถึงได้ดี</p>
-  <div class="tw"><table>
-    <thead><tr><th>คำถาม</th><th>หาจากไหน</th><th>บอกอะไร</th></tr></thead>
-    <tbody>
-      <tr><td>โค้ดนี้ทำไมเขียนแบบนี้</td><td>ประวัติของบรรทัดนั้น</td><td>มักเจอว่าแก้ตาม incident</td></tr>
-      <tr><td>ตรงนี้แตะแล้วเสี่ยงไหม</td><td>ความถี่การแก้ + จำนวนคนที่แตะ</td><td>ไฟล์ที่แก้บ่อยคือไฟล์ที่เปราะ</td></tr>
-      <tr><td>เคยลองแล้วล้มเหลวไหม</td><td>คอมมิตที่ถูกย้อน</td><td>กันไม่ให้ทำผิดซ้ำ</td></tr>
-    </tbody>
-  </table></div>
-  <div class="box good">
-    <span class="k">สัญญาณที่ใช้ได้จริง</span>
-    <p>ไฟล์ที่<strong>แก้บ่อยและมีคนแตะหลายคน</strong> คือจุดที่ควรลงทุนทำเทสต์ก่อนที่อื่น เพราะมันคือจุดที่ความเสียหายจะเกิดถี่ที่สุด สั่งให้ agent จัดอันดับให้ได้ในคำสั่งเดียว</p>
+
+  <div class="chat">
+    <p>
+      ใน repo ที่ไม่มีเอกสาร <b>ประวัติการเปลี่ยนแปลงคือเอกสารที่ดีที่สุดที่มี</b>
+      และเป็นแหล่งที่ agent เข้าถึงได้ดีมาก เพราะมันเป็นข้อความล้วน ๆ ที่ค้นได้
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 230" role="img" aria-label="Three questions answered by version control history">
+      <text class="d-label-mono" x="8" y="16">คำถาม</text>
+      <text class="d-label-mono" x="250" y="16">หาจากไหน</text>
+      <text class="d-label-mono" x="440" y="16">บอกอะไร</text>
+
+      <rect class="d-box" x="8" y="26" width="232" height="40"/>
+      <text class="d-label-sm" x="20" y="50">ทำไมเขียนแบบนี้</text>
+      <rect class="d-box" x="250" y="26" width="180" height="40"/>
+      <text class="d-label-sm" x="262" y="50">ประวัติของบรรทัดนั้น</text>
+      <rect class="d-box-accent" x="440" y="26" width="192" height="40"/>
+      <text class="d-label-sm" x="452" y="50">มักเจอว่าแก้ตาม incident</text>
+
+      <rect class="d-box" x="8" y="70" width="232" height="40"/>
+      <text class="d-label-sm" x="20" y="94">แตะแล้วเสี่ยงไหม</text>
+      <rect class="d-box" x="250" y="70" width="180" height="40"/>
+      <text class="d-label-sm" x="262" y="94">ความถี่แก้ + จำนวนคนแตะ</text>
+      <rect class="d-box-accent" x="440" y="70" width="192" height="40"/>
+      <text class="d-label-sm" x="452" y="94">ไฟล์ที่แก้บ่อย = ไฟล์ที่เปราะ</text>
+
+      <rect class="d-box" x="8" y="114" width="232" height="40"/>
+      <text class="d-label-sm" x="20" y="138">เคยลองแล้วล้มเหลวไหม</text>
+      <rect class="d-box" x="250" y="114" width="180" height="40"/>
+      <text class="d-label-sm" x="262" y="138">คอมมิตที่ถูกย้อน</text>
+      <rect class="d-box-accent" x="440" y="114" width="192" height="40"/>
+      <text class="d-label-sm" x="452" y="138">กันไม่ให้ทำผิดซ้ำ</text>
+
+      <rect class="d-box-ink" x="8" y="166" width="624" height="58"/>
+      <text class="d-label-inv" x="22" y="190">สัญญาณที่ใช้ได้จริง</text>
+      <text class="d-label-inv" x="22" y="212" opacity=".8">ไฟล์ที่ "แก้บ่อย + มีคนแตะหลายคน" คือจุดที่ควรลงทุนทำเทสต์ก่อนที่อื่น</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 5</b> · สั่งให้ agent จัดอันดับไฟล์ตามสองสัญญาณนี้ได้ในคำสั่งเดียว</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://martinfowler.com/bliki/CodeSmell.html" target="_blank" rel="noopener noreferrer">Code Smell</a>
+        — การอ่านสัญญาณจากโค้ดและประวัติของมัน
+        <span class="src">martinfowler.com</span>
+      </li>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/common-workflows" target="_blank" rel="noopener noreferrer">Common workflows</a>
+        — การให้ agent ใช้ประวัติเป็นแหล่งข้อมูลระหว่างสำรวจ
+        <span class="src">docs.claude.com</span>
+      </li>
+    </ol>
   </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">08.06</span><h2>แก้อย่างปลอดภัย — blast radius</h2></div>
-  <p>ก่อนแตะทุกครั้ง ต้องตอบสามคำถามให้ได้ ถ้าตอบไม่ได้ แปลว่ายังไม่พร้อมแก้</p>
-  <ol>
-    <li><strong>ถ้าพัง ใครเจอ และเจอเมื่อไหร่</strong> — ผู้ใช้ทันที หรืองานกลางคืนสัปดาห์หน้า</li>
-    <li><strong>รู้ได้ยังไงว่าพัง</strong> — มีสัญญาณเตือนไหม หรือรอลูกค้าโทรมา</li>
-    <li><strong>ย้อนกลับยังไง และใช้เวลานานแค่ไหน</strong></li>
-  </ol>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 240" role="img" aria-label="Three questions to answer before touching legacy code, with feature flags making an irreversible change reversible">
+      <text class="d-label-mono" x="8" y="16">ตอบให้ได้ก่อนแตะ</text>
+
+      <rect class="d-box-accent" x="8" y="26" width="200" height="70"/>
+      <text class="d-label-mono" x="20" y="46">Q1</text>
+      <text class="d-label" x="20" y="66">ถ้าพัง ใครเจอ</text>
+      <text class="d-label-sm" x="20" y="86">ผู้ใช้ทันที? หรืองานกลางคืน?</text>
+
+      <rect class="d-box-accent" x="220" y="26" width="200" height="70"/>
+      <text class="d-label-mono" x="232" y="46">Q2</text>
+      <text class="d-label" x="232" y="66">รู้ได้ยังไงว่าพัง</text>
+      <text class="d-label-sm" x="232" y="86">มีสัญญาณเตือน? หรือรอลูกค้าโทร?</text>
+
+      <rect class="d-bar-new" x="432" y="26" width="200" height="70"/>
+      <text class="d-label-mono" x="444" y="46">Q3</text>
+      <text class="d-label" x="444" y="66">ย้อนยังไง นานแค่ไหน</text>
+      <text class="d-label-sm" x="444" y="86">ตอบไม่ได้ = ห้ามแก้</text>
+
+      <path class="d-line-accent d-flow" d="M 532 96 V 124"/>
+      <path class="d-arrow-accent" d="M 527 124 l 5 8 l 5 -8 z"/>
+
+      <rect class="d-box-ink" x="8" y="136" width="624" height="96"/>
+      <text class="d-label-inv" x="22" y="160">ถ้ามันย้อนไม่ได้จริง ๆ</text>
+      <text class="d-label-inv" x="22" y="184" opacity=".85">ให้ใช้ feature flag เพื่อ "ทำให้มันย้อนได้"</text>
+      <text class="d-label-inv" x="22" y="206" opacity=".6">เปลี่ยนจากการ deploy ที่ย้อนต้องใช้เวลา เป็นการปิดสวิตช์ที่ใช้เวลาไม่กี่วินาที</text>
+      <text class="d-label-inv" x="22" y="224" opacity=".6">นี่คือเหตุผลที่ flag มีค่ามากกว่าที่คนคิด — มันซื้อ Q3 ให้คุณ</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 6</b> · Q3 คือคำถามที่ตอบไม่ได้บ่อยที่สุด และเป็นคำถามที่สำคัญที่สุด</p>
+  </div>
+
   <div class="box rule">
     <span class="k">กฎที่ควรบังคับ</span>
-    <p>ถ้าตอบข้อสามไม่ได้ ห้ามแก้ ให้ไปทำแผนย้อนกลับก่อน — และถ้ามันย้อนไม่ได้จริง ๆ (เช่นงานที่แตะข้อมูล) ให้ใช้ feature flag เพื่อทำให้มันย้อนได้ นี่คือเหตุผลที่ flag มีค่ามากกว่าที่คนคิด</p>
+    <p>
+      <strong>ตอบ Q3 ไม่ได้ ห้ามแก้</strong> ให้ไปทำแผนย้อนกลับก่อน
+    </p>
+    <p>
+      และถ้ามันย้อนไม่ได้จริง ๆ เช่นงานที่แตะข้อมูล ให้ใช้ feature flag ทำให้มันย้อนได้
+      แทนที่จะยอมรับความเสี่ยงเฉย ๆ — ต่อกับรูปแบบ expand–migrate–contract ใน <a href="m07.html">M07.03</a>
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://martinfowler.com/bliki/FeatureToggle.html" target="_blank" rel="noopener noreferrer">Feature Toggle</a>
+        — ประเภทของ flag และอันไหนเหมาะกับการซื้อความสามารถย้อนกลับ
+        <span class="src">martinfowler.com</span>
+      </li>
+      <li>
+        <a href="https://martinfowler.com/bliki/BlueGreenDeployment.html" target="_blank" rel="noopener noreferrer">Blue Green Deployment</a>
+        — อีกกลไกที่ทำให้การย้อนกลับเร็วพอจะใช้จริง
+        <span class="src">martinfowler.com</span>
+      </li>
+    </ol>
   </div>
 </section>
 
