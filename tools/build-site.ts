@@ -51,6 +51,13 @@ const en = Bun.YAML.parse(readFileSync(join(ROOT, "content/curriculum-en.yaml"),
   }
 }
 
+// Figures are checked before anything is written. Three defects shipped in M01
+// because nothing looked at them automatically; see tools/check-diagrams.ts.
+{
+  const r = Bun.spawnSync(["bun", join(ROOT, "tools/check-diagrams.ts")], { cwd: ROOT, stdout: "inherit", stderr: "inherit" });
+  if (r.exitCode !== 0) throw new Error("diagram checks failed — see errors above");
+}
+
 const byId = new Map(cur.modules.map((m) => [m.id, m]));
 
 // Parity guard. The Thai structure is the source of truth; the English strings

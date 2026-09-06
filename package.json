@@ -7,6 +7,7 @@
     "eval:check": "bun evals/runner.ts --dry-run",
     "report": "bun evals/report.ts",
     "build:site": "bun tools/build-site.ts",
-    "serve": "bun --hot tools/serve.ts"
+    "serve": "bun --hot tools/serve.ts",
+    "check:diagrams": "bun tools/check-diagrams.ts"
   }
 }
