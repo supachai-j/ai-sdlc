@@ -24,7 +24,10 @@ const warnings: Problem[] = [];
 
 /** Rough advance width per character, calibrated against browser getBBox()
  *  measurements of the Thai/Latin mix actually used in these figures. */
-const CHAR_W: Record<number, number> = { 9.5: 5.0, 10: 5.2, 10.5: 5.4, 11: 5.6, 13: 6.6 };
+// Calibrated against getBBox() in a browser: of the first three warnings this
+// produced, one was a real 7px overflow and two were false alarms, so the
+// per-character widths were lowered until the real one still trips.
+const CHAR_W: Record<number, number> = { 9.5: 4.6, 10: 4.8, 10.5: 5.0, 11: 5.1, 13: 6.0 };
 const fontOf = (cls: string) =>
   /d-label-mono/.test(cls) ? 10.5 : /d-label-sm/.test(cls) ? 11 : /d-label-inv|d-label\b/.test(cls) ? 13 : 11;
 
