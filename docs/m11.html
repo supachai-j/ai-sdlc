@@ -36,6 +36,95 @@
 </div>
 
 <section class="lesson">
+  <div class="lhead"><span class="lnum">ที่มา</span><h2>TDD ถูกคิดมาเพื่อคนที่ไม่มีวินัย — ซึ่งตรงกับ agent พอดี</h2></div>
+
+  <div class="chat">
+    <p>
+      เรื่องตลกร้ายของโมดูลนี้คือ <b>วิธีแก้ปัญหาเทสต์ที่ agent เขียน ถูกคิดไว้ตั้งแต่ก่อนมี LLM 20 ปี</b>
+    </p>
+    <p>
+      และเหตุผลที่มันได้ผลกับ agent ก็เป็นเหตุผลเดียวกับที่มันได้ผลกับคนเป๊ะ ๆ
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 254" role="img" aria-label="Timeline of testing ideas that predate LLMs but answer the problems this module raises">
+      <line class="d-line" x1="112" y1="30" x2="112" y2="200"/>
+
+      <circle class="d-runner" cx="112" cy="46" r="5"/>
+      <text class="d-label-mono" x="8" y="50">1978</text>
+      <text class="d-label" x="132" y="44">Mutation testing</text>
+      <text class="d-label-sm" x="132" y="62">DeMillo, Lipton, Sayward — วัดเทสต์ด้วยการทำโค้ดให้ผิด</text>
+
+      <circle class="d-runner d-pulse-1" cx="112" cy="94" r="6"/>
+      <text class="d-label-mono" x="8" y="98">1999–2002</text>
+      <text class="d-label" x="132" y="92">TDD · Kent Beck</text>
+      <text class="d-label-sm" x="132" y="110">เขียนเทสต์ก่อน แล้วเขียนโค้ดให้ผ่าน — red → green → refactor</text>
+
+      <circle class="d-runner d-pulse-2" cx="112" cy="142" r="5"/>
+      <text class="d-label-mono" x="8" y="146">2021→</text>
+      <text class="d-label" x="132" y="140">ยุค agent เขียนโค้ด</text>
+      <text class="d-label-sm" x="132" y="158">ปัญหาเดิมกลับมา แต่เร็วกว่าเดิมหลายสิบเท่า</text>
+
+      <rect class="d-box-ink" x="8" y="180" width="624" height="66"/>
+      <text class="d-label-inv" x="22" y="202">ทำไมของเก่าถึงตอบโจทย์ใหม่ได้พอดี</text>
+      <text class="d-label-inv" x="22" y="222" opacity=".85">TDD ถูกออกแบบมาเพื่อกัน "เขียนโค้ดก่อน แล้วเขียนเทสต์ยืนยันสิ่งที่เพิ่งเขียน"</text>
+      <text class="d-label-inv" x="22" y="240" opacity=".6">ซึ่งเป็นพฤติกรรมเริ่มต้นของ agent ทุกตัวเมื่อคุณสั่งว่า "เขียนโค้ดแล้วเขียนเทสต์ด้วย"</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 0</b> · agent ไม่ได้สร้างปัญหาใหม่ มันแค่ทำให้ปัญหาเดิมเกิดเร็วขึ้นจนวินัยของคนตามไม่ทัน</p>
+  </div>
+
+  <h3><span class="k">1978</span>ความคิดที่ว่าเทสต์เองก็ต้องถูกทดสอบ</h3>
+  <p>
+    <em>Mutation testing</em> เสนอโดย DeMillo, Lipton และ Sayward ในปี 1978 บนคำถามที่ตรงมาก —
+    <strong>เรารู้ได้ยังไงว่าชุดเทสต์ทำงานจริง</strong> คำตอบของพวกเขาคือ จงใจแก้โค้ดให้ผิดทีละจุด
+    แล้วนับว่าเทสต์จับได้กี่จุด ถ้าแก้ให้ผิดแล้วเทสต์ยังเขียว แปลว่าเทสต์นั้นไม่ได้ตรวจอะไรเลย
+  </p>
+  <p>
+    เกือบ 50 ปีต่อมา นี่ยังเป็นคำตอบที่ดีที่สุดสำหรับคำถามใน 11.02 ว่า coverage 100% แปลว่าอะไรกันแน่
+  </p>
+
+  <h3><span class="k">1999–2002</span>TDD และสมมติฐานที่มันตั้งอยู่</h3>
+  <p>
+    <strong>Kent Beck</strong> ทำให้ test-driven development เป็นที่รู้จักผ่าน Extreme Programming
+    และหนังสือ <em>Test-Driven Development: By Example</em> (2002) วงจร red → green → refactor
+    บังคับให้<strong>เกณฑ์ความสำเร็จถูกเขียนก่อนที่จะรู้ว่าคำตอบหน้าตายังไง</strong>
+  </p>
+
+  <div class="chat">
+    <p>
+      สมมติฐานของ TDD คือ <b>คนขี้เกียจและมีอคติเข้าข้างงานตัวเอง</b> — พอเขียนโค้ดเสร็จแล้ว
+      เทสต์ที่เขียนตามหลังจะสะท้อนสิ่งที่โค้ดทำ ไม่ใช่สิ่งที่โค้ดควรทำ
+    </p>
+    <p>
+      ซึ่งเป็นคำอธิบายที่แม่นยำมากสำหรับ agent — มันไม่ได้ขี้เกียจ แต่มัน<b>เห็นโค้ดที่เพิ่งเขียนอยู่ใน context</b>
+      แล้วเขียนเทสต์ที่ยืนยันสิ่งนั้น ผลออกมาเหมือนกันเป๊ะ
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://martinfowler.com/bliki/TestDrivenDevelopment.html" target="_blank" rel="noopener noreferrer">Test Driven Development</a>
+        — สรุปวงจรและที่มาจาก Extreme Programming
+        <span class="src">martinfowler.com</span>
+      </li>
+      <li>
+        <a href="https://en.wikipedia.org/wiki/Mutation_testing" target="_blank" rel="noopener noreferrer">Mutation testing</a>
+        — งานปี 1978 ของ DeMillo, Lipton, Sayward และพัฒนาการหลังจากนั้น
+        <span class="src">wikipedia.org</span>
+      </li>
+      <li>
+        <a href="https://en.wikipedia.org/wiki/Test-driven_development" target="_blank" rel="noopener noreferrer">Test-driven development</a>
+        — ไทม์ไลน์ การรับมาใช้ และข้อวิจารณ์ที่มีต่อมัน
+        <span class="src">wikipedia.org</span>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="lesson">
   <div class="lhead"><span class="lnum">11.01</span><h2>กับดักของเทสต์ที่ agent เขียน</h2><label class="done"><input type="checkbox" data-lesson="11.01"><span>เรียนจบ</span></label></div>
 
   <div class="chat">

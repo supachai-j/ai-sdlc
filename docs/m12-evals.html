@@ -48,6 +48,97 @@
 
 <!-- ─── L01 ─── -->
 <section class="lesson">
+  <div class="lhead"><span class="lnum">ที่มา</span><h2>วิธีวัดโมเดลเปลี่ยนไปสามรอบใน 5 ปี</h2></div>
+
+  <div class="chat">
+    <p>
+      ก่อนจะสร้างชุดวัดของตัวเอง ผมอยากให้เห็นก่อนว่า<b>วงการวัดโมเดลเปลี่ยนวิธีมาแล้วสามรอบ</b>
+      และแต่ละรอบเปลี่ยนเพราะวิธีเดิม<b>ถูกเล่นจนหมดความหมาย</b>
+    </p>
+    <p>
+      บทเรียนจากตรงนี้ใช้กับชุดวัดในทีมคุณตรง ๆ — เพราะชุดวัดของคุณก็จะโดนเล่นเหมือนกัน
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 262" role="img" aria-label="Three generations of code evaluation, each replaced when the previous one stopped discriminating">
+      <line class="d-line" x1="112" y1="30" x2="112" y2="212"/>
+
+      <circle class="d-runner" cx="112" cy="46" r="5"/>
+      <text class="d-label-mono" x="8" y="50">2021-07</text>
+      <text class="d-label" x="132" y="44">HumanEval</text>
+      <text class="d-label-sm" x="132" y="62">164 โจทย์ฟังก์ชันเดี่ยว · ตัดสินด้วยเทสต์ · วัดได้แน่นอน</text>
+      <text class="d-label-sm" x="132" y="80" opacity=".65">หมดฤทธิ์เมื่อโมเดลทำได้เกือบเต็ม และโจทย์รั่วเข้าชุดฝึก</text>
+
+      <circle class="d-runner d-pulse-1" cx="112" cy="112" r="5"/>
+      <text class="d-label-mono" x="8" y="116">2023-06</text>
+      <text class="d-label" x="132" y="110">MT-Bench · LLM-as-judge</text>
+      <text class="d-label-sm" x="132" y="128">ตัดสินสิ่งที่เขียนเทสต์ไม่ได้ · แลกมาด้วยอคติของ judge เอง</text>
+
+      <circle class="d-runner d-pulse-2" cx="112" cy="160" r="6"/>
+      <text class="d-label-mono" x="8" y="164">2023-10</text>
+      <text class="d-label" x="132" y="158">SWE-bench</text>
+      <text class="d-label-sm" x="132" y="176">issue จริงจาก GitHub · ต้องแก้ทั้ง repo ไม่ใช่ฟังก์ชันเดียว</text>
+      <text class="d-label-sm" x="132" y="194" opacity=".65">กลับมาใช้เทสต์ตัดสิน แต่บนงานที่เหมือนงานจริง</text>
+
+      <rect class="d-box-ink" x="8" y="212" width="624" height="46"/>
+      <text class="d-label-inv" x="22" y="234">รูปแบบที่วนซ้ำทุกรอบ — ชุดวัดมีอายุ พอทุกคนได้คะแนนสูง มันก็เลิกบอกอะไร</text>
+      <text class="d-label-inv" x="22" y="252" opacity=".6">ชุดวัดของทีมคุณก็เหมือนกัน ต้องเติมงานยากเข้าไปเรื่อย ๆ</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 0</b> · สังเกตว่ารอบที่สามวนกลับไปหาเกณฑ์ deterministic — ตรงกับลำดับใน 12.03 พอดี</p>
+  </div>
+
+  <h3><span class="k">2021</span>ยุคที่วัดด้วยฟังก์ชันเดี่ยว</h3>
+  <p>
+    <em>HumanEval</em> มาพร้อมงาน <em>Evaluating Large Language Models Trained on Code</em>
+    (Chen และคณะ, ก.ค. 2021) — 164 โจทย์เขียนฟังก์ชัน ตัดสินด้วยการรันเทสต์
+    ข้อดีคือ<strong>ไม่มีใครเถียงผลได้</strong> ข้อเสียคือมันไม่เหมือนงานจริงเลย
+  </p>
+
+  <h3><span class="k">2023</span>สองทางแยกที่เกิดในปีเดียวกัน</h3>
+  <p>
+    ทางแรกคือ <strong>ให้โมเดลตัดสินโมเดล</strong> — <em>MT-Bench</em> (Zheng และคณะ, มิ.ย. 2023)
+    ทำให้ LLM-as-judge เป็นวิธีมาตรฐาน พร้อมกับวัดอคติของมันเองไว้ด้วย ซึ่งเป็นข้อมูลที่บทที่ 12.04 ใช้อยู่
+  </p>
+  <p>
+    ทางที่สองคือ <strong>ทำให้โจทย์เหมือนงานจริง</strong> — <em>SWE-bench</em> (Jimenez และคณะ, ต.ค. 2023)
+    หยิบ issue จริงจาก repo จริง แล้ววัดว่าโมเดลแก้ผ่านเทสต์ของโปรเจกต์นั้นได้ไหม
+  </p>
+
+  <div class="chat">
+    <p>
+      ที่ผมอยากให้เก็บกลับไปคือ <b>SWE-bench คือแนวคิดเดียวกับ golden task set ในบทที่ 12.02</b>
+      — เอางานจริงที่รู้คำตอบแล้วมาเป็นโจทย์
+    </p>
+    <p>
+      คุณทำแบบเดียวกันได้กับ backlog ของทีมตัวเอง และผลที่ได้<b>ตรงกับงานของคุณมากกว่า</b>
+      benchmark สาธารณะทุกตัว เพราะไม่มีทางที่โจทย์ของคุณจะรั่วเข้าไปในชุดฝึกของใคร
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://arxiv.org/abs/2107.03374" target="_blank" rel="noopener noreferrer">Evaluating Large Language Models Trained on Code</a>
+        — Chen และคณะ · งานที่แนะนำ HumanEval
+        <span class="src">arxiv.org · 2021</span>
+      </li>
+      <li>
+        <a href="https://arxiv.org/abs/2306.05685" target="_blank" rel="noopener noreferrer">Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena</a>
+        — Zheng และคณะ · วัดอคติของ judge อย่างเป็นระบบ
+        <span class="src">arxiv.org · 2023</span>
+      </li>
+      <li>
+        <a href="https://arxiv.org/abs/2310.06770" target="_blank" rel="noopener noreferrer">SWE-bench: Can Language Models Resolve Real-World GitHub Issues?</a>
+        — Jimenez และคณะ · การวัดบนงานจริงทั้ง repo
+        <span class="src">arxiv.org · 2023</span>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="lesson">
   <div class="lhead"><span class="lnum">12.01</span><h2>ทำไม “รู้สึกว่าดีขึ้น” ถึงเชื่อไม่ได้</h2><label class="done"><input type="checkbox" data-lesson="12.01"><span>เรียนจบ</span></label></div>
 
   <p>

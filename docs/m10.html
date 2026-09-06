@@ -36,6 +36,106 @@
 </div>
 
 <section class="lesson">
+  <div class="lhead"><span class="lnum">ที่มา</span><h2>multi-agent เก่ากว่า LLM ประมาณ 45 ปี</h2></div>
+
+  <div class="chat">
+    <p>
+      เรื่องที่คนมักไม่รู้ — <b>ปัญหาการให้หลาย agent ทำงานร่วมกันถูกศึกษามาตั้งแต่ยุค 70–80</b>
+      และคำตอบที่ได้ตอนนั้น ยังใช้อธิบายว่าทำไม multi-agent สมัยนี้ถึงพังในแบบเดิม ๆ ได้อยู่เลย
+    </p>
+    <p>
+      สิ่งที่เปลี่ยนไปคือ agent แต่ละตัวฉลาดขึ้นมาก · <b>สิ่งที่ไม่เปลี่ยนคือค่าใช้จ่ายในการประสานงาน</b>
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 268" role="img" aria-label="Timeline of multi-agent architecture ideas from the 1980s to modern agent orchestration">
+      <line class="d-line" x1="112" y1="30" x2="112" y2="212"/>
+
+      <circle class="d-runner" cx="112" cy="46" r="5"/>
+      <text class="d-label-mono" x="8" y="50">1980</text>
+      <text class="d-label" x="132" y="44">Blackboard · Hearsay-II</text>
+      <text class="d-label-sm" x="132" y="62">ผู้เชี่ยวชาญหลายตัวเขียนลงกระดานกลางร่วมกัน</text>
+
+      <circle class="d-runner d-pulse-1" cx="112" cy="94" r="6"/>
+      <text class="d-label-mono" x="8" y="98">1980-12</text>
+      <text class="d-label" x="132" y="92">Contract Net · Smith</text>
+      <text class="d-label-sm" x="132" y="110">ประกาศงาน → รับข้อเสนอ → มอบหมาย · โครงที่ orchestrator ใช้ทุกวันนี้</text>
+
+      <circle class="d-runner d-pulse-2" cx="112" cy="142" r="5"/>
+      <text class="d-label-mono" x="8" y="146">1986</text>
+      <text class="d-label" x="132" y="140">Society of Mind · Minsky</text>
+      <text class="d-label-sm" x="132" y="158">ความฉลาดเกิดจากส่วนย่อยที่ไม่ฉลาดทำงานร่วมกัน</text>
+
+      <circle class="d-runner" cx="112" cy="190" r="6"/>
+      <text class="d-label-mono" x="8" y="194">2024→</text>
+      <text class="d-label" x="132" y="188">LLM orchestration</text>
+      <text class="d-label-sm" x="132" y="206">โครงเดิมทั้งหมด แค่เปลี่ยน agent เป็นโมเดล</text>
+
+      <rect class="d-box-ink" x="8" y="222" width="624" height="40"/>
+      <text class="d-label-inv" x="22" y="242">Contract Net อธิบาย orchestrator-worker · Blackboard อธิบาย shared context</text>
+      <text class="d-label-inv" x="22" y="258" opacity=".6">สอง pattern ที่บทที่เหลือของโมดูลนี้พูดถึง ถูกตั้งชื่อไว้ตั้งแต่ปี 1980</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 0</b> · เราไม่ได้กำลังคิดสถาปัตยกรรมใหม่ — เรากำลังรันสถาปัตยกรรมเก่าด้วยชิ้นส่วนที่แพงกว่ามาก</p>
+  </div>
+
+  <h3><span class="k">1980</span>Contract Net — ต้นแบบของ orchestrator ที่คุณเขียนอยู่</h3>
+  <p>
+    <strong>Reid G. Smith</strong> เสนอ <em>Contract Net Protocol</em> ในปี 1980 เพื่อตอบคำถามว่า
+    ระบบกระจายจะแบ่งงานกันเองได้อย่างไร กลไกคือ node ที่มีงานจะ<strong>ประกาศงาน</strong>ออกไป
+    node อื่นที่ทำได้จะ<strong>ยื่นข้อเสนอ</strong> แล้วผู้ประกาศเลือกและ<strong>มอบสัญญา</strong>
+  </p>
+  <p>
+    ถ้าอ่านแล้วรู้สึกคุ้น นั่นเพราะมันคือสิ่งที่คุณทำทุกครั้งที่เขียน orchestrator ที่แตกงานย่อยส่งให้ sub-agent
+    สิ่งที่ Smith เขียนไว้ตั้งแต่ตอนนั้นและยังจริงอยู่คือ <strong>ค่าสื่อสารระหว่าง node
+    อาจแพงกว่างานที่แบ่งกันทำ</strong> — ซึ่งตรงกับที่บทที่ 10.02 บอกว่าเมื่อไหร่ไม่ควรใช้ multi-agent
+  </p>
+
+  <h3><span class="k">1980</span>Blackboard — และปัญหาที่มันเจอก่อนเรา 45 ปี</h3>
+  <p>
+    ระบบ <em>Hearsay-II</em> ใช้สถาปัตยกรรม blackboard ให้ module ผู้เชี่ยวชาญหลายตัว
+    (เสียง คำ ไวยากรณ์) อ่านและเขียนลง<strong>พื้นที่ความจำร่วม</strong>เดียวกัน แทนที่จะคุยกันตรง ๆ
+  </p>
+  <p>
+    ปัญหาที่พวกเขาเจอคือปัญหาเดียวกับที่ทีมสมัยนี้เจอกับ shared context —
+    <strong>ใครควรได้อ่านอะไร และเมื่อไหร่</strong> เพราะให้ทุกตัวเห็นทุกอย่างแล้วมันรบกวนกันเอง
+    แต่แยกกันสนิทแล้วมันทำงานซ้ำซ้อน
+  </p>
+
+  <div class="chat">
+    <p>
+      บทเรียนที่ผมคิดว่าใช้ได้ทันที — งานวิจัยยุคนั้นสรุปตรงกันว่า multi-agent คุ้มเมื่อ
+      <b>งานย่อยแยกกันได้จริงและสื่อสารกันน้อย</b>
+    </p>
+    <p>
+      ซึ่งเป็นเงื่อนไขเดียวกับที่ยังจริงในปี 2026 — และเป็นเหตุผลว่าทำไมงาน "refactor ทั้ง codebase"
+      ถึงไม่เหมาะกับ multi-agent ทั้งที่ฟังดูเหมือนงานใหญ่ที่ควรแบ่งกันทำ
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://en.wikipedia.org/wiki/Contract_Net_Protocol" target="_blank" rel="noopener noreferrer">Contract Net Protocol</a>
+        — Smith, ธ.ค. 1980 · กลไกประกาศงานและมอบหมายที่ orchestrator สมัยนี้ใช้ซ้ำ
+        <span class="src">wikipedia.org</span>
+      </li>
+      <li>
+        <a href="https://en.wikipedia.org/wiki/Blackboard_system" target="_blank" rel="noopener noreferrer">Blackboard system</a>
+        — สถาปัตยกรรมพื้นที่ความจำร่วมจาก Hearsay-II และข้อจำกัดที่พบ
+        <span class="src">wikipedia.org</span>
+      </li>
+      <li>
+        <a href="https://www.anthropic.com/engineering/multi-agent-research-system" target="_blank" rel="noopener noreferrer">Multi-agent research system</a>
+        — โครงเดียวกันในเวอร์ชันปัจจุบัน พร้อมตัวเลขต้นทุนจริง
+        <span class="src">anthropic.com/engineering</span>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="lesson">
   <div class="lhead"><span class="lnum">10.01</span><h2>เหตุผลที่ถูกต้องเพียงสองข้อ</h2><label class="done"><input type="checkbox" data-lesson="10.01"><span>เรียนจบ</span></label></div>
 
   <div class="chat">

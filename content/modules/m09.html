@@ -12,6 +12,147 @@
 </div>
 
 <section class="lesson">
+  <div class="lhead"><span class="lnum">ที่มา</span><h2>ทำไม MCP ถึงหน้าตาแบบนี้</h2></div>
+
+  <div class="chat">
+    <p>
+      MCP ไม่ได้ออกแบบมาจากศูนย์ มันหยิบรูปทรงมาจากโปรโตคอลที่<b>แก้ปัญหาเดียวกันสำเร็จมาแล้วเมื่อเกือบสิบปีก่อน</b>
+      พอรู้ที่มา หลายอย่างที่ดูแปลก ๆ จะกลายเป็นเรื่องสมเหตุสมผลทันที
+    </p>
+    <p>
+      ปัญหาที่ทั้งสองแก้คือปัญหาเดียวกันเป๊ะ — เรียกว่า <b>M×N problem</b>
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 262" role="img" aria-label="Without a protocol every editor needs a custom integration per tool; a protocol turns M times N into M plus N">
+      <text class="d-label-mono" x="8" y="16">ไม่มีโปรโตคอล · ต้องเขียน M × N ตัว</text>
+
+      <rect class="d-box" x="8" y="26" width="86" height="24"/>
+      <text class="d-label-sm" x="20" y="43">editor A</text>
+      <rect class="d-box" x="8" y="56" width="86" height="24"/>
+      <text class="d-label-sm" x="20" y="73">editor B</text>
+      <rect class="d-box" x="8" y="86" width="86" height="24"/>
+      <text class="d-label-sm" x="20" y="103">editor C</text>
+
+      <line class="d-line" x1="98" y1="38" x2="196" y2="38"/>
+      <line class="d-line" x1="98" y1="38" x2="196" y2="68"/>
+      <line class="d-line" x1="98" y1="38" x2="196" y2="98"/>
+      <line class="d-line" x1="98" y1="68" x2="196" y2="38"/>
+      <line class="d-line" x1="98" y1="68" x2="196" y2="68"/>
+      <line class="d-line" x1="98" y1="68" x2="196" y2="98"/>
+      <line class="d-line" x1="98" y1="98" x2="196" y2="38"/>
+      <line class="d-line" x1="98" y1="98" x2="196" y2="68"/>
+      <line class="d-line" x1="98" y1="98" x2="196" y2="98"/>
+
+      <rect class="d-box" x="200" y="26" width="86" height="24"/>
+      <text class="d-label-sm" x="212" y="43">tool 1</text>
+      <rect class="d-box" x="200" y="56" width="86" height="24"/>
+      <text class="d-label-sm" x="212" y="73">tool 2</text>
+      <rect class="d-box" x="200" y="86" width="86" height="24"/>
+      <text class="d-label-sm" x="212" y="103">tool 3</text>
+
+      <text class="d-label-mono" x="330" y="16">มีโปรโตคอลตรงกลาง · เหลือ M + N</text>
+      <rect class="d-box" x="330" y="26" width="86" height="24"/>
+      <text class="d-label-sm" x="342" y="43">editor A</text>
+      <rect class="d-box" x="330" y="56" width="86" height="24"/>
+      <text class="d-label-sm" x="342" y="73">editor B</text>
+      <rect class="d-box" x="330" y="86" width="86" height="24"/>
+      <text class="d-label-sm" x="342" y="103">editor C</text>
+
+      <line class="d-line d-line-accent" x1="420" y1="38" x2="452" y2="68"/>
+      <line class="d-line d-line-accent" x1="420" y1="68" x2="452" y2="68"/>
+      <line class="d-line d-line-accent" x1="420" y1="98" x2="452" y2="68"/>
+
+      <rect class="d-box-accent" x="456" y="48" width="52" height="40"/>
+      <text class="d-label-sm" x="464" y="72">spec</text>
+
+      <line class="d-line d-line-accent" x1="512" y1="68" x2="544" y2="38"/>
+      <line class="d-line d-line-accent" x1="512" y1="68" x2="544" y2="68"/>
+      <line class="d-line d-line-accent" x1="512" y1="68" x2="544" y2="98"/>
+
+      <rect class="d-box" x="548" y="26" width="84" height="24"/>
+      <text class="d-label-sm" x="558" y="43">tool 1</text>
+      <rect class="d-box" x="548" y="56" width="84" height="24"/>
+      <text class="d-label-sm" x="558" y="73">tool 2</text>
+      <rect class="d-box" x="548" y="86" width="84" height="24"/>
+      <text class="d-label-sm" x="558" y="103">tool 3</text>
+
+      <line class="d-line" x1="8" y1="128" x2="632" y2="128" stroke-dasharray="3 3"/>
+
+      <text class="d-label-mono" x="8" y="150">โปรโตคอลสองตัว · ปัญหาเดียวกัน · ห่างกัน 8 ปี</text>
+
+      <circle class="d-runner" cx="104" cy="178" r="5"/>
+      <text class="d-label-mono" x="8" y="182">2016</text>
+      <text class="d-label" x="124" y="176">Language Server Protocol</text>
+      <text class="d-label-sm" x="124" y="194">editor × ภาษา — Microsoft ทำเพื่อเลิกเขียน plugin ซ้ำทุกภาษา</text>
+
+      <circle class="d-runner d-pulse-1" cx="104" cy="224" r="6"/>
+      <text class="d-label-mono" x="8" y="228">2024-11</text>
+      <text class="d-label" x="124" y="222">Model Context Protocol</text>
+      <text class="d-label-sm" x="124" y="240">agent × แหล่งข้อมูล — ปัญหาเดิม ยุคใหม่ ยืม JSON-RPC มาจาก LSP ตรง ๆ</text>
+      <text class="d-label-sm" x="124" y="256" opacity=".7">Anthropic ประกาศ 25 พ.ย. 2024 พร้อมเปิดสเปกเป็นมาตรฐานเปิด</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 0</b> · 3 editor × 3 tool = 9 ตัวเชื่อม · พอมีสเปกกลางเหลือ 6 — และตัวเลขนี้ยิ่งห่างขึ้นเมื่อของเยอะขึ้น</p>
+  </div>
+
+  <h3><span class="k">2016</span>บทเรียนจาก LSP ที่ MCP ลอกมาทั้งดุ้น</h3>
+  <p>
+    ก่อนปี 2016 ถ้าคุณทำภาษาโปรแกรมใหม่แล้วอยากให้มี autocomplete คุณต้องเขียน plugin
+    แยกให้ VS Code, Vim, Emacs, Sublime ทีละตัว และถ้าคุณทำ editor ใหม่ คุณต้องรองรับทุกภาษาเอง
+    <strong>Microsoft เสนอ Language Server Protocol</strong> เพื่อตัดปมนี้ — ให้ editor กับ
+    language server คุยกันผ่านสเปกกลางที่ใช้ JSON-RPC
+  </p>
+  <p>
+    สิ่งที่ LSP พิสูจน์ไว้ และ MCP เอามาใช้ต่อ คือ<strong>โปรโตคอลชนะไลบรารี</strong>เมื่อจำนวนฝั่งทั้งสองข้างโตขึ้น
+    เพราะไลบรารีผูกคุณกับภาษาที่มันเขียน ส่วนโปรโตคอลไม่สนใจว่าอีกฝั่งเขียนด้วยอะไร
+  </p>
+
+  <h3><span class="k">พฤศจิกายน 2024</span>ปัญหาเดิมกลับมาในร่างใหม่</h3>
+  <p>
+    พอ agent เริ่มต้องต่อกับ database, ระบบ ticket, ไฟล์ในเครื่อง และ API ภายในองค์กร
+    ปัญหา M×N ก็กลับมาเป๊ะ ๆ — ทุกเจ้าเขียน integration ของตัวเองที่ใช้ข้ามกันไม่ได้
+  </p>
+  <p>
+    Anthropic ประกาศ <em>Model Context Protocol</em> เมื่อ <strong>25 พฤศจิกายน 2024</strong>
+    เป็นมาตรฐานเปิด และเลือกหน้าตาแบบ LSP อย่างจงใจ — JSON-RPC, การเจรจาความสามารถตอนเชื่อมต่อ,
+    และการแยก client กับ server ออกจากกันชัดเจน
+  </p>
+
+  <div class="chat">
+    <p>
+      ประเด็นที่ผมอยากให้เก็บกลับไป — <b>รูปทรงของ MCP ไม่ใช่เรื่องบังเอิญ</b>
+      มันคือคำตอบที่พิสูจน์แล้วสำหรับปัญหารูปแบบหนึ่ง
+    </p>
+    <p>
+      และมันสืบทอด<b>ข้อเสีย</b>มาด้วย — LSP โดนบ่นเรื่อง overhead ของการ serialize ทุกข้อความมาตลอด
+      MCP ก็เจอเรื่องเดียวกัน ซึ่งเป็นเหตุผลตรง ๆ ที่บทที่ 09.08 บอกว่าบางงานสคริปต์ธรรมดายังชนะอยู่
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://www.anthropic.com/news/model-context-protocol" target="_blank" rel="noopener noreferrer">Introducing the Model Context Protocol</a>
+        — ประกาศเปิดตัว 25 พ.ย. 2024 พร้อมเหตุผลเชิงออกแบบ
+        <span class="src">anthropic.com · 2024</span>
+      </li>
+      <li>
+        <a href="https://microsoft.github.io/language-server-protocol/" target="_blank" rel="noopener noreferrer">Language Server Protocol</a>
+        — สเปกต้นแบบที่ MCP ยืมโครงมา
+        <span class="src">microsoft.github.io</span>
+      </li>
+      <li>
+        <a href="https://modelcontextprotocol.io/specification/2025-06-18" target="_blank" rel="noopener noreferrer">MCP Specification</a>
+        — สเปกฉบับปัจจุบันที่ใช้อ้างอิงในโมดูลนี้
+        <span class="src">modelcontextprotocol.io</span>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="lesson">
   <div class="lhead"><span class="lnum">09.01</span><h2>MCP คือโปรโตคอล ไม่ใช่ไลบรารี</h2></div>
 
   <div class="chat">

@@ -12,6 +12,102 @@
 </div>
 
 <section class="lesson">
+  <div class="lhead"><span class="lnum">ที่มา</span><h2>ใครตั้งชื่อ "prompt injection" และทำไมชื่อนี้ถึงสำคัญ</h2></div>
+
+  <div class="chat">
+    <p>
+      ช่องโหว่นี้มีชื่อที่<b>รู้วันเกิดชัดเจน</b> — 12 กันยายน 2022 ซึ่งใหม่กว่าที่หลายคนคิดมาก
+    </p>
+    <p>
+      และชื่อนี้ถูกตั้งโดยเทียบกับช่องโหว่เก่าอย่างจงใจ ซึ่งเป็นการเทียบที่<b>ทั้งช่วยและหลอก</b>เราไปพร้อมกัน
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 258" role="img" aria-label="Timeline from the naming of prompt injection in 2022 to indirect injection research and the OWASP list">
+      <line class="d-line" x1="112" y1="30" x2="112" y2="228"/>
+
+      <circle class="d-runner" cx="112" cy="46" r="5"/>
+      <text class="d-label-mono" x="8" y="50">2022-09</text>
+      <text class="d-label" x="132" y="44">Riley Goodside สาธิต</text>
+      <text class="d-label-sm" x="132" y="62">ข้อความในอินพุตทำให้โมเดลเลิกทำตามคำสั่งเดิม</text>
+
+      <circle class="d-runner d-pulse-1" cx="112" cy="94" r="6"/>
+      <text class="d-label-mono" x="8" y="98">2022-09-12</text>
+      <text class="d-label" x="132" y="92">Simon Willison ตั้งชื่อ</text>
+      <text class="d-label-sm" x="132" y="110">"prompt injection" — เทียบกับ SQL injection โดยตรง</text>
+
+      <circle class="d-runner d-pulse-2" cx="112" cy="142" r="6"/>
+      <text class="d-label-mono" x="8" y="146">2023-02</text>
+      <text class="d-label" x="132" y="140">Indirect prompt injection</text>
+      <text class="d-label-sm" x="132" y="158">Greshake และคณะ — พิษไม่ต้องมาจากผู้ใช้ มาจากของที่มันไปอ่าน</text>
+
+      <circle class="d-runner" cx="112" cy="190" r="5"/>
+      <text class="d-label-mono" x="8" y="194">2023→</text>
+      <text class="d-label" x="132" y="188">OWASP จัดให้เป็นอันดับ 1</text>
+      <text class="d-label-sm" x="132" y="206">LLM01 ในรายการความเสี่ยงของแอป LLM</text>
+
+      <rect class="d-box-ink" x="8" y="216" width="624" height="38"/>
+      <text class="d-label-inv" x="22" y="239">สามปีผ่านไป ยังไม่มีใครมีวิธีแก้ที่ปิดได้สนิท — มีแต่วิธีลดความเสียหาย</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 0</b> · จุดที่ 2023-02 คือจุดที่ปัญหาเปลี่ยนจาก "ระวังผู้ใช้" เป็น "ระวังทุกอย่างที่ agent อ่าน"</p>
+  </div>
+
+  <h3><span class="k">กันยายน 2022</span>ชื่อที่ยืมมาจาก SQL injection</h3>
+  <p>
+    <strong>Simon Willison</strong> เขียนโพสต์ <em>Prompt injection attacks against GPT-3</em>
+    เมื่อ 12 กันยายน 2022 หลังเห็นการสาธิตของ <strong>Riley Goodside</strong> ที่แสดงว่าข้อความ
+    ในอินพุตสามารถทำให้โมเดลทิ้งคำสั่งเดิมแล้วทำตามคำสั่งใหม่ได้
+  </p>
+  <p>
+    การเทียบกับ SQL injection ทำให้คนเข้าใจ<strong>รูปร่างของปัญหา</strong>ได้ทันที — ข้อมูลที่ไม่น่าเชื่อถือ
+    ถูกอ่านเป็นคำสั่ง แต่การเทียบนี้ก็สร้างความเข้าใจผิดที่ตามหลอกหลอนมาจนทุกวันนี้เหมือนกัน
+  </p>
+
+  <div class="chat">
+    <p>
+      SQL injection <b>แก้หายขาดได้</b> ด้วย parameterized query เพราะมันแยกคำสั่งกับข้อมูล
+      ออกเป็นสองช่องได้จริงในระดับโปรโตคอล
+    </p>
+    <p>
+      LLM ทำแบบนั้น<b>ไม่ได้</b> ทุกอย่างเป็น token ในสายเดียวกัน ไม่มี "ช่องข้อมูล" ให้แยก
+      — คนจำนวนมากได้ยินชื่อนี้แล้วคิดว่าเดี๋ยวก็มี prepared statement เวอร์ชัน LLM ออกมา ซึ่งยังไม่มี
+    </p>
+  </div>
+
+  <h3><span class="k">กุมภาพันธ์ 2023</span>ตอนที่ปัญหาใหญ่ขึ้นสิบเท่า</h3>
+  <p>
+    งาน <em>Not what you've signed up for</em> (Greshake และคณะ, 23 ก.พ. 2023) แสดงว่าผู้โจมตี
+    <strong>ไม่จำเป็นต้องคุยกับระบบเลย</strong> แค่ฝังข้อความไว้ในหน้าเว็บ เอกสาร หรืออีเมลที่ระบบจะไปอ่านก็พอ
+  </p>
+  <p>
+    นี่คือจุดที่ทำให้เนื้อหาทั้งโมดูลนี้จำเป็น — เพราะ coding agent อ่าน README, issue, log และผลลัพธ์คำสั่ง
+    ตลอดเวลา ทุกช่องทางเหล่านั้นกลายเป็นทางเข้าทันที
+  </p>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://simonwillison.net/2022/Sep/12/prompt-injection/" target="_blank" rel="noopener noreferrer">Prompt injection attacks against GPT-3</a>
+        — โพสต์ที่ตั้งชื่อช่องโหว่นี้ พร้อมเหตุผลของการเทียบกับ SQL injection
+        <span class="src">simonwillison.net · 2022</span>
+      </li>
+      <li>
+        <a href="https://arxiv.org/abs/2302.12173" target="_blank" rel="noopener noreferrer">Not what you've signed up for: Compromising Real-World LLM-Integrated Applications with Indirect Prompt Injection</a>
+        — Greshake และคณะ · งานที่นิยาม indirect prompt injection
+        <span class="src">arxiv.org · 2023</span>
+      </li>
+      <li>
+        <a href="https://genai.owasp.org/llm-top-10/" target="_blank" rel="noopener noreferrer">OWASP Top 10 for LLM Applications</a>
+        — สถานะปัจจุบันของช่องโหว่นี้ในรายการมาตรฐาน
+        <span class="src">genai.owasp.org</span>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="lesson">
   <div class="lhead"><span class="lnum">13.01</span><h2>ทำไม checklist เดิมใช้ไม่ได้</h2></div>
   <div class="tw"><table>
     <thead><tr><th></th><th>Web application</th><th>Coding agent</th></tr></thead>
