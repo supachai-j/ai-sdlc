@@ -37,101 +37,506 @@
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">07.01</span><h2>Contract-first</h2><label class="done"><input type="checkbox" data-lesson="07.01"><span>เรียนจบ</span></label></div>
-  <p>สัญญา API ที่เขียนเป็นสคีมาให้ประโยชน์สามชั้นพร้อมกัน — เป็น spec ให้ agent เป็นเกณฑ์ตรวจอัตโนมัติ และเป็นเอกสารที่ไม่มีวันล้าสมัย เพราะถ้าล้าสมัยแล้วเทสต์จะแดง</p>
-  <div class="box rule">
-    <span class="k">ลำดับที่ให้ผลดีที่สุด</span>
-    <p>เขียนสัญญาก่อน → ให้ agent สร้าง type จากสัญญา → ให้เขียน implementation ที่ผ่านสัญญา ลำดับนี้ทำให้ความถูกต้องถูกตรวจโดยเครื่องตลอดทาง แทนที่จะต้องรอคนอ่าน</p>
-  </div>
-</section>
 
-<section class="lesson">
-  <div class="lhead"><span class="lnum">07.02</span><h2>Layering ที่ agent ทำงานด้วยง่าย</h2><label class="done"><input type="checkbox" data-lesson="07.02"><span>เรียนจบ</span></label></div>
-  <div class="tw"><table>
-    <thead><tr><th>ลักษณะ</th><th>agent ทำงานด้วยง่าย</th><th>agent หลงทาง</th></tr></thead>
-    <tbody>
-      <tr><td>ทางเข้าโค้ด</td><td>ทางเดียวชัดเจน</td><td>เข้าได้หลายทาง ผ่าน re-export ซ้อน</td></tr>
-      <tr><td>ผลข้างเคียง</td><td>รวมอยู่ชั้นเดียว</td><td>กระจายทุกชั้น</td></tr>
-      <tr><td>การตั้งค่า</td><td>อ่านที่เดียวตอนเริ่ม</td><td>อ่าน env กระจายทั่วโค้ด</td></tr>
-      <tr><td>ขอบเขตธุรกรรม</td><td>ระบุชัดว่าเริ่มและจบที่ไหน</td><td>ซ่อนอยู่ใน decorator หรือ middleware</td></tr>
-    </tbody>
-  </table></div>
-  <p>สังเกตว่าทุกข้อในคอลัมน์ขวาก็ทำให้<em>คน</em>หลงทางเหมือนกัน โครงสร้างที่ดีสำหรับ agent มักคือโครงสร้างที่ดีอยู่แล้ว แค่ agent ไม่มีความอดทนและความคุ้นเคยมาชดเชยให้</p>
-</section>
-
-<section class="lesson">
-  <div class="lhead"><span class="lnum">07.03</span><h2>Database migration — งานอันตรายที่สุดในหลักสูตร</h2><label class="done"><input type="checkbox" data-lesson="07.03"><span>เรียนจบ</span></label></div>
-  <p>Migration ต่างจากงานอื่นตรงที่มัน<strong>ทำลายข้อมูลได้ถาวร</strong> และเทสต์ที่เขียวไม่ได้แปลว่าปลอดภัย เพราะเทสต์รันบนฐานข้อมูลว่างที่ไม่มีข้อมูลจริง</p>
-  <div class="box trap">
-    <span class="k">รูปแบบที่อันตรายที่สุดสามอย่าง</span>
-    <ul>
-      <li><strong>ลบหรือเปลี่ยนชนิดคอลัมน์ในขั้นเดียว</strong> — โค้ดเก่าที่ยังรันอยู่จะพังทันที</li>
-      <li><strong>เพิ่มคอลัมน์ NOT NULL โดยไม่มีค่าเริ่มต้น</strong> — ล็อกตารางและล้มบนข้อมูลจริง</li>
-      <li><strong>Backfill ในไฟล์ migration เดียวกัน</strong> — ตารางใหญ่จะล็อกนานจนระบบล่ม</li>
-    </ul>
+  <div class="chat">
+    <p>
+      ฝั่ง BE มีงานที่<b>ผิดแล้วย้อนไม่ได้</b> ซึ่งเปลี่ยนกติกาทั้งหมด
+      งาน FE ผิดก็แก้ CSS ใหม่ แต่ migration ที่ลบคอลัมน์ผิดคือข้อมูลหายจริง
+    </p>
+    <p>
+      เพราะงั้นโมดูลนี้จะพูดเรื่อง guardrail เยอะกว่าเรื่องความเร็ว และเริ่มจากของที่ถูกที่สุด — <b>สัญญา</b>
+    </p>
   </div>
-  <div class="box good">
-    <span class="k">Guardrail ที่ต้องมีก่อนให้ agent แตะ migration</span>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 230" role="img" aria-label="A schema gives three things at once: a spec, an automatic check, and documentation that cannot go stale">
+      <rect class="d-box-ink" x="230" y="24" width="180" height="44"/>
+      <text class="d-label-inv" x="248" y="52">OpenAPI / schema</text>
+
+      <path class="d-line d-flow" d="M 280 68 V 92 H 118 V 112"/>
+      <path class="d-arrow" d="M 113 112 l 5 8 l 5 -8 z"/>
+      <path class="d-line d-flow" d="M 320 68 V 112"/>
+      <path class="d-arrow" d="M 315 112 l 5 8 l 5 -8 z"/>
+      <path class="d-line d-flow" d="M 360 68 V 92 H 522 V 112"/>
+      <path class="d-arrow" d="M 517 112 l 5 8 l 5 -8 z"/>
+
+      <rect class="d-box-accent" x="8" y="120" width="220" height="60"/>
+      <text class="d-label" x="20" y="142">1 · spec ให้ agent</text>
+      <text class="d-label-sm" x="20" y="162">บอกว่าต้องทำอะไร ไม่ใช่ทำยังไง</text>
+
+      <rect class="d-box-accent" x="238" y="120" width="164" height="60"/>
+      <text class="d-label" x="250" y="142">2 · เกณฑ์ตรวจ</text>
+      <text class="d-label-sm" x="250" y="162">เครื่องตัดสินได้</text>
+
+      <rect class="d-box-accent" x="412" y="120" width="220" height="60"/>
+      <text class="d-label" x="424" y="142">3 · เอกสารที่ไม่ล้าสมัย</text>
+      <text class="d-label-sm" x="424" y="162">ถ้าล้าสมัย เทสต์จะแดง</text>
+
+      <rect class="d-box" x="8" y="192" width="624" height="32"/>
+      <text class="d-label-sm" x="22" y="213">ลำดับที่ได้ผล — เขียนสัญญา → gen type จากสัญญา → ให้ agent เขียน impl ที่ผ่านสัญญา</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 1</b> · ของชิ้นเดียวให้ประโยชน์สามชั้น และชั้นที่สามคือชั้นที่เอกสารทั่วไปไม่มี</p>
+  </div>
+
+  <p>
+    เอกสาร API ทั่วไปเน่าได้เพราะไม่มีอะไรบังคับให้มันตรงกับโค้ด แต่สัญญาที่มีเทสต์กำกับเน่าไม่ได้ —
+    <strong>ถ้ามันไม่ตรง เทสต์จะแดง</strong> ซึ่งตรงกับกฎใน <a href="m15.html">M15.03</a>
+    ที่ว่าเอกสารต้อง "พังได้เมื่อผิด"
+  </p>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
     <ol>
-      <li><strong>บังคับรูปแบบขยาย–ย้าย–หด</strong> — เพิ่มของใหม่ ย้ายข้อมูล แล้วค่อยลบของเก่าคนละรอบ deploy</li>
-      <li><strong>ทุก migration ต้องมีทางย้อน</strong> และทางย้อนต้องถูกทดสอบ ไม่ใช่แค่มีอยู่</li>
-      <li><strong>รันกับสำเนาข้อมูลจริงขนาดใกล้เคียง</strong> ก่อนขึ้นเสมอ</li>
-      <li><strong>คนอนุมัติทุกครั้ง</strong> — งานนี้ตกเกณฑ์ข้อสี่ ไม่ควรอยู่ในกลุ่มที่ agent ทำจบเอง</li>
+      <li>
+        <a href="https://martinfowler.com/bliki/ParallelChange.html" target="_blank" rel="noopener noreferrer">Parallel Change</a>
+        — รูปแบบเปลี่ยนสัญญาโดยไม่ทำให้ผู้เรียกเดิมพัง ใช้ต่อในบท 07.03
+        <span class="src">martinfowler.com</span>
+      </li>
+      <li>
+        <a href="https://docs.claude.com/en/docs/agents-and-tools/tool-use/overview" target="_blank" rel="noopener noreferrer">Tool use overview</a>
+        — หลักการเดียวกัน: schema ที่ชัดทำให้เรียกถูก
+        <span class="src">docs.claude.com</span>
+      </li>
     </ol>
   </div>
 </section>
 
 <section class="lesson">
-  <div class="lhead"><span class="lnum">07.04</span><h2>Idempotency ขอบเขตธุรกรรม และ error taxonomy</h2><label class="done"><input type="checkbox" data-lesson="07.04"><span>เรียนจบ</span></label></div>
-  <p>สามเรื่องนี้อยู่ด้วยกันเพราะมันตอบคำถามเดียวกัน — <strong>เมื่อเกิดข้อผิดพลาดกลางทาง ระบบอยู่ในสภาพไหน</strong> ซึ่งเป็นคำถามที่ agent ตอบผิดบ่อยเพราะมันมองเห็นแค่เส้นทางที่สำเร็จ</p>
-  <div class="tw"><table>
-    <thead><tr><th>ชนิดข้อผิดพลาด</th><th>ควรลองใหม่ไหม</th><th>สิ่งที่ agent มักทำผิด</th></tr></thead>
-    <tbody>
-      <tr><td>ข้อมูลนำเข้าไม่ถูกต้อง</td><td>ไม่ — ลองกี่ครั้งก็ผิด</td><td>ใส่ retry ให้ทุกอย่างเหมือนกันหมด</td></tr>
-      <tr><td>ไม่มีสิทธิ์</td><td>ไม่</td><td>ลองใหม่จนโดนบล็อก</td></tr>
-      <tr><td>ปลายทางล่มชั่วคราว</td><td>ใช่ พร้อมหน่วงเพิ่มขึ้น</td><td>ลองรัว ๆ จนซ้ำเติมปลายทาง</td></tr>
-      <tr><td>ชนกันเพราะแก้พร้อมกัน</td><td>ใช่ หลังอ่านค่าใหม่</td><td>เขียนทับของคนอื่น</td></tr>
-    </tbody>
-  </table></div>
-  <p>ถ้า error ในโปรเจกต์ของคุณแยกชนิดไม่ได้ agent จะเลือกกลยุทธ์ไม่ถูก การจัดชนิด error ให้ชัดจึงเป็นงาน <a href="m05.html">M05</a> ที่ให้ผลตรงกับโมดูลนี้</p>
+  <div class="lhead"><span class="lnum">07.02</span><h2>Layering ที่ agent ทำงานด้วยง่าย</h2><label class="done"><input type="checkbox" data-lesson="07.02"><span>เรียนจบ</span></label></div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 220" role="img" aria-label="Four structural properties compared: easy for an agent versus what makes it lose track">
+      <text class="d-label-mono" x="8" y="16">ลักษณะ</text>
+      <text class="d-label-mono" x="230" y="16">agent ทำงานง่าย</text>
+      <text class="d-label-mono" x="440" y="16">agent หลงทาง</text>
+
+      <rect class="d-box" x="8" y="26" width="212" height="36"/>
+      <text class="d-label-sm" x="20" y="48">ทางเข้าโค้ด</text>
+      <rect class="d-box-accent" x="230" y="26" width="200" height="36"/>
+      <text class="d-label-sm" x="242" y="48">ทางเดียว ชัดเจน</text>
+      <rect class="d-box" x="440" y="26" width="192" height="36"/>
+      <text class="d-label-sm" x="452" y="48">re-export ซ้อนหลายชั้น</text>
+
+      <rect class="d-box" x="8" y="66" width="212" height="36"/>
+      <text class="d-label-sm" x="20" y="88">ผลข้างเคียง</text>
+      <rect class="d-box-accent" x="230" y="66" width="200" height="36"/>
+      <text class="d-label-sm" x="242" y="88">รวมอยู่ชั้นเดียว</text>
+      <rect class="d-box" x="440" y="66" width="192" height="36"/>
+      <text class="d-label-sm" x="452" y="88">กระจายทุกชั้น</text>
+
+      <rect class="d-box" x="8" y="106" width="212" height="36"/>
+      <text class="d-label-sm" x="20" y="128">การตั้งค่า</text>
+      <rect class="d-box-accent" x="230" y="106" width="200" height="36"/>
+      <text class="d-label-sm" x="242" y="128">อ่านที่เดียวตอนเริ่ม</text>
+      <rect class="d-box" x="440" y="106" width="192" height="36"/>
+      <text class="d-label-sm" x="452" y="128">อ่าน env กระจายทั่วโค้ด</text>
+
+      <rect class="d-box" x="8" y="146" width="212" height="36"/>
+      <text class="d-label-sm" x="20" y="168">ขอบเขต transaction</text>
+      <rect class="d-box-accent" x="230" y="146" width="200" height="36"/>
+      <text class="d-label-sm" x="242" y="168">ระบุชัดว่าเริ่ม-จบที่ไหน</text>
+      <rect class="d-box" x="440" y="146" width="192" height="36"/>
+      <text class="d-label-sm" x="452" y="168">ซ่อนใน decorator</text>
+
+      <rect class="d-box-ink" x="8" y="190" width="624" height="26"/>
+      <text class="d-label-inv" x="22" y="208">ทุกข้อในคอลัมน์ขวาทำให้ "คน" หลงทางเหมือนกัน — agent แค่ไม่มีความอดทนมาชดเชย</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 2</b> · โครงสร้างที่ดีสำหรับ agent มักคือโครงสร้างที่ดีอยู่แล้ว</p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://12factor.net/config" target="_blank" rel="noopener noreferrer">The Twelve-Factor App — Config</a>
+        — เหตุผลว่าทำไมการตั้งค่าควรอ่านที่เดียว ไม่กระจาย
+        <span class="src">12factor.net</span>
+      </li>
+      <li>
+        <a href="https://martinfowler.com/bliki/CodeSmell.html" target="_blank" rel="noopener noreferrer">Code Smell</a>
+        — สัญญาณของโครงสร้างที่ทำให้ทุกคนหลงทาง
+        <span class="src">martinfowler.com</span>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">07.03</span><h2>Database migration — งานอันตรายที่สุดในหลักสูตร</h2><label class="done"><input type="checkbox" data-lesson="07.03"><span>เรียนจบ</span></label></div>
+
+  <div class="chat">
+    <p>
+      บทนี้ผมอยากให้อ่านช้าที่สุดในโมดูล เพราะ migration ต่างจากงานอื่นตรงที่
+      <b>มันทำลายข้อมูลได้ถาวร</b> และ<b>เทสต์เขียวไม่ได้แปลว่าปลอดภัย</b>
+    </p>
+    <p>
+      เหตุผลง่ายมาก — เทสต์รันบนฐานว่างที่ไม่มีข้อมูลจริง ไม่มีตารางขนาด 40 ล้านแถว
+      และไม่มีโค้ดเวอร์ชันเก่าที่ยังรันอยู่พร้อมกัน
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 280" role="img" aria-label="Expand migrate contract pattern across three deploys versus a single destructive change">
+      <text class="d-label-mono" x="8" y="16">ทำครั้งเดียวจบ · อันตราย</text>
+      <rect class="d-bar-new" x="8" y="26" width="624" height="34"/>
+      <text class="d-label-sm" x="22" y="48">ลบคอลัมน์เก่า + เพิ่มคอลัมน์ใหม่ พร้อมกัน → โค้ดเวอร์ชันเก่าที่ยังรันอยู่พังทันที</text>
+
+      <line class="d-line" x1="8" y1="76" x2="632" y2="76" stroke-dasharray="3 3"/>
+      <text class="d-label-mono" x="8" y="98">EXPAND → MIGRATE → CONTRACT · แยกคนละ deploy</text>
+
+      <rect class="d-box-accent" x="8" y="110" width="200" height="66"/>
+      <text class="d-label-mono" x="20" y="130">DEPLOY 1 · EXPAND</text>
+      <text class="d-label-sm" x="20" y="150">เพิ่มคอลัมน์ใหม่ nullable</text>
+      <text class="d-label-sm" x="20" y="168">โค้ดเก่ายังทำงานได้</text>
+      <path class="d-line d-flow" d="M 208 143 H 218"/>
+      <path class="d-arrow" d="M 218 138 l 8 5 l -8 5 z"/>
+
+      <rect class="d-box-accent" x="230" y="110" width="200" height="66"/>
+      <text class="d-label-mono" x="242" y="130">DEPLOY 2 · MIGRATE</text>
+      <text class="d-label-sm" x="242" y="150">ย้ายข้อมูลเป็นชุด ๆ</text>
+      <text class="d-label-sm" x="242" y="168">เขียนทั้งสองที่ระหว่างนี้</text>
+      <path class="d-line d-flow" d="M 430 143 H 440"/>
+      <path class="d-arrow" d="M 440 138 l 8 5 l -8 5 z"/>
+
+      <rect class="d-box-accent" x="452" y="110" width="180" height="66"/>
+      <text class="d-label-mono" x="464" y="130">DEPLOY 3 · CONTRACT</text>
+      <text class="d-label-sm" x="464" y="150">ลบคอลัมน์เก่า</text>
+      <text class="d-label-sm" x="464" y="168">เมื่อไม่มีใครอ่านแล้ว</text>
+
+      <rect class="d-box" x="8" y="188" width="624" height="82"/>
+      <text class="d-label" x="22" y="210">3 รูปแบบที่อันตรายที่สุด</text>
+      <text class="d-label-sm" x="22" y="232">· ลบ/เปลี่ยนชนิดคอลัมน์ในขั้นเดียว → โค้ดเก่าพังทันที</text>
+      <text class="d-label-sm" x="22" y="250">· เพิ่มคอลัมน์ NOT NULL ไม่มี default → ล็อกตาราง ล้มบนข้อมูลจริง</text>
+      <text class="d-label-sm" x="22" y="266">· backfill ในไฟล์ migration เดียวกัน → ตารางใหญ่ล็อกนานจนระบบล่ม</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 3</b> · แต่ละกล่องคือคนละ deploy — ไม่ใช่คนละบรรทัดในไฟล์เดียวกัน</p>
+  </div>
+
+  <div class="box rule">
+    <span class="k">Guardrail ที่ต้องมีก่อนให้ agent แตะ migration</span>
+    <ol>
+      <li><strong>บังคับรูปแบบ expand–migrate–contract</strong> — เขียนเป็นกฎใน project memory และตรวจใน review</li>
+      <li><strong>ทุก migration ต้องมีทางย้อน</strong> และทางย้อน<em>ต้องถูกทดสอบ</em> ไม่ใช่แค่มีอยู่</li>
+      <li><strong>รันกับสำเนาข้อมูลจริงขนาดใกล้เคียง</strong>ก่อนขึ้นเสมอ — ฐานว่างไม่บอกอะไรเลยเรื่องเวลาล็อก</li>
+      <li><strong>คนอนุมัติทุกครั้ง</strong> — งานนี้ตกเกณฑ์ข้อสี่ของ <a href="m04.html">M04.03</a> ไม่ควรอยู่ในกลุ่มที่ agent จบเอง</li>
+    </ol>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://martinfowler.com/bliki/ParallelChange.html" target="_blank" rel="noopener noreferrer">Parallel Change (expand and contract)</a>
+        — ต้นฉบับของรูปแบบใน Figure 3
+        <span class="src">martinfowler.com</span>
+      </li>
+      <li>
+        <a href="https://martinfowler.com/bliki/BlueGreenDeployment.html" target="_blank" rel="noopener noreferrer">Blue Green Deployment</a>
+        — บริบทว่าทำไมโค้ดสองเวอร์ชันถึงรันพร้อมกันระหว่าง deploy
+        <span class="src">martinfowler.com</span>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="lesson">
+  <div class="lhead"><span class="lnum">07.04</span><h2>Idempotency ขอบเขต transaction และ error taxonomy</h2><label class="done"><input type="checkbox" data-lesson="07.04"><span>เรียนจบ</span></label></div>
+
+  <p>
+    สามเรื่องนี้อยู่ด้วยกันเพราะตอบคำถามเดียวกัน — <strong>เมื่อพังกลางทาง ระบบอยู่ในสภาพไหน</strong>
+    ซึ่งเป็นคำถามที่ agent ตอบผิดบ่อย เพราะมันมองเห็นแต่เส้นทางที่สำเร็จ
+  </p>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 240" role="img" aria-label="Error taxonomy deciding which failures are worth retrying">
+      <text class="d-label-mono" x="8" y="16">ชนิด error</text>
+      <text class="d-label-mono" x="270" y="16">retry?</text>
+      <text class="d-label-mono" x="390" y="16">agent มักทำผิดยังไง</text>
+
+      <rect class="d-box" x="8" y="26" width="252" height="38"/>
+      <text class="d-label-sm" x="20" y="49">input ไม่ถูกต้อง</text>
+      <rect class="d-bar-new" x="270" y="26" width="106" height="38"/>
+      <text class="d-label-sm" x="282" y="49">ไม่ — ลองกี่ครั้งก็ผิด</text>
+      <rect class="d-box" x="390" y="26" width="242" height="38"/>
+      <text class="d-label-sm" x="400" y="49">ใส่ retry ให้ทุกอย่างเหมือนกันหมด</text>
+
+      <rect class="d-box" x="8" y="68" width="252" height="38"/>
+      <text class="d-label-sm" x="20" y="91">ไม่มีสิทธิ์</text>
+      <rect class="d-bar-new" x="270" y="68" width="106" height="38"/>
+      <text class="d-label-sm" x="282" y="91">ไม่</text>
+      <rect class="d-box" x="390" y="68" width="242" height="38"/>
+      <text class="d-label-sm" x="400" y="91">ลองใหม่จนโดนบล็อก</text>
+
+      <rect class="d-box" x="8" y="110" width="252" height="38"/>
+      <text class="d-label-sm" x="20" y="133">ปลายทางล่มชั่วคราว</text>
+      <rect class="d-box-accent" x="270" y="110" width="106" height="38"/>
+      <text class="d-label-sm" x="282" y="133">ใช่ + หน่วงเพิ่ม</text>
+      <rect class="d-box" x="390" y="110" width="242" height="38"/>
+      <text class="d-label-sm" x="400" y="133">ลองรัว ๆ จนซ้ำเติมปลายทาง</text>
+
+      <rect class="d-box" x="8" y="152" width="252" height="38"/>
+      <text class="d-label-sm" x="20" y="175">ชนกันเพราะแก้พร้อมกัน</text>
+      <rect class="d-box-accent" x="270" y="152" width="106" height="38"/>
+      <text class="d-label-sm" x="282" y="175">ใช่ หลังอ่านใหม่</text>
+      <rect class="d-box" x="390" y="152" width="242" height="38"/>
+      <text class="d-label-sm" x="400" y="175">เขียนทับของคนอื่น</text>
+
+      <rect class="d-box-ink" x="8" y="200" width="624" height="34"/>
+      <text class="d-label-inv" x="22" y="222">ถ้า error ใน repo แยกชนิดไม่ได้ agent จะเลือกกลยุทธ์ไม่ถูก — เป็นงาน M05 ที่ให้ผลตรงที่นี่</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 4</b> · การจัดชนิด error ไม่ใช่เรื่องความสวยงาม แต่เป็นข้อมูลที่ใช้ตัดสินใจ</p>
+  </div>
+
+  <div class="box good">
+    <span class="k">Idempotency คือสิ่งที่ทำให้ retry ปลอดภัย</span>
+    <p>
+      retry จะปลอดภัยก็ต่อเมื่อการทำซ้ำไม่สร้างผลซ้ำ — ถ้าไม่มีคีย์กันซ้ำ
+      การใส่ retry เข้าไปคือการเปลี่ยนจาก "ล้มเหลวหนึ่งครั้ง" เป็น "เก็บเงินลูกค้าสามครั้ง"
+    </p>
+    <p>
+      เพราะงั้นลำดับที่ถูกคือ <strong>ทำให้ idempotent ก่อน แล้วค่อยใส่ retry</strong> ไม่ใช่กลับกัน
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://martinfowler.com/articles/patterns-of-distributed-systems/idempotent-receiver.html" target="_blank" rel="noopener noreferrer">Idempotent Receiver</a>
+        — รูปแบบการกันผลซ้ำเมื่อข้อความถูกส่งมามากกว่าหนึ่งครั้ง
+        <span class="src">martinfowler.com</span>
+      </li>
+      <li>
+        <a href="https://12factor.net/disposability" target="_blank" rel="noopener noreferrer">The Twelve-Factor App — Disposability</a>
+        — การออกแบบให้โปรเซสถูกฆ่ากลางทางได้โดยไม่ทิ้งสภาพค้าง
+        <span class="src">12factor.net</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">07.05</span><h2>Secret และ env — กฎที่ห้ามยืดหยุ่น</h2><label class="done"><input type="checkbox" data-lesson="07.05"><span>เรียนจบ</span></label></div>
-  <ul>
-    <li><strong>ห้ามให้ไฟล์ที่มีค่าจริงเข้าไปในบริบท</strong> — เมื่อเข้าไปแล้ว มันอยู่ในประวัติการสนทนาและย้อนไม่ได้</li>
-    <li><strong>ใช้ไฟล์ตัวอย่างที่มีแต่ชื่อคีย์</strong> ให้ agent อ่านจากตัวนั้น</li>
-    <li><strong>ตั้ง deny rule ที่ระดับ hook</strong> ไม่ใช่แค่เขียนเป็นกฎใน prompt — กฎที่บังคับได้ชนะกฎที่ขอไว้</li>
-    <li><strong>ถ้าหลุดแล้ว ให้ถือว่ารั่ว</strong> และหมุนคีย์ ไม่ใช่หวังว่าไม่มีใครเห็น</li>
-  </ul>
-  <div class="box rule">
-    <span class="k">ทำไมถึงย้อนไม่ได้</span>
-    <p>บริบทถูกส่งไปประมวลผลแล้ว และอาจถูกเก็บใน log ของ harness ใน transcript หรือใน cache การลบข้อความออกจากหน้าจอไม่ได้ลบสิ่งที่ส่งไปแล้ว — รายละเอียดเต็มใน <a href="m13.html">M13.06</a></p>
+
+  <div class="chat">
+    <p>
+      เรื่องนี้ผมเขียนเป็นกฎแข็ง ๆ ไม่มี "แล้วแต่กรณี" เพราะ<b>พอค่าลับเข้า context แล้ว มันเข้าไปแล้วจริง ๆ</b>
+    </p>
+    <p>
+      มันอยู่ในสิ่งที่ส่งไปประมวลผล อาจอยู่ใน log ของ harness อยู่ใน transcript และอาจอยู่ใน cache —
+      <b>การลบข้อความบนหน้าจอไม่ได้ลบสิ่งที่ส่งไปแล้ว</b>
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 240" role="img" aria-label="Four leak paths for secrets and the mechanism that actually blocks each">
+      <text class="d-label-mono" x="8" y="16">ช่องที่หลุดบ่อย</text>
+      <text class="d-label-mono" x="330" y="16">กันด้วยอะไรที่บังคับได้</text>
+      <line class="d-line" x1="320" y1="24" x2="320" y2="164" stroke-dasharray="4 4"/>
+
+      <rect class="d-box" x="8" y="28" width="300" height="30"/>
+      <text class="d-label-sm" x="20" y="48">สั่งให้อ่านไฟล์ตั้งค่าที่มีค่าจริง</text>
+      <rect class="d-box-accent" x="330" y="28" width="302" height="30"/>
+      <text class="d-label-sm" x="342" y="48">hook บล็อกการอ่านไฟล์กลุ่มนั้น</text>
+
+      <rect class="d-box" x="8" y="62" width="300" height="30"/>
+      <text class="d-label-sm" x="20" y="82">คำสั่งที่พิมพ์ env ออกมา</text>
+      <rect class="d-box-accent" x="330" y="62" width="302" height="30"/>
+      <text class="d-label-sm" x="342" y="82">ไม่ให้คำสั่งกลุ่มนั้นอยู่ใน allowlist</text>
+
+      <rect class="d-box" x="8" y="96" width="300" height="30"/>
+      <text class="d-label-sm" x="20" y="116">error ที่แนบ connection string มาด้วย</text>
+      <rect class="d-box-accent" x="330" y="96" width="302" height="30"/>
+      <text class="d-label-sm" x="342" y="116">ปกปิดค่าลับในตัวจัดการ error</text>
+
+      <rect class="d-box" x="8" y="130" width="300" height="30"/>
+      <text class="d-label-sm" x="20" y="150">แปะ log จริงเข้าไปให้ดู</text>
+      <rect class="d-box-accent" x="330" y="130" width="302" height="30"/>
+      <text class="d-label-sm" x="342" y="150">สคริปต์กรองก่อนแปะ</text>
+
+      <rect class="d-box-ink" x="8" y="176" width="624" height="58"/>
+      <text class="d-label-inv" x="22" y="200">ถ้าหลุดแล้ว</text>
+      <text class="d-label-inv" x="22" y="222" opacity=".8">ถือว่ารั่ว หมุนคีย์ทันที · อย่าคำนวณความน่าจะเป็นว่าจะมีคนเห็นไหม</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 5</b> · ทุกวิธีกันในคอลัมน์ขวาเป็นกลไก ไม่ใช่ความระมัดระวัง — เพราะความระมัดระวังมีวันพลาด</p>
+  </div>
+
+  <p>
+    ต้นทุนการหมุนคีย์ต่ำมากเมื่อเทียบกับต้นทุนของการเดาผิด เพราะงั้นเวลาไม่แน่ใจ ให้หมุน
+    รายละเอียดเชิงภัยคุกคามเต็มรูปแบบอยู่ใน <a href="m13.html">M13.06</a>
+  </p>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://12factor.net/config" target="_blank" rel="noopener noreferrer">The Twelve-Factor App — Config</a>
+        — แยกการตั้งค่าออกจากโค้ด ซึ่งเป็นเงื่อนไขของทุกข้อในตาราง
+        <span class="src">12factor.net</span>
+      </li>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/hooks" target="_blank" rel="noopener noreferrer">Hooks</a>
+        — กลไกบล็อกการอ่านไฟล์และคำสั่งที่ไม่ควรรัน
+        <span class="src">docs.claude.com</span>
+      </li>
+      <li>
+        <a href="https://docs.claude.com/en/docs/claude-code/iam" target="_blank" rel="noopener noreferrer">Identity and access management</a>
+        — การเขียน allow/deny rule ให้ครอบคำสั่งกลุ่มที่เสี่ยง
+        <span class="src">docs.claude.com</span>
+      </li>
+    </ol>
   </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">07.06</span><h2>Background job, queue และ retry</h2><label class="done"><input type="checkbox" data-lesson="07.06"><span>เรียนจบ</span></label></div>
-  <p>สามอย่างนี้ agent ออกแบบผิดเป็นประจำ เพราะรูปแบบที่ดูถูกต้องในโค้ดกลับผิดในสภาพจริงที่มีความล้มเหลว</p>
-  <div class="tw"><table>
-    <thead><tr><th>สิ่งที่มักได้</th><th>ปัญหาจริง</th><th>สิ่งที่ควรได้</th></tr></thead>
-    <tbody>
-      <tr><td>retry สามครั้งติด</td><td>ซ้ำเติมปลายทางที่กำลังล่ม</td><td>หน่วงเพิ่มขึ้นพร้อมสุ่ม + เพดาน</td></tr>
-      <tr><td>งานไม่ idempotent</td><td>รันซ้ำแล้วเกิดผลซ้ำ</td><td>คีย์กันซ้ำต่อหนึ่งงาน</td></tr>
-      <tr><td>ไม่มีที่เก็บงานที่ล้มถาวร</td><td>งานหายเงียบ</td><td>คิวสำหรับงานที่ล้ม + การแจ้งเตือน</td></tr>
-      <tr><td>ไม่มีเพดานเวลา</td><td>งานค้างกินทรัพยากรตลอดไป</td><td>timeout ที่ชัดเจนทุกงาน</td></tr>
-    </tbody>
-  </table></div>
+
+  <div class="chat">
+    <p>
+      สามอย่างนี้ agent ออกแบบผิดเป็นประจำ เพราะ<b>รูปแบบที่ดูถูกต้องในโค้ด กลับผิดในสภาพจริงที่มีความล้มเหลว</b>
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 250" role="img" aria-label="Naive retry amplifying load on a struggling service versus backoff with jitter">
+      <text class="d-label-mono" x="8" y="16">RETRY แบบรัว ๆ · ซ้ำเติมปลายทางที่กำลังล่ม</text>
+      <rect class="d-bar-new" x="8" y="26" width="26" height="18"/>
+      <rect class="d-bar-new" x="38" y="26" width="26" height="18"/>
+      <rect class="d-bar-new" x="68" y="26" width="26" height="18"/>
+      <rect class="d-bar-new" x="98" y="26" width="26" height="18"/>
+      <rect class="d-bar-new" x="128" y="26" width="26" height="18"/>
+      <rect class="d-bar-new" x="158" y="26" width="26" height="18"/>
+      <text class="d-label-sm" x="196" y="40">ทุก client ยิงพร้อมกัน → ปลายทางยิ่งล่มหนัก</text>
+
+      <text class="d-label-mono" x="8" y="76">BACKOFF + JITTER · ให้เวลาปลายทางฟื้น</text>
+      <rect class="d-bar" x="8" y="86" width="26" height="18"/>
+      <rect class="d-bar" x="52" y="86" width="26" height="18"/>
+      <rect class="d-bar" x="124" y="86" width="26" height="18"/>
+      <rect class="d-bar" x="240" y="86" width="26" height="18"/>
+      <text class="d-label-sm" x="296" y="100">หน่วงเพิ่มขึ้น + สุ่มนิดหน่อย ไม่ให้ทุกตัวยิงพร้อมกัน</text>
+
+      <line class="d-line" x1="8" y1="122" x2="632" y2="122" stroke-dasharray="3 3"/>
+
+      <text class="d-label-mono" x="8" y="144">สิ่งที่มักได้</text>
+      <text class="d-label-mono" x="330" y="144">สิ่งที่ควรได้</text>
+      <rect class="d-box" x="8" y="154" width="300" height="26"/>
+      <text class="d-label-sm" x="20" y="172">งานไม่ idempotent</text>
+      <rect class="d-box-accent" x="330" y="154" width="302" height="26"/>
+      <text class="d-label-sm" x="342" y="172">คีย์กันซ้ำต่อหนึ่งงาน</text>
+
+      <rect class="d-box" x="8" y="184" width="300" height="26"/>
+      <text class="d-label-sm" x="20" y="202">ไม่มีที่เก็บงานที่ล้มถาวร</text>
+      <rect class="d-box-accent" x="330" y="184" width="302" height="26"/>
+      <text class="d-label-sm" x="342" y="202">คิวสำหรับงานล้ม + การแจ้งเตือน</text>
+
+      <rect class="d-box" x="8" y="214" width="300" height="26"/>
+      <text class="d-label-sm" x="20" y="232">ไม่มีเพดานเวลา</text>
+      <rect class="d-box-accent" x="330" y="214" width="302" height="26"/>
+      <text class="d-label-sm" x="342" y="232">timeout ที่ชัดเจนทุกงาน</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 6</b> · retry ที่ไม่มี backoff เปลี่ยนปัญหาชั่วคราวให้กลายเป็นปัญหาถาวร</p>
+  </div>
+
+  <div class="box trap">
+    <span class="k">ลำดับที่ห้ามสลับ</span>
+    <p>
+      <strong>ทำให้ idempotent → ใส่ backoff → ค่อยเปิด retry</strong>
+    </p>
+    <p>
+      ถ้าเปิด retry ก่อนสองข้อแรก คุณไม่ได้เพิ่มความทนทาน คุณเพิ่มจำนวนครั้งที่ผลข้างเคียงเกิดซ้ำ
+      และเพิ่มภาระให้ปลายทางที่กำลังมีปัญหาอยู่แล้ว
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://martinfowler.com/articles/patterns-of-distributed-systems/idempotent-receiver.html" target="_blank" rel="noopener noreferrer">Idempotent Receiver</a>
+        — เงื่อนไขที่ทำให้ retry ปลอดภัย
+        <span class="src">martinfowler.com</span>
+      </li>
+      <li>
+        <a href="https://martinfowler.com/bliki/CircuitBreaker.html" target="_blank" rel="noopener noreferrer">Circuit Breaker</a>
+        — กลไกหยุดยิงเมื่อปลายทางล่ม แทนการ retry ไปเรื่อย ๆ
+        <span class="src">martinfowler.com</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">07.07</span><h2>Observability ตั้งแต่บรรทัดแรก</h2><label class="done"><input type="checkbox" data-lesson="07.07"><span>เรียนจบ</span></label></div>
-  <p>เหตุผลที่เรื่องนี้อยู่ในโมดูล implementation ไม่ใช่โมดูล operations เพราะ <strong>log คือสิ่งที่ agent ใช้ debug ตัวเองในรอบหน้า</strong> การเขียน log ที่ดีจึงเป็นการลงทุนในความสามารถของ agent โดยตรง</p>
-  <ul>
-    <li>ทุก request มีรหัสที่ตามได้ตลอดเส้นทาง</li>
-    <li>log เป็นโครงสร้าง ไม่ใช่ประโยคที่ต้องใช้ regex แกะ</li>
-    <li>ตอนล้มเหลว ให้ log ค่าที่นำเข้ามาด้วย ไม่ใช่แค่ชื่อ error</li>
-    <li>อย่า log ค่าที่เป็นความลับ — ข้อนี้ต้องบังคับด้วยเครื่องมือ ไม่ใช่ด้วยความระวัง</li>
-  </ul>
+
+  <div class="chat">
+    <p>
+      เหตุผลที่เรื่องนี้อยู่ในโมดูล implementation ไม่ใช่โมดูล operations —
+      <b>log คือสิ่งที่ agent ใช้ debug ตัวเองในรอบหน้า</b>
+    </p>
+    <p>
+      การเขียน log ที่ดีจึงไม่ใช่งานฝั่ง ops แต่เป็นการลงทุนในความสามารถของ agent โดยตรง
+      เหมือนกับ error message ใน <a href="m05.html">M05.03</a>
+    </p>
+  </div>
+
+  <div class="fig">
+    <svg viewBox="0 0 640 230" role="img" aria-label="Log quality determining whether an agent can diagnose a failure from logs alone">
+      <text class="d-label-mono" x="8" y="16">LOG ที่ debug ไม่ได้</text>
+      <rect class="d-box" x="8" y="26" width="300" height="76"/>
+      <text class="d-label-sm" x="20" y="48">ERROR: payment failed</text>
+      <text class="d-label-sm" x="20" y="70" opacity=".7">ไม่มี request id · ไม่มีค่าที่นำเข้า</text>
+      <text class="d-label-sm" x="20" y="90" opacity=".7">ต้องเดาว่าเกิดกับใคร ตอนไหน</text>
+
+      <text class="d-label-mono" x="330" y="16">LOG ที่ debug ได้</text>
+      <rect class="d-box-accent" x="330" y="26" width="302" height="76"/>
+      <text class="d-label-sm" x="342" y="48">level · req_id · stage · input ที่ปกปิดแล้ว</text>
+      <text class="d-label-sm" x="342" y="70">เป็นโครงสร้าง ไม่ต้อง regex แกะ</text>
+      <text class="d-label-sm" x="342" y="90">ตามรอยได้ตลอดเส้นทาง</text>
+
+      <line class="d-line" x1="8" y1="118" x2="632" y2="118" stroke-dasharray="3 3"/>
+      <text class="d-label-mono" x="8" y="140">4 ข้อที่ต้องมี</text>
+      <rect class="d-box-accent" x="8" y="150" width="152" height="30"/>
+      <text class="d-label-sm" x="18" y="169">req id ตลอดเส้นทาง</text>
+      <rect class="d-box-accent" x="166" y="150" width="152" height="30"/>
+      <text class="d-label-sm" x="176" y="169">เป็นโครงสร้าง</text>
+      <rect class="d-box-accent" x="324" y="150" width="152" height="30"/>
+      <text class="d-label-sm" x="334" y="169">log input ตอนล้มเหลว</text>
+      <rect class="d-box-accent" x="482" y="150" width="150" height="30"/>
+      <text class="d-label-sm" x="492" y="169">ปกปิดค่าลับเสมอ</text>
+
+      <rect class="d-box-ink" x="8" y="192" width="624" height="34"/>
+      <text class="d-label-inv" x="22" y="214">ข้อสุดท้ายต้องบังคับด้วยเครื่องมือ ไม่ใช่ด้วยความระวัง — ตรงกับ 07.05</text>
+    </svg>
+    <p class="fig-cap"><b>Figure 7</b> · แล็บ B ของโมดูลนี้คือการทดสอบว่า log ของคุณอยู่ฝั่งไหนของรูปนี้</p>
+  </div>
+
+  <div class="box good">
+    <span class="k">วิธีอ่านผลแล็บ B ให้ถูก</span>
+    <p>
+      ถ้า agent หาบั๊กจาก log ไม่เจอ <strong>อย่าเพิ่งสรุปว่าโมเดลไม่เก่ง</strong>
+      ให้ถามก่อนว่า <em>"คนจะหาเจอไหมถ้ามีแค่ log ชุดนี้"</em>
+    </p>
+    <p>
+      ถ้าคนก็หาไม่เจอ ปัญหาอยู่ที่ log ไม่ใช่ที่ agent — และคุณเพิ่งพบสิ่งที่ต้องแก้
+      ซึ่งจะช่วยทั้งทีมตอนเกิด incident จริงด้วย ไม่ใช่แค่ช่วย agent
+    </p>
+  </div>
+
+  <div class="refs">
+    <h3>อ่านเพิ่มจากต้นทาง</h3>
+    <ol>
+      <li>
+        <a href="https://12factor.net/logs" target="_blank" rel="noopener noreferrer">The Twelve-Factor App — Logs</a>
+        — log ในฐานะ event stream ที่เครื่องอ่านต่อได้
+        <span class="src">12factor.net</span>
+      </li>
+      <li>
+        <a href="https://opentelemetry.io/docs/concepts/observability-primer/" target="_blank" rel="noopener noreferrer">OpenTelemetry — Observability Primer</a>
+        — คำศัพท์พื้นฐานเรื่อง trace, span และการตามรอยข้ามบริการ
+        <span class="src">opentelemetry.io</span>
+      </li>
+    </ol>
+  </div>
 </section>
 
 <div class="lab">
