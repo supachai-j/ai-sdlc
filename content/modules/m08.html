@@ -171,6 +171,17 @@
 <section class="lesson">
   <div class="lhead"><span class="lnum">08.03</span><h2>Strangler pattern ร่วมกับ agent</h2></div>
 
+  <div class="chat">
+    <p>
+      บทนี้คือจุดที่งาน brownfield ต่างจากงานใหม่มากที่สุด —
+      <b>คุณไม่ได้กำลังเพิ่มของ คุณกำลังเปลี่ยนของที่มีคนใช้อยู่</b>
+    </p>
+    <p>
+      ซึ่งแปลว่าเกณฑ์ "มันทำงานได้ไหม" ไม่พอ ต้องเป็น <b>"มันยังทำสิ่งเดิมได้เหมือนเดิมไหม"</b>
+      และคำถามหลังตอบยากกว่ามาก
+    </p>
+  </div>
+
   <p>
     แทนที่จะเขียนใหม่ทั้งก้อนแล้วสลับทีเดียว ให้สร้างของใหม่ข้าง ๆ ของเก่า แล้วย้ายทราฟฟิกทีละส่วน
     วิธีนี้เข้ากับ agent ได้ดีเป็นพิเศษ เพราะ<strong>แต่ละก้าวเล็กพอที่จะตรวจได้</strong>
@@ -374,6 +385,17 @@
 
 <section class="lesson">
   <div class="lhead"><span class="lnum">08.06</span><h2>แก้อย่างปลอดภัย — blast radius</h2></div>
+
+  <div class="chat">
+    <p>
+      ปิดโมดูลด้วยเรื่องที่คนมักประเมินต่ำ — <b>codebase เก่าที่ไม่มีเทสต์
+      ไม่ได้แปลว่าไม่มีสเปค</b>
+    </p>
+    <p>
+      สเปคมันอยู่ในพฤติกรรมปัจจุบัน อยู่ในหัวคนที่ดูแลมานาน และอยู่ในบั๊กที่ผู้ใช้เรียนรู้จะเลี่ยงไปแล้ว
+      งานของคุณคือ<b>ขุดมันออกมาให้เป็นของที่ตรวจได้</b>ก่อนจะให้ agent แตะ
+    </p>
+  </div>
 
   <div class="fig">
     <svg viewBox="0 0 640 240" role="img" aria-label="Three questions to answer before touching legacy code, with feature flags making an irreversible change reversible">
